@@ -1,0 +1,26 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+site/
+.DS_Store
+.ipynb_checkpoints/
+
+# Le lac de données ne se commite jamais : il se reconstruit par script.
+data/raw/**
+data/bronze/**
+data/silver/**
+data/gold/**
+!data/**/.gitkeep
+
+# Les artefacts d'expérience non plus, sauf le registre lui-même.
+artifacts/**
+!artifacts/.gitkeep
+
+# Clés et secrets.
+.env
+*.env
+!.env.example

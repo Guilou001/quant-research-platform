@@ -1,0 +1,100 @@
+[project]
+name = "quantlab"
+version = "0.1.0"
+description = "Laboratoire de recherche quantitative : répliquer la littérature, mesurer ce qui survit hors échantillon, et refuser le reste"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Guillaume Vaudescal" }]
+keywords = ["quantitative-finance", "factor-investing", "backtesting", "replication", "point-in-time"]
+
+dependencies = [
+    "numpy>=2.5",
+    "scipy>=1.18",
+    "pandas>=3.0",
+    "polars>=1.44",
+    "pyarrow>=25.0",
+    "duckdb>=1.5",
+    "statsmodels>=0.15",
+    "arch>=8.0",
+    "exchange-calendars>=4.13",
+    "pydantic>=2.13",
+    "pydantic-settings>=2.15",
+    "pyyaml>=6.0",
+    "typer>=0.27",
+    "requests>=2.32",
+]
+
+[project.optional-dependencies]
+# Fournisseurs de données de marché gratuits.
+data = ["yfinance>=1.7"]
+# Optimisation de portefeuille. skfolio est le moteur principal, Riskfolio-Lib le contrôle.
+portfolio = ["cvxpy>=1.9", "skfolio>=1.0.3", "riskfolio-lib>=7.3"]
+# Apprentissage automatique, phase 8 seulement.
+ml = ["scikit-learn>=1.9", "lightgbm>=4.7", "xgboost>=3.4"]
+# Prototypage vectorisé. plotly borné à < 7 : voir ADR-006, contrainte mesurée.
+research = ["vectorbt>=1.1", "plotly>=6.3,<7"]
+# Figures. gvf porte la feuille de style commune au portefeuille (palette Okabe-Ito, virgule décimale).
+figures = [
+    "matplotlib>=3.11",
+    "plotly>=6.3,<7",
+    "gvf[figures]>=0.4.0",
+]
+docs = ["mkdocs-material>=9.7", "mkdocstrings[python]>=0.27", "pymdown-extensions>=10.0"]
+
+[project.scripts]
+quant = "quantlab.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/Guilou001/quant-research-platform"
+
+[tool.uv.sources]
+gvf = { git = "https://github.com/Guilou001/gv-fintools", tag = "v0.4.0" }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/quantlab"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0",
+    "pytest-cov>=7.0",
+    "hypothesis>=6.160",
+    "ruff>=0.16",
+    "pre-commit>=4.6",
+]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "NPY", "PD", "RUF"]
+ignore = [
+    # Les guillemets français et l'apostrophe typographique sont voulus : la
+    # prose du dépôt est en français, et RUF001 à RUF003 signalent ces
+    # caractères comme ambigus.
+    "RUF001",
+    "RUF002",
+    "RUF003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+markers = [
+    "network: le test sort sur le réseau, désactivé en intégration continue",
+    "slow: le test dépasse quelques secondes",
+]
+filterwarnings = ["error::FutureWarning"]
+
+[tool.coverage.run]
+source = ["src/quantlab"]
+branch = true

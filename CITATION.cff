@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+title: "quant-research-platform : laboratoire de recherche quantitative"
+message: "Si vous utilisez ce logiciel, citez-le comme ci-dessous."
+type: software
+authors:
+  - family-names: Vaudescal
+    given-names: Guillaume
+    orcid: ""
+repository-code: "https://github.com/Guilou001/quant-research-platform"
+license: MIT
+version: 0.1.0
+date-released: "2026-09-01"
+abstract: >-
+  Plateforme de recherche quantitative en source ouverte. Elle réplique des
+  stratégies documentées dans la littérature académique, mesure ce qui survit
+  hors échantillon après coûts, et refuse ce qui ne survit pas. Le socle porte
+  un lac de données à provenance tracée, des données point-in-time, un moteur
+  d'analytique testé et un moteur de validation traitant le surapprentissage de
+  backtest.

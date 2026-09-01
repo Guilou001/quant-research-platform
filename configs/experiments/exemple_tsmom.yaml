@@ -1,0 +1,50 @@
+# Exemple de configuration d'expérience, validée par
+# quantlab.core.config.ExperimentConfig. Toute clé inconnue est refusée : une
+# faute de frappe ne passe pas pour une valeur par défaut silencieuse.
+
+name: tsmom_exemple
+hypothesis: >-
+  Le rendement passé d'un actif prédit le signe de son rendement futur à un mois,
+  parce que l'information se diffuse lentement et que les intervenants
+  sous-réagissent.
+paper: Moskowitz, Ooi et Pedersen (2012), « Time Series Momentum », JFE
+seed: 20260901
+
+data:
+  provider: yahoo
+  universe: [SPY, TLT, GLD, DBC, EFA, EEM, IEF, USO]
+  start: "2007-01-01"
+  end: "2026-08-31"
+  frequency: daily
+  calendar: XNYS
+  price_field: adj_close
+
+costs:
+  commission_bps: 1.0
+  spread_bps: 2.0
+  slippage_bps: 0.0
+  impact_model: sqrt
+  impact_coefficient: 1.0
+  borrow_bps_annual: 0.0
+  financing_spread_bps_annual: 50.0
+
+risk:
+  vol_target_annual: 0.10
+  leverage_cap: 3.0
+  leverage_floor: 0.0
+  max_position: 0.5
+  max_gross_exposure: 3.0
+
+validation:
+  train_end: "2015-12-31"
+  validation_end: "2019-12-31"
+  final_holdout_start: "2023-01-01"
+  embargo_periods: 21
+  purge_periods: 21
+  n_folds: 10
+  n_test_folds: 2
+
+params:
+  lookback_months: 12
+  vol_lookback_days: 60
+  rebalance: monthly

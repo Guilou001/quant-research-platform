@@ -1,0 +1,85 @@
+site_name: quant-research-platform
+site_description: Laboratoire de recherche quantitative — répliquer, mesurer, refuser
+site_author: Guillaume Vaudescal
+repo_url: https://github.com/Guilou001/quant-research-platform
+edit_uri: ""
+docs_dir: docs
+strict: true
+
+theme:
+  name: material
+  language: fr
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - toc.follow
+  palette:
+    - scheme: default
+      primary: blue grey
+      accent: teal
+      toggle:
+        icon: material/weather-night
+        name: Passer au thème sombre
+    - scheme: slate
+      primary: blue grey
+      accent: teal
+      toggle:
+        icon: material/weather-sunny
+        name: Passer au thème clair
+
+# Les fiches de littérature sont nombreuses et indexées par literature/index.md
+# plutôt qu'une par une dans la navigation.
+validation:
+  nav:
+    omitted_files: info
+  links:
+    absolute_links: info
+    unrecognized_links: warn
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - Accueil: index.md
+  - Démarrer:
+      - Installation: getting_started/installation.md
+      - Première étude: getting_started/premiere_etude.md
+  - Architecture:
+      - Vue d'ensemble: architecture/index.md
+      - Décisions (ADR): architecture/adr/index.md
+  - Méthodologie:
+      - Ce qui sépare un résultat d'une coïncidence: methodology/index.md
+      - Le parcours d'une stratégie: methodology/gauntlet.md
+      - Formules de référence: methodology/formules.md
+  - Données:
+      - Le lac: data/index.md
+      - Point-in-time: data/point_in_time.md
+      - Biais de survie: data/survivorship_bias.md
+      - Limites des données gratuites: data/free_data_limitations.md
+      - Actions de société: data/corporate_actions.md
+  - Analytique: analytics/index.md
+  - Validation: validation/index.md
+  - Littérature: literature/index.md
+  - Journal de recherche: research_journal/index.md
+  - Glossaire: glossary/quant_glossary.md
