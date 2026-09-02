@@ -20,6 +20,7 @@ a fait glisser le portefeuille, et non contre les poids cibles.
 """
 
 from quantlab.analytics import (
+    comparison,
     contributions,
     drawdown,
     ic,
@@ -31,6 +32,7 @@ from quantlab.analytics import (
 )
 
 __all__ = [
+    "comparison",
     "contributions",
     "drawdown",
     "ic",

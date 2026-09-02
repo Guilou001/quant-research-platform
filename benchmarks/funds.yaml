@@ -1,0 +1,103 @@
+# Les fonds réels, un ou deux par famille de stratégie, qui vendent au public ce
+# que le laboratoire reconstruit. Ils servent de repère de TRAJECTOIRE : si notre
+# reconstruction et le fonds bougent ensemble, nous captons le même phénomène.
+#
+# Trois choses à savoir avant de comparer. Les fonds sont NETS de frais, nos
+# reconstructions sont BRUTES : l'alpha du fonds sur la stratégie porte donc les
+# frais avec le signe moins. Les fonds de facteurs datent presque tous de 2013,
+# donc la comparaison porte sur une dizaine d'années, après publication des
+# articles. Et un fonds ne publie ni son levier ni son univers exact : une
+# corrélation élevée prouve une parenté, pas une identité.
+#
+# Dates de première cotation MESURÉES sur Yahoo le 2026-09-02.
+
+funds:
+  - ticker: AQMIX
+    name: AQR Managed Futures Strategy Fund
+    family: momentum_temporel
+    strategy_hint: suivi de tendance multi-actifs, la mise en oeuvre commerciale du TSMOM par ses auteurs
+    inception: "2010-01-05"
+    expense_ratio_bps: 121
+    notes: le fonds des auteurs de l'article, donc le repère le plus direct de l'étude 001
+
+  - ticker: DBMF
+    name: iMGP DBi Managed Futures Strategy ETF
+    family: momentum_temporel
+    strategy_hint: réplique par régression les positions des vingt plus gros CTA
+    inception: "2019-05-08"
+    expense_ratio_bps: 85
+
+  - ticker: KMLM
+    name: KFA Mount Lucas Managed Futures Index Strategy ETF
+    family: momentum_temporel
+    strategy_hint: tendance sur 22 contrats, obligations, devises et matières premières, sans actions
+    inception: "2020-12-02"
+    expense_ratio_bps: 90
+
+  - ticker: BTAL
+    name: AGF US Market Neutral Anti-Beta Fund
+    family: beta_defensif
+    strategy_hint: long les titres à bêta faible, court les titres à bêta fort, en dollars égaux
+    inception: "2011-09-13"
+    expense_ratio_bps: 245
+    notes: la mise en oeuvre cotée la plus proche du BAB, mais en dollars égaux et non en bêta égal, donc bêta net négatif
+
+  - ticker: USMV
+    name: iShares MSCI USA Min Vol Factor ETF
+    family: beta_defensif
+    strategy_hint: long seulement, portefeuille de variance minimale sous contraintes
+    inception: "2011-10-20"
+    expense_ratio_bps: 15
+    notes: pas de jambe courte, donc un bêta de marché proche de 0,7 qui domine sa trajectoire
+
+  - ticker: MTUM
+    name: iShares MSCI USA Momentum Factor ETF
+    family: momentum_transversal
+    strategy_hint: long seulement, titres à momentum 6 et 12 mois ajusté du risque
+    inception: "2013-04-18"
+    expense_ratio_bps: 15
+    notes: long seulement, donc la trajectoire est surtout celle du marché ; comparer au décile gagnant, pas à l'écart
+
+  - ticker: QUAL
+    name: iShares MSCI USA Quality Factor ETF
+    family: qualite
+    strategy_hint: long seulement, rentabilité des fonds propres, stabilité des bénéfices, faible endettement
+    inception: "2013-07-18"
+    expense_ratio_bps: 15
+
+  - ticker: VLUE
+    name: iShares MSCI USA Value Factor ETF
+    family: valeur
+    strategy_hint: long seulement, titres décotés à secteur constant
+    inception: "2013-04-18"
+    expense_ratio_bps: 15
+
+  - ticker: QSPIX
+    name: AQR Style Premia Alternative Fund
+    family: multi_strategie
+    strategy_hint: valeur, momentum, portage et défensif, long-short, sur actions, taux, devises et matières premières
+    inception: "2013-10-30"
+    expense_ratio_bps: 150
+    notes: le repère naturel de la phase 7, un portefeuille multi-stratégies vendu par les auteurs de trois des huit articles
+
+  - ticker: QMNIX
+    name: AQR Equity Market Neutral Fund
+    family: multi_strategie
+    strategy_hint: valeur, momentum et qualité sur actions, neutre au marché
+    inception: "2014-10-09"
+    expense_ratio_bps: 140
+
+  - ticker: DBV
+    name: Invesco DB G10 Currency Harvest Fund
+    family: portage
+    strategy_hint: long les trois devises du G10 aux taux les plus hauts, court les trois aux taux les plus bas
+    inception: "2008-01-02"
+    expense_ratio_bps: 75
+    notes: la mise en oeuvre cotée du portage de change de l'étude 008
+
+  - ticker: ICSH
+    name: iShares Ultra Short-Term Bond ETF
+    family: cash
+    strategy_hint: repère du taux sans risque investissable
+    inception: "2013-12-16"
+    expense_ratio_bps: 8
