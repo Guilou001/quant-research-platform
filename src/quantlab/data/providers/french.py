@@ -221,6 +221,96 @@ _DATASETS: Final[Mapping[str, FrenchDatasetSpec]] = MappingProxyType(
                 ),
                 archive_bytes=1132480,
             ),
+            FrenchDatasetSpec(
+                name="10_Portfolios_Prior_12_2",
+                frequency=Frequency.MONTHLY,
+                description=(
+                    "Les dix déciles de momentum de Jegadeesh et Titman (1993), formation sur les "
+                    "rendements de -12 à -2 mois, mensuels depuis janvier 1927."
+                ),
+                archive_bytes=118942,
+            ),
+            FrenchDatasetSpec(
+                name="10_Portfolios_Prior_12_2_Daily",
+                frequency=Frequency.DAILY,
+                description=(
+                    "Les mêmes dix déciles de momentum, quotidiens, reformés à chaque séance, "
+                    "formation sur les séances -250 à -21 et non sur des mois."
+                ),
+                archive_bytes=898974,
+            ),
+            FrenchDatasetSpec(
+                name="25_Portfolios_ME_Prior_12_2",
+                frequency=Frequency.MONTHLY,
+                description=(
+                    "Les 25 portefeuilles croisant cinq quintiles de capitalisation et cinq "
+                    "quintiles de momentum 12-2, mensuels."
+                ),
+                archive_bytes=426118,
+            ),
+            FrenchDatasetSpec(
+                name="6_Portfolios_ME_Prior_12_2",
+                frequency=Frequency.MONTHLY,
+                description=(
+                    "Les six portefeuilles taille sur momentum 12-2 qui construisent le facteur "
+                    "de momentum, mensuels."
+                ),
+                archive_bytes=121761,
+            ),
+            FrenchDatasetSpec(
+                name="10_Portfolios_Prior_1_0",
+                frequency=Frequency.MONTHLY,
+                description=(
+                    "Les dix déciles de renversement à court terme, formation sur le seul mois "
+                    "précédent, mensuels."
+                ),
+                archive_bytes=120670,
+            ),
+            FrenchDatasetSpec(
+                name="10_Portfolios_Prior_60_13",
+                frequency=Frequency.MONTHLY,
+                description=(
+                    "Les dix déciles de renversement à long terme, formation sur les rendements "
+                    "de -60 à -13 mois, mensuels."
+                ),
+                archive_bytes=113246,
+            ),
+            FrenchDatasetSpec(
+                name="Portfolios_Formed_on_BETA",
+                frequency=Frequency.MONTHLY,
+                description=(
+                    "Les portefeuilles triés par bêta estimé sur soixante mois, en quintiles et "
+                    "en déciles, mensuels depuis juillet 1963."
+                ),
+                archive_bytes=114846,
+            ),
+            FrenchDatasetSpec(
+                name="Portfolios_Formed_on_OP",
+                frequency=Frequency.MONTHLY,
+                description=(
+                    "Les portefeuilles triés par rentabilité d'exploitation, en tiers, quintiles "
+                    "et déciles, mensuels depuis juillet 1963."
+                ),
+                archive_bytes=134980,
+            ),
+            FrenchDatasetSpec(
+                name="Portfolios_Formed_on_INV",
+                frequency=Frequency.MONTHLY,
+                description=(
+                    "Les portefeuilles triés par croissance de l'actif, en tiers, quintiles et "
+                    "déciles, mensuels depuis juillet 1963."
+                ),
+                archive_bytes=135278,
+            ),
+            FrenchDatasetSpec(
+                name="49_Industry_Portfolios",
+                frequency=Frequency.MONTHLY,
+                description=(
+                    "Les 49 portefeuilles sectoriels de Fama et French, reclassés fin juin, "
+                    "mensuels depuis juillet 1926."
+                ),
+                archive_bytes=488664,
+            ),
         )
     }
 )
@@ -233,10 +323,12 @@ def available_datasets() -> Mapping[str, FrenchDatasetSpec]:
         Un dictionnaire en lecture seule, du nom de fichier vers sa fiche.
 
     Note:
-        Les onze noms répondent 200 sur la racine :data:`BASE_URL`, mesuré le
-        2026-09-01. La bibliothèque en publie plusieurs centaines d'autres, tous
-        lisibles par :func:`parse_french_csv` : cette table ne borne pas
-        l'analyse, elle documente les jeux dont le laboratoire se sert.
+        Les vingt et un noms répondent 200 sur la racine :data:`BASE_URL`. Les
+        onze premiers ont été mesurés le 2026-09-01 et les dix fichiers de
+        portefeuilles triés le 2026-09-02, tailles d'archive comprises. La
+        bibliothèque en publie plusieurs centaines d'autres, tous lisibles par
+        :func:`parse_french_csv` : cette table ne borne pas l'analyse, elle
+        documente les jeux dont le laboratoire se sert.
     """
     return _DATASETS
 
@@ -839,6 +931,237 @@ def combine_benchmark_factors(
     return combined.loc[:, list(columns)]
 
 
+# --------------------------------------------------------------------------- #
+# Les fichiers de portefeuilles triés, et le choix d'un de leurs tableaux
+# --------------------------------------------------------------------------- #
+
+#: Le marqueur qui, dans le titre d'un tableau, sépare la nature des valeurs de
+#: la période décrite, ainsi « Average Value Weighted Returns -- Monthly ».
+#: Mesuré le 2026-09-02 sur les 88 tableaux des douze fichiers de portefeuilles
+#: connus : les 46 tableaux de rendements le portent tous, et aucun des 42
+#: autres ne le porte. C'est ce qui sépare un rendement d'une caractéristique.
+PERIOD_MARKER: Final[str] = " -- "
+
+#: Les deux pondérations que la bibliothèque publie, et le mot qui les nomme
+#: dans un titre. La casse est ignorée à la comparaison.
+WEIGHTING_KEYWORDS: Final[Mapping[str, str]] = MappingProxyType({"value": "value", "equal": "equal"})
+
+#: La pondération demandée par défaut. Pondérer par la capitalisation donne le
+#: rendement d'un portefeuille investissable ; l'équipondération donne un poids
+#: de un sur dix à des sociétés de vingt millions de dollars.
+DEFAULT_WEIGHTING: Final[str] = "value"
+
+#: Les dix colonnes des fichiers de déciles de rendement passé, dans l'ordre du
+#: fichier, une fois mises en majuscules par :func:`parse_french_csv`. Le
+#: fichier écrit « Lo PRIOR » et « Hi PRIOR », lus le 2026-09-02 à la ligne 11
+#: de « 10_Portfolios_Prior_12_2.CSV ».
+MOMENTUM_DECILE_COLUMNS: Final[tuple[str, ...]] = (
+    "LO PRIOR",
+    "PRIOR 2",
+    "PRIOR 3",
+    "PRIOR 4",
+    "PRIOR 5",
+    "PRIOR 6",
+    "PRIOR 7",
+    "PRIOR 8",
+    "PRIOR 9",
+    "HI PRIOR",
+)
+
+#: Le décile perdant, celui dont le rendement passé est le plus bas.
+LOSER_DECILE: Final[str] = MOMENTUM_DECILE_COLUMNS[0]
+
+#: Le décile gagnant, celui dont le rendement passé est le plus haut.
+WINNER_DECILE: Final[str] = MOMENTUM_DECILE_COLUMNS[-1]
+
+#: Le nom de la série d'écart entre déciles extrêmes, « winners minus losers ».
+#: Il n'est pas nommé MOM, et la docstring de :func:`decile_spread` dit pourquoi
+#: les deux séries diffèrent.
+SPREAD_NAME: Final[str] = "WML"
+
+#: Le fichier de déciles de momentum retenu pour chaque fréquence publiée.
+MOMENTUM_DECILE_DATASETS: Final[Mapping[Frequency, str]] = MappingProxyType(
+    {
+        Frequency.MONTHLY: "10_Portfolios_Prior_12_2",
+        Frequency.DAILY: "10_Portfolios_Prior_12_2_Daily",
+    }
+)
+
+
+def select_return_block(
+    parsed: ParsedFrenchFile,
+    *,
+    weighting: str = DEFAULT_WEIGHTING,
+    frequency: Frequency | str = Frequency.MONTHLY,
+    period_marker: str = PERIOD_MARKER,
+) -> FrenchBlock:
+    """Choisit le tableau de rendements d'un fichier de portefeuilles triés.
+
+    **Le problème.** Un fichier de portefeuilles empile sept ou huit tableaux,
+    et le nom court de celui qu'on veut change d'un fichier à l'autre. Le
+    tableau des rendements mensuels pondérés par la capitalisation porte CINQ
+    titres différents dans les douze fichiers mesurés le 2026-09-02. Il
+    s'intitule « Value Weight Returns -- Monthly » dans le fichier des déciles de
+    momentum. Il devient « Average Value Weighted Returns -- Monthly » dans celui
+    des 25 portefeuilles, et « Value Weighted Returns -- Monthly » dans celui
+    trié par bêta. Les fichiers triés par rentabilité et par croissance de
+    l'actif écrivent « Average Value Weight Returns -- Monthly », sans le « ed »
+    de « Weighted ». Le fichier des déciles de renversement à court terme écrit
+    « Aerage », faute de frappe de la source relevée le 2026-09-02. Coder un nom
+    en dur marche sur un fichier et lève une
+    ``KeyError`` sur le suivant.
+
+    **L'intuition.** Les titres varient, la GRAMMAIRE du titre ne varie pas. Un
+    tableau de rendements annonce sa période après un double tiret, et une
+    caractéristique ne l'annonce jamais. « Average Firm Size » et
+    « Value-Weighted Average of Prior Returns » n'ont pas de période à annoncer,
+    puisqu'elles décrivent l'état du portefeuille à sa formation.
+
+    **La règle, en trois conditions.** Le titre porte le marqueur de période, il
+    contient le mot de la pondération demandée, et les dates du tableau donnent
+    la fréquence demandée. La fréquence est celle que
+    :func:`parse_french_csv` a déduite des dates elles-mêmes, jamais celle que
+    le titre annonce, si bien qu'un titre menteur ne tromperait pas la sélection.
+
+    Args:
+        parsed: le fichier déjà analysé.
+        weighting: « value » pour la pondération par la capitalisation,
+            « equal » pour l'équipondération.
+        frequency: la fréquence du tableau voulu.
+        period_marker: le marqueur de période cherché dans le titre.
+
+    Returns:
+        Le tableau retenu, avec son titre et sa fréquence.
+
+    Raises:
+        ConfigError: si la pondération n'est ni « value » ni « equal ».
+        DataQualityError: si aucun tableau ne remplit les trois conditions.
+
+    Hypothèses:
+        Un titre de tableau de rendements nomme une seule pondération. Vérifié
+        le 2026-09-02 sur les 46 titres marqués des douze fichiers : aucun ne
+        contient à la fois « value » et « equal ».
+
+    Limites:
+        Le couple pondération et fréquence désigne un seul tableau dans les
+        douze fichiers mesurés. Si un millésime en publiait deux, le premier
+        dans l'ordre du fichier serait retenu, et un avertissement journalisé.
+
+    Alternatives:
+        Nommer le tableau en dur, par exemple
+        ``parsed["average_value_weighted_returns_monthly"]``, reste possible et
+        reste juste sur un fichier donné. Cette fonction existe pour le code qui
+        doit lire dix fichiers de la même façon.
+
+    Note:
+        Pour vérifier, prendre « 10_Portfolios_Prior_12_2 ». La fonction doit
+        rendre le tableau intitulé « Value Weight Returns -- Monthly ». Elle ne
+        doit pas rendre « Value-Weighted Average of Prior Returns », qui porte
+        pourtant les mots « value » et « returns ».
+    """
+    keyword = WEIGHTING_KEYWORDS.get(weighting)
+    if keyword is None:
+        raise ConfigError(
+            f"pondération « {weighting} » inconnue ; choisir parmi {sorted(WEIGHTING_KEYWORDS)}"
+        )
+    freq = Frequency(frequency)
+    retenus = [
+        block
+        for block in parsed.blocks
+        if period_marker in block.title and keyword in block.title.lower() and block.frequency is freq
+    ]
+    if not retenus:
+        raise DataQualityError(
+            f"aucun tableau de rendements « {weighting} » en fréquence « {freq.value} » ; "
+            f"titres présents : {[block.title for block in parsed.blocks]}"
+        )
+    if len(retenus) > 1:
+        log.warning(
+            "plusieurs tableaux de rendements conviennent, le premier est retenu",
+            extra={"titles": ",".join(block.title for block in retenus)},
+        )
+    return retenus[0]
+
+
+def decile_spread(
+    frame: pd.DataFrame,
+    *,
+    winner: str = WINNER_DECILE,
+    loser: str = LOSER_DECILE,
+    name: str = SPREAD_NAME,
+) -> pd.Series:
+    r"""Rend le décile gagnant moins le décile perdant, période par période.
+
+    **Le problème.** Un tri en déciles se résume par l'écart entre ses deux
+    extrêmes, et c'est ce nombre que Jegadeesh et Titman publient. Le calculer
+    sur les niveaux cumulés au lieu des rendements périodiques donnerait autre
+    chose, et l'erreur ne se voit pas sur un graphique.
+
+    **L'intuition.** Acheter le décile gagnant et vendre à découvert le décile
+    perdant coûte zéro dollar net. Le rendement de cette position est la
+    différence des deux rendements, à chaque période, sans composition entre
+    elles.
+
+    .. math::
+
+        WML_t = r_{10,t} - r_{1,t}
+
+    où :math:`r_{10,t}` est le rendement du décile de plus fort rendement passé
+    à la période :math:`t`, et :math:`r_{1,t}` celui du décile de plus faible
+    rendement passé. Les deux sont en décimales.
+
+    Args:
+        frame: les rendements des déciles, un par colonne.
+        winner: le nom de la colonne du décile gagnant.
+        loser: le nom de la colonne du décile perdant.
+        name: le nom donné à la série rendue.
+
+    Returns:
+        La série des écarts, indexée comme ``frame``.
+
+    Raises:
+        DataQualityError: si une des deux colonnes manque.
+
+    Hypothèses:
+        Les deux colonnes sont dans la même unité, ici des décimales, et
+        décrivent la même période. Un manquant d'un côté rend un manquant, ce
+        qui vaut mieux qu'un écart calculé contre zéro.
+
+    Limites:
+        Cet écart n'est PAS le facteur de momentum publié, et le confondre
+        change les conclusions. Mesuré le 2026-09-02 sur les 1 194 mois de
+        janvier 1927 à juin 2026, l'écart des déciles pondérés par la
+        capitalisation rapporte 1,1615 % par mois contre 0,6267 % au facteur
+        MOM. Sa volatilité mensuelle vaut 7,93 % contre 4,68 %, et les deux
+        séries ne corrèlent qu'à 0,911.
+
+        La raison est de construction. Le facteur publié moyenne les deux
+        portefeuilles gagnants et les deux perdants du tri croisé taille sur
+        momentum, ce qui neutralise la taille et retient les trois déciles
+        extrêmes plutôt qu'un seul. L'écart des déciles concentre donc le pari
+        sur les petites sociétés des queues.
+
+    Alternatives:
+        Rebâtir le facteur depuis « 6_Portfolios_ME_Prior_12_2 » le redonne
+        exactement. Mesuré le 2026-09-02, la moyenne des deux gagnants moins
+        celle des deux perdants corrèle à 1,000 avec MOM. Elle s'en écarte au
+        plus de 1,0e-4, soit l'arrondi au centième de point des fichiers
+        publiés.
+
+    Note:
+        Pour vérifier : sur un tableau à deux colonnes valant 0,10 et 0,04, la
+        série rendue vaut 0,06 partout.
+    """
+    manquantes = [nom for nom in (winner, loser) if nom not in frame.columns]
+    if manquantes:
+        raise DataQualityError(
+            f"colonnes de déciles absentes : {manquantes} ; colonnes présentes : {list(frame.columns)}"
+        )
+    serie = frame[winner] - frame[loser]
+    serie.name = name
+    return serie
+
+
 #: Traitement des actions de société, tel que la bibliothèque le décrit. Les
 #: rendements de CRSP sont ajustés des divisions et des dividendes.
 CORPORATE_ACTIONS: Final[str] = "rendements CRSP ajustés des divisions et incluant les dividendes réinvestis"
@@ -1154,6 +1477,172 @@ class FrenchProvider(BaseProvider):
         momentum = self.fetch(mom_name, refresh=refresh)
         combined = combine_benchmark_factors(five, momentum)
         return slice_period(combined, start, end)
+
+    # ------------------------------------------------------------------ #
+    # Les portefeuilles triés
+    # ------------------------------------------------------------------ #
+    def portfolio_returns(
+        self,
+        dataset: str,
+        frequency: Frequency | str = Frequency.MONTHLY,
+        weighting: str = DEFAULT_WEIGHTING,
+        start: dt.date | str | None = None,
+        end: dt.date | str | None = None,
+        *,
+        refresh: bool = False,
+    ) -> pd.DataFrame:
+        """Rend le tableau de rendements d'un fichier de portefeuilles triés.
+
+        C'est le chemin générique vers les dix fichiers de tris ajoutés le
+        2026-09-02. Il évite d'avoir à connaître le nom court du tableau, qui
+        change d'un fichier à l'autre pour un contenu identique.
+
+        Args:
+            dataset: le nom du fichier sans le suffixe.
+            frequency: la fréquence du tableau voulu.
+            weighting: « value » ou « equal ».
+            start: première date gardée.
+            end: dernière date gardée.
+            refresh: force un nouveau téléchargement.
+
+        Returns:
+            Les rendements en décimales, un portefeuille par colonne.
+
+        Raises:
+            ConfigError: si la pondération est inconnue.
+            DataQualityError: si le fichier ne porte pas ce tableau.
+
+        Note:
+            Les colonnes gardent le nom du fichier, en majuscules. Ainsi
+            « Lo PRIOR » devient « LO PRIOR », et les 49 secteurs gardent leurs
+            abréviations, de « AGRIC » à « OTHER ».
+        """
+        parsed = self.parse(dataset, refresh=refresh)
+        block = select_return_block(parsed, weighting=weighting, frequency=frequency)
+        return slice_period(block.frame, start, end)
+
+    def momentum_deciles(
+        self,
+        frequency: Frequency | str = Frequency.MONTHLY,
+        weighting: str = DEFAULT_WEIGHTING,
+        start: dt.date | str | None = None,
+        end: dt.date | str | None = None,
+        *,
+        refresh: bool = False,
+    ) -> pd.DataFrame:
+        """Rend les dix déciles de momentum, alignés et dans l'ordre du tri.
+
+        **Ce que ce jeu est.** Le tri décile de Jegadeesh et Titman (1993) dans
+        sa forme publiée par la bibliothèque. Les sociétés sont classées chaque
+        mois par leur rendement des douze mois précédents, le dernier exclu. Le
+        mois sauté écarte le renversement à court terme, qui pousserait dans
+        l'autre sens.
+
+        **Les dix groupes n'ont PAS le même effectif.** Les bornes de décile sont
+        calculées sur les seules sociétés du NYSE, puis appliquées à un univers
+        qui ajoute l'AMEX et le NASDAQ. C'est rapporté, page de description du
+        jeu lue le 2026-09-02. Les queues débordent donc. Mesuré en juin 2026 sur
+        le tableau « Number of Firms in Portfolios » du fichier lui-même : 614
+        sociétés dans le décile perdant et 420 dans le gagnant, contre 239 au
+        cinquième. Sur les 1 194 mois, le rapport médian du décile le plus peuplé
+        au moins peuplé vaut 2,11.
+
+        **Pourquoi ce jeu et pas un autre.** Il est construit sur CRSP, donc sur
+        l'univers complet, radiations comprises. Un tri momentum bâti sur les
+        seules sociétés vivantes aujourd'hui surestimerait le décile perdant,
+        puisque les sociétés qui ont le plus baissé sont aussi celles qui ont
+        disparu. La série remonte à janvier 1927, mesuré le 2026-09-02, soit
+        1 194 mois jusqu'à juin 2026.
+
+        Args:
+            frequency: ``Frequency.MONTHLY`` ou ``Frequency.DAILY``.
+            weighting: « value » ou « equal ».
+            start: première date gardée.
+            end: dernière date gardée.
+            refresh: force un nouveau téléchargement.
+
+        Returns:
+            Un tableau à dix colonnes, en décimales, de « LO PRIOR » à
+            « HI PRIOR », dans l'ordre croissant du rendement passé.
+
+        Raises:
+            ConfigError: si la fréquence n'est publiée ni en mensuel ni en
+                quotidien.
+            DataQualityError: si une des dix colonnes attendues manque, ce qui
+                signalerait un changement de format de la source.
+
+        Limites:
+            Le fichier quotidien ne trie pas sur les mêmes bornes. Son
+            en-tête annonce une formation sur les séances -250 à -21, alors que
+            le fichier mensuel annonce les mois -12 à -2. Les deux approchent la
+            même idée sans se superposer, et le quotidien commence le
+            1926-11-03 contre le 1927-01-31 pour le mensuel, mesuré le
+            2026-09-02.
+
+            La cadence de reformation suit la fréquence demandée, et ce n'est
+            pas un détail de rédaction. L'en-tête du fichier mensuel annonce
+            « The portfolios are constructed monthly » et celui du fichier
+            quotidien « The portfolios are constructed daily », lus le
+            2026-09-02. Le second reforme donc ses dix déciles à chaque séance,
+            soit environ vingt-deux fois plus souvent que le premier : 26 173
+            séances contre 1 194 mois sur la même histoire. Aucun des deux ne
+            retranche de frais ni d'impact de marché, et le décile perdant est le
+            plus cher à détenir à découvert.
+
+        Note:
+            Pour vérifier : les colonnes sortent dans l'ordre du fichier, et le
+            premier mois mensuel est janvier 1927, daté du 31.
+        """
+        freq = Frequency(frequency)
+        if freq not in MOMENTUM_DECILE_DATASETS:
+            raise ConfigError(
+                f"fréquence « {freq.value} » non publiée pour les déciles de momentum ; "
+                f"choisir parmi {[f.value for f in MOMENTUM_DECILE_DATASETS]}"
+            )
+        frame = self.portfolio_returns(
+            MOMENTUM_DECILE_DATASETS[freq],
+            frequency=freq,
+            weighting=weighting,
+            refresh=refresh,
+        )
+        manquantes = [nom for nom in MOMENTUM_DECILE_COLUMNS if nom not in frame.columns]
+        if manquantes:
+            raise DataQualityError(
+                f"colonnes de déciles absentes : {manquantes} ; colonnes lues : {list(frame.columns)}"
+            )
+        return slice_period(frame.loc[:, list(MOMENTUM_DECILE_COLUMNS)], start, end)
+
+    def momentum_spread(
+        self,
+        frequency: Frequency | str = Frequency.MONTHLY,
+        weighting: str = DEFAULT_WEIGHTING,
+        start: dt.date | str | None = None,
+        end: dt.date | str | None = None,
+        *,
+        refresh: bool = False,
+    ) -> pd.Series:
+        """Rend le décile gagnant moins le décile perdant, période par période.
+
+        C'est la cible de réplication de l'étude 002. Le calcul lui-même vit
+        dans :func:`decile_spread`, dont la docstring dit en quoi cette série
+        diffère du facteur MOM publié et de combien.
+
+        Args:
+            frequency: ``Frequency.MONTHLY`` ou ``Frequency.DAILY``.
+            weighting: « value » ou « equal ».
+            start: première date gardée.
+            end: dernière date gardée.
+            refresh: force un nouveau téléchargement.
+
+        Returns:
+            La série des écarts, nommée « WML », en décimales.
+
+        Note:
+            Pour vérifier : la série vaut, à chaque date, la dernière colonne de
+            :meth:`momentum_deciles` moins sa première.
+        """
+        deciles = self.momentum_deciles(frequency, weighting, start, end, refresh=refresh)
+        return decile_spread(deciles)
 
     # ------------------------------------------------------------------ #
     # Provenance

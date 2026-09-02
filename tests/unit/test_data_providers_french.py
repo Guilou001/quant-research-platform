@@ -5,9 +5,12 @@ annoncée dans le commentaire du test avec sa source, parmi les quatre suivantes
 
 (a) un calcul à la main, chiffres visibles dans le commentaire ;
 (b) une identité mathématique ou une propriété structurelle ;
-(c) une valeur publiée, ici les lignes littérales du fichier
-    « F-F_Research_Data_Factors.CSV », millésime CRSP 202606, téléchargé le
-    2026-09-01 sur la bibliothèque de Kenneth R. French ;
+(c) une valeur publiée, ici les lignes littérales des fichiers
+    « F-F_Research_Data_Factors.CSV », téléchargé le 2026-09-01, et
+    « 10_Portfolios_Prior_12_2.CSV », « 10_Portfolios_Prior_1_0.CSV »,
+    « Portfolios_Formed_on_OP.CSV » et « 25_Portfolios_ME_Prior_12_2.CSV »,
+    téléchargés le 2026-09-02. Tous sont du millésime CRSP 202606 de la
+    bibliothèque de Kenneth R. French ;
 (d) une implémentation indépendante.
 
 L'analyse syntaxique se teste entièrement hors réseau : l'extrait ci-dessous est
@@ -36,11 +39,18 @@ from quantlab.core.types import Frequency
 from quantlab.data.providers.base import HttpClient, RawResponse, cache_key
 from quantlab.data.providers.french import (
     BENCHMARK_COLUMNS,
+    LOSER_DECILE,
     MISSING_CODES,
+    MOMENTUM_DECILE_COLUMNS,
+    PERIOD_MARKER,
+    SPREAD_NAME,
+    WINNER_DECILE,
     FrenchProvider,
     available_datasets,
     combine_benchmark_factors,
+    decile_spread,
     parse_french_csv,
+    select_return_block,
     slice_period,
 )
 
@@ -818,3 +828,650 @@ def test_reseau_les_sept_facteurs_de_reference_sont_alignes(tmp_path) -> None:
     assert list(frame.columns) == list(BENCHMARK_COLUMNS)
     assert frame.index[0] == pd.Timestamp("1963-07-31")
     assert int(frame["MOM"].isna().sum()) == 0
+
+
+# --------------------------------------------------------------------------- #
+# Les fichiers de portefeuilles triés, ajoutés le 2026-09-02
+#
+# Source (c) : lignes littérales de « 10_Portfolios_Prior_12_2.CSV », millésime
+# CRSP 202606. Les lignes 1 à 15 sont les quinze premières du fichier. La ligne
+# « 202606 » est sa ligne 1205, la dernière du premier tableau, recopiée juste
+# après le saut : le fichier porte 1 194 mois entre les deux, retirés ici. Les
+# six autres tableaux suivent à partir de leur ligne de titre, tronqués à deux
+# ou trois lignes de données chacun. Aucune valeur n'est retouchée.
+# --------------------------------------------------------------------------- #
+EXTRAIT_DECILES = """This file was created using the 202606 CRSP database.
+It contains value- and equal-weighted returns for  10 prior-return portfolios.
+The portfolios are constructed monthly. PRIOR_RET is from -12 to - 2.
+
+Annual returns are from January to December.
+
+Missing data are indicated by -99.99 or -999.
+
+
+  Value Weight Returns -- Monthly
+,Lo PRIOR,PRIOR 2,PRIOR 3,PRIOR 4,PRIOR 5,PRIOR 6,PRIOR 7,PRIOR 8,PRIOR 9,Hi PRIOR
+192701,  -3.32,  -4.54,   2.67,  -0.29,  -0.41,   0.97,   0.29,   0.71,  -0.14,  -0.24
+192702,   7.39,   6.01,   7.03,   7.46,   4.69,   3.72,   2.99,   3.20,   4.14,   7.04
+192703,  -3.23,  -3.05,  -3.84,  -4.80,  -0.46,  -2.48,   1.94,   0.49,   0.86,   5.50
+192704,   1.28,  -3.01,  -2.44,   1.02,   0.94,  -0.16,   2.03,  -0.51,   1.59,   5.49
+202606,  -6.93,  -1.13,  -4.29,  -7.52,   1.06,   5.06,  -3.86,  -1.69,  -4.72,   8.35
+
+
+  Average Equal Weighted Returns -- Monthly
+,Lo PRIOR,PRIOR 2,PRIOR 3,PRIOR 4,PRIOR 5,PRIOR 6,PRIOR 7,PRIOR 8,PRIOR 9,Hi PRIOR
+192701,  -0.47,   0.88,   4.10,   2.51,  -0.29,   3.08,   0.98,   0.98,  -0.39,   1.30
+192702,   3.97,   4.06,   6.87,   7.53,   6.39,   4.85,   5.34,   4.09,   5.46,   5.63
+192703,  -6.06,  -5.18,  -2.06,  -1.73,  -1.98,  -1.39,   0.37,  -1.34,   0.38,  -0.76
+192704,   1.95,  -0.32,   0.11,  -0.75,  -0.27,   0.30,   1.20,  -0.44,   2.21,   4.42
+
+
+  Average Value Weighted Returns -- Annual
+,Lo PRIOR,PRIOR 2,PRIOR 3,PRIOR 4,PRIOR 5,PRIOR 6,PRIOR 7,PRIOR 8,PRIOR 9,Hi PRIOR
+  1927,  13.05,   8.26,  18.79,  23.59,  33.27,  23.26,  36.19,  28.44,  39.55,  66.00
+  1928,  16.96,  22.58,  26.85,  20.69,  28.03,  30.34,  40.98,  42.29,  49.90,  88.22
+  1929, -59.11, -48.08, -36.05, -22.17,   0.44, -13.51,   5.51,   0.22,   0.08, -29.80
+
+
+  Average Equal Weighted Returns -- Annual
+,Lo PRIOR,PRIOR 2,PRIOR 3,PRIOR 4,PRIOR 5,PRIOR 6,PRIOR 7,PRIOR 8,PRIOR 9,Hi PRIOR
+  1927,  16.89,  18.98,  24.31,  32.23,  29.95,  41.73,  36.77,  28.69,  39.26,  40.63
+  1928,  34.88,  35.85,  38.90,  34.72,  31.32,  59.08,  43.51,  30.94,  44.23,  84.97
+  1929, -56.59, -48.05, -36.69, -35.16, -24.80, -19.65, -19.73, -15.64, -18.10, -25.22
+
+
+  Number of Firms in Portfolios
+,Lo PRIOR,PRIOR 2,PRIOR 3,PRIOR 4,PRIOR 5,PRIOR 6,PRIOR 7,PRIOR 8,PRIOR 9,Hi PRIOR
+192701,     47,     47,     48,     47,     47,     47,     47,     48,     47,     47
+192702,     48,     47,     48,     47,     48,     48,     47,     48,     47,     48
+
+
+  Average Firm Size
+,Lo PRIOR,PRIOR 2,PRIOR 3,PRIOR 4,PRIOR 5,PRIOR 6,PRIOR 7,PRIOR 8,PRIOR 9,Hi PRIOR
+192701,      7.27,     11.52,     23.23,     42.40,     45.90,     61.52,    109.02,    137.04,     67.57,     83.96
+192702,      3.53,     16.45,     16.07,     23.25,     57.36,     70.55,     73.65,    149.21,     92.02,     86.43
+
+
+  Value-Weighted Average of Prior Returns
+,Lo PRIOR,PRIOR 2,PRIOR 3,PRIOR 4,PRIOR 5,PRIOR 6,PRIOR 7,PRIOR 8,PRIOR 9,Hi PRIOR
+1927, -39.55, -19.07,  -7.79,   1.90,  12.68,  20.02,  26.24,  36.31,  52.31, 115.07
+1928, -17.25,  -2.07,   5.87,  14.57,  23.98,  33.06,  48.26,  62.32,  82.31, 135.06
+
+Copyright 2026 Eugene F. Fama and Kenneth R. French
+"""
+
+# Source (c) : lignes 10 à 13 de « 10_Portfolios_Prior_1_0.CSV ». Le titre porte
+# « Aerage » au lieu de « Average », faute de frappe de la bibliothèque relevée
+# le 2026-09-02 et recopiée telle quelle.
+EXTRAIT_TITRE_FAUTIF = """This file was created using the 202606 CRSP database.
+
+  Aerage Value Weighted Returns -- Monthly
+,Lo PRIOR,PRIOR 2,PRIOR 3,PRIOR 4,PRIOR 5,PRIOR 6,PRIOR 7,PRIOR 8,PRIOR 9,Hi PRIOR
+192602,  -7.81,  -5.01,  -3.97,  -3.74,  -4.75,  -1.32,  -1.86,  -1.40,  -2.70,  -5.38
+192603, -17.26,  -9.53, -14.03,  -5.27,  -8.54,  -4.23,  -5.05,  -4.93,  -3.37,  -9.65
+"""
+
+# Source (c) : lignes 24 à 27 puis 1544 à 1547 de « Portfolios_Formed_on_OP.CSV ».
+# Ce fichier écrit « Average Value Weight Returns », sans le « ed » de
+# « Weighted », et son titre annuel nomme la période en entier. Ses colonnes de
+# déciles s'appellent « 2-Dec » à « 9-Dec », le tableur ayant lu « Dec 2 » comme
+# une date, ce que le fichier trié par bêta n'a pas subi.
+EXTRAIT_TITRES_VARIANTS = """This file was created using the 202606 CRSP database.
+
+  Average Value Weight Returns -- Monthly
+,Lo 30,Med 40,Hi 30,Lo 20,Qnt 2,Qnt 3,Qnt 4,Hi 20,Lo 10,2-Dec,3-Dec,4-Dec,5-Dec,6-Dec,7-Dec,8-Dec,9-Dec,Hi 10
+196307,   -0.87,    0.38,    0.03,   -0.40,    1.08,   -0.12,   -1.05,    0.52,   -1.37,    0.05,   -1.47,    2.17,   -0.87,    1.00,   -1.06,   -1.04,   -0.26,    0.94
+196308,    5.47,    4.91,    5.83,    5.16,    4.37,    5.33,    5.46,    6.04,    5.57,    4.98,    5.87,    3.75,    5.44,    5.17,    5.58,    5.38,    6.00,    6.06
+
+
+  Value Weight Returns -- Annual from January to December
+,Lo 30,Med 40,Hi 30,Lo 20,Qnt 2,Qnt 3,Qnt 4,Hi 20,Lo 10,2-Dec,3-Dec,4-Dec,5-Dec,6-Dec,7-Dec,8-Dec,9-Dec,Hi 10
+  1964,   21.86,   15.77,   15.95,   22.20,   21.50,   12.06,   14.58,   17.89,   13.55,   26.17,   21.42,   21.54,   11.68,   13.85,   17.78,   12.53,   18.85,   16.56
+  1965,   19.47,    6.84,   20.54,   23.56,    1.22,   14.31,   14.70,   22.34,   28.85,   20.78,   16.48,   -4.82,   15.79,   13.43,   15.26,   14.33,   27.76,   20.12
+"""
+
+# Source (c) : lignes 11, 12 et 16 de « 25_Portfolios_ME_Prior_12_2.CSV ». La
+# ligne d'avril 1927 porte un -99.99 dans la colonne « BIG LoPRIOR » : aucune
+# grande société n'était alors dans le quintile de plus faible rendement passé.
+EXTRAIT_CROISE_MANQUANT = """This file was created using the 202606 CRSP database.
+
+  Average Value Weighted Returns -- Monthly
+,SMALL LoPRIOR,ME1 PRIOR2,ME1 PRIOR3,ME1 PRIOR4,SMALL HiPRIOR,ME2 PRIOR1,ME2 PRIOR2,ME2 PRIOR3,ME2 PRIOR4,ME2 PRIOR5,ME3 PRIOR1,ME3 PRIOR2,ME3 PRIOR3,ME3 PRIOR4,ME3 PRIOR5,ME4 PRIOR1,ME4 PRIOR2,ME4 PRIOR3,ME4 PRIOR4,ME4 PRIOR5,BIG LoPRIOR,ME5 PRIOR2,ME5 PRIOR3,ME5 PRIOR4,BIG HiPRIOR
+192704,   0.91,  -0.90,   0.39,   7.44,  -7.30,  -1.12,   1.04,  -1.82,   3.67,   7.35,  -7.68,  -0.28,   1.16,  -0.56,   3.42,  -1.61,  -2.44,   0.85,   0.15,   0.98, -99.99,  -0.68,   0.22,   0.58,   4.11
+"""
+
+#: Les noms de colonnes lus à la ligne 11 du fichier réel, avant la mise en
+#: majuscules. Ils servent de valeur attendue indépendante de la constante du
+#: module, qu'un copier-coller depuis le code aurait rendue circulaire.
+COLONNES_DU_FICHIER = (
+    "Lo PRIOR",
+    "PRIOR 2",
+    "PRIOR 3",
+    "PRIOR 4",
+    "PRIOR 5",
+    "PRIOR 6",
+    "PRIOR 7",
+    "PRIOR 8",
+    "PRIOR 9",
+    "Hi PRIOR",
+)
+
+
+# --------------------------------------------------------------------------- #
+# Le découpage des sept tableaux
+# --------------------------------------------------------------------------- #
+def test_le_fichier_des_deciles_porte_sept_tableaux() -> None:
+    """Source (c) : sept titres lus dans le fichier réel le 2026-09-02.
+
+    Le fichier empile quatre tableaux de rendements, deux tableaux de
+    caractéristiques et un tableau de rendements passés moyens. Un lecteur qui
+    s'arrêterait au premier saut de ligne en perdrait six.
+    """
+    parsed = parse_french_csv(EXTRAIT_DECILES)
+    assert len(parsed) == 7
+    assert parsed.names == (
+        "value_weight_returns_monthly",
+        "average_equal_weighted_returns_monthly",
+        "average_value_weighted_returns_annual",
+        "average_equal_weighted_returns_annual",
+        "number_of_firms_in_portfolios",
+        "average_firm_size",
+        "value_weighted_average_of_prior_returns",
+    )
+    assert parsed.block("value_weight_returns_monthly").frequency is Frequency.MONTHLY
+    assert parsed.block("average_value_weighted_returns_annual").frequency is Frequency.ANNUAL
+    assert parsed.trailer.strip() == "Copyright 2026 Eugene F. Fama and Kenneth R. French"
+
+
+def test_les_colonnes_sont_celles_du_fichier_en_majuscules() -> None:
+    """Source (c) : l'en-tête écrit « Lo PRIOR » et « Hi PRIOR ».
+
+    La constante du module doit être la mise en majuscules de cet en-tête, et
+    rien d'autre. Le test compare donc la constante au texte du fichier, jamais
+    à elle-même.
+    """
+    parsed = parse_french_csv(EXTRAIT_DECILES)
+    attendues = [nom.upper() for nom in COLONNES_DU_FICHIER]
+    for nom_du_tableau in parsed.names:
+        assert list(parsed[nom_du_tableau].columns) == attendues
+    assert list(MOMENTUM_DECILE_COLUMNS) == attendues
+    assert LOSER_DECILE == "LO PRIOR"
+    assert WINNER_DECILE == "HI PRIOR"
+
+
+def test_conversion_du_pourcentage_sur_les_deciles() -> None:
+    """Source (a) : -3,32 % s'écrit -0,0332 en décimales, soit -3,32 / 100."""
+    frame = parse_french_csv(EXTRAIT_DECILES)["value_weight_returns_monthly"]
+    assert float(frame.loc["1927-01-31", "LO PRIOR"]) == pytest.approx(-0.0332, rel=1e-12)
+    assert float(frame.loc["1927-01-31", "HI PRIOR"]) == pytest.approx(-0.0024, rel=1e-12)
+    # Le dernier mois du fichier, recopié après le saut : 8,35 / 100 = 0,0835.
+    assert float(frame.loc["2026-06-30", "HI PRIOR"]) == pytest.approx(0.0835, rel=1e-12)
+
+
+def test_les_deux_tableaux_de_caracteristiques_ne_sont_pas_divises() -> None:
+    """Source (a) : 47 sociétés restent 47, et 7,27 M$ restent 7,27.
+
+    Diviser par cent rendrait 0,47 société et une capitalisation moyenne de
+    0,0727 million de dollars. Les deux titres ne portent ni « return » ni
+    « factor », ce qui est la règle de :func:`_is_percent_block`.
+    """
+    parsed = parse_french_csv(EXTRAIT_DECILES)
+    societes = parsed.block("number_of_firms_in_portfolios")
+    taille = parsed.block("average_firm_size")
+    assert societes.in_percent is False
+    assert taille.in_percent is False
+    assert float(societes.frame.loc["1927-01-31", "LO PRIOR"]) == 47.0
+    assert float(taille.frame.loc["1927-01-31", "LO PRIOR"]) == pytest.approx(7.27, rel=1e-12)
+
+
+def test_la_moyenne_des_rendements_passes_reste_un_pourcentage() -> None:
+    """Source (a) : -39,55 devient -0,3955, car le titre porte « Returns ».
+
+    Ce tableau donne le rendement passé moyen des sociétés de chaque décile à
+    leur formation. C'est bien un pourcentage, et il est daté à l'année.
+    """
+    bloc = parse_french_csv(EXTRAIT_DECILES).block("value_weighted_average_of_prior_returns")
+    assert bloc.in_percent is True
+    assert bloc.frequency is Frequency.ANNUAL
+    assert float(bloc.frame.loc["1927-12-31", "LO PRIOR"]) == pytest.approx(-0.3955, rel=1e-12)
+
+
+# --------------------------------------------------------------------------- #
+# Le choix du tableau de rendements
+# --------------------------------------------------------------------------- #
+def test_le_choix_ecarte_le_tableau_de_rendements_passes() -> None:
+    """Source (b) : deux titres portent « value » et « returns », un seul compte.
+
+    Le piège est nommé : « Value-Weighted Average of Prior Returns » contient
+    les deux mots que cherche une recherche naïve. Il ne porte pas le marqueur
+    de période, et c'est ce qui le distingue.
+    """
+    parsed = parse_french_csv(EXTRAIT_DECILES)
+    bloc = select_return_block(parsed, weighting="value", frequency=Frequency.MONTHLY)
+    assert bloc.title == "Value Weight Returns -- Monthly"
+    assert bloc.name == "value_weight_returns_monthly"
+
+
+def test_seuls_les_tableaux_de_rendements_portent_le_marqueur_de_periode() -> None:
+    """Source (c) : quatre titres marqués sur sept, relevés le 2026-09-02.
+
+    C'est la propriété sur laquelle repose :func:`select_return_block`, et ce
+    test la vérifie seule, sans passer par la sélection. Les trois titres non
+    marqués sont ceux des caractéristiques, dont le piège nommé
+    « Value-Weighted Average of Prior Returns ».
+    """
+    parsed = parse_french_csv(EXTRAIT_DECILES)
+    marques = [bloc for bloc in parsed.blocks if PERIOD_MARKER in bloc.title]
+    non_marques = [bloc.title for bloc in parsed.blocks if PERIOD_MARKER not in bloc.title]
+    assert len(marques) == 4
+    assert all(bloc.in_percent for bloc in marques)
+    assert non_marques == [
+        "Number of Firms in Portfolios",
+        "Average Firm Size",
+        "Value-Weighted Average of Prior Returns",
+    ]
+
+
+def test_le_choix_distingue_les_deux_ponderations_et_les_deux_frequences() -> None:
+    """Source (c) : les quatre titres marqués du fichier réel, un par couple."""
+    parsed = parse_french_csv(EXTRAIT_DECILES)
+    couples = {
+        ("value", Frequency.MONTHLY): "Value Weight Returns -- Monthly",
+        ("equal", Frequency.MONTHLY): "Average Equal Weighted Returns -- Monthly",
+        ("value", Frequency.ANNUAL): "Average Value Weighted Returns -- Annual",
+        ("equal", Frequency.ANNUAL): "Average Equal Weighted Returns -- Annual",
+    }
+    for (ponderation, frequence), titre in couples.items():
+        bloc = select_return_block(parsed, weighting=ponderation, frequency=frequence)
+        assert bloc.title == titre
+
+
+def test_le_choix_survit_a_la_faute_de_frappe_de_la_source() -> None:
+    """Source (c) : le fichier de renversement écrit « Aerage ».
+
+    Un choix qui chercherait « Average Value Weighted Returns » ne trouverait
+    rien ici. La règle ne regarde que le mot de pondération et le marqueur.
+    """
+    parsed = parse_french_csv(EXTRAIT_TITRE_FAUTIF)
+    bloc = select_return_block(parsed, weighting="value", frequency=Frequency.MONTHLY)
+    assert bloc.title == "Aerage Value Weighted Returns -- Monthly"
+    assert float(bloc.frame.loc["1926-02-28", "LO PRIOR"]) == pytest.approx(-0.0781, rel=1e-12)
+
+
+def test_le_choix_survit_aux_deux_autres_orthographes() -> None:
+    """Source (c) : « Value Weight » sans « ed », et la période écrite en toutes lettres."""
+    parsed = parse_french_csv(EXTRAIT_TITRES_VARIANTS)
+    mensuel = select_return_block(parsed, weighting="value", frequency=Frequency.MONTHLY)
+    annuel = select_return_block(parsed, weighting="value", frequency=Frequency.ANNUAL)
+    assert mensuel.title == "Average Value Weight Returns -- Monthly"
+    assert annuel.title == "Value Weight Returns -- Annual from January to December"
+    # Source (c) : le tableur a lu « Dec 2 » comme une date et écrit « 2-Dec ».
+    assert list(mensuel.frame.columns)[9] == "2-DEC"
+    # Source (a) : 21,86 % pour le tiers le moins rentable en 1964, soit 0,2186.
+    assert float(annuel.frame.loc["1964-12-31", "LO 30"]) == pytest.approx(0.2186, rel=1e-12)
+
+
+def test_une_ponderation_inconnue_est_refusee() -> None:
+    """Source (b) : la bibliothèque n'en publie que deux, la faute doit être dite."""
+    parsed = parse_french_csv(EXTRAIT_DECILES)
+    with pytest.raises(ConfigError, match="pondération"):
+        select_return_block(parsed, weighting="capitalisation")
+
+
+def test_une_frequence_absente_du_fichier_est_refusee() -> None:
+    """Source (b) : le fichier mensuel ne porte aucun tableau quotidien."""
+    parsed = parse_french_csv(EXTRAIT_DECILES)
+    with pytest.raises(DataQualityError, match="aucun tableau de rendements"):
+        select_return_block(parsed, weighting="value", frequency=Frequency.DAILY)
+
+
+# --------------------------------------------------------------------------- #
+# L'écart entre déciles extrêmes
+# --------------------------------------------------------------------------- #
+def test_lecart_est_le_gagnant_moins_le_perdant() -> None:
+    """Source (a) : en janvier 1927, -0,24 moins -3,32 fait 3,08 points.
+
+    En décimales, 3,08 / 100 vaut 0,0308. En 1927, l'année entière donne
+    66,00 moins 13,05, soit 52,95 points, donc 0,5295.
+    """
+    parsed = parse_french_csv(EXTRAIT_DECILES)
+    mensuel = decile_spread(parsed["value_weight_returns_monthly"])
+    annuel = decile_spread(parsed["average_value_weighted_returns_annual"])
+    assert mensuel.name == SPREAD_NAME
+    assert float(mensuel.loc["1927-01-31"]) == pytest.approx(0.0308, rel=1e-9)
+    assert float(annuel.loc["1927-12-31"]) == pytest.approx(0.5295, rel=1e-9)
+
+
+def test_lecart_refuse_une_colonne_absente() -> None:
+    """Source (b) : le fichier croisé n'a pas de colonne « HI PRIOR »."""
+    parsed = parse_french_csv(EXTRAIT_CROISE_MANQUANT)
+    with pytest.raises(DataQualityError, match="colonnes de déciles absentes"):
+        decile_spread(parsed["average_value_weighted_returns_monthly"])
+
+
+def test_un_manquant_du_fichier_se_propage_dans_lecart() -> None:
+    """Source (c) : avril 1927 porte -99.99 dans « BIG LoPRIOR ».
+
+    L'écart doit valoir ``NaN``, et non 4,11 moins -0,9999. Un code de manquant
+    divisé par cent passerait pour une perte de 99,99 %, et l'écart calculé
+    contre lui vaudrait plus de cent points de pourcentage.
+    """
+    frame = parse_french_csv(EXTRAIT_CROISE_MANQUANT)["average_value_weighted_returns_monthly"]
+    assert bool(np.isnan(float(frame.loc["1927-04-30", "BIG LOPRIOR"])))
+    ecart = decile_spread(frame, winner="BIG HIPRIOR", loser="BIG LOPRIOR")
+    assert bool(np.isnan(float(ecart.loc["1927-04-30"])))
+    # Source (c) : la colonne voisine est intacte, 4,11 / 100 = 0,0411.
+    assert float(frame.loc["1927-04-30", "BIG HIPRIOR"]) == pytest.approx(0.0411, rel=1e-12)
+
+
+@given(
+    valeurs=st.lists(
+        st.tuples(
+            st.floats(min_value=-1.0, max_value=10.0, allow_nan=False),
+            st.floats(min_value=-1.0, max_value=10.0, allow_nan=False),
+        ),
+        min_size=1,
+        max_size=40,
+    )
+)
+@hyp_settings(max_examples=60, suppress_health_check=[HealthCheck.too_slow])
+def test_propriete_lecart_est_exactement_une_soustraction(valeurs: list[tuple[float, float]]) -> None:
+    """Source (b) : identité, l'écart vaut colonne du gagnant moins celle du perdant."""
+    index = pd.date_range("1990-01-31", periods=len(valeurs), freq="ME", name="date")
+    frame = pd.DataFrame(
+        {
+            LOSER_DECILE: [bas for bas, _ in valeurs],
+            WINNER_DECILE: [haut for _, haut in valeurs],
+        },
+        index=index,
+    )
+    ecart = decile_spread(frame)
+    attendu = frame[WINNER_DECILE].to_numpy() - frame[LOSER_DECILE].to_numpy()
+    assert np.allclose(ecart.to_numpy(), attendu, rtol=0.0, atol=0.0, equal_nan=True)
+    assert list(ecart.index) == list(frame.index)
+
+
+# --------------------------------------------------------------------------- #
+# Le fournisseur, hors réseau
+# --------------------------------------------------------------------------- #
+def test_les_dix_fichiers_de_portefeuilles_tries_sont_declares() -> None:
+    """Source (c) : dix noms et dix tailles mesurés le 2026-09-02, réponse 200."""
+    jeux = available_datasets()
+    tailles = {
+        "10_Portfolios_Prior_12_2": 118_942,
+        "10_Portfolios_Prior_12_2_Daily": 898_974,
+        "25_Portfolios_ME_Prior_12_2": 426_118,
+        "6_Portfolios_ME_Prior_12_2": 121_761,
+        "10_Portfolios_Prior_1_0": 120_670,
+        "10_Portfolios_Prior_60_13": 113_246,
+        "Portfolios_Formed_on_BETA": 114_846,
+        "Portfolios_Formed_on_OP": 134_980,
+        "Portfolios_Formed_on_INV": 135_278,
+        "49_Industry_Portfolios": 488_664,
+    }
+    for nom, octets in tailles.items():
+        assert jeux[nom].archive_bytes == octets
+    assert jeux["10_Portfolios_Prior_12_2"].frequency is Frequency.MONTHLY
+    assert jeux["10_Portfolios_Prior_12_2_Daily"].frequency is Frequency.DAILY
+    assert len(jeux) == 21
+
+
+def test_momentum_deciles_rend_les_dix_colonnes_dans_lordre(tmp_path) -> None:
+    """Source (c) : dix colonnes, de « LO PRIOR » à « HI PRIOR », ordre du fichier."""
+    archive = _archive(EXTRAIT_DECILES, "10_Portfolios_Prior_12_2.CSV")
+    provider = _provider(tmp_path, _ClientFaux(archive))
+    frame = provider.momentum_deciles()
+    assert list(frame.columns) == [nom.upper() for nom in COLONNES_DU_FICHIER]
+    assert frame.index[0] == pd.Timestamp("1927-01-31")
+    assert float(frame.loc["1927-01-31", "LO PRIOR"]) == pytest.approx(-0.0332, rel=1e-12)
+
+
+def test_momentum_deciles_sait_prendre_lequiponderation(tmp_path) -> None:
+    """Source (a) : le tableau équipondéré donne -0,47 % en janvier 1927."""
+    archive = _archive(EXTRAIT_DECILES, "10_Portfolios_Prior_12_2.CSV")
+    provider = _provider(tmp_path, _ClientFaux(archive))
+    frame = provider.momentum_deciles(weighting="equal")
+    assert float(frame.loc["1927-01-31", "LO PRIOR"]) == pytest.approx(-0.0047, rel=1e-12)
+
+
+def test_momentum_deciles_borne_la_periode(tmp_path) -> None:
+    """Source (a) : deux mois demandés sur les cinq de l'extrait, bornes incluses."""
+    archive = _archive(EXTRAIT_DECILES, "10_Portfolios_Prior_12_2.CSV")
+    provider = _provider(tmp_path, _ClientFaux(archive))
+    frame = provider.momentum_deciles(Frequency.MONTHLY, "value", "1927-02-01", "1927-03-31")
+    assert list(frame.index) == [pd.Timestamp("1927-02-28"), pd.Timestamp("1927-03-31")]
+
+
+def test_momentum_spread_est_la_derniere_colonne_moins_la_premiere(tmp_path) -> None:
+    """Source (b) : identité entre les deux méthodes, sur toutes les dates."""
+    archive = _archive(EXTRAIT_DECILES, "10_Portfolios_Prior_12_2.CSV")
+    provider = _provider(tmp_path, _ClientFaux(archive))
+    deciles = provider.momentum_deciles()
+    ecart = provider.momentum_spread()
+    attendu = deciles.iloc[:, -1].to_numpy() - deciles.iloc[:, 0].to_numpy()
+    assert np.allclose(ecart.to_numpy(), attendu, rtol=0.0, atol=0.0)
+    assert ecart.name == SPREAD_NAME
+
+
+def test_une_frequence_sans_fichier_de_deciles_est_refusee(tmp_path) -> None:
+    """Source (b) : la bibliothèque ne publie pas de déciles hebdomadaires."""
+    provider = _provider(tmp_path, _ClientFaux(b""))
+    with pytest.raises(ConfigError, match="non publiée"):
+        provider.momentum_deciles(Frequency.WEEKLY)
+
+
+def test_un_fichier_aux_colonnes_changees_est_refuse(tmp_path) -> None:
+    """Source (b) : un changement de format de la source doit lever, pas passer.
+
+    L'extrait servi ici est celui du tri par rentabilité, dont les colonnes
+    s'appellent « Lo 30 » et « Hi 10 ». Aucune des dix colonnes de déciles de
+    momentum n'y figure.
+    """
+    archive = _archive(EXTRAIT_TITRES_VARIANTS, "10_Portfolios_Prior_12_2.CSV")
+    provider = _provider(tmp_path, _ClientFaux(archive))
+    with pytest.raises(DataQualityError, match="colonnes de déciles absentes"):
+        provider.momentum_deciles()
+
+
+def test_portfolio_returns_lit_un_fichier_de_tri_quelconque(tmp_path) -> None:
+    """Source (a) : 5,47 % pour le tiers le moins rentable en août 1963."""
+    archive = _archive(EXTRAIT_TITRES_VARIANTS, "Portfolios_Formed_on_OP.CSV")
+    provider = _provider(tmp_path, _ClientFaux(archive))
+    frame = provider.portfolio_returns("Portfolios_Formed_on_OP")
+    assert float(frame.loc["1963-08-31", "LO 30"]) == pytest.approx(0.0547, rel=1e-12)
+    assert len(frame.columns) == 18
+
+
+def test_le_manifeste_des_deciles_declare_labsence_de_biais_du_survivant(tmp_path) -> None:
+    """Source (b) : la construction sur CRSP est ce qui autorise la déclaration.
+
+    L'univers de CRSP contient les sociétés radiées, si bien que le décile
+    perdant garde celles qui ont disparu. Sans cette propriété, le tri de
+    Jegadeesh et Titman serait irréplicable, puisque son décile perdant est
+    justement celui qui perd des sociétés.
+    """
+    archive = _archive(EXTRAIT_DECILES, "10_Portfolios_Prior_12_2.CSV")
+    provider = _provider(tmp_path, _ClientFaux(archive))
+    manifeste = provider.manifest("10_Portfolios_Prior_12_2")
+    assert manifeste.survivorship_free is True
+    assert manifeste.point_in_time is False
+    assert manifeste.frequency is Frequency.MONTHLY
+    assert manifeste.data_start == dt.date(1927, 1, 31)
+    assert manifeste.url.endswith("10_Portfolios_Prior_12_2_CSV.zip")
+    assert "Jegadeesh" in (manifeste.notes or "")
+
+
+# --------------------------------------------------------------------------- #
+# Le réseau, facultatif
+# --------------------------------------------------------------------------- #
+# Source (c) : lignes 1 à 13 de « 10_Portfolios_Prior_12_2_Daily.CSV », millésime
+# CRSP 202606, téléchargé le 2026-09-02. L'en-tête annonce « constructed daily »
+# là où le fichier mensuel annonce « constructed monthly », et c'est ce que la
+# docstring de :meth:`FrenchProvider.momentum_deciles` déclare.
+EXTRAIT_DECILES_QUOTIDIENS = """This file was created using the 202606 CRSP database.
+It contains value- and equally-weighted returns for  10 prior return portfolios.
+
+The portfolios are constructed daily.  PRIOR_RET is from - 250 to - 21.
+
+Missing data are indicated by -99.99 or -999.
+
+
+  Average Value Weighted Returns -- Daily
+,Lo PRIOR,PRIOR 2,PRIOR 3,PRIOR 4,PRIOR 5,PRIOR 6,PRIOR 7,PRIOR 8,PRIOR 9,Hi PRIOR
+19261103,  -0.12,   0.61,  -0.07,   0.14,  -0.49,  -0.13,  -0.14,   0.46,   0.19,   1.26
+19261104,   0.55,   1.47,   1.60,   0.61,   1.02,   0.59,   0.82,   0.45,   0.46,   0.40
+19261105,  -0.92,  -0.72,  -0.27,  -0.36,   0.08,   0.20,  -0.15,   0.37,   0.25,   0.06
+"""
+
+# Source (c) : lignes 2612, 2613 et 3807 de « 10_Portfolios_Prior_12_2.CSV ». La
+# dernière est la ligne de juin 2026 du tableau des effectifs, recopiée après un
+# saut de 1 193 lignes.
+EXTRAIT_EFFECTIFS = """This file was created using the 202606 CRSP database.
+
+  Number of Firms in Portfolios
+,Lo PRIOR,PRIOR 2,PRIOR 3,PRIOR 4,PRIOR 5,PRIOR 6,PRIOR 7,PRIOR 8,PRIOR 9,Hi PRIOR
+202606,    614,    360,    243,    252,    239,    271,    253,    276,    273,    420
+"""
+
+
+def test_les_dix_deciles_nont_pas_le_meme_effectif() -> None:
+    """Source (c) : la ligne de juin 2026 du tableau des effectifs du fichier.
+
+    La docstring de :meth:`FrenchProvider.momentum_deciles` affirmait des groupes
+    de même effectif. Le fichier dit le contraire, et c'est structurel : les
+    bornes se calculent sur le seul NYSE puis s'appliquent au NYSE, à l'AMEX et
+    au NASDAQ, si bien que les queues débordent.
+    """
+    effectifs = parse_french_csv(EXTRAIT_EFFECTIFS)["number_of_firms_in_portfolios"]
+    juin = effectifs.loc["2026-06-30"]
+    assert float(juin[LOSER_DECILE]) == 614.0
+    assert float(juin[WINNER_DECILE]) == 420.0
+    assert float(juin["PRIOR 5"]) == 239.0
+    # Source (a) : 614 / 239 = 2,569..., donc les groupes ne sont pas égaux.
+    assert float(juin.max() / juin.min()) == pytest.approx(614.0 / 239.0, rel=1e-12)
+    assert float(juin.max() / juin.min()) > 2.0
+
+
+def test_le_fichier_quotidien_annonce_une_construction_quotidienne() -> None:
+    """Source (c) : « The portfolios are constructed daily », en-tête du fichier.
+
+    C'est la phrase qui interdit d'écrire que les déciles quotidiens sont
+    reformés chaque mois. Le préambule la conserve, et la sélection rend bien le
+    tableau quotidien pondéré par la capitalisation.
+    """
+    parsed = parse_french_csv(EXTRAIT_DECILES_QUOTIDIENS)
+    assert "The portfolios are constructed daily." in parsed.preamble
+    assert "constructed monthly" not in parsed.preamble
+    bloc = select_return_block(parsed, weighting="value", frequency=Frequency.DAILY)
+    assert bloc.title == "Average Value Weighted Returns -- Daily"
+    assert bloc.frequency is Frequency.DAILY
+    # Source (a) : -0,12 / 100 = -0,0012, première séance du fichier.
+    assert float(bloc.frame.loc["1926-11-03", "LO PRIOR"]) == pytest.approx(-0.0012, rel=1e-12)
+
+
+def test_le_fichier_mensuel_annonce_une_construction_mensuelle() -> None:
+    """Source (c) : « The portfolios are constructed monthly », en-tête du fichier.
+
+    La contre-épreuve du test précédent. Les deux fichiers portent la même
+    grammaire de titre et deux cadences de reformation différentes.
+    """
+    parsed = parse_french_csv(EXTRAIT_DECILES)
+    assert "The portfolios are constructed monthly." in parsed.preamble
+
+
+def test_le_choix_retient_le_premier_tableau_quand_deux_conviennent() -> None:
+    """Source (b) : la docstring promet le premier dans l'ordre du fichier.
+
+    Aucun millésime mesuré ne publie deux tableaux pour un même couple, mais la
+    règle est écrite et doit tenir. Le fichier fabriqué ici en publie deux, et la
+    fonction doit rendre celui qui vient en premier.
+    """
+    texte = (
+        "En-tête fabriqué pour le test.\n"
+        "\n"
+        "  Value Weight Returns -- Monthly\n"
+        ",Lo PRIOR,Hi PRIOR\n"
+        "192701,  -3.32,  -0.24\n"
+        "\n"
+        "  Average Value Weighted Returns -- Monthly\n"
+        ",Lo PRIOR,Hi PRIOR\n"
+        "192701,  -1.00,   1.00\n"
+    )
+    parsed = parse_french_csv(texte)
+    assert len(parsed) == 2
+    bloc = select_return_block(parsed, weighting="value", frequency=Frequency.MONTHLY)
+    assert bloc.title == "Value Weight Returns -- Monthly"
+    assert bloc.first_line == parsed.blocks[0].first_line
+    # Source (a) : -3,32 / 100, la valeur du PREMIER tableau et non du second.
+    assert float(bloc.frame.loc["1927-01-31", "LO PRIOR"]) == pytest.approx(-0.0332, rel=1e-12)
+
+
+@pytest.mark.network
+def test_reseau_le_premier_mois_des_deciles_est_celui_du_fichier(tmp_path) -> None:
+    """Source (c) : la première ligne de données du fichier porte « 192701 ».
+
+    Le test lit la date DANS le texte téléchargé, puis la compare à l'index
+    analysé. Il vérifie ainsi deux choses d'un coup. Aucune ligne n'a été sautée
+    en tête de tableau, et la convention de date porte bien janvier 1927 au
+    31 janvier et non au 1er.
+    """
+    provider = FrenchProvider(client=_client_reseau(), raw_root=tmp_path / "french")
+    texte = provider.read_text("10_Portfolios_Prior_12_2")
+    lignes = texte.replace("\r", "").split("\n")
+    premieres = [ligne for ligne in lignes if ligne[:6].isdigit()]
+    assert premieres[0].split(",")[0] == "192701"
+    frame = provider.momentum_deciles()
+    assert frame.index[0] == pd.Timestamp("1927-01-31")
+    assert list(frame.columns) == [nom.upper() for nom in COLONNES_DU_FICHIER]
+    # Source (a) : un rendement mensuel de décile reste sous 1000 % en décimales.
+    assert float(np.nanmax(np.abs(frame.to_numpy()))) < 10.0
+
+
+@pytest.mark.network
+def test_reseau_le_facteur_de_momentum_se_rebatit_depuis_les_six_portefeuilles(tmp_path) -> None:
+    """Source (c) : la définition publiée du facteur, et (a) sa tolérance.
+
+    La bibliothèque définit le facteur de momentum comme la moyenne des deux
+    portefeuilles gagnants moins la moyenne des deux perdants, du tri croisé
+    taille sur momentum. Rejouer cette définition sur les six portefeuilles doit
+    redonner le facteur publié.
+
+    La tolérance vient d'un calcul. Les deux fichiers publient au centième de
+    point, soit 5e-5 en décimales, et une moyenne de deux valeurs arrondies plus
+    la différence de deux moyennes donnent au pire 1,0e-4.
+
+    Ce test est la contre-épreuve de :func:`decile_spread` : l'écart des déciles
+    extrêmes, lui, ne redonne PAS le facteur.
+    """
+    provider = FrenchProvider(client=_client_reseau(), raw_root=tmp_path / "french")
+    six = provider.portfolio_returns("6_Portfolios_ME_Prior_12_2")
+    momentum = provider.fetch("F-F_Momentum_Factor")["MOM"]
+    gagnants = 0.5 * (six["SMALL HIPRIOR"] + six["BIG HIPRIOR"])
+    perdants = 0.5 * (six["SMALL LOPRIOR"] + six["BIG LOPRIOR"])
+    rebati = (gagnants - perdants).reindex(momentum.index).dropna()
+    publie = momentum.reindex(rebati.index)
+    assert len(rebati) > 1100
+    assert float(np.max(np.abs(rebati.to_numpy() - publie.to_numpy()))) <= 1.05e-4
+    # L'écart des déciles extrêmes est une AUTRE série, et l'écart le montre.
+    ecart = provider.momentum_spread().reindex(rebati.index)
+    assert float(np.max(np.abs(ecart.to_numpy() - publie.to_numpy()))) > 1e-2
+
+
+@pytest.mark.network
+def test_reseau_les_effectifs_des_deciles_sont_tres_inegaux(tmp_path) -> None:
+    """Source (c) : le tableau des effectifs du fichier, sur ses 1 194 mois.
+
+    Ce test ancre les deux chiffres que porte la docstring de
+    :meth:`FrenchProvider.momentum_deciles`. Il lit le tableau publié, pas une
+    sortie de calcul, et il échouerait si un millésime égalisait les effectifs.
+    """
+    provider = FrenchProvider(client=_client_reseau(), raw_root=tmp_path / "french")
+    effectifs = provider.fetch("10_Portfolios_Prior_12_2", table="number_of_firms_in_portfolios")
+    assert len(effectifs) == 1194
+    juin = effectifs.loc[pd.Timestamp("2026-06-30")]
+    assert float(juin[LOSER_DECILE]) == 614.0
+    assert float(juin[WINNER_DECILE]) == 420.0
+    assert float(juin["PRIOR 5"]) == 239.0
+    rapport = (effectifs.max(axis=1) / effectifs.min(axis=1)).median()
+    # Source (a) : la docstring annonce 2,11, arrondi au centième.
+    assert float(rapport) == pytest.approx(2.11, abs=5e-3)

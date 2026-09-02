@@ -1,9 +1,47 @@
-"""Phase 10. Rapport d'étude automatique : figures, tableaux, verdict.
+"""Le rapport d'étude : ses quinze sections, ses tableaux, et son verdict.
 
-Ce sous-paquet n'est pas implémenté à ce jour. Il figure dans l'arborescence
-parce que l'architecture est décidée et que les contrats correspondants vivent
-déjà dans :mod:`quantlab.core.protocols`. Écrire ici sans avoir lu ces
-protocoles produirait une brique non remplaçable.
+Le sous-paquet écrit ce qu'une étude a produit, et il en déduit le verdict au
+lieu de le laisser choisir. Les seuils vivent dans
+:class:`~quantlab.reporting.study.VerdictCriteria`, et la déduction vit dans
+:func:`~quantlab.reporting.study.decide_verdict`.
+
+Un ratio de Sharpe supérieur à 1 ne suffit à aucun niveau de l'échelle des
+verdicts. Le raisonnement complet vit dans la documentation du module
+:mod:`quantlab.reporting.study`.
 """
 
-__all__: list[str] = []
+from __future__ import annotations
+
+from quantlab.reporting.study import (
+    REPORT_SECTIONS,
+    VERDICT_LADDER,
+    MetricLabel,
+    ReplicationCheck,
+    ReportFigure,
+    ReportTable,
+    StudyReport,
+    VerdictCriteria,
+    VerdictEvidence,
+    decide_verdict,
+    generate_report,
+    metrics_table,
+    replication_table,
+    section_keys,
+)
+
+__all__ = [
+    "REPORT_SECTIONS",
+    "VERDICT_LADDER",
+    "MetricLabel",
+    "ReplicationCheck",
+    "ReportFigure",
+    "ReportTable",
+    "StudyReport",
+    "VerdictCriteria",
+    "VerdictEvidence",
+    "decide_verdict",
+    "generate_report",
+    "metrics_table",
+    "replication_table",
+    "section_keys",
+]
