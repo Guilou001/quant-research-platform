@@ -186,4 +186,18 @@ où \(Q\) est la quantité négociée et \(ADV\) le volume quotidien moyen. C'es
 approximation sans microstructure, et elle est déclarée comme telle partout où
 elle sert.
 
-Implémentation : `quantlab.execution` en phase 6.
+Capacité, le capital \(A\) où le rendement net moyen s'annule. Comme l'impact
+croît en racine du capital, le net moyen est une droite en \(\sqrt{A}\) :
+
+\[
+\bar{r}^{net}(A) = g - s - \sqrt{A}\,K
+\qquad\Longrightarrow\qquad
+A^{\ast} = \left(\frac{g - s}{K}\right)^{2}
+\]
+
+où \(g\) est le brut moyen par période, \(s\) le demi-écart moyen payé et \(K\)
+la charge d'impact moyenne au capital unité. Le moteur relancé à \(A^{\ast}\)
+doit rendre un net moyen nul à la précision machine ; sinon le calcul lève.
+
+Implémentation : `quantlab.execution.costs` et `quantlab.execution.capacity`,
+phase 6, ADR-012.

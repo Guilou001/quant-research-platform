@@ -1,0 +1,442 @@
+# Les grands fonds fermés, ceux dont on ne peut acheter ni la part ni la série.
+#
+# Aucun d'eux ne publie de rendement mensuel. Ce registre porte ce que la presse
+# ou un livre a RAPPORTÉ, année par année, avec la source de chaque valeur et le
+# degré de vérification atteint le jour de la consultation. Trois degrés :
+#   page      la valeur a été lue sur la page citée, ou dans le PDF cité ;
+#   titre     la valeur figure dans le titre d'un article dont le corps n'a pas
+#             pu être lu (page payante ou refusée) ;
+#   resume    la valeur vient d'un résumé de moteur de recherche qui cite la
+#             source, sans que la page ait été lue. C'est le degré le plus faible.
+# Une année absente est une année NON TROUVÉE, jamais une année à zéro. Quand
+# deux sources se contredisent, les deux chiffres sont écrits en note.
+#
+# Tous les rendements sont NETS de frais, en pour cent, sauf mention contraire.
+# Statut de tout chiffre de ce fichier : rapporté. Consultation : 2026-09-02.
+
+consulted: "2026-09-02"
+
+funds:
+  - key: medallion
+    name: Medallion
+    manager: Renaissance Technologies
+    style: quantitatif, arbitrage statistique à court terme, apprentissage automatique
+    net_of_fees: true
+    annual_returns_pct:
+      1988: 9.04
+      1989: -3.20
+      1990: 58.24
+      1991: 39.44
+      1992: 33.60
+      1993: 39.12
+      1994: 70.72
+      1995: 38.32
+      1996: 31.52
+      1997: 21.20
+      1998: 41.68
+      1999: 24.48
+      2000: 98.48
+      2001: 33.02
+      2002: 25.82
+      2003: 21.90
+      2004: 24.92
+      2005: 29.51
+      2006: 44.30
+      2007: 73.42
+      2008: 82.38
+      2009: 38.98
+      2010: 29.40
+      2011: 37.02
+      2012: 29.01
+      2013: 46.93
+      2014: 39.20
+      2015: 36.01
+      2016: 35.62
+      2017: 45.02
+      2018: 39.98
+    gross_returns_pct:
+      1988: 16.30
+      1989: 1.00
+      1990: 77.80
+      1991: 54.30
+      1992: 47.00
+      1993: 53.90
+      1994: 93.40
+      1995: 52.90
+      1996: 44.40
+      1997: 31.50
+      1998: 57.10
+      1999: 35.60
+      2000: 128.10
+      2001: 56.60
+      2002: 51.10
+      2003: 44.10
+      2004: 49.50
+      2005: 57.70
+      2006: 84.10
+      2007: 136.10
+      2008: 152.10
+      2009: 74.60
+      2010: 57.50
+      2011: 71.10
+      2012: 56.80
+      2013: 88.80
+      2014: 75.00
+      2015: 69.30
+      2016: 68.60
+      2017: 85.40
+      2018: 76.40
+    verification:
+      1988-2018: page
+    sources:
+      - years: "1988-2018"
+        text: >-
+          Zuckerman, G. (2019), The Man Who Solved the Market, appendice 1,
+          reproduit en table 1 de Cornell, B. (2019), Medallion Fund: The
+          Ultimate Counterexample?, 2 décembre 2019, SSRN 3504766. Table lue
+          dans le PDF le 2026-09-02. Frais fixes de 5 % et commission de
+          performance de 20 % jusqu'en 2000, 36 % en 2001, 44 % ensuite.
+        url: https://ssrn.com/abstract=3504766
+    notes: >-
+      La seule série annuelle complète du registre. Cornell relève que le fonds
+      n'a connu aucune année négative de 1990 à 2018, que la moyenne brute vaut
+      66,07 % et la nette 39,20 %, et que le bêta de marché est proche de -1.
+      Taille rapportée : 20 M$ en 1988, 10 G$ de 2010 à 2018.
+
+  - key: citadel_wellington
+    name: Wellington
+    manager: Citadel
+    style: multi-stratégies
+    net_of_fees: true
+    annual_returns_pct:
+      2008: -55.0
+      2009: 62.0
+      2018: 9.1
+      2019: 19.4
+      2020: 24.4
+      2021: 26.0
+      2022: 38.0
+      2023: 15.3
+      2024: 15.1
+      2025: 10.2
+    verification:
+      2008: page
+      2009: page
+      2018: resume
+      2019: resume
+      2020: page
+      2021: resume
+      2022: page
+      2023: titre
+      2024: resume
+      2025: page
+    sources:
+      - years: "2008-2009"
+        text: >-
+          Wikipédia, article « Citadel LLC », lu le 2026-09-02 : « biggest
+          funds at Citadel finished 2008 down 55% » et « rebounded with a 62%
+          return in 2009 ». Le chiffre porte sur les fonds Kensington et
+          Wellington ensemble.
+        url: https://en.wikipedia.org/wiki/Citadel_LLC
+      - years: "2020, 2022"
+        text: >-
+          Young and Calculated (Substack), « Citadel: The Full Story Behind the
+          Most Profitable Hedge Fund in History », lu le 2026-09-02, sans source
+          tierce citée par l'auteur.
+        url: https://youngandcalculated.substack.com/p/citadel-the-full-story-behind-the
+      - years: "2023"
+        text: >-
+          Bloomberg, 3 janvier 2024, titre « Citadel Closes Out 2023 With 15.3%
+          Gains; Millennium Up 10% ». Corps non lu, page payante.
+        url: https://www.bloomberg.com/news/articles/2024-01-03/hedge-funds-millennium-eisler-close-out-2023-with-10-gains
+      - years: "2025"
+        text: >-
+          Reuters, 6 janvier 2026, encadré « Top hedge funds led by D.E. Shaw,
+          Bridgewater and Balyasny deliver big gains in 2025 », lu sur
+          Investing.com le 2026-09-02.
+        url: https://www.investing.com/news/stock-market-news/factboxtop-hedge-funds-led-by-deshaw-bridgewater-and-balyasny-deliver-big-gains-in-2025-4440100
+      - years: "2018, 2019, 2021, 2024"
+        text: >-
+          Résumés de recherche du 2026-09-02 citant CNBC et Bloomberg ; pages
+          non lues. Pour 2024, deux chiffres circulent, 15,1 % et 15,21 %.
+        url: https://www.cnbc.com/2026/01/02/ken-griffins-flagship-hedge-fund-at-citadel-rises-10point2percent-in-volatile-2025.html
+    notes: >-
+      Rendement annualisé depuis 1990 rapporté à environ 19 % par Reuters
+      (2026-01-06). Les années 2010 à 2017 n'ont pas été trouvées avec une
+      source lisible.
+
+  - key: de_shaw_composite
+    name: Composite
+    manager: D.E. Shaw
+    style: multi-stratégies, quantitatif et discrétionnaire
+    net_of_fees: true
+    annual_returns_pct:
+      2019: 10.4
+      2020: 19.4
+      2021: 18.8
+      2022: 24.7
+      2023: 9.6
+      2024: 18.0
+      2025: 18.5
+    verification:
+      2019: page
+      2020: page
+      2021: resume
+      2022: titre
+      2023: resume
+      2024: titre
+      2025: page
+    sources:
+      - years: "2019-2020"
+        text: "Hedgeweek, 12 janvier 2021, « DE Shaw delivers strong returns in 2020 », lu le 2026-09-02."
+        url: https://www.hedgeweek.com/de-shaw-delivers-strong-returns-2020/
+      - years: "2022"
+        text: "Hedgeweek, 4 janvier 2023, titre « Flagship DE Shaw hedge fund chalks up 24.7% gain in 2022 » ; corps refusé."
+        url: http://www.hedgeweek.com/2023/01/04/318933/flagship-de-shaw-hedge-fund-chalks-247-gain-2022
+      - years: "2024"
+        text: "Pensions & Investments, titre « D.E. Shaw to Return Billions After Flagship Hedge Fund Gains 18% » ; corps refusé."
+        url: https://www.pionline.com/hedge-funds/de-shaw-group-return-half-2024-profits-generated-its-composite-and-oculus-outside/
+      - years: "2025"
+        text: "Reuters, 6 janvier 2026, encadré lu sur Investing.com le 2026-09-02 ; annualisé depuis 2001 : 12,9 %."
+        url: https://www.investing.com/news/stock-market-news/factboxtop-hedge-funds-led-by-deshaw-bridgewater-and-balyasny-deliver-big-gains-in-2025-4440100
+      - years: "2021, 2023"
+        text: "Résumés de recherche du 2026-09-02 citant Bloomberg et Institutional Investor ; pages non lues."
+        url: https://www.bloomberg.com/news/articles/2024-01-02/d-e-shaw-s-biggest-hedge-fund-returned-almost-10-in-2023
+    notes: "Hedgeweek (2021) rapporte un ratio de Sharpe net de 1,83 depuis 2001 et une corrélation au S&P 500 sous 20 %."
+
+  - key: de_shaw_oculus
+    name: Oculus
+    manager: D.E. Shaw
+    style: macro systématique et discrétionnaire
+    net_of_fees: true
+    annual_returns_pct:
+      2019: 11.7
+      2020: 25.4
+      2024: 36.1
+      2025: 28.2
+    verification:
+      2019: page
+      2020: page
+      2024: titre
+      2025: page
+    sources:
+      - years: "2019-2020"
+        text: "Hedgeweek, 12 janvier 2021, lu le 2026-09-02 ; annualisé depuis 2004 : 12,5 %, aucune année perdante."
+        url: https://www.hedgeweek.com/de-shaw-delivers-strong-returns-2020/
+      - years: "2024"
+        text: "Disruption Banking, 9 janvier 2025, titre « How D.E. Shaw's Oculus Fund Made a 36% Return in 2024 » ; un résumé donne 36,1 %."
+        url: https://www.disruptionbanking.com/2025/01/09/how-d-e-shaws-oculus-fund-made-a-36-return-in-2024/
+      - years: "2025"
+        text: "Reuters, 6 janvier 2026, encadré lu sur Investing.com ; annualisé depuis 2004 : 14,4 %."
+        url: https://www.investing.com/news/stock-market-news/factboxtop-hedge-funds-led-by-deshaw-bridgewater-and-balyasny-deliver-big-gains-in-2025-4440100
+    notes: "Les années 2021 à 2023 circulent dans des résumés (15, 20, 8 %) sans page lisible ; non retenues."
+
+  - key: millennium
+    name: Millennium International
+    manager: Millennium Management
+    style: multi-gestionnaires, valeur relative
+    net_of_fees: true
+    annual_returns_pct:
+      2022: 12.0
+      2023: 10.0
+      2024: 15.0
+      2025: 10.5
+    verification:
+      2022: resume
+      2023: titre
+      2024: page
+      2025: page
+    sources:
+      - years: "2024"
+        text: "Hedgeweek, 2 janvier 2025, « Millennium posts 15% 2024 gain but lags S&P 500 », citant le Financial Times, lu le 2026-09-02."
+        url: https://www.hedgeweek.com/millennium-posts-15-2024-gain-but-lags-sp-500/
+      - years: "2023"
+        text: "Bloomberg, 3 janvier 2024, titre « ... Millennium Up 10% » ; corps non lu."
+        url: https://www.bloomberg.com/news/articles/2024-01-03/hedge-funds-millennium-eisler-close-out-2023-with-10-gains
+      - years: "2025"
+        text: "Reuters, 6 janvier 2026, encadré lu sur Investing.com le 2026-09-02."
+        url: https://www.investing.com/news/stock-market-news/factboxtop-hedge-funds-led-by-deshaw-bridgewater-and-balyasny-deliver-big-gains-in-2025-4440100
+      - years: "2022"
+        text: "Résumé de recherche du 2026-09-02 : « finished the year with a 12% gain » ; un autre résumé donne 12,4 % ; page non lue."
+        url: https://www.bloomberg.com/news/articles/2022-10-05/millennium-returns-15-billion-cementing-move-to-long-term-cash
+    notes: >-
+      Wikipédia rapporte 14 % par an en moyenne depuis 1989 (WSJ 2018). Les
+      années 2019 à 2021 n'ont pas de source lisible ; un site de suivi de
+      dépôts 13F publie des séries qui ne sont PAS celles du fonds et qui ont
+      été écartées.
+
+  - key: bridgewater_pure_alpha
+    name: Pure Alpha
+    manager: Bridgewater Associates
+    style: macro systématique
+    net_of_fees: true
+    annual_returns_pct:
+      2018: 14.6
+      2019: 0.5
+      2023: -7.6
+      2024: 11.3
+      2025: 34.0
+    verification:
+      2018: page
+      2019: page
+      2023: titre
+      2024: resume
+      2025: page
+    sources:
+      - years: "2018-2019"
+        text: >-
+          Institutional Investor, 7 janvier 2020, « In Disappointing Year,
+          Bridgewater's Flagship Fund Returns 0.5% », lu le 2026-09-02. En 2019,
+          la classe à 12 % de volatilité fait +0,5 % et celle à 18 % fait -0,5 % ;
+          la première est retenue. Annualisé sur 28 ans : 11,5 %.
+        url: https://www.institutionalinvestor.com/article/2bsxa6cu6tic60cizc8ao/portfolio/in-disappointing-year-bridgewaters-flagship-fund-returns-0-5
+      - years: "2023"
+        text: "Bloomberg, 4 janvier 2024, titre « Bridgewater's Pure Alpha II Hedge Fund Lost 7.6% in 2023 » ; classe à 18 % ; corps non lu."
+        url: https://www.bloomberg.com/news/articles/2024-01-04/bridgewater-s-flagship-pure-alpha-fund-lost-7-6-last-year
+      - years: "2025"
+        text: >-
+          Reuters, 6 janvier 2026, encadré lu sur Investing.com : 34 %.
+          Hedgeweek, 2 janvier 2026, d'après une personne proche du dossier :
+          33 %. Les deux chiffres sont rapportés, Reuters retenu.
+        url: https://www.hedgeweek.com/bridgewaters-pure-alpha-outpaces-peers-with-33-2025-gain/
+      - years: "2024"
+        text: "Résumé de recherche du 2026-09-02 : « Pure Alpha climbed 11.3 percent » ; page non lue."
+        url: https://www.institutionalinvestor.com/article/bridgewater-extends-strong-run-gains-across-flagship-and-china-funds
+    notes: >-
+      Les classes à 12 % et 18 % de volatilité cible rendent des chiffres
+      différents la même année, et la presse ne dit pas toujours laquelle elle
+      cite. InvestmentNews (2025-10-02) rapporte que Pure Alpha II a rendu moins
+      de 3 % par an en moyenne de 2012 à 2024.
+
+  - key: aqr_apex
+    name: Apex
+    manager: AQR Capital Management
+    style: multi-stratégies quantitatif
+    net_of_fees: true
+    annual_returns_pct:
+      2024: 15.1
+      2025: 19.6
+    verification:
+      2024: titre
+      2025: page
+    sources:
+      - years: "2024"
+        text: "Bloomberg, 3 janvier 2025, titre « AQR Multistrategy Returns 15% in 2024 on Equity, Macro Gains » ; un résumé précise 15,1 %."
+        url: https://www.bloomberg.com/news/articles/2025-01-03/aqr-multistrategy-returns-15-in-2024-on-equity-macro-gains
+      - years: "2025"
+        text: "Reuters, 6 janvier 2026, encadré lu sur Investing.com ; la stratégie Helix fait 18,6 % la même année."
+        url: https://www.investing.com/news/stock-market-news/factboxtop-hedge-funds-led-by-deshaw-bridgewater-and-balyasny-deliver-big-gains-in-2025-4440100
+    notes: >-
+      AQR vend aussi des fonds communs cotés, dont QSPIX et AQMIX, qui sont dans
+      funds.yaml avec leurs séries MENSUELLES mesurées. C'est là que la
+      comparaison à AQR est solide.
+
+  - key: tci
+    name: TCI Master Fund
+    manager: TCI Fund Management
+    style: actions concentrées, qualité, activisme
+    net_of_fees: true
+    annual_returns_pct:
+      2017: 29.0
+      2019: 41.0
+      2020: 14.0
+      2022: -18.0
+      2023: 33.0
+      2024: 15.0
+      2025: 27.0
+    verification:
+      2017: page
+      2019: resume
+      2020: resume
+      2022: resume
+      2023: titre
+      2024: resume
+      2025: resume
+    sources:
+      - years: "2017"
+        text: "GuruFocus via Yahoo Finance, 29 août 2019, lu le 2026-09-02 ; annualisé depuis 2004 : environ 18 % net."
+        url: https://finance.yahoo.com/news/tci-fund-18-annual-returns-194511527.html
+      - years: "2023"
+        text: "Bloomberg, 5 janvier 2024, titre « Chris Hohn's TCI Hedge Fund Surged by 33% in 2023 » ; un résumé donne 32,7 %."
+        url: https://www.bloomberg.com/news/articles/2024-01-05/chris-hohn-s-hedge-fund-bounces-back-with-33-gain-in-2023
+      - years: "2019, 2020, 2022, 2024, 2025"
+        text: "Résumés de recherche du 2026-09-02 citant Institutional Investor, le Financial Times et Forbes ; pages non lues."
+        url: https://www.institutionalinvestor.com/article/chris-hohns-tci-tops-hedge-fund-gains-2025
+    notes: "Forbes (2026-01-18) rapporte 18,9 G$ de gains en 2025, le chiffre que porte la table de l'utilisateur."
+
+  - key: elliott
+    name: Elliott Associates
+    manager: Elliott Investment Management
+    style: événementiel, activisme, dette en difficulté
+    net_of_fees: true
+    annual_returns_pct:
+      2022: 5.9
+      2023: 4.7
+    verification:
+      2022: resume
+      2023: resume
+    sources:
+      - years: "2022-2023"
+        text: "Résumés de recherche du 2026-09-02 ; pages non lues."
+        url: https://en.wikipedia.org/wiki/Elliott_Investment_Management
+      - years: "2025"
+        text: >-
+          Hedgeweek, 12 novembre 2025, citant le Financial Times, lu le
+          2026-09-02 : +4,7 % net sur les neuf premiers mois de 2025, et un
+          annualisé depuis 1994 passé sous le S&P 500 dividendes réinvestis.
+          Année incomplète, non retenue.
+        url: https://www.hedgeweek.com/elliott-returns-fall-below-sp-500/
+    notes: "Aucune année pleine avec une page lisible. Le fonds est dans le registre pour dire ce qui manque."
+
+  - key: point72
+    name: Point72
+    manager: Point72 Asset Management
+    style: multi-gestionnaires, fondamental et quantitatif
+    net_of_fees: true
+    annual_returns_pct:
+      2020: 16.0
+      2021: 9.2
+      2023: 10.6
+      2024: 19.0
+      2025: 17.5
+    verification:
+      2020: resume
+      2021: resume
+      2023: resume
+      2024: resume
+      2025: page
+    sources:
+      - years: "2025"
+        text: >-
+          Reuters, 6 janvier 2026, encadré lu sur Investing.com : 17,5 %.
+          Hedgeweek, 6 janvier 2026, citant Economic Times : 16,5 %. Les deux
+          sont rapportés, Reuters retenu.
+        url: https://www.investing.com/news/stock-market-news/factboxtop-hedge-funds-led-by-deshaw-bridgewater-and-balyasny-deliver-big-gains-in-2025-4440100
+      - years: "2020, 2021, 2023, 2024"
+        text: "Résumés de recherche du 2026-09-02 citant Bloomberg, Institutional Investor et Pensions & Investments ; pages non lues."
+        url: https://www.pionline.com/hedge-funds/hedge-fund-2023-returns-roll-including-citadel-de-shaw-and-point72/
+    notes: "Wikipédia ne porte aucun rendement annuel."
+
+  - key: balyasny
+    name: Atlas Enhanced
+    manager: Balyasny Asset Management
+    style: multi-gestionnaires, multi-stratégies
+    net_of_fees: true
+    annual_returns_pct:
+      2022: 10.0
+      2023: 2.4
+      2024: 13.6
+      2025: 16.7
+    verification:
+      2022: resume
+      2023: resume
+      2024: resume
+      2025: page
+    sources:
+      - years: "2025"
+        text: "Reuters, 6 janvier 2026, encadré lu sur Investing.com le 2026-09-02."
+        url: https://www.investing.com/news/stock-market-news/factboxtop-hedge-funds-led-by-deshaw-bridgewater-and-balyasny-deliver-big-gains-in-2025-4440100
+      - years: "2022-2024"
+        text: "Résumés de recherche du 2026-09-02 ; pour 2023, 2,4 % et 2,8 % circulent ; pages non lues."
+        url: https://en.wikipedia.org/wiki/Balyasny_Asset_Management
+    notes: "Wikipédia rapporte 12 % annualisé sur les seize premières années (2001-2017)."

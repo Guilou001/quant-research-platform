@@ -50,13 +50,17 @@ module le vérifient, et ils vérifient la régression contre ``statsmodels``.
 
 from __future__ import annotations
 
+import math
+from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import numpy as np
 import pandas as pd
 import yaml
+from pydantic import Field, field_validator
+from scipy import stats
 
 from quantlab.analytics.drawdown import drawdown_series, max_drawdown
 from quantlab.analytics.ratios import sharpe_ratio
@@ -404,3 +408,454 @@ def load_fund_registry(path: str | Path) -> list[FundProxy]:
     """Lit le registre des fonds réels depuis son YAML."""
     raw = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
     return [FundProxy.model_validate(item) for item in raw.get("funds", [])]
+
+
+# ---------------------------------------------------------------------------
+# Les grands fonds fermés : comparaison sur rendements ANNUELS rapportés
+# ---------------------------------------------------------------------------
+
+#: Le nombre minimal d'années communes pour publier une corrélation annuelle.
+MIN_ANNUAL_YEARS = 5
+
+#: Le nombre minimal d'années pour que l'intervalle de Fisher soit défini.
+FISHER_MIN_YEARS = 4
+
+#: Le niveau de confiance de l'intervalle sur la corrélation.
+DEFAULT_CONFIDENCE = 0.95
+
+#: Le nombre de périodes exigé pour qu'une année soit complète, par fréquence.
+COMPLETE_YEAR_PERIODS: dict[Frequency, int] = {Frequency.MONTHLY: 12, Frequency.DAILY: 240}
+
+#: La borne appliquée à la corrélation avant la transformation de Fisher.
+FISHER_CLIP = 1.0 - 1e-12
+
+
+class HedgeFundRecord(StrictModel):
+    """Un grand fonds fermé, connu par ses seuls rendements annuels rapportés.
+
+    Le registre vit dans ``benchmarks/hedge_funds.yaml``. Chaque valeur porte
+    le degré de vérification atteint. ``page`` signifie qu'elle a été lue à la
+    source, ``titre`` que seul le titre d'un article la porte, ``resume``
+    qu'elle vient d'un résumé de moteur de recherche. Une année absente est une
+    année non trouvée.
+    """
+
+    key: str
+    name: str
+    manager: str
+    style: str
+    net_of_fees: bool = True
+    annual_returns_pct: dict[int, float]
+    gross_returns_pct: dict[int, float] = Field(default_factory=dict)
+    verification: dict[str, str] = Field(default_factory=dict)
+    sources: list[dict[str, str]] = Field(default_factory=list)
+    notes: str = ""
+
+    @field_validator("verification", mode="before")
+    @classmethod
+    def _keys_as_text(cls, value: object) -> object:
+        """Écrit les clés d'années en texte, qu'elles soient un entier ou une plage."""
+        if isinstance(value, dict):
+            return {str(k): str(v) for k, v in value.items()}
+        return value
+
+    def verification_of(self, year: int) -> str:
+        """Rend le degré de vérification d'une année, ou « non déclaré »."""
+        for key, level in self.verification.items():
+            if "-" in key:
+                first, last = key.split("-", 1)
+                if int(first) <= year <= int(last):
+                    return level
+            elif int(key) == year:
+                return level
+        return "non déclaré"
+
+
+def load_hedge_fund_registry(path: str | Path) -> list[HedgeFundRecord]:
+    """Lit le registre des grands fonds fermés depuis son YAML."""
+    raw = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
+    return [HedgeFundRecord.model_validate(item) for item in raw.get("funds", [])]
+
+
+def hedge_fund_table(
+    records: Sequence[HedgeFundRecord],
+    *,
+    basis: Literal["net", "gross"] = "net",
+) -> pd.DataFrame:
+    """Rend les rendements annuels en FRACTION, une colonne par fonds, une ligne par année.
+
+    Args:
+        records: les fiches du registre.
+        basis: ``net`` pour les rendements nets de frais, ``gross`` pour les
+            bruts, que seul Medallion publie.
+
+    Returns:
+        Un tableau indexé par année civile, manquant là où rien n'est rapporté.
+    """
+    columns: dict[str, pd.Series] = {}
+    for record in records:
+        source = record.annual_returns_pct if basis == "net" else record.gross_returns_pct
+        if not source:
+            continue
+        columns[record.key] = pd.Series({int(y): float(v) / 100.0 for y, v in source.items()})
+    if not columns:
+        return pd.DataFrame()
+    table = pd.DataFrame(columns).sort_index()
+    table.index.name = "year"
+    return table
+
+
+def annual_returns(
+    returns: pd.Series,
+    *,
+    frequency: Frequency = Frequency.MONTHLY,
+    require_complete: bool = True,
+) -> pd.Series:
+    r"""Compose les rendements d'une série en rendements par année civile.
+
+    **Le problème.** Les grands fonds ne publient qu'un chiffre par an. Pour
+    les comparer à une stratégie mensuelle, il faut la ramener à l'année, et
+    une année incomplète comparée à une année pleine fausse le niveau.
+
+    **L'intuition.** Le rendement d'une année est le produit des facteurs de
+    croissance de ses périodes, moins un. Une année qui n'a pas toutes ses
+    périodes est écartée plutôt que complétée.
+
+    **La formule.**
+
+    .. math::
+
+        R_{a} = \prod_{t \in a} (1 + r_t) - 1
+
+    **Les variables.** :math:`r_t` le rendement simple d'une période,
+    :math:`a` l'année civile.
+
+    **Les hypothèses.** Les rendements sont simples, non logarithmiques. Une
+    année est complète avec 12 mois en mensuel et 240 séances en quotidien.
+
+    **La provenance.** Composition ordinaire ; aucune référence externe.
+
+    **Les limites.** Une année de rendement composé masque la volatilité
+    intra-annuelle, qui est précisément ce que les fonds fermés ne publient
+    pas non plus.
+
+    **Les alternatives.** Une somme de rendements logarithmiques, identique en
+    exponentielle.
+
+    **Pourquoi cette méthode ici.** C'est la seule échelle commune avec des
+    fonds qui ne publient qu'un chiffre par an.
+
+    **Comment vérifier.** Douze mois à 1 % donnent :math:`1{,}01^{12} - 1`,
+    soit 12,6825 %.
+
+    Args:
+        returns: la série de rendements simples, indexée par date.
+        frequency: sa fréquence, qui fixe le nombre de périodes d'une année
+            complète.
+        require_complete: écarter les années incomplètes.
+
+    Returns:
+        Une série indexée par année civile entière.
+
+    Raises:
+        InsufficientDataError: aucune année complète n'existe.
+    """
+    if not isinstance(returns.index, pd.DatetimeIndex):
+        raise InsufficientDataError("annual_returns exige un index temporel.")
+    clean = returns.dropna().astype(float)
+    grouped = clean.groupby(clean.index.year)
+    compounded = grouped.apply(lambda s: float(np.prod(1.0 + s.to_numpy()) - 1.0))
+    if require_complete:
+        needed = COMPLETE_YEAR_PERIODS.get(frequency)
+        if needed is None:
+            raise InsufficientDataError(f"aucune règle d'année complète pour la fréquence {frequency}.")
+        counts = grouped.size()
+        compounded = compounded[counts >= needed]
+    if compounded.empty:
+        raise InsufficientDataError("aucune année complète dans la série.")
+    compounded.index = compounded.index.astype(int)
+    compounded.index.name = "year"
+    return compounded.rename(returns.name)
+
+
+def fisher_interval(
+    correlation: float, n: int, confidence: float = DEFAULT_CONFIDENCE
+) -> tuple[float, float]:
+    r"""Rend l'intervalle de confiance d'une corrélation par la transformation de Fisher.
+
+    **Le problème.** Dix années communes donnent une corrélation dont l'erreur
+    type vaut un tiers. La publier sans intervalle laisse croire à une
+    précision qu'elle n'a pas.
+
+    **L'intuition.** La corrélation transformée par la tangente hyperbolique
+    inverse est à peu près normale, d'écart type :math:`1/\sqrt{n-3}`.
+
+    **La formule.**
+
+    .. math::
+
+        z = \operatorname{artanh}(r), \qquad
+        \left[\tanh\!\left(z - q\,\tfrac{1}{\sqrt{n-3}}\right),\
+        \tanh\!\left(z + q\,\tfrac{1}{\sqrt{n-3}}\right)\right]
+
+    **Les variables.** :math:`r` la corrélation estimée, :math:`n` le nombre
+    d'observations, :math:`q` le quantile normal du niveau demandé.
+
+    **Les hypothèses.** Les paires sont indépendantes et à peu près
+    normales. Des rendements annuels le sont mieux que des mensuels.
+
+    **La provenance.** Fisher (1915), Frequency distribution of the values of
+    the correlation coefficient, Biometrika 10 ; précepte de manuel.
+
+    **Les limites.** Sous quatre observations, l'intervalle n'est pas défini.
+    Une corrélation de un exactement donne une transformée infinie, bornée
+    ici par une constante.
+
+    **Les alternatives.** Un bootstrap sur les paires, plus honnête quand
+    :math:`n` est petit, mais bruité pour la même raison.
+
+    **Pourquoi cette méthode ici.** Un seul paramètre et une forme fermée que
+    le lecteur recalcule.
+
+    **Comment vérifier.** Pour :math:`r = 0{,}5` et :math:`n = 12`, à 95 %,
+    l'intervalle vaut environ :math:`[-0{,}104,\ 0{,}834]`.
+
+    Args:
+        correlation: la corrélation estimée.
+        n: le nombre de paires.
+        confidence: le niveau de confiance, entre zéro et un exclus.
+
+    Returns:
+        Les bornes basse et haute ; NaN toutes deux sous quatre paires ou pour
+        une corrélation non finie.
+    """
+    if n < FISHER_MIN_YEARS or not np.isfinite(correlation):
+        return (float("nan"), float("nan"))
+    r = float(np.clip(correlation, -FISHER_CLIP, FISHER_CLIP))
+    z = float(np.arctanh(r))
+    q = float(stats.norm.ppf(0.5 + confidence / 2.0))
+    half_width = q / math.sqrt(n - 3)
+    return (float(np.tanh(z - half_width)), float(np.tanh(z + half_width)))
+
+
+def annual_reading(n_years: int, corr_lo: float, corr_hi: float, *, min_years: int = MIN_ANNUAL_YEARS) -> str:
+    """Rend la lecture en mots d'une corrélation annuelle et de son intervalle.
+
+    Les seuils sont des préceptes du laboratoire. Une corrélation n'est
+    « établie » que si son intervalle exclut zéro, et rien ne se dit sous le
+    nombre minimal d'années.
+    """
+    if n_years < min_years:
+        return f"trop peu d'années communes ({n_years})"
+    if np.isnan(corr_lo) or np.isnan(corr_hi):
+        return "non mesurable"
+    if corr_lo > 0.0:
+        return "co-mouvement établi"
+    if corr_hi < 0.0:
+        return "mouvements opposés"
+    return "aucun co-mouvement établi"
+
+
+@dataclass(frozen=True)
+class AnnualComparison:
+    """La comparaison d'une stratégie à un fonds fermé, sur leurs années communes.
+
+    Tous les chiffres sont en fraction et portent sur les années COMMUNES,
+    écrites dans l'objet. La stratégie est nette de coûts de transaction mais
+    brute de frais de gestion ; le fonds est net de tout.
+    """
+
+    strategy: str
+    fund: str
+    n_years: int
+    first_year: int
+    last_year: int
+    correlation: float
+    corr_lo: float
+    corr_hi: float
+    mean_strategy: float
+    mean_fund: float
+    vol_strategy: float
+    vol_fund: float
+    worst_strategy: float
+    worst_fund: float
+    hit_rate: float
+    both_negative: int
+    reading: str
+
+    def as_row(self) -> dict[str, Any]:
+        """Rend la comparaison en une ligne de tableau."""
+        return {
+            "strategy": self.strategy,
+            "fund": self.fund,
+            "n_years": self.n_years,
+            "first_year": self.first_year,
+            "last_year": self.last_year,
+            "correlation": self.correlation,
+            "corr_lo": self.corr_lo,
+            "corr_hi": self.corr_hi,
+            "mean_strategy": self.mean_strategy,
+            "mean_fund": self.mean_fund,
+            "vol_strategy": self.vol_strategy,
+            "vol_fund": self.vol_fund,
+            "worst_strategy": self.worst_strategy,
+            "worst_fund": self.worst_fund,
+            "hit_rate": self.hit_rate,
+            "both_negative": self.both_negative,
+            "reading": self.reading,
+        }
+
+
+def compare_annual(
+    strategy: pd.Series,
+    fund: pd.Series,
+    *,
+    strategy_name: str = "stratégie",
+    fund_name: str = "fonds",
+    min_years: int = MIN_ANNUAL_YEARS,
+    confidence: float = DEFAULT_CONFIDENCE,
+) -> AnnualComparison:
+    """Compare deux séries de rendements annuels sur leurs années communes.
+
+    Args:
+        strategy: les rendements annuels de la stratégie, indexés par année.
+        fund: les rendements annuels rapportés du fonds, indexés par année.
+        strategy_name: le nom de la stratégie dans les tableaux.
+        fund_name: le nom du fonds dans les tableaux.
+        min_years: le nombre d'années communes sous lequel la corrélation
+            n'est pas publiée.
+        confidence: le niveau de l'intervalle de Fisher.
+
+    Returns:
+        La comparaison, avec sa lecture en mots.
+
+    Raises:
+        InsufficientDataError: aucune année commune.
+    """
+    common = pd.concat([strategy.rename("s"), fund.rename("f")], axis=1, join="inner").dropna()
+    if common.empty:
+        raise InsufficientDataError(f"aucune année commune entre {strategy_name} et {fund_name}.")
+    s, f = common["s"].astype(float), common["f"].astype(float)
+    n = len(common)
+    if n >= min_years and n >= 2 and s.std(ddof=1) > 0.0 and f.std(ddof=1) > 0.0:
+        corr = float(s.corr(f))
+    else:
+        corr = float("nan")
+    lo, hi = fisher_interval(corr, n, confidence)
+    return AnnualComparison(
+        strategy=strategy_name,
+        fund=fund_name,
+        n_years=n,
+        first_year=int(common.index.min()),
+        last_year=int(common.index.max()),
+        correlation=corr,
+        corr_lo=lo,
+        corr_hi=hi,
+        mean_strategy=float(s.mean()),
+        mean_fund=float(f.mean()),
+        vol_strategy=float(s.std(ddof=1)) if n > 1 else float("nan"),
+        vol_fund=float(f.std(ddof=1)) if n > 1 else float("nan"),
+        worst_strategy=float(s.min()),
+        worst_fund=float(f.min()),
+        hit_rate=float((s > f).mean()),
+        both_negative=int(((s < 0.0) & (f < 0.0)).sum()),
+        reading=annual_reading(n, lo, hi, min_years=min_years),
+    )
+
+
+def annual_comparison_table(
+    strategy: pd.Series,
+    funds: pd.DataFrame,
+    *,
+    strategy_name: str = "stratégie",
+    min_years: int = MIN_ANNUAL_YEARS,
+) -> pd.DataFrame:
+    """Compare une stratégie à chaque colonne d'un tableau de fonds, une ligne par fonds.
+
+    Les fonds sans année commune sont écrits avec zéro année plutôt qu'omis,
+    parce qu'une absence de comparaison est une information.
+    """
+    rows: list[dict[str, Any]] = []
+    for name in funds.columns:
+        try:
+            rows.append(
+                compare_annual(
+                    strategy,
+                    funds[name].dropna(),
+                    strategy_name=strategy_name,
+                    fund_name=str(name),
+                    min_years=min_years,
+                ).as_row()
+            )
+        except InsufficientDataError:
+            rows.append(
+                {
+                    "strategy": strategy_name,
+                    "fund": str(name),
+                    "n_years": 0,
+                    "reading": "aucune année commune",
+                }
+            )
+    return pd.DataFrame(rows)
+
+
+def scale_to_volatility(
+    returns: pd.Series,
+    target_volatility_annual: float,
+    *,
+    frequency: Frequency,
+) -> pd.Series:
+    r"""Met une série à une volatilité annualisée cible par un facteur constant, statut MODÉLISÉ.
+
+    **Le problème.** Une stratégie à 5 % de volatilité et un fonds à 20 % ne
+    se comparent pas en niveau de rendement : le fonds porte quatre fois le
+    risque. Ramener les deux à la même volatilité rend les niveaux lisibles.
+
+    **L'intuition.** Multiplier chaque rendement par le rapport de la cible à
+    la volatilité réalisée revient à porter la stratégie avec une exposition
+    constante. Le ratio de Sharpe est inchangé, le niveau est mis à l'échelle.
+
+    **La formule.**
+
+    .. math::
+
+        \tilde r_t = r_t \, \frac{\sigma^{\ast}}{\hat\sigma}
+
+    **Les variables.** :math:`\sigma^{\ast}` la cible annualisée,
+    :math:`\hat\sigma` l'écart type annualisé de la série entière.
+
+    **Les hypothèses.** L'exposition est constante et connue d'avance, ce qui
+    est faux : la volatilité de la série entière n'est connue qu'à la fin.
+    Le financement de l'exposition au-delà de un n'est pas facturé.
+
+    **La provenance.** Usage courant des comparaisons de fonds à volatilité
+    égale ; précepte.
+
+    **Les limites.** C'est une mise à l'échelle avec le recul, pas une
+    stratégie négociable. Le chiffre qui en sort est MODÉLISÉ, et il ne
+    remplace jamais le chiffre à l'exposition réelle.
+
+    **Les alternatives.** Un ciblage de volatilité en marche avant, que le
+    moteur de backtest sait faire, et qui change la trajectoire.
+
+    **Pourquoi cette méthode ici.** Pour lire côte à côte un rendement annuel
+    de laboratoire et celui d'un fonds à levier, sans prétendre à plus.
+
+    **Comment vérifier.** La série rendue a exactement la volatilité cible, et
+    son ratio de Sharpe est celui de la série d'origine.
+
+    Args:
+        returns: la série de rendements simples.
+        target_volatility_annual: la volatilité annualisée visée, en fraction.
+        frequency: la fréquence de la série.
+
+    Returns:
+        La série mise à l'échelle.
+
+    Raises:
+        InsufficientDataError: la série n'a aucune dispersion.
+    """
+    sigma = float(returns.std(ddof=1)) * math.sqrt(frequency.periods_per_year)
+    if not np.isfinite(sigma) or sigma <= 0.0:
+        raise InsufficientDataError("la série n'a aucune dispersion, elle ne se met pas à l'échelle.")
+    return returns * (float(target_volatility_annual) / sigma)

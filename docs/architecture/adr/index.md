@@ -21,3 +21,4 @@ Une décision sans option écartée n'est pas une décision, c'est une habitude.
 | [ADR-009](adr-009-registre-experiences.md) | Le registre d'expériences est un fichier, pas un serveur | Acceptée | 2026-09-01 |
 | [ADR-010](adr-010-francais-code-anglais.md) | La prose est en français, le code en anglais | Acceptée | 2026-09-01 |
 | [ADR-011](adr-011-skfolio-moteur-de-portefeuille.md) | skfolio est le moteur d'optimisation, derrière nos protocoles | Acceptée | 2026-09-02 |
+| [ADR-012](adr-012-capacite-par-forme-fermee.md) | La capacité se mesure en rejouant les poids à plusieurs tailles, et une forme fermée contrôle le moteur | Acceptée | 2026-09-02 |

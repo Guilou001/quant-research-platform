@@ -45,7 +45,7 @@ indépendant.
 | 3 | validation : découpages, purge, embargo, CPCV, bootstrap, DSR, PBO, tests multiples | **fait** |
 | 4 | réplications académiques, de TSMOM à l'arbitrage statistique | **fait**, huit études |
 | 5 | moteur de portefeuille et de risque | **fait**, six estimateurs de covariance, sept optimiseurs |
-| 6 | moteur de coûts et de capacité | non commencé |
+| 6 | moteur de coûts et de capacité | **fait**, impact à l'échelle du capital, étude 010 |
 | 7 | portefeuille multi-stratégies | **fait**, étude 009 |
 | 8 | apprentissage automatique transversal | non commencé |
 | 9 | validation indépendante sous LEAN | non commencé |

@@ -1,0 +1,68 @@
+# Étude 010, la capacité. Tout paramètre et tout seuil du verdict sont écrits
+# ici AVANT le premier résultat. Statut de tout chiffre produit : MODÉLISÉ, le
+# coefficient d'impact n'étant calibré sur aucune exécution réelle.
+
+name: capacity_010
+hypothesis: >-
+  Les deux stratégies du laboratoire dont les instruments ont un volume
+  mesurable, le momentum de série temporelle sur fonds cotés et l'arbitrage
+  statistique sur actions, gardent au moins la moitié de leur ratio de Sharpe de
+  référence à cent millions de dollars, sous un impact en racine carrée de la
+  participation au coefficient un et une exécution en une séance.
+paper: >-
+  Almgren, Thum, Hauptmann et Li (2005), Direct estimation of equity market
+  impact, Risk 18, pour la loi en racine carrée ; Gatheral (2010), No-dynamic-
+  arbitrage and market impact, Quantitative Finance 10 ; Frazzini, Israel et
+  Moskowitz (2018), Trading Costs, SSRN 3229719, pour la capacité des facteurs,
+  NON CONSULTÉ dans cette étude.
+seed: 20260902
+
+# Le capital de référence auquel l'hypothèse se juge, et la grille tracée.
+reference_aum: 1.0e8
+aum_grid: [1.0e6, 3.0e6, 1.0e7, 3.0e7, 1.0e8, 3.0e8, 1.0e9, 3.0e9, 1.0e10]
+
+impact:
+  coefficient: 1.0                   # le kappa de la loi, déclaré et non calibré
+  coefficient_sensitivity: [0.5, 2.0]
+  participation_cap: 0.10            # au-delà, le modèle ne se prétend plus crédible
+  adv_window_days: 21                # médiane du volume en dollars, décalée d'une séance
+  volatility_window_days: 21         # écart type quotidien, décalé d'une séance
+  # Séances valides exigées dans chaque fenêtre. Sous la fenêtre entière, pour
+  # que la sortie d'un titre qui cesse de coter garde son dernier volume connu.
+  min_periods_days: 15
+  # Sortie de cote : Yahoo garde des cotations fantômes à volume nul pendant
+  # quelques séances (Aetna, décembre 2018), et la stratégie solde encore sa
+  # position. Le titre emprunte alors son dernier volume connu, et le nombre de
+  # ces emprunts est publié.
+  on_missing_liquidity: last_known
+
+# Les deux stratégies chiffrables. Les six autres du laboratoire tournent sur
+# des portefeuilles de facteurs publiés (Ken French, AQR) qui n'ont ni poids par
+# titre ni volume : leur capacité est NON CALCULABLE ici, et c'est écrit.
+strategies:
+  tsmom:
+    study: 001_time_series_momentum
+    frequency: monthly
+    # La somme des trois postes proportionnels de l'étude 001 : 1 pb de
+    # commission, 2 pb de demi-écart, 1 pb de glissement. Le financement de
+    # l'exposition au-delà de un n'est pas facturé ici, il ne dépend pas de la taille.
+    spread_bps: 4.0
+    execution_days: 1
+    execution_days_sensitivity: [5]
+  statarb:
+    study: 007_statistical_arbitrage
+    frequency: daily
+    spread_bps: 5.0                  # l'hypothèse de l'article, reprise par l'étude 007
+    execution_days: 1
+    execution_days_sensitivity: [5]
+
+# Compte des essais : par stratégie, un cas de base, deux coefficients et une
+# durée d'exécution, soit quatre ; deux stratégies, huit.
+n_trials: 8
+
+verdict:
+  # L'hypothèse tient pour une stratégie si, au capital de référence, son ratio
+  # de Sharpe net vaut au moins cette part du ratio de référence à taille nulle
+  # ET reste au-dessus du plancher absolu.
+  min_sharpe_retention_at_reference: 0.50
+  min_net_sharpe_at_reference: 0.50

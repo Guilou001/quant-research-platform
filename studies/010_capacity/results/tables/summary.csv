@@ -1,0 +1,3 @@
+strategy,case,coefficient,execution_days,n_periods,sharpe_reference,return_reference_annual,sharpe_at_reference_aum,retention_at_reference_aum,breakeven_aum,participation_cap_aum,capacity_aum,half_sharpe_aum,breakeven_check_mean_net,breakeven_clipped,binding_assets
+tsmom,base,1,1,234,0.3347476369,0.05758694649,0.208940685,0.6241737416,44009183.4,84940.30969,84940.30969,3343014035,0.003171155669,True,FXF 8.04e-07; FXA 1.18e-06; FXB 9.83e-07; FXY 1.63e-07; SHY 9.8e-08
+statarb,base,1,1,7672,-0.3057050616,-0.03726007575,-6.748010329,22.07359699,0,3256125.222,0,,,False,PKG 6.55e-09; GPC 1.27e-08; ES 1.76e-08; SJM 9.59e-09; KIM 1.09e-08

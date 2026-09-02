@@ -1895,3 +1895,411 @@ def save_figure(fig: Figure, path: Path | str, *, vector: bool = True) -> list[P
         raise ConfigError(f"le chemin {path!r} ne porte aucun nom de fichier")
     with portfolio_style():
         return list(gvf_style.enregistrer(fig, chemin.parent, nom, vectoriel=vector))
+
+
+def capacity_plot(
+    table: pd.DataFrame,
+    *,
+    breakeven_aum: float | None = None,
+    half_sharpe_aum: float | None = None,
+    capacity_aum: float | None = None,
+    currency: str = "$ US",
+    title: str | None = None,
+    figsize: tuple[float, float] = (8.0, 6.5),
+) -> tuple[Figure, pd.DataFrame]:
+    r"""Trace le rendement net et le ratio de Sharpe net contre la taille du capital.
+
+    **Le problème.** Une stratégie se publie avec un ratio de Sharpe et sans
+    taille. La figure montre à quelle taille ce ratio tient encore, et à
+    laquelle il s'annule.
+
+    **L'intuition.** Deux panneaux sur le même axe logarithmique du capital.
+    Le rendement net annualisé en haut, le ratio de Sharpe net en bas. Une
+    ligne verticale marque le capital d'annulation de la forme fermée, une
+    autre celui où le ratio tombe à la moitié de sa référence.
+
+    .. math::
+
+        \bar{r}^{net}(A) = g - s - \sqrt{A}\, K
+
+    **Les variables.** :math:`A` le capital, :math:`g` le brut moyen,
+    :math:`s` le demi-écart moyen, :math:`K` la charge d'impact au capital
+    unité. Voir :mod:`quantlab.execution.capacity`.
+
+    **Les hypothèses.** La table vient de
+    :func:`quantlab.execution.capacity.capacity_curve` : une ligne par
+    taille, indexée par le capital en dollars, avec ``return_net_annual`` en
+    fraction, ``sharpe_net``, et facultativement ``status`` valant ``exact``
+    ou ``minorant``.
+
+    **La provenance.** La courbe rendement contre capital est la lecture
+    usuelle de la capacité, sans article de référence ; statut précepte.
+
+    **Les limites.** Tout ce qui est dessiné est MODÉLISÉ, et le titre le
+    dit. Un point au statut ``minorant`` est dessiné creux : le coût réel y
+    est plus grand que le coût tracé.
+
+    **Les alternatives.** Une seule courbe du coût annualisé en points de
+    base, plus parlante pour un exécutant.
+
+    **Pourquoi cette forme ici.** Le rendement et le ratio ne s'annulent pas
+    au même endroit que la moitié du ratio, et l'allocateur a besoin des deux.
+
+    **Comment vérifier.** La table rendue est celle qui a été tracée, ligne
+    pour ligne.
+
+    Args:
+        table: la table de capacité, indexée par le capital en dollars.
+        breakeven_aum: le capital d'annulation à marquer, ou ``None``.
+        half_sharpe_aum: le capital de demi-ratio à marquer, ou ``None``.
+        capacity_aum: la capacité retenue à marquer d'un trait plein, quand
+            elle diffère du capital d'annulation, ou ``None``.
+        currency: la devise affichée sur l'axe.
+        title: un titre imposé. Sans lui, le titre est déduit des données.
+        figsize: la taille de la figure, en pouces.
+
+    Returns:
+        La figure, et la table tracée.
+
+    Raises:
+        ConfigError: la table ne porte pas les deux colonnes exigées, ou son
+            index n'est pas strictement positif.
+    """
+    exigees = {"return_net_annual", "sharpe_net"}
+    if not exigees <= set(table.columns):
+        raise ConfigError(f"la table de capacité doit porter {sorted(exigees)}, reçu {list(table.columns)}")
+    aums = np.asarray(table.index, dtype=float)
+    if aums.size == 0 or bool((aums <= 0.0).any()):
+        raise ConfigError("l'index de la table de capacité doit être un capital strictement positif")
+    tracee = table.copy()
+    statuts = (
+        tracee["status"].astype(str) if "status" in tracee.columns else pd.Series("exact", index=tracee.index)
+    )
+    creux = (statuts == "minorant").to_numpy()
+
+    def _millions(valeur: float, _position: float) -> str:
+        """Écrit un capital en millions, en typographie française."""
+        return gvf_style.fr(valeur / 1e6, 0)
+
+    with portfolio_style():
+        fig = Figure(figsize=figsize)
+        haut = fig.add_subplot(2, 1, 1)
+        bas = fig.add_subplot(2, 1, 2, sharex=haut)
+        for ax, colonne, facteur, etiquette in (
+            (haut, "return_net_annual", 100.0, "Rendement net annualisé (%)"),
+            (bas, "sharpe_net", 1.0, "Ratio de Sharpe net"),
+        ):
+            valeurs = tracee[colonne].to_numpy(dtype=float) * facteur
+            ax.plot(aums, valeurs, color=gvf_style.OKABE_ITO[0], linewidth=1.4)
+            ax.plot(aums[~creux], valeurs[~creux], "o", color=gvf_style.OKABE_ITO[0])
+            if creux.any():
+                ax.plot(
+                    aums[creux],
+                    valeurs[creux],
+                    "o",
+                    markerfacecolor="white",
+                    markeredgecolor=gvf_style.OKABE_ITO[0],
+                    label="coût écrêté, minorant",
+                )
+            ax.axhline(0.0, color=gvf_style.GRIS, linewidth=0.9, linestyle=":")
+            if breakeven_aum is not None and breakeven_aum > 0.0:
+                ax.axvline(breakeven_aum, color=gvf_style.OKABE_ITO[3], linewidth=1.1, linestyle="--")
+            if half_sharpe_aum is not None:
+                ax.axvline(half_sharpe_aum, color=gvf_style.OKABE_ITO[2], linewidth=1.0, linestyle="-.")
+            if capacity_aum is not None and capacity_aum > 0.0 and capacity_aum != breakeven_aum:
+                ax.axvline(capacity_aum, color="black", linewidth=1.2, linestyle="-")
+            ax.set_xscale("log")
+            ax.xaxis.set_major_formatter(mpl.ticker.FuncFormatter(_millions))
+            ax.yaxis.set_major_formatter(gvf_style.formateur(2 if colonne == "sharpe_net" else 1))
+            ax.set_ylabel(etiquette)
+        if creux.any():
+            haut.legend(loc="upper right", frameon=False)
+        bas.set_xlabel(f"Capital géré (millions de {currency}, échelle logarithmique)")
+        if title is None:
+            if breakeven_aum is None:
+                lecture = "le rendement net reste positif sur toute la grille"
+            elif breakeven_aum <= 0.0:
+                lecture = "le rendement net est déjà négatif à taille nulle"
+            else:
+                lecture = f"le rendement net s'annule vers {gvf_style.fr(breakeven_aum / 1e6, 0)} M{currency}"
+            title = f"Capacité modélisée sur {len(aums)} tailles, {lecture}"
+            if capacity_aum is not None and capacity_aum > 0.0 and capacity_aum != breakeven_aum:
+                title += f", capacité retenue {gvf_style.fr(capacity_aum / 1e6, 2)} M{currency}"
+        haut.set_title(title)
+    return fig, tracee
+
+
+def _annees(frame: pd.DataFrame) -> np.ndarray:
+    """Rend l'index d'un tableau annuel en entiers, ou lève ``ConfigError``."""
+    try:
+        return np.asarray(frame.index, dtype=int)
+    except (TypeError, ValueError) as exc:
+        raise ConfigError("un tableau de rendements annuels est indexé par année entière") from exc
+
+
+def annual_returns_lines(
+    frame: pd.DataFrame,
+    *,
+    highlight: str,
+    title: str | None = None,
+    figsize: tuple[float, float] = (10.0, 5.5),
+) -> tuple[Figure, pd.DataFrame]:
+    r"""Trace les rendements annuels de plusieurs fonds, l'un d'eux mis en avant.
+
+    **Le problème.** Les grands fonds fermés ne publient qu'un chiffre par an.
+    Une stratégie de laboratoire doit se lire à côté d'eux, sans que la figure
+    fasse croire à une série mensuelle qui n'existe pas.
+
+    **L'intuition.** Une ligne par fonds, un point par année rapportée, et la
+    série mise en avant en noir épais. Les trous des fonds restent des trous.
+
+    .. math::
+
+        R_{a} = \prod_{t \in a} (1 + r_t) - 1
+
+    **Les variables.** :math:`R_a` le rendement de l'année civile :math:`a`,
+    en fraction dans le tableau et en pour cent sur l'axe.
+
+    **Les hypothèses.** Le tableau est indexé par année entière, une colonne
+    par fonds, les manquants marquant les années non trouvées.
+
+    **La provenance.** Aucune ; c'est la lecture directe d'un tableau annuel.
+
+    **Les limites.** Une ligne relie deux années rapportées même si celles
+    d'entre elles manquent, et le lecteur doit le savoir ; le titre le dit.
+
+    **Les alternatives.** La carte de chaleur d':func:`annual_returns_heatmap`,
+    qui ne relie rien.
+
+    **Pourquoi cette forme ici.** C'est la figure qu'un lecteur demande en
+    premier, et elle montre d'un coup l'échelle des rendements de chacun.
+
+    **Comment vérifier.** Le tableau rendu est celui qui a été tracé.
+
+    Args:
+        frame: les rendements annuels en fraction, indexés par année.
+        highlight: la colonne mise en avant.
+        title: un titre imposé. Sans lui, le titre est déduit des données.
+        figsize: la taille de la figure, en pouces.
+
+    Returns:
+        La figure, et le tableau tracé.
+
+    Raises:
+        ConfigError: la colonne mise en avant n'existe pas, ou l'index n'est
+            pas une année entière.
+    """
+    if highlight not in frame.columns:
+        raise ConfigError(f"la colonne mise en avant {highlight!r} n'est pas dans le tableau")
+    frame = frame.sort_index()
+    annees = _annees(frame)
+    with portfolio_style():
+        fig, ax = _nouvelle_figure(figsize)
+        rang = 0
+        for nom in frame.columns:
+            serie = frame[nom].to_numpy(dtype=float) * 100.0
+            if nom == highlight:
+                ax.plot(annees, serie, color="black", linewidth=2.6, marker="o", label=str(nom), zorder=5)
+            else:
+                couleur = gvf_style.OKABE_ITO[rang % len(gvf_style.OKABE_ITO)]
+                style = "-" if rang < len(gvf_style.OKABE_ITO) else "--"
+                ax.plot(
+                    annees, serie, color=couleur, linewidth=1.1, linestyle=style, marker=".", label=str(nom)
+                )
+                rang += 1
+        ax.axhline(0.0, color=gvf_style.GRIS, linewidth=0.9, linestyle=":")
+        ax.yaxis.set_major_formatter(gvf_style.formateur(0))
+        ax.set_ylabel("Rendement annuel net (%)")
+        ax.set_xlabel("Année civile")
+        ax.legend(loc="center left", bbox_to_anchor=(1.01, 0.5), frameon=False, fontsize=BASE_FONT_SIZE - 2.0)
+        if title is None:
+            autres = len(frame.columns) - 1
+            title = (
+                f"Rendements annuels de {highlight} et de {autres} fonds, "
+                f"{int(annees.min())}-{int(annees.max())}, chiffres des fonds rapportés"
+            )
+        ax.set_title(title)
+    return fig, frame.copy()
+
+
+def annual_returns_heatmap(
+    frame: pd.DataFrame,
+    *,
+    highlight: str,
+    title: str | None = None,
+    figsize: tuple[float, float] = (9.0, 8.0),
+) -> tuple[Figure, pd.DataFrame]:
+    r"""Dessine les rendements annuels en carte de chaleur, années en lignes, fonds en colonnes.
+
+    **Le problème.** Dix fonds sur trente ans font trois cents cases, et une
+    figure à lignes n'en montre plus rien. La carte garde chaque case lisible,
+    et une année non trouvée y reste blanche.
+
+    **L'intuition.** Une rampe divergente centrée sur zéro, bornée au
+    quatre-vingt-quinzième centile des valeurs absolues pour qu'une seule
+    année extrême n'efface pas les autres ; chaque case porte son chiffre
+    exact.
+
+    .. math::
+
+        v_{\max} = Q_{0{,}95}\left(|R_{a,f}|\right)
+
+    **Les variables.** :math:`R_{a,f}` le rendement de l'année :math:`a` du
+    fonds :math:`f`, en fraction.
+
+    **Les hypothèses.** Le tableau est indexé par année entière ; la colonne
+    mise en avant est placée en premier.
+
+    **La provenance.** Aucune ; convention de lecture.
+
+    **Les limites.** La couleur sature au-delà de la borne, et seule
+    l'annotation dit la vraie valeur de la case.
+
+    **Les alternatives.** La figure à lignes d':func:`annual_returns_lines`.
+
+    **Pourquoi cette forme ici.** Elle montre les trous, et c'est ce que le
+    registre des fonds fermés a de plus honnête à montrer.
+
+    **Comment vérifier.** Le tableau rendu est celui qui a été tracé, la
+    colonne mise en avant en tête.
+
+    Args:
+        frame: les rendements annuels en fraction, indexés par année.
+        highlight: la colonne placée en premier.
+        title: un titre imposé. Sans lui, le titre est déduit des données.
+        figsize: la taille de la figure, en pouces.
+
+    Returns:
+        La figure, et le tableau tracé, colonnes réordonnées.
+
+    Raises:
+        ConfigError: la colonne mise en avant n'existe pas, ou l'index n'est
+            pas une année entière.
+    """
+    if highlight not in frame.columns:
+        raise ConfigError(f"la colonne mise en avant {highlight!r} n'est pas dans le tableau")
+    frame = frame.sort_index()
+    annees = _annees(frame)
+    ordre = [highlight, *[c for c in frame.columns if c != highlight]]
+    table = frame.loc[:, ordre].copy()
+    table.index = pd.Index(annees, name="year")
+    absolues = np.abs(table.to_numpy(dtype=float))
+    finies = absolues[np.isfinite(absolues)]
+    borne = float(np.percentile(finies, 95)) if finies.size else 1.0
+    borne = max(borne, 1e-6)
+    with portfolio_style():
+        fig, ax = _nouvelle_figure(figsize)
+        image = _carte_de_chaleur(
+            ax,
+            table,
+            vmin=-borne,
+            vmax=borne,
+            colormap=DIVERGING_COLORMAP,
+            annoter=True,
+            decimales=0,
+            facteur=100.0,
+        )
+        ax.set_xticklabels([str(c) for c in table.columns], rotation=45, ha="right")
+        barre = fig.colorbar(image, ax=ax, fraction=0.04, pad=0.02)
+        barre.set_label("Rendement annuel net (%), couleur bornée au 95e centile")
+        barre.formatter = mpl.ticker.FuncFormatter(lambda v, _p: gvf_style.fr(v * 100.0, 0))
+        barre.update_ticks()
+        if title is None:
+            title = (
+                f"Rendements annuels, {len(table.columns)} colonnes, "
+                f"{int(annees.min())}-{int(annees.max())}, case blanche = année non trouvée"
+            )
+        ax.set_title(title)
+    return fig, table
+
+
+def correlation_bars(
+    table: pd.DataFrame,
+    *,
+    value_col: str = "correlation",
+    lo_col: str = "corr_lo",
+    hi_col: str = "corr_hi",
+    label_col: str = "fund",
+    n_col: str = "n_years",
+    title: str | None = None,
+    figsize: tuple[float, float] = (8.0, 5.0),
+) -> tuple[Figure, pd.DataFrame]:
+    r"""Trace des corrélations en barres horizontales, avec leur intervalle de confiance.
+
+    **Le problème.** Une corrélation sur huit années porte une incertitude
+    énorme, et la publier sans son intervalle fait lire du bruit comme un
+    lien.
+
+    **L'intuition.** Une barre par fonds, triée, et un trait qui va de la borne
+    basse à la borne haute de l'intervalle de Fisher. Une barre dont le trait
+    traverse zéro ne prouve rien, et cela se voit.
+
+    .. math::
+
+        \left[\tanh(z - q/\sqrt{n-3}),\ \tanh(z + q/\sqrt{n-3})\right]
+
+    **Les variables.** :math:`z` la corrélation transformée, :math:`n` le
+    nombre d'années communes, :math:`q` le quantile normal.
+
+    **Les hypothèses.** Le tableau vient de
+    :func:`quantlab.analytics.comparison.annual_comparison_table`.
+
+    **La provenance.** Fisher (1915) pour l'intervalle ; convention de lecture
+    pour la figure.
+
+    **Les limites.** Un fonds sans corrélation calculable, faute d'années,
+    est dessiné sans barre, avec son nombre d'années dans l'étiquette.
+
+    **Les alternatives.** Un nuage de points par fonds, plus fidèle et moins
+    lisible à dix fonds.
+
+    **Pourquoi cette forme ici.** L'intervalle est la figure ; la barre
+    n'est que son centre.
+
+    **Comment vérifier.** Le tableau rendu est le tableau trié qui a été
+    tracé.
+
+    Args:
+        table: une ligne par fonds, avec la corrélation, ses bornes, son
+            étiquette et son nombre d'années.
+        value_col: la colonne de la corrélation.
+        lo_col: la colonne de la borne basse.
+        hi_col: la colonne de la borne haute.
+        label_col: la colonne de l'étiquette.
+        n_col: la colonne du nombre d'années.
+        title: un titre imposé. Sans lui, le titre est déduit des données.
+        figsize: la taille de la figure, en pouces.
+
+    Returns:
+        La figure, et le tableau trié tracé.
+
+    Raises:
+        ConfigError: une colonne exigée manque.
+    """
+    exigees = {value_col, lo_col, hi_col, label_col, n_col}
+    if not exigees <= set(table.columns):
+        raise ConfigError(f"le tableau doit porter {sorted(exigees)}, reçu {list(table.columns)}")
+    triee = table.sort_values(value_col, na_position="first").reset_index(drop=True)
+    valeurs = triee[value_col].to_numpy(dtype=float)
+    bas = triee[lo_col].to_numpy(dtype=float)
+    haut = triee[hi_col].to_numpy(dtype=float)
+    etiquettes = [f"{lab} ({int(n)} années)" for lab, n in zip(triee[label_col], triee[n_col], strict=True)]
+    with portfolio_style():
+        fig, ax = _nouvelle_figure(figsize)
+        positions = np.arange(len(triee))
+        finies = np.isfinite(valeurs)
+        ax.barh(positions[finies], valeurs[finies], color=gvf_style.OKABE_ITO[0], height=0.6)
+        for i in positions[finies]:
+            if np.isfinite(bas[i]) and np.isfinite(haut[i]):
+                ax.plot([bas[i], haut[i]], [i, i], color="black", linewidth=1.2)
+        ax.axvline(0.0, color=gvf_style.GRIS, linewidth=0.9, linestyle=":")
+        ax.set_yticks(positions)
+        ax.set_yticklabels(etiquettes)
+        ax.set_xlim(-1.0, 1.0)
+        ax.xaxis.set_major_formatter(gvf_style.formateur(1))
+        ax.set_xlabel("Corrélation des rendements annuels, trait = intervalle de Fisher à 95 %")
+        if title is None:
+            etablies = int(np.sum(np.isfinite(bas) & (bas > 0.0)))
+            title = f"Corrélations annuelles avec {len(triee)} fonds, {etablies} co-mouvement(s) établi(s)"
+        ax.set_title(title)
+    return fig, triee

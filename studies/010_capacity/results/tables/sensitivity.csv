@@ -1,0 +1,7 @@
+strategy,case,coefficient,execution_days,n_periods,sharpe_reference,return_reference_annual,sharpe_at_reference_aum,retention_at_reference_aum,breakeven_aum,participation_cap_aum,capacity_aum,half_sharpe_aum,breakeven_check_mean_net,breakeven_clipped,binding_assets
+tsmom,coefficient_0.5,0.5,1,234,0.3347476369,0.05758694649,0.2721989097,0.8131466206,176036733.6,84940.30969,84940.30969,,0.003816760864,True,FXF 8.04e-07; FXA 1.18e-06; FXB 9.83e-07; FXY 1.63e-07; SHY 9.8e-08
+tsmom,coefficient_2.0,2,1,234,0.3347476369,0.05758694649,0.08061714664,0.2408296214,11002295.85,84940.30969,84940.30969,100000000,0.002333597193,True,FXF 8.04e-07; FXA 1.18e-06; FXB 9.83e-07; FXY 1.63e-07; SHY 9.8e-08
+tsmom,execution_days_5,1,5,234,0.3347476369,0.05758694649,0.238076488,0.7112118557,220045917,424701.5485,424701.5485,,0.003171155669,True,FXF 1.61e-07; FXA 2.35e-07; FXB 1.97e-07; FXY 3.27e-08; SHY 1.96e-08
+statarb,coefficient_0.5,0.5,1,7672,-0.3057050616,-0.03726007575,-3.612976397,11.81850368,0,3256125.222,0,,,False,PKG 6.55e-09; GPC 1.27e-08; ES 1.76e-08; SJM 9.59e-09; KIM 1.09e-08
+statarb,coefficient_2.0,2,1,7672,-0.3057050616,-0.03726007575,-11.76973562,38.50029685,0,3256125.222,0,,,False,PKG 6.55e-09; GPC 1.27e-08; ES 1.76e-08; SJM 9.59e-09; KIM 1.09e-08
+statarb,execution_days_5,1,5,7672,-0.3057050616,-0.03726007575,-3.650381336,11.94085998,0,16280626.11,0,,,False,PKG 1.31e-09; GPC 2.54e-09; ES 3.52e-09; SJM 1.92e-09; KIM 2.19e-09

@@ -4,7 +4,7 @@ Une étude est une réplication académique autonome à la lecture et dépendant
 calcul. Elle se lit sans connaître les autres, et elle appelle le ratio de
 Sharpe du paquet partagé plutôt que le sien.
 
-## Ce que les huit études ont trouvé
+## Ce que les études ont trouvé
 
 | Numéro | Étude | Article | Essais | Verdict |
 |---|---|---|---:|---|
@@ -17,6 +17,7 @@ Sharpe du paquet partagé plutôt que le sien.
 | 007 | [Arbitrage statistique](007_statistical_arbitrage/) | Avellaneda et Lee (2010) | 49 | `REJECTED` |
 | 008 | [Portage](008_carry/) | Koijen, Moskowitz, Pedersen et Vrugt (2018) | 33 | `REPLICATED` |
 | 009 | [Huit sources d'alpha, un portefeuille](009_multi_strategy/) | Grinold (1989), DeMiguel et coauteurs (2009) | 20 | `REJECTED` |
+| 010 | [La capacité des deux stratégies chiffrables](010_capacity/) | Almgren et coauteurs (2005), Gatheral (2010) | 8 | `REJECTED` |
 
 Comment lire ce tableau, en quatre constats. Le premier est qu'**aucune étude
 n'atteint `ROBUST` ni `PORTFOLIO_CANDIDATE`**, donc aucune ne mérite du capital
@@ -64,6 +65,12 @@ rentabilité vaut 3,92 points de base contre les 5 que l'article lui-même suppo
 six battent la meilleure stratégie seule, mais pas la parité de risque désignée
 à l'avance, et la parité hiérarchique qui domine tout ne peut pas être retenue
 après coup.
+
+**010.** Le momentum sur fonds cotés est borné par la participation avant de
+l'être par l'impact : à un million de dollars, un rééquilibrage sur quatre
+demande plus de dix pour cent du volume d'un fonds de devises. L'arbitrage
+statistique a une capacité nulle, son brut ne couvrant pas les cinq points de
+base de l'article sur 1996-2026. Statut modélisé.
 
 ## L'arborescence d'une étude
 

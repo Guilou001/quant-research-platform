@@ -428,11 +428,27 @@ non commencé au 2026-09-01
 
 ## Nos résultats
 
-non commencé au 2026-09-01
+L'étude 010 du 2026-09-02 n'applique pas le programme d'exécution d'Almgren et
+Chriss. Elle emploie la loi d'impact en racine carrée, celle que la note
+attribue à Almgren (2005) et à Gatheral (2010), pour mesurer la capacité de
+deux stratégies. Statut modélisé, coefficient déclaré à un. Le momentum de
+série temporelle sur 28 fonds cotés a un capital d'annulation de 44,0 M$ en
+forme fermée. Mais la participation dépasse dix pour cent du volume quotidien
+dès 84 940 $, sur des fonds de devises, et c'est cette borne qui est retenue.
+L'arbitrage statistique a une capacité nulle, son brut ne couvrant pas les cinq
+points de base de demi-écart sur 1996-2026, et l'impact y ajouterait 9,3 % par
+an au premier million.
 
 ## Notre contrôle de robustesse
 
-non commencé au 2026-09-01
+La forme fermée et le moteur se contrôlent l'un l'autre : relancé au capital
+d'annulation, le moteur rend un net moyen nul à 1e-12 quand rien n'est écrêté,
+ce qu'un test exige. Diviser le coefficient par deux multiplie le capital
+d'annulation par quatre, étaler l'exécution sur cinq séances le multiplie par
+cinq, mesuré à la quatrième décimale sur les deux stratégies. La borne par le
+plafond de participation, elle, est fragile : c'est un maximum sur tous les
+rééquilibrages, et changer le nombre de séances valides d'une fenêtre l'a
+déplacée d'un facteur cinq.
 
 ## Références
 

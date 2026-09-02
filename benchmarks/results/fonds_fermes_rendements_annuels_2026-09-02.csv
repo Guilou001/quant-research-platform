@@ -1,0 +1,82 @@
+fund,fund_label,year,return_pct,verification
+medallion,Medallion (Renaissance Technologies),1988,9.04,page
+medallion,Medallion (Renaissance Technologies),1989,-3.2,page
+medallion,Medallion (Renaissance Technologies),1990,58.24,page
+medallion,Medallion (Renaissance Technologies),1991,39.44,page
+medallion,Medallion (Renaissance Technologies),1992,33.6,page
+medallion,Medallion (Renaissance Technologies),1993,39.12,page
+medallion,Medallion (Renaissance Technologies),1994,70.72,page
+medallion,Medallion (Renaissance Technologies),1995,38.32,page
+medallion,Medallion (Renaissance Technologies),1996,31.52,page
+medallion,Medallion (Renaissance Technologies),1997,21.2,page
+medallion,Medallion (Renaissance Technologies),1998,41.68,page
+medallion,Medallion (Renaissance Technologies),1999,24.48,page
+medallion,Medallion (Renaissance Technologies),2000,98.48,page
+medallion,Medallion (Renaissance Technologies),2001,33.02,page
+medallion,Medallion (Renaissance Technologies),2002,25.82,page
+medallion,Medallion (Renaissance Technologies),2003,21.9,page
+medallion,Medallion (Renaissance Technologies),2004,24.92,page
+medallion,Medallion (Renaissance Technologies),2005,29.51,page
+medallion,Medallion (Renaissance Technologies),2006,44.3,page
+medallion,Medallion (Renaissance Technologies),2007,73.42,page
+medallion,Medallion (Renaissance Technologies),2008,82.38,page
+medallion,Medallion (Renaissance Technologies),2009,38.98,page
+medallion,Medallion (Renaissance Technologies),2010,29.4,page
+medallion,Medallion (Renaissance Technologies),2011,37.02,page
+medallion,Medallion (Renaissance Technologies),2012,29.01,page
+medallion,Medallion (Renaissance Technologies),2013,46.93,page
+medallion,Medallion (Renaissance Technologies),2014,39.2,page
+medallion,Medallion (Renaissance Technologies),2015,36.01,page
+medallion,Medallion (Renaissance Technologies),2016,35.62,page
+medallion,Medallion (Renaissance Technologies),2017,45.02,page
+medallion,Medallion (Renaissance Technologies),2018,39.98,page
+citadel_wellington,Wellington (Citadel),2008,-55.0,page
+citadel_wellington,Wellington (Citadel),2009,62.0,page
+citadel_wellington,Wellington (Citadel),2018,9.1,resume
+citadel_wellington,Wellington (Citadel),2019,19.4,resume
+citadel_wellington,Wellington (Citadel),2020,24.4,page
+citadel_wellington,Wellington (Citadel),2021,26.0,resume
+citadel_wellington,Wellington (Citadel),2022,38.0,page
+citadel_wellington,Wellington (Citadel),2023,15.3,titre
+citadel_wellington,Wellington (Citadel),2024,15.1,resume
+citadel_wellington,Wellington (Citadel),2025,10.2,page
+de_shaw_composite,Composite (D.E. Shaw),2019,10.4,page
+de_shaw_composite,Composite (D.E. Shaw),2020,19.4,page
+de_shaw_composite,Composite (D.E. Shaw),2021,18.8,resume
+de_shaw_composite,Composite (D.E. Shaw),2022,24.7,titre
+de_shaw_composite,Composite (D.E. Shaw),2023,9.6,resume
+de_shaw_composite,Composite (D.E. Shaw),2024,18.0,titre
+de_shaw_composite,Composite (D.E. Shaw),2025,18.5,page
+de_shaw_oculus,Oculus (D.E. Shaw),2019,11.7,page
+de_shaw_oculus,Oculus (D.E. Shaw),2020,25.4,page
+de_shaw_oculus,Oculus (D.E. Shaw),2024,36.1,titre
+de_shaw_oculus,Oculus (D.E. Shaw),2025,28.2,page
+millennium,Millennium International (Millennium Management),2022,12.0,resume
+millennium,Millennium International (Millennium Management),2023,10.0,titre
+millennium,Millennium International (Millennium Management),2024,15.0,page
+millennium,Millennium International (Millennium Management),2025,10.5,page
+bridgewater_pure_alpha,Pure Alpha (Bridgewater Associates),2018,14.6,page
+bridgewater_pure_alpha,Pure Alpha (Bridgewater Associates),2019,0.5,page
+bridgewater_pure_alpha,Pure Alpha (Bridgewater Associates),2023,-7.6,titre
+bridgewater_pure_alpha,Pure Alpha (Bridgewater Associates),2024,11.3,resume
+bridgewater_pure_alpha,Pure Alpha (Bridgewater Associates),2025,34.0,page
+aqr_apex,Apex (AQR Capital Management),2024,15.1,titre
+aqr_apex,Apex (AQR Capital Management),2025,19.6,page
+tci,TCI Master Fund (TCI Fund Management),2017,29.0,page
+tci,TCI Master Fund (TCI Fund Management),2019,41.0,resume
+tci,TCI Master Fund (TCI Fund Management),2020,14.0,resume
+tci,TCI Master Fund (TCI Fund Management),2022,-18.0,resume
+tci,TCI Master Fund (TCI Fund Management),2023,33.0,titre
+tci,TCI Master Fund (TCI Fund Management),2024,15.0,resume
+tci,TCI Master Fund (TCI Fund Management),2025,27.0,resume
+elliott,Elliott Associates (Elliott Investment Management),2022,5.9,resume
+elliott,Elliott Associates (Elliott Investment Management),2023,4.7,resume
+point72,Point72 (Point72 Asset Management),2020,16.0,resume
+point72,Point72 (Point72 Asset Management),2021,9.2,resume
+point72,Point72 (Point72 Asset Management),2023,10.6,resume
+point72,Point72 (Point72 Asset Management),2024,19.0,resume
+point72,Point72 (Point72 Asset Management),2025,17.5,page
+balyasny,Atlas Enhanced (Balyasny Asset Management),2022,10.0,resume
+balyasny,Atlas Enhanced (Balyasny Asset Management),2023,2.4,resume
+balyasny,Atlas Enhanced (Balyasny Asset Management),2024,13.6,resume
+balyasny,Atlas Enhanced (Balyasny Asset Management),2025,16.7,page

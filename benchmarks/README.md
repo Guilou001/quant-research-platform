@@ -77,6 +77,70 @@ l'argent là où le facteur en gagne, avec un alpha de -8,16 % par an qui est le
 prix de sa construction en dollars égaux et de ses 245 points de base de frais.
 
 Ce que ce tableau n'établit pas : il compare des facteurs PUBLIÉS aux fonds, pas
-encore nos propres reconstructions. Les huit études n'ont pas enregistré leurs
-séries de rendements mensuels, et c'est la première correction de la phase
-suivante.
+nos propres reconstructions. Celles-ci sont enregistrées depuis le 2026-09-02
+dans le `results/series/` de chaque étude, et l'étude 009 compare son
+portefeuille à QSPIX par le même module : corrélation 0,341, lecture
+« distinct ».
+
+## Les grands fonds fermés, sur rendements annuels rapportés
+
+Les fonds qui dominent le classement du secteur, Medallion, Wellington,
+Composite, Millennium ou Pure Alpha, ne vendent pas leur part et ne publient
+aucune série de rendements. Ce qui existe est annuel, rapporté par la presse ou
+par un livre, et souvent contradictoire d'une source à l'autre. Le registre
+`hedge_funds.yaml` porte ces chiffres, année par année, avec la source de chacun
+et le degré de vérification atteint le 2026-09-02 : 51 valeurs lues à la source,
+8 lues dans le seul titre d'un article, 22 tirées d'un résumé de recherche. Une
+année absente est une année non trouvée, jamais une année à zéro.
+
+La comparaison est faite par `compare_hedge_funds.py` contre la parité de risque
+de l'étude 009, la référence déclarée avant tout calcul, nette de coûts de
+transaction et brute de frais de gestion. Fichiers :
+`results/fonds_fermes_contre_portefeuille_009_2026-09-02.csv`,
+`results/fonds_fermes_rendements_annuels_2026-09-02.csv` et les quatre figures
+de `results/figures/fonds_fermes_*`.
+
+Quatre choses à savoir avant de lire le tableau. La comparaison porte sur des
+années civiles COMMUNES, et il y en a peu : neuf avec Medallion, sept avec
+Wellington, six avec Composite. Une corrélation sur sept points porte un
+intervalle de confiance qui couvre presque tout, et il est écrit à côté. Les
+fonds sont nets de frais, le portefeuille du laboratoire ne l'est pas. Le
+portefeuille tourne à 3,6 % de volatilité annualisée, mesuré, quand ces fonds en
+portent de 6 à 20 % ; la colonne « à 10 % de volatilité » met le rendement à
+l'échelle par un facteur constant, statut modélisé, sans rien changer au ratio
+de Sharpe. Enfin, l'année 2020 manque au portefeuille : la série de portage de
+change de l'étude 008 n'a pas d'avril 2020, l'intersection de l'étude 009 a donc
+onze mois cette année-là, et une année incomplète n'est pas comparée. Ce trou
+est un défaut à corriger dans l'étude 008.
+
+| Fonds | Années communes | Corrélation annuelle | Intervalle à 95 % | Moyenne du fonds | Moyenne du laboratoire | Même chose à 10 % de vol. | Pire année du fonds | Lecture |
+|---|---:|---:|---|---:|---:|---:|---:|---|
+| Medallion (Renaissance) | 9, 2010-2018 | 0,38 | -0,38 à 0,83 | 37,6 % | 3,5 % | 9,8 % | 29,0 % | aucun co-mouvement établi |
+| Wellington (Citadel) | 7, 2018-2025 | **0,79** | 0,10 à 0,97 | 19,0 % | 1,3 % | 3,4 % | 9,1 % | co-mouvement établi |
+| Composite (D.E. Shaw) | 6, 2019-2025 | 0,76 | -0,14 à 0,97 | 16,7 % | 1,2 % | 3,1 % | 9,6 % | aucun co-mouvement établi |
+| Pure Alpha (Bridgewater) | 5, 2018-2025 | 0,24 | -0,81 à 0,93 | 10,6 % | -0,2 % | -1,0 % | -7,6 % | aucun co-mouvement établi |
+| TCI Master Fund | 6, 2017-2025 | -0,62 | -0,95 à 0,38 | 21,2 % | 1,8 % | 5,0 % | -18,0 % | aucun co-mouvement établi |
+| Millennium, Point72, Balyasny | 4 chacun | non publiée | | 10,7 à 14,1 % | | | | trop peu d'années |
+| Oculus, Apex, Elliott | 2 à 3 | non publiée | | | | | | trop peu d'années |
+
+Statut : moyennes des fonds rapportées ; moyennes du laboratoire mesurées sur
+les années communes ; colonne à 10 % de volatilité modélisée.
+
+Comment lire ce tableau, en quatre constats. Le premier est que le portefeuille
+du laboratoire n'est pas dans la même catégorie que ces fonds, et que la mise à
+l'échelle ne l'y met pas : à 10 % de volatilité il rend 7,1 % par an en moyenne
+sur 2010-2025, contre 37,6 % pour Medallion net de frais sur 2010-2018, dont
+Cornell (2019) rapporte un ratio de Sharpe supérieur à 2 quand le nôtre vaut
+0,65. Le deuxième est que le seul co-mouvement dont l'intervalle exclut zéro
+est celui avec Wellington, 0,79 sur sept années, et que sa borne basse est à
+0,10 : c'est un indice, pas une preuve. Le troisième est que le portefeuille
+ne bat aucun de ces fonds une seule année sur les années communes, sauf
+Pure Alpha deux années sur cinq et TCI une sur six, les deux fonds qui ont
+connu une année négative. Le quatrième est que la corrélation négative avec
+TCI, un fonds d'actions concentré, dit ce que le portefeuille est : un panier
+de facteurs neutres au marché, qui ne monte pas quand les actions montent.
+
+Ce que la comparaison n'établit pas : rien sur la trajectoire mensuelle, que
+ces fonds ne publient pas, et rien de robuste sur moins de dix années communes.
+Les repères solides restent les fonds cotés de `funds.yaml`, dont la série
+mensuelle est mesurée.

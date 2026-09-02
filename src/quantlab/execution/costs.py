@@ -88,6 +88,7 @@ __all__ = [
     "SqrtImpactModel",
     "breakeven_cost_bps",
     "from_config",
+    "signed_trades",
 ]
 
 _LOG = get_logger(__name__)
@@ -324,6 +325,29 @@ def _signed_trades(
     base = _reference_weights(previous, context)
     universe = base.index.union(target.index)
     return target.reindex(universe, fill_value=0.0) - base.reindex(universe, fill_value=0.0)
+
+
+def signed_trades(
+    previous: Weights,
+    target: Weights,
+    context: pd.DataFrame | None = None,
+) -> pd.Series:
+    """Rend la variation signée de chaque poids, la définition partagée des modèles.
+
+    C'est la même transaction que celle que chaque modèle de coût facture. Elle
+    est exposée pour que la capacité, qui a besoin de la participation par
+    actif, ne réécrive pas la règle de dérive.
+
+    Args:
+        previous: les poids détenus avant le rééquilibrage.
+        target: les poids visés.
+        context: le tableau de contexte, ou ``None``.
+
+    Returns:
+        Une série indexée par l'union des deux univers, positive à l'achat et
+        négative à la vente.
+    """
+    return _signed_trades(previous, target, context)
 
 
 def _traded_fraction(

@@ -1,0 +1,229 @@
+{
+  "n_trials": 8,
+  "status": "modélisé",
+  "strategies": {
+    "tsmom": {
+      "sharpe_reference": 0.3347476368679361,
+      "return_reference_annual": 0.0575869464944407,
+      "gross_mean_per_period": 0.005408883888269306,
+      "spread_mean_per_period": 0.000609971680399248,
+      "impact_load_mean_unit_aum": 7.233877496562032e-07,
+      "breakeven_aum": 44009183.39893716,
+      "breakeven_check_mean_net": 0.0031711556688557145,
+      "breakeven_clipped": true,
+      "binding_assets": [
+        [
+          "FXF",
+          8.044448456662111e-07
+        ],
+        [
+          "FXA",
+          1.1772973322237099e-06
+        ],
+        [
+          "FXB",
+          9.832170987656044e-07
+        ],
+        [
+          "FXY",
+          1.632661779426904e-07
+        ],
+        [
+          "SHY",
+          9.801362252165019e-08
+        ]
+      ],
+      "participation_cap_aum": 84940.30969314897,
+      "capacity_aum": 84940.30969314897,
+      "half_sharpe_aum": 3343014035.3666687,
+      "frequency": "monthly",
+      "coefficient": 1.0,
+      "execution_days": 1,
+      "participation_cap": 0.1,
+      "n_periods": 234,
+      "status": "modélisé",
+      "notes": [
+        "la participation dépasse le plafond avant le capital d'annulation : le moteur y écrête le coût, le net rendu y est optimiste, et la capacité retenue est le capital où le plafond est atteint"
+      ],
+      "hypothesis_supported": false,
+      "universe": "28 fonds négociés en bourse, quatre classes d'actifs, substituts aux contrats à terme",
+      "window": {
+        "start": "2007-01-31",
+        "end": "2026-06-30"
+      },
+      "spread_bps": 4.0,
+      "manifests": [
+        {
+          "dataset_id": "yahoo-28titres-1d-1993-01-01-2026-06-30",
+          "source": "Yahoo Finance",
+          "provider": "yahoo",
+          "url": "https://finance.yahoo.com",
+          "download_timestamp": "2026-09-02T22:31:28.703669Z",
+          "data_start": "1993-01-01",
+          "data_end": "2026-06-30",
+          "frequency": "daily",
+          "timezone": "",
+          "exchange": null,
+          "currency": "",
+          "adjusted": true,
+          "point_in_time": false,
+          "survivorship_free": false,
+          "corporate_actions": "auto_adjust=True : dividendes et divisions appliqués rétroactivement au close, et adj_close recopie ce close déjà corrigé",
+          "revision_policy": "les prix ajustés sont recalculés à chaque dividende, donc une même requête rend des valeurs différentes dans le temps",
+          "license": "Yahoo, usage personnel",
+          "license_url": null,
+          "checksum_sha256": "5f1b4898244af2b472127fdeb97758bdbc690a5a50d6be05ffad289e847769af",
+          "n_rows": 167973,
+          "n_columns": 8,
+          "columns": [
+            "date",
+            "symbol",
+            "open",
+            "high",
+            "low",
+            "close",
+            "adj_close",
+            "volume"
+          ],
+          "processing_version": "quantlab.data.providers.yahoo/1",
+          "layer": "bronze",
+          "parent_datasets": [],
+          "notes": "Biais de survie : les titres radiés, fusionnés ou faillis ne sont pas rendus, si bien qu'un univers reconstruit aujourd'hui ne contient que des survivants. Aucun calendrier point-in-time des indices : la composition passée d'un indice n'est pas connaissable, donc une sélection « les titres du S&P 500 en 2005 » se fabrique avec la liste d'aujourd'hui, ce qui est une fuite. Ajustements rétroactifs : chaque dividende et chaque division réécrivent toute l'histoire des prix ajustés, donc un résultat n'est pas reproductible à la virgule sans conserver l'extraction datée. Aucun carnet d'ordres : ni écart acheteur-vendeur, ni profondeur, ni horodatage de transaction, donc aucun coût d'exécution ne se mesure sur cette source.",
+          "manifest_version": "1"
+        },
+        {
+          "dataset_id": "french-F-F_Research_Data_Factors-primary",
+          "source": "Kenneth R. French data library, Tuck School of Business, Dartmouth",
+          "provider": "french",
+          "url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/F-F_Research_Data_Factors_CSV.zip",
+          "download_timestamp": "2026-09-02T15:04:33.283718Z",
+          "data_start": "1926-07-31",
+          "data_end": "2026-06-30",
+          "frequency": "monthly",
+          "timezone": "America/New_York",
+          "exchange": null,
+          "currency": "USD",
+          "adjusted": true,
+          "point_in_time": false,
+          "survivorship_free": true,
+          "corporate_actions": "rendements CRSP ajustés des divisions et incluant les dividendes réinvestis",
+          "revision_policy": "série entièrement republiée à chaque millésime de CRSP, révisions rétroactives comprises, sans conservation des millésimes précédents par la source",
+          "license": "usage académique, citation demandée ; données de Kenneth R. French, copyright Eugene F. Fama et Kenneth R. French",
+          "license_url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html",
+          "checksum_sha256": "cd6d8e0d175b6f423862a6ad15a3073a6e4264b52b2ac9262396c79f707c6bcb",
+          "n_rows": 1200,
+          "n_columns": 4,
+          "columns": [
+            "MKT-RF",
+            "SMB",
+            "HML",
+            "RF"
+          ],
+          "processing_version": "french-1.0.0",
+          "layer": "bronze",
+          "parent_datasets": [],
+          "notes": "Les trois facteurs de Fama et French (1993), mensuels puis annuels.",
+          "manifest_version": "1"
+        }
+      ]
+    },
+    "statarb": {
+      "sharpe_reference": -0.3057050616221518,
+      "return_reference_annual": -0.03726007574542434,
+      "gross_mean_per_period": 0.0005350974613596086,
+      "spread_mean_per_period": 0.0006829549047938322,
+      "impact_load_mean_unit_aum": 3.676585355550662e-07,
+      "breakeven_aum": 0.0,
+      "breakeven_check_mean_net": null,
+      "breakeven_clipped": false,
+      "binding_assets": [
+        [
+          "PKG",
+          6.552735711188571e-09
+        ],
+        [
+          "GPC",
+          1.2700800474886173e-08
+        ],
+        [
+          "ES",
+          1.762043919608906e-08
+        ],
+        [
+          "SJM",
+          9.594875723366065e-09
+        ],
+        [
+          "KIM",
+          1.0931834903107905e-08
+        ]
+      ],
+      "participation_cap_aum": 3256125.2215952477,
+      "capacity_aum": 0.0,
+      "half_sharpe_aum": null,
+      "frequency": "daily",
+      "coefficient": 1.0,
+      "execution_days": 1,
+      "participation_cap": 0.1,
+      "n_periods": 7672,
+      "status": "modélisé",
+      "notes": [
+        "dernier volume connu prêté sur 0.55% des rééquilibrages, sorties de cote à cotations fantômes",
+        "l'alpha net de demi-écart est déjà négatif : la capacité vaut zéro"
+      ],
+      "hypothesis_supported": false,
+      "universe": "grandes capitalisations américaines via Yahoo, biais de survie déclaré, règle de l'article",
+      "window": {
+        "start": "1995-01-04",
+        "end": "2026-06-30"
+      },
+      "spread_bps": 5.0,
+      "manifests": [
+        {
+          "dataset_id": "yahoo-225titres-1d-1995-01-01-2026-06-30",
+          "source": "Yahoo Finance",
+          "provider": "yahoo",
+          "url": "https://finance.yahoo.com",
+          "download_timestamp": "2026-09-02T22:32:49.237859Z",
+          "data_start": "1995-01-01",
+          "data_end": "2026-06-30",
+          "frequency": "daily",
+          "timezone": "",
+          "exchange": null,
+          "currency": "",
+          "adjusted": true,
+          "point_in_time": false,
+          "survivorship_free": false,
+          "corporate_actions": "auto_adjust=False : close brut, adj_close corrigé des dividendes et des divisions, l'écart entre les deux colonnes mesurant l'effet cumulé des détachements",
+          "revision_policy": "les prix ajustés sont recalculés à chaque dividende, donc une même requête rend des valeurs différentes dans le temps",
+          "license": "Yahoo, usage personnel",
+          "license_url": null,
+          "checksum_sha256": "1013fbe9468e76e483baa6c19d809cc95cd8c77f803924dfe46462c5c30a67cd",
+          "n_rows": 1697517,
+          "n_columns": 8,
+          "columns": [
+            "date",
+            "symbol",
+            "open",
+            "high",
+            "low",
+            "close",
+            "adj_close",
+            "volume"
+          ],
+          "processing_version": "quantlab.data.providers.yahoo/1",
+          "layer": "bronze",
+          "parent_datasets": [],
+          "notes": "Biais de survie : les titres radiés, fusionnés ou faillis ne sont pas rendus, si bien qu'un univers reconstruit aujourd'hui ne contient que des survivants. Aucun calendrier point-in-time des indices : la composition passée d'un indice n'est pas connaissable, donc une sélection « les titres du S&P 500 en 2005 » se fabrique avec la liste d'aujourd'hui, ce qui est une fuite. Ajustements rétroactifs : chaque dividende et chaque division réécrivent toute l'histoire des prix ajustés, donc un résultat n'est pas reproductible à la virgule sans conserver l'extraction datée. Aucun carnet d'ordres : ni écart acheteur-vendeur, ni profondeur, ni horodatage de transaction, donc aucun coût d'exécution ne se mesure sur cette source.",
+          "manifest_version": "1"
+        }
+      ]
+    }
+  },
+  "verdict": "REJECTED",
+  "verdict_reasons": [
+    "tsmom : ratio net 0.209 au capital de référence, rétention 0.624 ; ne tient pas",
+    "statarb : ratio net -6.748 au capital de référence, rétention 22.074 ; ne tient pas"
+  ],
+  "not_computable": "xsmom, value_mom, quality, bab, vol_managed et fx_carry tournent sur des portefeuilles de facteurs publiés sans poids par titre ni volume : capacité non calculable, déclarée."
+}

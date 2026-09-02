@@ -34,6 +34,7 @@ règle du journal qui ne se rattrape pas après coup.
 | [2026-09-01](2026-09-01-restatements-apple.md) | ce que le point-in-time change, mesuré | règle conservée, révision de 11,8 % trouvée |
 | [2026-09-02](2026-09-02-phase-4.md) | huit réplications, aucune retenue | le parcours de validation est conservé |
 | [2026-09-02](2026-09-02-phases-5-7.md) | huit stratégies rejetées, combinées | la diversification travaille, la référence déclarée tient |
+| [2026-09-02](2026-09-02-phase-6-capacite.md) | la capacité des deux stratégies chiffrables, et dix fonds fermés | phase 6 close, capacité bornée par la participation ou nulle |
 
 ## Les idées rejetées
 

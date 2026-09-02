@@ -1,0 +1,24 @@
+{
+  "date": "2026-09-02",
+  "series": "portfolio_risk_parity_net",
+  "years": [
+    2010,
+    2025
+  ],
+  "n_years": 15,
+  "mean_annual": 0.0257677523780784,
+  "vol_annual": 0.03208791469855866,
+  "worst_year": -0.03369140947108884,
+  "best_year": 0.07889739538756113,
+  "sharpe_monthly_annualized": 0.6523427359607965,
+  "monthly_volatility_annualized": 0.03646420863028049,
+  "scaled_target_volatility": 0.1,
+  "scaled_mean_annual": 0.07127667295209617,
+  "scaled_worst_year": -0.09781287395685545,
+  "n_funds": 11,
+  "status": {
+    "strategy": "mesuré",
+    "scaled": "modélisé",
+    "funds": "rapporté"
+  }
+}
