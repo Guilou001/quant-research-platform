@@ -1,0 +1,13 @@
+reason
+"ÉCHOUÉ | hypothèse économique : signe attendu NON retrouvé, le signe décide du rejet"
+"RÉUSSI | signe du Sharpe hors échantillon : 0,663 mesuré, rejet à 0,000 ou moins"
+"ÉCHOUÉ | réplication de « r2_oos_mensuel_arbres_pct » : 0,483 contre 0,630 publié, écart relatif 0,234, tolérance 0,500 (absolute), soit 0,794 en relatif, plus large que la tolérance déclarée 0,100"
+"ÉCHOUÉ | réplication : 0 contrôle(s) sur 1 dans la tolérance, tous exigés"
+"RÉUSSI | Sharpe hors échantillon : 0,663 mesuré, minimum 0,500"
+"ÉCHOUÉ | t après correction pour essais multiples : 1,992 mesuré, minimum 3,000"
+"ÉCHOUÉ | Sharpe dégonflé : 0,823 mesuré, minimum 0,950"
+"RÉUSSI | probabilité de surapprentissage : 0,371 mesuré, maximum 0,500"
+"RÉUSSI | part de sous-périodes positives : 1,000 mesuré, minimum 0,600"
+"RÉUSSI | multiple de coûts survécu : 5,000 mesuré, minimum 2,000"
+"RÉUSSI | corrélation absolue avec le portefeuille existant : 0,445 mesurée, maximum 0,600"
+VERDICT | REJECTED

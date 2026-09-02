@@ -1,0 +1,301 @@
+{
+  "n_trials": 17,
+  "reference": "ridge",
+  "challenger": "gbrt",
+  "coverage": {
+    "n_dates": 133,
+    "first_date": "2015-06-30",
+    "last_date": "2026-06-30",
+    "n_entities": 1526,
+    "n_rows": 178005,
+    "n_labelled": 173934,
+    "n_features": 27,
+    "features": [
+      "gpoa",
+      "roe",
+      "roa",
+      "cfoa",
+      "gmar",
+      "acc",
+      "d_gpoa",
+      "d_roe",
+      "d_roa",
+      "d_cfoa",
+      "d_gmar",
+      "d_acc",
+      "bab",
+      "ivol",
+      "lev",
+      "o_score",
+      "z_score",
+      "evol",
+      "eiss",
+      "diss",
+      "npop",
+      "mom_12_1",
+      "rev_1",
+      "mom_36_13",
+      "vol_12",
+      "max_12",
+      "size"
+    ],
+    "mean_names_per_date": 1338.3834586466166,
+    "manifest": {
+      "dataset_id": "french-F-F_Research_Data_Factors-primary",
+      "source": "Kenneth R. French data library, Tuck School of Business, Dartmouth",
+      "provider": "french",
+      "url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/F-F_Research_Data_Factors_CSV.zip",
+      "download_timestamp": "2026-09-02T15:04:33.283718Z",
+      "data_start": "1926-07-31",
+      "data_end": "2026-06-30",
+      "frequency": "monthly",
+      "timezone": "America/New_York",
+      "exchange": null,
+      "currency": "USD",
+      "adjusted": true,
+      "point_in_time": false,
+      "survivorship_free": true,
+      "corporate_actions": "rendements CRSP ajustés des divisions et incluant les dividendes réinvestis",
+      "revision_policy": "série entièrement republiée à chaque millésime de CRSP, révisions rétroactives comprises, sans conservation des millésimes précédents par la source",
+      "license": "usage académique, citation demandée ; données de Kenneth R. French, copyright Eugene F. Fama et Kenneth R. French",
+      "license_url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html",
+      "checksum_sha256": "cd6d8e0d175b6f423862a6ad15a3073a6e4264b52b2ac9262396c79f707c6bcb",
+      "n_rows": 1200,
+      "n_columns": 4,
+      "columns": [
+        "MKT-RF",
+        "SMB",
+        "HML",
+        "RF"
+      ],
+      "processing_version": "french-1.0.0",
+      "layer": "bronze",
+      "parent_datasets": [],
+      "notes": "Les trois facteurs de Fama et French (1993), mensuels puis annuels.",
+      "manifest_version": "1"
+    }
+  },
+  "n_folds": 6,
+  "test_window": {
+    "start": "2020-06-30",
+    "end": "2026-05-31"
+  },
+  "evaluation": {
+    "ols": {
+      "family": "linear",
+      "n_configs": 1,
+      "r2_oos_pct": 0.41056753641910415,
+      "r2_oos_median_by_date_pct": 1.579467082693281,
+      "share_dates_r2_positive": 0.5555555555555556,
+      "ic_mean": -0.022013106674746635,
+      "ic_t_hac": -1.585597860194513,
+      "ic_hit_rate": 0.4305555555555556,
+      "chosen_configs": "{}"
+    },
+    "ridge": {
+      "family": "linear",
+      "n_configs": 3,
+      "r2_oos_pct": 0.41076658137505495,
+      "r2_oos_median_by_date_pct": 1.5792522690713462,
+      "share_dates_r2_positive": 0.5555555555555556,
+      "ic_mean": -0.02201415258332158,
+      "ic_t_hac": -1.5852818495781422,
+      "ic_hit_rate": 0.4305555555555556,
+      "chosen_configs": "{'alpha': 10.0}"
+    },
+    "lasso": {
+      "family": "linear",
+      "n_configs": 2,
+      "r2_oos_pct": 0.45000849490971495,
+      "r2_oos_median_by_date_pct": 1.5061305499355804,
+      "share_dates_r2_positive": 0.5694444444444444,
+      "ic_mean": -0.02035288972391542,
+      "ic_t_hac": -1.25584746456366,
+      "ic_hit_rate": 0.4722222222222222,
+      "chosen_configs": "{'alpha': 0.0001}; {'alpha': 0.001}"
+    },
+    "elastic_net": {
+      "family": "linear",
+      "n_configs": 2,
+      "r2_oos_pct": 0.44081759375639296,
+      "r2_oos_median_by_date_pct": 1.4608985613236203,
+      "share_dates_r2_positive": 0.5694444444444444,
+      "ic_mean": -0.06961983610459306,
+      "ic_t_hac": -2.288599119048399,
+      "ic_hit_rate": 0.2916666666666667,
+      "chosen_configs": "{'alpha': 0.001, 'l1_ratio': 0.5}; {'alpha': 0.01, 'l1_ratio': 0.5}"
+    },
+    "gbrt": {
+      "family": "tree",
+      "n_configs": 3,
+      "r2_oos_pct": 0.34850019178156444,
+      "r2_oos_median_by_date_pct": 0.9729081538471074,
+      "share_dates_r2_positive": 0.5555555555555556,
+      "ic_mean": -0.015881608840329752,
+      "ic_t_hac": -1.3323960840036004,
+      "ic_hit_rate": 0.4583333333333333,
+      "chosen_configs": "{'max_depth': 2, 'max_iter': 200, 'learning_rate': 0.05, 'min_samples_leaf': 100}; {'max_depth': 3, 'max_iter': 500, 'learning_rate': 0.02, 'min_samples_leaf': 100}"
+    },
+    "random_forest": {
+      "family": "tree",
+      "n_configs": 2,
+      "r2_oos_pct": 0.48281677662497247,
+      "r2_oos_median_by_date_pct": 1.0175365251350543,
+      "share_dates_r2_positive": 0.5555555555555556,
+      "ic_mean": -0.019011028671544982,
+      "ic_t_hac": -1.3565611538575209,
+      "ic_hit_rate": 0.4027777777777778,
+      "chosen_configs": "{'max_depth': 4, 'n_estimators': 200, 'min_samples_leaf': 50, 'max_features': 0.33, 'n_jobs': 4}; {'max_depth': 6, 'n_estimators': 200, 'min_samples_leaf': 50, 'max_features': 0.33, 'n_jobs': 4}"
+    }
+  },
+  "diebold_mariano": {
+    "ols": {
+      "against": "ridge",
+      "dm_statistic": -2.57714127582055,
+      "dm_pvalue": 0.009962122485062341,
+      "mean_loss_difference": -3.193887898306484e-08,
+      "n_months": 72,
+      "lags": 3
+    },
+    "lasso": {
+      "against": "ridge",
+      "dm_statistic": 0.4574462568611883,
+      "dm_pvalue": 0.6473503228134667,
+      "mean_loss_difference": 5.5841938955218945e-06,
+      "n_months": 72,
+      "lags": 3
+    },
+    "elastic_net": {
+      "against": "ridge",
+      "dm_statistic": 0.3101686422407546,
+      "dm_pvalue": 0.7564327152598445,
+      "mean_loss_difference": 4.5059065744028496e-06,
+      "n_months": 72,
+      "lags": 3
+    },
+    "gbrt": {
+      "against": "ridge",
+      "dm_statistic": -0.4540334066475154,
+      "dm_pvalue": 0.6498047824941264,
+      "mean_loss_difference": -1.0062557928178775e-05,
+      "n_months": 72,
+      "lags": 3
+    },
+    "random_forest": {
+      "against": "ridge",
+      "dm_statistic": 0.3539407614395523,
+      "dm_pvalue": 0.723383278545239,
+      "mean_loss_difference": 1.0518942414912242e-05,
+      "n_months": 72,
+      "lags": 3
+    }
+  },
+  "portfolios": {
+    "ols": {
+      "n_months": 72,
+      "start": "2020-07-31",
+      "end": "2026-06-30",
+      "return_annual_pct": 3.695048048726779,
+      "volatility_annual_pct": 20.51191241409816,
+      "sharpe": 0.27682377940081676,
+      "sharpe_se_lo": 0.34063440263819905,
+      "max_drawdown_pct": -27.868620126977838,
+      "sharpe_gross": 0.3768713597259749,
+      "turnover_annual": 10.084439018719703
+    },
+    "ridge": {
+      "n_months": 72,
+      "start": "2020-07-31",
+      "end": "2026-06-30",
+      "return_annual_pct": 3.689440562020785,
+      "volatility_annual_pct": 20.477707345795395,
+      "sharpe": 0.27667102804703436,
+      "sharpe_se_lo": 0.33960674396654944,
+      "max_drawdown_pct": -27.65063806603283,
+      "sharpe_gross": 0.3768658408413855,
+      "turnover_annual": 10.081706351253137
+    },
+    "lasso": {
+      "n_months": 72,
+      "start": "2020-07-31",
+      "end": "2026-06-30",
+      "return_annual_pct": 6.249082934635153,
+      "volatility_annual_pct": 21.616747326449982,
+      "sharpe": 0.3857802419256263,
+      "sharpe_se_lo": 0.35459219184371205,
+      "max_drawdown_pct": -26.422591473282253,
+      "sharpe_gross": 0.46852387582257193,
+      "turnover_annual": 8.704657322197722
+    },
+    "elastic_net": {
+      "n_months": 72,
+      "start": "2020-07-31",
+      "end": "2026-06-30",
+      "return_annual_pct": 6.556526568792687,
+      "volatility_annual_pct": 18.41812454743657,
+      "sharpe": 0.4347402925925247,
+      "sharpe_se_lo": 0.3900293671901238,
+      "max_drawdown_pct": -25.59958813738308,
+      "sharpe_gross": 0.47161563030389203,
+      "turnover_annual": 3.20082978814155
+    },
+    "gbrt": {
+      "n_months": 72,
+      "start": "2020-07-31",
+      "end": "2026-06-30",
+      "return_annual_pct": 10.22996168633885,
+      "volatility_annual_pct": 16.830789952079797,
+      "sharpe": 0.6628956225759848,
+      "sharpe_se_lo": 0.3326987532581358,
+      "max_drawdown_pct": -18.426037908751024,
+      "sharpe_gross": 0.7671865365549544,
+      "turnover_annual": 8.545580583512441
+    },
+    "random_forest": {
+      "n_months": 72,
+      "start": "2020-07-31",
+      "end": "2026-06-30",
+      "return_annual_pct": 10.86674678516857,
+      "volatility_annual_pct": 22.31084399245223,
+      "sharpe": 0.5716366971184412,
+      "sharpe_se_lo": 0.37024539890502034,
+      "max_drawdown_pct": -30.092191811430425,
+      "sharpe_gross": 0.6313589477604541,
+      "turnover_annual": 6.609502652543881
+    }
+  },
+  "surviving_cost_multiple": 5.0,
+  "importance_top5": {
+    "vol_12": 0.0012681149293504613,
+    "lev": 0.0005755253529371451,
+    "z_score": 0.00015365655113031007,
+    "max_12": 0.00010634945154908149,
+    "d_acc": 6.900697061391625e-05
+  },
+  "validation": {
+    "challenger_sharpe_net": 0.6628956225759848,
+    "challenger_tstat": 1.9924800321137794,
+    "reference_sharpe_net": 0.27667102804703436,
+    "pbo": 0.37142857142857144,
+    "deflated_sharpe": 0.8230815391458295,
+    "positive_subperiod_share": 1.0,
+    "correlation_with_009_risk_parity": -0.4454508450593393,
+    "n_oos_months": 72
+  },
+  "hypothesis_supported": false,
+  "verdict": "REJECTED",
+  "verdict_reasons": [
+    "ÉCHOUÉ | hypothèse économique : signe attendu NON retrouvé, le signe décide du rejet",
+    "RÉUSSI | signe du Sharpe hors échantillon : 0,663 mesuré, rejet à 0,000 ou moins",
+    "ÉCHOUÉ | réplication de « r2_oos_mensuel_arbres_pct » : 0,483 contre 0,630 publié, écart relatif 0,234, tolérance 0,500 (absolute), soit 0,794 en relatif, plus large que la tolérance déclarée 0,100",
+    "ÉCHOUÉ | réplication : 0 contrôle(s) sur 1 dans la tolérance, tous exigés",
+    "RÉUSSI | Sharpe hors échantillon : 0,663 mesuré, minimum 0,500",
+    "ÉCHOUÉ | t après correction pour essais multiples : 1,992 mesuré, minimum 3,000",
+    "ÉCHOUÉ | Sharpe dégonflé : 0,823 mesuré, minimum 0,950",
+    "RÉUSSI | probabilité de surapprentissage : 0,371 mesuré, maximum 0,500",
+    "RÉUSSI | part de sous-périodes positives : 1,000 mesuré, minimum 0,600",
+    "RÉUSSI | multiple de coûts survécu : 5,000 mesuré, minimum 2,000",
+    "RÉUSSI | corrélation absolue avec le portefeuille existant : 0,445 mesurée, maximum 0,600",
+    "VERDICT | REJECTED"
+  ]
+}

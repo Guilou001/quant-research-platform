@@ -204,7 +204,7 @@ laboratoire ne connaît pas de seuil de Sharpe qui suffirait seul.
 | 5 | moteur de portefeuille et de risque | **fait**, six estimateurs de covariance, sept optimiseurs |
 | 6 | moteur de coûts et de capacité | **fait**, impact à l'échelle du capital, étude 010 |
 | 7 | portefeuille multi-stratégies | **fait**, étude 009 |
-| 8 | apprentissage automatique transversal | non commencé |
+| 8 | apprentissage automatique transversal | **fait**, panneau point-in-time, six méthodes, étude 011 |
 | 9 | validation indépendante sous LEAN | non commencé |
 | 10 | tableau de bord et rapport institutionnel | non commencé |
 | 11 | recherche propre | non commencé |
@@ -226,6 +226,7 @@ laboratoire ne connaît pas de seuil de Sharpe qui suffirait seul.
 | 008 Portage | Koijen, Moskowitz, Pedersen et Vrugt (2018) | 33 | `REPLICATED` | coefficient 1,084 contre 1,09, puis 0,303 hors échantillon |
 | 009 Huit sources, un portefeuille | Grinold (1989), DeMiguel et coauteurs (2009) | 20 | `REJECTED` | 5,4 paris indépendants ; la référence déclarée rend 0,652 contre 0,693 seule |
 | 010 Capacité des deux stratégies chiffrables | Almgren et coauteurs (2005), Gatheral (2010) | 8 | `REJECTED` | momentum borné par la participation à 84 940 $, arbitrage statistique à capacité nulle, son brut ne couvrant pas 5 pb |
+| 011 Apprentissage transversal, six méthodes | Gu, Kelly et Xiu (2020) | 17 | `REJECTED` | R² mensuel 0,35 à 0,48 % dans la plage publiée, mais corrélation de rang négative ; les arbres ne battent pas la régression au test de Diebold et Mariano, p 0,65 |
 
 Comment lire ce tableau, en trois constats. Le premier est que sept articles sur
 huit se répliquent correctement dans leur propre fenêtre : ce n'est pas la
@@ -257,7 +258,7 @@ colonne lue.
 Les trois rejets sont documentés un par un dans
 [`docs/research_journal/rejected_ideas.md`](docs/research_journal/rejected_ideas.md),
 avec leur hypothèse économique, ce qui a été mesuré, et pourquoi cela ne suffit
-pas. **743 essais** ont été menés au total, et aucun n'a produit une stratégie
+pas. **760 essais** ont été menés au total, et aucun n'a produit une stratégie
 retenue.
 
 ## Ce que porte le dépôt, mesuré le 2026-09-01

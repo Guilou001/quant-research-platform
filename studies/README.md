@@ -18,6 +18,7 @@ Sharpe du paquet partagé plutôt que le sien.
 | 008 | [Portage](008_carry/) | Koijen, Moskowitz, Pedersen et Vrugt (2018) | 33 | `REPLICATED` |
 | 009 | [Huit sources d'alpha, un portefeuille](009_multi_strategy/) | Grinold (1989), DeMiguel et coauteurs (2009) | 20 | `REJECTED` |
 | 010 | [La capacité des deux stratégies chiffrables](010_capacity/) | Almgren et coauteurs (2005), Gatheral (2010) | 8 | `REJECTED` |
+| 011 | [Arbres contre régression, après coûts](011_cross_sectional_ml/) | Gu, Kelly et Xiu (2020) | 17 | `REJECTED` |
 
 Comment lire ce tableau, en quatre constats. Le premier est qu'**aucune étude
 n'atteint `ROBUST` ni `PORTFOLIO_CANDIDATE`**, donc aucune ne mérite du capital
@@ -71,6 +72,12 @@ l'être par l'impact : à un million de dollars, un rééquilibrage sur quatre
 demande plus de dix pour cent du volume d'un fonds de devises. L'arbitrage
 statistique a une capacité nulle, son brut ne couvrant pas les cinq points de
 base de l'article sur 1996-2026. Statut modélisé.
+
+**011.** Six méthodes sur 1 526 grandes capitalisations et onze ans : R²
+mensuel hors échantillon de 0,35 % à 0,48 %, dans la plage de l'article, mais
+corrélation de rang négative pour les six. Les arbres amplifiés rendent un
+décile net à 0,663 contre 0,277 pour la régression, sans la battre au test de
+Diebold et Mariano, p 0,65 ; le linéaire est gardé.
 
 ## L'arborescence d'une étude
 

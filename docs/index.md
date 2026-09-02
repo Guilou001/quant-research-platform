@@ -47,7 +47,7 @@ indépendant.
 | 5 | moteur de portefeuille et de risque | **fait**, six estimateurs de covariance, sept optimiseurs |
 | 6 | moteur de coûts et de capacité | **fait**, impact à l'échelle du capital, étude 010 |
 | 7 | portefeuille multi-stratégies | **fait**, étude 009 |
-| 8 | apprentissage automatique transversal | non commencé |
+| 8 | apprentissage automatique transversal | **fait**, panneau point-in-time, six méthodes, étude 011 |
 | 9 | validation indépendante sous LEAN | non commencé |
 | 10 | tableau de bord et rapport institutionnel | non commencé |
 | 11 | recherche propre | non commencé |

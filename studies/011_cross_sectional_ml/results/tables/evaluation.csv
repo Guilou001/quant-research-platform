@@ -1,0 +1,7 @@
+model,family,n_configs,r2_oos_pct,r2_oos_median_by_date_pct,share_dates_r2_positive,ic_mean,ic_t_hac,ic_hit_rate,chosen_configs
+ols,linear,1,0.4105675364,1.579467083,0.5555555556,-0.02201310667,-1.58559786,0.4305555556,{}
+ridge,linear,3,0.4107665814,1.579252269,0.5555555556,-0.02201415258,-1.58528185,0.4305555556,{'alpha': 10.0}
+lasso,linear,2,0.4500084949,1.50613055,0.5694444444,-0.02035288972,-1.255847465,0.4722222222,{'alpha': 0.0001}; {'alpha': 0.001}
+elastic_net,linear,2,0.4408175938,1.460898561,0.5694444444,-0.0696198361,-2.288599119,0.2916666667,"{'alpha': 0.001, 'l1_ratio': 0.5}; {'alpha': 0.01, 'l1_ratio': 0.5}"
+gbrt,tree,3,0.3485001918,0.9729081538,0.5555555556,-0.01588160884,-1.332396084,0.4583333333,"{'max_depth': 2, 'max_iter': 200, 'learning_rate': 0.05, 'min_samples_leaf': 100}; {'max_depth': 3, 'max_iter': 500, 'learning_rate': 0.02, 'min_samples_leaf': 100}"
+random_forest,tree,2,0.4828167766,1.017536525,0.5555555556,-0.01901102867,-1.356561154,0.4027777778,"{'max_depth': 4, 'n_estimators': 200, 'min_samples_leaf': 50, 'max_features': 0.33, 'n_jobs': 4}; {'max_depth': 6, 'n_estimators': 200, 'min_samples_leaf': 50, 'max_features': 0.33, 'n_jobs': 4}"

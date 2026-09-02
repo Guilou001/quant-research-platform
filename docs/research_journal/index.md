@@ -35,6 +35,7 @@ règle du journal qui ne se rattrape pas après coup.
 | [2026-09-02](2026-09-02-phase-4.md) | huit réplications, aucune retenue | le parcours de validation est conservé |
 | [2026-09-02](2026-09-02-phases-5-7.md) | huit stratégies rejetées, combinées | la diversification travaille, la référence déclarée tient |
 | [2026-09-02](2026-09-02-phase-6-capacite.md) | la capacité des deux stratégies chiffrables, et dix fonds fermés | phase 6 close, capacité bornée par la participation ou nulle |
+| [2026-09-02](2026-09-02-phase-8-apprentissage.md) | arbres contre régression, après coûts | phase 8 close, le linéaire est gardé |
 
 ## Les idées rejetées
 

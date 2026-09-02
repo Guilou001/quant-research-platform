@@ -212,3 +212,13 @@ dix sens de cotation sont vérifiés contre
 un fait extérieur, le yen valant 0,006251 dollar et la livre 1,3555 dollar au
 2026-08-31. Deux exécutions consécutives rendent des tableaux identiques au
 fichier près.
+
+## Défaut trouvé le 2026-09-02, non corrigé
+
+La série `fx_carry_gross` n'a pas d'avril 2020. Cause mesurée : le taux
+interbancaire américain à trois mois de la FRED, `IR3TIB01USM156N`, est
+manquant pour 2020-04, et le portage de chaque devise se calcule contre ce
+taux de base, donc les onze signaux sont manquants ce mois-là. La correction
+naturelle est de reporter le taux du mois précédent sur un trou d'un seul
+mois, en le déclarant ; elle changerait les chiffres publiés de cette étude et
+de l'étude 009, qui consomme la série. Reportée.

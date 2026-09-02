@@ -381,19 +381,59 @@ dominent le nombre de titres et sont celles qui sortent de la cote.
 
 ## Nos décisions d'implémentation
 
-non commencé au 2026-09-01
+Étude 011 du 2026-09-02. Le panneau est celui de l'étude 004 : vingt et une
+variables comptables et de risque point-in-time par société et par mois, plus
+la capitalisation et les rendements mensuels. Il couvre 1 526 grandes
+capitalisations américaines de 2015-06 à 2026-06. Six caractéristiques de prix s'y ajoutent,
+momentum à douze mois, renversement à un mois et à long terme, volatilité,
+rendement mensuel le plus élevé, taille. Les rangs transversaux dans
+l'intervalle de moins un à plus un et le manquant à zéro suivent l'article.
+L'étiquette est le rendement en excès du taux sans risque de Kenneth French du
+mois suivant. Six méthodes, treize configurations en tout : moindres carrés,
+régression pénalisée en carré, en valeur absolue, filet élastique, arbres
+amplifiés par gradient, forêt aléatoire. Le modèle simple à battre, la
+régression pénalisée en carré, et le modèle complexe de l'hypothèse, les
+arbres amplifiés, sont désignés dans la configuration avant tout résultat.
 
 ## Nos écarts avec l'article
 
-non commencé au 2026-09-01
+| Point | Article | Étude 011 |
+|---|---|---|
+| Univers | tout le CRSP, 1957-2016 | 1 526 grandes capitalisations, 2015-2026, biais de survie déclaré |
+| Caractéristiques | 94 par titre, 8 macroéconomiques en produit croisé | 27 par titre, aucune macroéconomique |
+| Découpage | 18 ans d'entraînement, 12 de validation, test glissant d'un an | 5 ans d'entraînement, 2 de validation à la fin, test d'un an, ancré |
+| Après validation | modèle validé conservé | réajusté sur tout l'entraînement |
+| Perte | Huber pour les linéaires | quadratique, la fabrique de Huber existe sans être dans la grille |
+| Réseaux de neurones | cinq, de une à cinq couches | aucun dans la grille |
+| Coûts | aucun | 10 points de base par unité négociée, statut modélisé |
 
 ## Nos résultats
 
-non commencé au 2026-09-01
+Étude 011, hors échantillon de 2020-07 à 2026-06, 72 mois, six plis. Le R²
+mensuel sans centrage vaut 0,41 % pour les moindres carrés et la régression
+pénalisée en carré. Il vaut 0,45 % pour la pénalisée en valeur absolue,
+0,44 % pour le filet élastique, 0,35 % pour les arbres amplifiés et 0,48 %
+pour la forêt. Les six sont dans la plage publiée de 0,3 % à 0,7 %. Le
+classement de l'article ne se retrouve pas : la forêt est en tête et les
+arbres amplifiés en queue. Aucune méthode ne bat la référence linéaire au test
+de Diebold et Mariano, la statistique des arbres valant -0,45 avec une valeur
+p de 0,65. La corrélation de rang moyenne est négative pour les six méthodes,
+ce que l'article ne rapporte pas et que son R² ne peut pas montrer. Les
+déciles long moins court, nets de 10 points de base, rendent un ratio de
+Sharpe de 0,663 pour les arbres et de 0,277 pour la régression. L'article
+publie 1,35 et 0,61, bruts, en pondération par la capitalisation. Verdict
+`REJECTED`.
 
 ## Notre contrôle de robustesse
 
-non commencé au 2026-09-01
+Dix-sept essais déclarés. Sharpe dégonflé des arbres 0,82, probabilité de
+surapprentissage entre les six portefeuilles 0,37, trois sous-périodes de deux
+ans positives et croissantes, survie à cinq fois les coûts et mort à dix. Le
+R² par bloc de test change de signe, +3,4 % puis -6,8 % sur les deux premiers
+plis des arbres, et il est négatif pour les six méthodes sur 2021-2022.
+L'importance par permutation désigne la volatilité de douze mois et
+l'endettement, donc un tri de solidité financière que les facteurs de l'étude
+004 portaient déjà.
 
 ## Références
 

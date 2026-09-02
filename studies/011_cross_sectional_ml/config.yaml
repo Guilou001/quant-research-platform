@@ -1,0 +1,85 @@
+# Étude 011, apprentissage automatique transversal. Tout paramètre, toute grille
+# et tout seuil du verdict sont écrits ici AVANT le premier résultat.
+
+name: cross_sectional_ml_011
+hypothesis: >-
+  Sur les grandes capitalisations américaines de 2015 à 2026, un ensemble
+  d'arbres appris sur vingt-sept caractéristiques point-in-time ordonne les
+  rendements du mois suivant mieux qu'une régression pénalisée, et l'écart
+  survit aux coûts de transaction hors échantillon.
+paper: >-
+  Gu, S., Kelly, B. et Xiu, D. (2020). Empirical Asset Pricing via Machine
+  Learning. Review of Financial Studies 33(5), 2223-2273. Chiffres cibles dans
+  docs/literature/gu_kelly_xiu_2020.md, tous rapportés.
+seed: 20260902
+
+data:
+  # Le panneau point-in-time de l'étude 004 : 21 variables comptables et de
+  # risque par société et par mois, la capitalisation et les rendements
+  # mensuels, 1 526 sociétés, 2015-06 à 2026-06. L'empreinte est celle des
+  # paramètres de l'étude 004 au 2026-09-02 ; l'étude 004 le rebâtit.
+  feature_cache: data/raw/qmj_features/0ff289aa1b4e1bcb
+  # Le taux sans risque mensuel de Kenneth French, pour l'excès de rendement.
+  risk_free_start: "2008-01-01"
+  # Une date qui porte moins de sociétés que ce seuil est écartée.
+  min_names_per_date: 100
+
+walk_forward:
+  train_months: 60            # cinq ans avant la première prévision
+  test_months: 12             # blocs d'un an, prévision mensuelle
+  purge_months: 1             # l'horizon de l'étiquette
+  validation_months: 24       # la fin de l'entraînement qui départage les configurations
+
+models:
+  # Le modèle simple à battre, règle 9, et le modèle complexe de l'hypothèse,
+  # tous deux désignés AVANT tout résultat.
+  reference: ridge
+  challenger: gbrt
+  grids:
+    ols: [{}]
+    ridge: [{alpha: 0.1}, {alpha: 1.0}, {alpha: 10.0}]
+    lasso: [{alpha: 0.0001}, {alpha: 0.001}]
+    elastic_net: [{alpha: 0.001, l1_ratio: 0.5}, {alpha: 0.01, l1_ratio: 0.5}]
+    gbrt:
+      - {max_depth: 2, max_iter: 200, learning_rate: 0.05, min_samples_leaf: 100}
+      - {max_depth: 3, max_iter: 200, learning_rate: 0.05, min_samples_leaf: 100}
+      - {max_depth: 3, max_iter: 500, learning_rate: 0.02, min_samples_leaf: 100}
+    random_forest:
+      - {max_depth: 4, n_estimators: 200, min_samples_leaf: 50, max_features: 0.33, n_jobs: 4}
+      - {max_depth: 6, n_estimators: 200, min_samples_leaf: 50, max_features: 0.33, n_jobs: 4}
+
+portfolio:
+  n_quantiles: 10             # déciles, jambe acheteuse et jambe vendeuse égales
+  target_gross: 2.0           # un dollar acheté, un dollar vendu
+  spread_bps: 10.0            # demi-écart par unité négociée, statut modélisé
+  cost_multiples: [1.0, 2.0, 5.0, 10.0]
+  subperiods: 3
+
+importance:
+  n_repeats: 5
+
+# Compte des essais : treize configurations, quatre multiples de coûts.
+n_trials: 17
+
+# La cible de réplication : le R² mensuel hors échantillon de la forêt
+# aléatoire sur les mille plus grandes capitalisations, 0,63 %, table 1 de
+# l'article. Le demi-point ci-dessous est l'écart que l'étude juge tolérable ;
+# le moteur de verdict, lui, convertit tout écart en relatif et applique les
+# 10 % du laboratoire (`replication_tolerance`), et c'est cette règle qui décide.
+replication:
+  target_r2_pct: 0.63
+  tolerance_pct_points: 0.50
+
+verdict:
+  replication_tolerance: 0.10
+  min_oos_sharpe: 0.50
+  min_tstat: 3.00
+  min_dsr: 0.95
+  max_pbo: 0.50
+  min_positive_subperiod_share: 0.60
+  min_cost_multiple: 2.0
+  max_portfolio_correlation: 0.60
+  # L'hypothèse tient si le modèle complexe bat le simple sur les deux plans :
+  # une perte de prévision plus basse au test de Diebold et Mariano à ce
+  # niveau, et un ratio de Sharpe net plus élevé sur le portefeuille décile.
+  dm_pvalue_max: 0.05

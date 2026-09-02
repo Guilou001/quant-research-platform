@@ -125,12 +125,13 @@ référence déclarée empêche de le transformer en résultat.
 | Portage | 33 | 0 | 0 |
 | Portefeuille multi-stratégies | 20 | 0 | 1 |
 | Capacité, deux stratégies chiffrables | 8 | 0 | 1 |
-| **Total** | **743** | **0** | **5** |
+| Apprentissage transversal, six méthodes | 17 | 0 | 1 |
+| **Total** | **760** | **0** | **6** |
 
 Ce tableau alimente directement `quantlab.validation.dsr`. Il se met à jour à
 chaque expérience, y compris celles qui ne mènent nulle part.
 
-Comment le lire, en deux constats. Le premier est que 743 essais ont été menés
+Comment le lire, en deux constats. Le premier est que 760 essais ont été menés
 et qu'aucun n'a produit une stratégie retenue, ce qui est exactement ce que la
 correction pour tests multiples sert à rendre visible. Le deuxième est que les
 207 essais de l'étude 003 ramènent son ratio de Sharpe dégonflé à 0,000012 :

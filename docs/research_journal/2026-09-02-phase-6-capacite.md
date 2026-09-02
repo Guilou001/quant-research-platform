@@ -63,8 +63,10 @@ par an, modélisé, contre 37,6 % net pour Medallion sur 2010-2018, rapporté.
 La phase 6 est close. Le module de capacité reste tel quel, avec sa forme
 fermée et son contrôle. Deux défauts de données sont déclarés et non corrigés
 aujourd'hui. La série de portage de change de l'étude 008 n'a pas d'avril
-2020, ce qui retire un mois à l'étude 009 et une année à la comparaison
-annuelle. Et Yahoo garde des cotations fantômes à volume nul après une sortie
+2020. Cause mesurée le 2026-09-02 : le taux interbancaire américain à trois
+mois de la FRED, `IR3TIB01USM156N`, manque ce mois-là, et le taux de base
+absent annule les onze portages. Cela retire un mois à l'étude 009 et une
+année à la comparaison annuelle. Et Yahoo garde des cotations fantômes à volume nul après une sortie
 de cote, ce que le modèle traite par le dernier volume connu, compté.
 
 ## Question suivante
