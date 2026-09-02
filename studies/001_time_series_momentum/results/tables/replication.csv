@@ -1,0 +1,7 @@
+,quantity,published,ours,absolute_error,relative_error,tolerance,tolerance_kind,verdict,source
+0,"volatilité annualisée du facteur, 1985-2009",0.12,0.11932046207766092,0.0006795379223390741,0.005662816019492284,0.1,relative,répliqué,"article, section 4.2, « environ 12 % par an »"
+1,"charge du facteur sur le momentum transversal, 1985-2009",0.28,0.2644049934898223,0.0155950065101777,0.05569645182206321,0.1,relative,répliqué,"article, tableau 3, panneau A, coefficient UMD mensuel"
+2,"alpha mensuel du facteur, 1985-2009",0.0158,0.012230053150867138,0.003569946849132864,0.22594600310967491,0.1,relative,écart,"article, tableau 3, panneau A, constante mensuelle 1,58 %"
+3,"t de l'alpha mensuel du facteur, 1985-2009",7.99,6.437983069504359,1.5520169304956415,0.19424492246503647,0.1,relative,écart,"article, tableau 3, panneau A, t de 7,99"
+4,"part des instruments à ratio de Sharpe positif, pris isolément",1.0,0.8214285714285714,0.1785714285714286,0.1785714285714286,0.1,relative,écart,"article, section 4.1, les 58 contrats affichent un Sharpe positif"
+5,cellules de la grille à statistique t positive,62.0,26.0,36.0,0.5806451612903226,0.1,relative,écart,"article, tableau 2, 62 cellules positives sur 64"

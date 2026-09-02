@@ -24,3 +24,6 @@ artifacts/**
 .env
 *.env
 !.env.example
+
+# Les études ne portent pas de cache Python.
+studies/**/__pycache__/

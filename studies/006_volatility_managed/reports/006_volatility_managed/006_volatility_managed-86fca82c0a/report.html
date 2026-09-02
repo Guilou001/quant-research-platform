@@ -1,0 +1,1809 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>006_volatility_managed (006_volatility_managed-86fca82c0a)</title>
+<style>
+:root { color-scheme: light dark; }
+body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.55;
+       max-width: 52rem; margin: 2rem auto; padding: 0 1rem; }
+h1 { font-size: 1.7rem; border-bottom: 2px solid currentColor; padding-bottom: .3rem; }
+h2 { font-size: 1.25rem; margin-top: 2.2rem; }
+nav ol { columns: 2; }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { border: 1px solid #999; padding: .3rem .5rem; text-align: right; }
+th:first-child, td:first-child { text-align: left; }
+figure { margin: 1rem 0; }
+img { max-width: 100%; height: auto; }
+.meta { font-size: .85rem; }
+.verdict { font-size: 1.1rem; font-weight: bold; }
+.reason-pass::before { content: "OK "; }
+.reason-fail::before { content: "NON "; }
+ul.reasons { list-style: none; padding-left: 0; }
+ul.reasons li { border-left: 3px solid #999; padding-left: .6rem; margin: .3rem 0; }
+</style>
+</head>
+<body>
+<h1>006_volatility_managed</h1>
+<p class="meta">Expérience 006_volatility_managed-86fca82c0a, écrite le 2026-09-02T16:38:10.316982+00:00.</p>
+<p class="meta">Article : Moreira, A. et Muir, T. (2017). Volatility-Managed Portfolios. The Journal of Finance, 72(4), 1611-1644. Chiffres cibles lus dans le document de travail NBER 22208 d&#x27;avril 2016.</p>
+<p class="verdict">Verdict : REJECTED</p>
+<nav><ol>
+<li><a href="#hypothesis">L&#x27;hypothèse</a></li>
+<li><a href="#paper">L&#x27;article</a></li>
+<li><a href="#methodology">La méthodologie</a></li>
+<li><a href="#data">Les données</a></li>
+<li><a href="#implementation">L&#x27;implémentation</a></li>
+<li><a href="#assumptions">Les hypothèses</a></li>
+<li><a href="#replication">La réplication</a></li>
+<li><a href="#performance">La performance</a></li>
+<li><a href="#costs">Les coûts</a></li>
+<li><a href="#robustness">La robustesse</a></li>
+<li><a href="#out_of_sample">Le hors échantillon</a></li>
+<li><a href="#statistical_tests">Les tests statistiques</a></li>
+<li><a href="#factor_attribution">L&#x27;attribution factorielle</a></li>
+<li><a href="#limitations">Les limites</a></li>
+<li><a href="#verdict">Le verdict</a></li>
+</ol></nav>
+<section id="hypothesis">
+<h2>1. L&#x27;hypothèse</h2>
+<p>Gérer un facteur par sa volatilité passée crée-t-il de l&#x27;alpha, ou seulement l&#x27;illusion qu&#x27;en donne une constante de calibrage choisie après coup ?</p>
+</section>
+<section id="paper">
+<h2>2. L&#x27;article</h2>
+<p>Moreira et Muir (2017), Volatility-Managed Portfolios, Journal of Finance 72(4). Les chiffres cibles viennent du document de travail NBER 22208 d&#x27;avril 2016.</p>
+</section>
+<section id="methodology">
+<h2>3. La méthodologie</h2>
+<p>Le facteur est multiplié par l&#x27;inverse de sa variance réalisée du mois précédent, puis mis à l&#x27;échelle par une constante. Le test est une régression du facteur géré sur le facteur d&#x27;origine, et l&#x27;ordonnée à l&#x27;origine est lue comme un alpha.</p>
+</section>
+<section id="data">
+<h2>4. Les données</h2>
+<p>Six facteurs viennent de la bibliothèque de Kenneth French, en quotidien et en mensuel. Deux viennent de global-q.org. Le portage de change n&#x27;est pas publié en quotidien, donc il est déclaré non trouvé.</p>
+<figure><figcaption>Le compte de mois par date de fin.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>factor</th>
+      <th>end</th>
+      <th>n_months</th>
+      <th>n_months_with_q_start</th>
+      <th>paper_n</th>
+      <th>gap</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Marché</td>
+      <td>2015-12</td>
+      <td>1073</td>
+      <td>1073</td>
+      <td>1065</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>Marché</td>
+      <td>2015-04</td>
+      <td>1065</td>
+      <td>1065</td>
+      <td>1065</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Taille</td>
+      <td>2015-12</td>
+      <td>1073</td>
+      <td>1073</td>
+      <td>1065</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>Taille</td>
+      <td>2015-04</td>
+      <td>1065</td>
+      <td>1065</td>
+      <td>1065</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Valeur</td>
+      <td>2015-12</td>
+      <td>1073</td>
+      <td>1073</td>
+      <td>1065</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>Valeur</td>
+      <td>2015-04</td>
+      <td>1065</td>
+      <td>1065</td>
+      <td>1065</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Momentum</td>
+      <td>2015-12</td>
+      <td>1068</td>
+      <td>1068</td>
+      <td>1060</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>Momentum</td>
+      <td>2015-04</td>
+      <td>1060</td>
+      <td>1060</td>
+      <td>1060</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Rentabilité (RMW)</td>
+      <td>2015-12</td>
+      <td>629</td>
+      <td>629</td>
+      <td>621</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>Rentabilité (RMW)</td>
+      <td>2015-04</td>
+      <td>621</td>
+      <td>621</td>
+      <td>621</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Investissement (CMA)</td>
+      <td>2015-12</td>
+      <td>629</td>
+      <td>629</td>
+      <td>621</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>Investissement (CMA)</td>
+      <td>2015-04</td>
+      <td>621</td>
+      <td>621</td>
+      <td>621</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Rentabilité sur fonds propres (ROE)</td>
+      <td>2015-12</td>
+      <td>587</td>
+      <td>583</td>
+      <td>575</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>Rentabilité sur fonds propres (ROE)</td>
+      <td>2015-04</td>
+      <td>579</td>
+      <td>575</td>
+      <td>575</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>Investissement (IA)</td>
+      <td>2015-12</td>
+      <td>587</td>
+      <td>583</td>
+      <td>575</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>Investissement (IA)</td>
+      <td>2015-04</td>
+      <td>579</td>
+      <td>575</td>
+      <td>575</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><figcaption>Les neuf facteurs et leur source.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>factor</th>
+      <th>daily_source</th>
+      <th>monthly_source</th>
+      <th>covered</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Marché</td>
+      <td>Kenneth French</td>
+      <td>Kenneth French</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>Taille</td>
+      <td>Kenneth French</td>
+      <td>Kenneth French</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>Valeur</td>
+      <td>Kenneth French</td>
+      <td>Kenneth French</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>Momentum</td>
+      <td>Kenneth French</td>
+      <td>Kenneth French</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>Rentabilité (RMW)</td>
+      <td>Kenneth French</td>
+      <td>Kenneth French</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>Investissement (CMA)</td>
+      <td>Kenneth French</td>
+      <td>Kenneth French</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>Rentabilité sur fonds propres (ROE)</td>
+      <td>global-q.org</td>
+      <td>global-q.org</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>Investissement (IA)</td>
+      <td>global-q.org</td>
+      <td>global-q.org</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>Portage de change</td>
+      <td>non trouvé, série quotidienne non publiée</td>
+      <td>non trouvé, série quotidienne non publiée</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table></figure>
+</section>
+<section id="implementation">
+<h2>5. L&#x27;implémentation</h2>
+<p>La stratégie vit dans quantlab.strategies.volatility_managed. La variance porte la date du mois qui la produit, et le décalage d&#x27;un mois se fait en un seul endroit.</p>
+</section>
+<section id="assumptions">
+<h2>6. Les hypothèses</h2>
+<p>Le facteur est autofinancé, donc le levier ne coûte rien de plus que la rotation. Les rendements quotidiens sont supposés non corrélés à l&#x27;intérieur du mois.</p>
+</section>
+<section id="replication">
+<h2>7. La réplication</h2>
+<p>L&#x27;alpha du marché ressort à 4.74 pour cent par an contre 4,86 publié, sur 1065 mois contre 1 065 publiés.</p>
+<table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>quantity</th>
+      <th>published</th>
+      <th>ours</th>
+      <th>absolute_error</th>
+      <th>relative_error</th>
+      <th>tolerance</th>
+      <th>tolerance_kind</th>
+      <th>verdict</th>
+      <th>source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>alpha annualisé, Marché</td>
+      <td>4.86</td>
+      <td>4.743380</td>
+      <td>0.116620</td>
+      <td>0.023996</td>
+      <td>0.25</td>
+      <td>relative</td>
+      <td>répliqué</td>
+      <td>Moreira et Muir (2016), NBER 22208, tableau 1, panneau A</td>
+    </tr>
+    <tr>
+      <td>alpha annualisé, Momentum</td>
+      <td>12.51</td>
+      <td>12.568805</td>
+      <td>0.058805</td>
+      <td>0.004701</td>
+      <td>0.25</td>
+      <td>relative</td>
+      <td>répliqué</td>
+      <td>Moreira et Muir (2016), NBER 22208, tableau 1, panneau A</td>
+    </tr>
+    <tr>
+      <td>alpha annualisé, Rentabilité (RMW)</td>
+      <td>2.44</td>
+      <td>2.493952</td>
+      <td>0.053952</td>
+      <td>0.022111</td>
+      <td>0.25</td>
+      <td>relative</td>
+      <td>répliqué</td>
+      <td>Moreira et Muir (2016), NBER 22208, tableau 1, panneau A</td>
+    </tr>
+    <tr>
+      <td>alpha annualisé, Rentabilité sur fonds propres (ROE)</td>
+      <td>5.48</td>
+      <td>4.975234</td>
+      <td>0.504766</td>
+      <td>0.092111</td>
+      <td>0.25</td>
+      <td>relative</td>
+      <td>répliqué</td>
+      <td>Moreira et Muir (2016), NBER 22208, tableau 1, panneau A</td>
+    </tr>
+    <tr>
+      <td>alpha annualisé, Investissement (IA)</td>
+      <td>1.55</td>
+      <td>1.654530</td>
+      <td>0.104530</td>
+      <td>0.067439</td>
+      <td>0.25</td>
+      <td>relative</td>
+      <td>répliqué</td>
+      <td>Moreira et Muir (2016), NBER 22208, tableau 1, panneau A</td>
+    </tr>
+    <tr>
+      <td>nombre de mois du marché</td>
+      <td>1065.00</td>
+      <td>1065.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00</td>
+      <td>absolute</td>
+      <td>répliqué</td>
+      <td>Moreira et Muir (2016), NBER 22208, tableau 1, panneau A</td>
+    </tr>
+    <tr>
+      <td>bêta du marché géré</td>
+      <td>0.61</td>
+      <td>0.622496</td>
+      <td>0.012496</td>
+      <td>0.020485</td>
+      <td>0.25</td>
+      <td>relative</td>
+      <td>répliqué</td>
+      <td>Moreira et Muir (2016), NBER 22208, tableau 1, panneau A</td>
+    </tr>
+    <tr>
+      <td>erreur type de l'alpha du marché</td>
+      <td>1.56</td>
+      <td>1.565465</td>
+      <td>0.005465</td>
+      <td>0.003503</td>
+      <td>0.25</td>
+      <td>relative</td>
+      <td>répliqué</td>
+      <td>Moreira et Muir (2016), NBER 22208, tableau 1, panneau A</td>
+    </tr>
+  </tbody>
+</table>
+<figure><figcaption>Tableau 1, panneau A.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>factor</th>
+      <th>n_months</th>
+      <th>paper_n</th>
+      <th>beta</th>
+      <th>paper_beta</th>
+      <th>alpha_annual_pct</th>
+      <th>paper_alpha</th>
+      <th>alpha_stderr_pct</th>
+      <th>paper_stderr</th>
+      <th>alpha_tstat</th>
+      <th>r_squared</th>
+      <th>paper_r2</th>
+      <th>paper_rmse_ours</th>
+      <th>paper_rmse</th>
+      <th>appraisal_ratio</th>
+      <th>base_sharpe</th>
+      <th>utility_gain</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Marché</td>
+      <td>1065</td>
+      <td>1065</td>
+      <td>0.622496</td>
+      <td>0.61</td>
+      <td>4.743380</td>
+      <td>4.86</td>
+      <td>1.565465</td>
+      <td>1.56</td>
+      <td>3.030013</td>
+      <td>0.387501</td>
+      <td>0.37</td>
+      <td>50.718489</td>
+      <td>51.39</td>
+      <td>0.323976</td>
+      <td>0.418677</td>
+      <td>0.598779</td>
+    </tr>
+    <tr>
+      <td>Taille</td>
+      <td>1065</td>
+      <td>1065</td>
+      <td>0.625905</td>
+      <td>0.62</td>
+      <td>-0.856740</td>
+      <td>-0.58</td>
+      <td>0.918526</td>
+      <td>0.91</td>
+      <td>-0.932734</td>
+      <td>0.391757</td>
+      <td>0.38</td>
+      <td>29.911233</td>
+      <td>30.44</td>
+      <td>-0.099221</td>
+      <td>0.227068</td>
+      <td>0.190942</td>
+    </tr>
+    <tr>
+      <td>Valeur</td>
+      <td>1065</td>
+      <td>1065</td>
+      <td>0.542016</td>
+      <td>0.57</td>
+      <td>1.816520</td>
+      <td>1.97</td>
+      <td>1.097716</td>
+      <td>1.02</td>
+      <td>1.654818</td>
+      <td>0.293781</td>
+      <td>0.32</td>
+      <td>35.592322</td>
+      <td>34.92</td>
+      <td>0.176797</td>
+      <td>0.395048</td>
+      <td>0.200285</td>
+    </tr>
+    <tr>
+      <td>Momentum</td>
+      <td>1060</td>
+      <td>1060</td>
+      <td>0.461579</td>
+      <td>0.47</td>
+      <td>12.568805</td>
+      <td>12.51</td>
+      <td>1.573036</td>
+      <td>1.71</td>
+      <td>7.990157</td>
+      <td>0.213055</td>
+      <td>0.22</td>
+      <td>50.733029</td>
+      <td>50.37</td>
+      <td>0.858210</td>
+      <td>0.478077</td>
+      <td>3.222490</td>
+    </tr>
+    <tr>
+      <td>Rentabilité (RMW)</td>
+      <td>621</td>
+      <td>621</td>
+      <td>0.585584</td>
+      <td>0.62</td>
+      <td>2.493952</td>
+      <td>2.44</td>
+      <td>0.880130</td>
+      <td>0.83</td>
+      <td>2.833618</td>
+      <td>0.342909</td>
+      <td>0.38</td>
+      <td>21.787056</td>
+      <td>20.16</td>
+      <td>0.396534</td>
+      <td>0.400928</td>
+      <td>0.978201</td>
+    </tr>
+    <tr>
+      <td>Investissement (CMA)</td>
+      <td>621</td>
+      <td>621</td>
+      <td>0.684413</td>
+      <td>0.68</td>
+      <td>0.253726</td>
+      <td>0.38</td>
+      <td>0.705787</td>
+      <td>0.67</td>
+      <td>0.359493</td>
+      <td>0.468422</td>
+      <td>0.46</td>
+      <td>17.377685</td>
+      <td>17.55</td>
+      <td>0.050578</td>
+      <td>0.540283</td>
+      <td>0.008764</td>
+    </tr>
+    <tr>
+      <td>Rentabilité sur fonds propres (ROE)</td>
+      <td>575</td>
+      <td>575</td>
+      <td>0.678400</td>
+      <td>0.63</td>
+      <td>4.975234</td>
+      <td>5.48</td>
+      <td>0.956823</td>
+      <td>0.97</td>
+      <td>5.199745</td>
+      <td>0.460227</td>
+      <td>0.40</td>
+      <td>22.445958</td>
+      <td>23.69</td>
+      <td>0.767832</td>
+      <td>0.732993</td>
+      <td>1.097317</td>
+    </tr>
+    <tr>
+      <td>Investissement (IA)</td>
+      <td>575</td>
+      <td>575</td>
+      <td>0.675203</td>
+      <td>0.68</td>
+      <td>1.654530</td>
+      <td>1.55</td>
+      <td>0.713948</td>
+      <td>0.67</td>
+      <td>2.317438</td>
+      <td>0.455899</td>
+      <td>0.47</td>
+      <td>16.667312</td>
+      <td>16.58</td>
+      <td>0.343874</td>
+      <td>0.812008</td>
+      <td>0.179341</td>
+    </tr>
+  </tbody>
+</table></figure>
+</section>
+<section id="performance">
+<h2>8. La performance</h2>
+<p>Tous les chiffres portent leur échantillon et leur base de coût dans le tableau ci-dessous.</p>
+<table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>metric</th>
+      <th>value</th>
+      <th>sample</th>
+      <th>cost_basis</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>alpha_marche_in_sample_pct</td>
+      <td>4.743380e+00</td>
+      <td>IS</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>tstat_alpha_marche_in_sample</td>
+      <td>3.030013e+00</td>
+      <td>IS</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>appraisal_marche_in_sample</td>
+      <td>3.239756e-01</td>
+      <td>IS</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>alpha_marche_temps_reel_pct</td>
+      <td>2.438225e+00</td>
+      <td>VALIDATION</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>tstat_alpha_marche_temps_reel</td>
+      <td>1.250434e+00</td>
+      <td>VALIDATION</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>appraisal_marche_temps_reel</td>
+      <td>1.333651e-01</td>
+      <td>VALIDATION</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>sharpe_ecart_couvert_oos_net</td>
+      <td>-3.621102e-01</td>
+      <td>OOS</td>
+      <td>net</td>
+    </tr>
+    <tr>
+      <td>sharpe_ecart_couvert_complet_net</td>
+      <td>-8.004983e-02</td>
+      <td>VALIDATION</td>
+      <td>net</td>
+    </tr>
+    <tr>
+      <td>rotation_annualisee</td>
+      <td>9.743740e+00</td>
+      <td>VALIDATION</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>cout_de_rentabilite_bps</td>
+      <td>-3.708256e+00</td>
+      <td>VALIDATION</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>probabilite_de_surapprentissage</td>
+      <td>7.000000e-01</td>
+      <td>VALIDATION</td>
+      <td>net</td>
+    </tr>
+    <tr>
+      <td>sharpe_degonfle</td>
+      <td>6.991736e-37</td>
+      <td>OOS</td>
+      <td>net</td>
+    </tr>
+    <tr>
+      <td>t_apres_correction</td>
+      <td>-1.179134e+00</td>
+      <td>OOS</td>
+      <td>net</td>
+    </tr>
+    <tr>
+      <td>part_de_sous_periodes_positives</td>
+      <td>5.000000e-01</td>
+      <td>VALIDATION</td>
+      <td>net</td>
+    </tr>
+    <tr>
+      <td>correlation_avec_le_marche</td>
+      <td>-4.067239e-01</td>
+      <td>VALIDATION</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>cpcv_sharpe_moyen</td>
+      <td>-1.187553e-01</td>
+      <td>OOS</td>
+      <td>net</td>
+    </tr>
+    <tr>
+      <td>cpcv_part_de_chemins_negatifs</td>
+      <td>1.000000e+00</td>
+      <td>OOS</td>
+      <td>net</td>
+    </tr>
+  </tbody>
+</table>
+<figure><img src="figures/equity_market.png" alt="Richesse cumulée en échelle logarithmique, dollars des États-Unis."><figcaption>Richesse cumulée en échelle logarithmique, dollars des États-Unis.</figcaption></figure>
+</section>
+<section id="costs">
+<h2>9. Les coûts</h2>
+<p>La rotation annualisée vaut 9.74 et le coût qui annule le rendement brut vaut -4 points de base.</p>
+<figure><figcaption>Coûts et rendement net.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>version</th>
+      <th>cost_bps</th>
+      <th>n_months</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gross_mean_annual_pct</th>
+      <th>net_mean_annual_pct</th>
+      <th>net_sharpe</th>
+      <th>net_tstat</th>
+      <th>annual_turnover</th>
+      <th>breakeven_cost_bps</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>écart couvert, constante et bêta ex post</td>
+      <td>0.0</td>
+      <td>1199</td>
+      <td>1926-08-31</td>
+      <td>2026-06-30</td>
+      <td>4.346868</td>
+      <td>4.346868</td>
+      <td>0.301505</td>
+      <td>2.750837</td>
+      <td>8.043511</td>
+      <td>53.641236</td>
+    </tr>
+    <tr>
+      <td>écart couvert, constante et bêta ex post</td>
+      <td>1.0</td>
+      <td>1199</td>
+      <td>1926-08-31</td>
+      <td>2026-06-30</td>
+      <td>4.346868</td>
+      <td>4.266500</td>
+      <td>0.296027</td>
+      <td>2.701879</td>
+      <td>8.043511</td>
+      <td>53.641236</td>
+    </tr>
+    <tr>
+      <td>écart couvert, constante et bêta ex post</td>
+      <td>10.0</td>
+      <td>1199</td>
+      <td>1926-08-31</td>
+      <td>2026-06-30</td>
+      <td>4.346868</td>
+      <td>3.543188</td>
+      <td>0.246518</td>
+      <td>2.257782</td>
+      <td>8.043511</td>
+      <td>53.641236</td>
+    </tr>
+    <tr>
+      <td>écart couvert, constante et bêta ex post</td>
+      <td>14.0</td>
+      <td>1199</td>
+      <td>1926-08-31</td>
+      <td>2026-06-30</td>
+      <td>4.346868</td>
+      <td>3.221716</td>
+      <td>0.224402</td>
+      <td>2.058428</td>
+      <td>8.043511</td>
+      <td>53.641236</td>
+    </tr>
+    <tr>
+      <td>écart couvert, constante et bêta en temps réel</td>
+      <td>0.0</td>
+      <td>959</td>
+      <td>1946-08-31</td>
+      <td>2026-06-30</td>
+      <td>-0.324372</td>
+      <td>-0.324372</td>
+      <td>-0.019934</td>
+      <td>-0.166934</td>
+      <td>9.743740</td>
+      <td>-3.708256</td>
+    </tr>
+    <tr>
+      <td>écart couvert, constante et bêta en temps réel</td>
+      <td>1.0</td>
+      <td>959</td>
+      <td>1946-08-31</td>
+      <td>2026-06-30</td>
+      <td>-0.324372</td>
+      <td>-0.421708</td>
+      <td>-0.025926</td>
+      <td>-0.217065</td>
+      <td>9.743740</td>
+      <td>-3.708256</td>
+    </tr>
+    <tr>
+      <td>écart couvert, constante et bêta en temps réel</td>
+      <td>10.0</td>
+      <td>959</td>
+      <td>1946-08-31</td>
+      <td>2026-06-30</td>
+      <td>-0.324372</td>
+      <td>-1.297730</td>
+      <td>-0.080050</td>
+      <td>-0.668653</td>
+      <td>9.743740</td>
+      <td>-3.708256</td>
+    </tr>
+    <tr>
+      <td>écart couvert, constante et bêta en temps réel</td>
+      <td>14.0</td>
+      <td>959</td>
+      <td>1946-08-31</td>
+      <td>2026-06-30</td>
+      <td>-0.324372</td>
+      <td>-1.687073</td>
+      <td>-0.104208</td>
+      <td>-0.869348</td>
+      <td>9.743740</td>
+      <td>-3.708256</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><figcaption>Ce que coûte le bêta de couverture estimé sur le passé.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>hedge_beta</th>
+      <th>beta_median</th>
+      <th>n_months</th>
+      <th>gross_sharpe_full</th>
+      <th>gross_sharpe_oos</th>
+      <th>correlation_with_base</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>bêta en expansion, tenable</td>
+      <td>1.440641</td>
+      <td>959</td>
+      <td>-0.019934</td>
+      <td>-0.308162</td>
+      <td>-0.406724</td>
+    </tr>
+    <tr>
+      <td>bêta de plein échantillon, non tenable</td>
+      <td>1.069530</td>
+      <td>959</td>
+      <td>0.130431</td>
+      <td>-0.286342</td>
+      <td>-0.101464</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><img src="figures/cost_sensitivity.png" alt="Ratio de Sharpe net en fonction du multiple appliqué aux dix points de base."><figcaption>Ratio de Sharpe net en fonction du multiple appliqué aux dix points de base.</figcaption></figure>
+</section>
+<section id="robustness">
+<h2>10. La robustesse</h2>
+<p>La mesure de variance, le plafond de levier, la fenêtre de la constante et le délai d&#x27;exécution sont balayés, et chaque cellule compte comme un essai.</p>
+<figure><figcaption>Balayage des réglages.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>estimator</th>
+      <th>leverage_cap</th>
+      <th>n_months</th>
+      <th>net_sharpe</th>
+      <th>net_alpha_annual_pct</th>
+      <th>net_tstat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>variance réalisée</td>
+      <td>0.0</td>
+      <td>959</td>
+      <td>-0.079935</td>
+      <td>-1.295871</td>
+      <td>-0.667703</td>
+    </tr>
+    <tr>
+      <td>variance réalisée</td>
+      <td>1.0</td>
+      <td>959</td>
+      <td>-0.061073</td>
+      <td>-0.322519</td>
+      <td>-0.540690</td>
+    </tr>
+    <tr>
+      <td>variance réalisée</td>
+      <td>1.5</td>
+      <td>959</td>
+      <td>-0.038997</td>
+      <td>-0.300106</td>
+      <td>-0.334922</td>
+    </tr>
+    <tr>
+      <td>variance réalisée</td>
+      <td>3.0</td>
+      <td>959</td>
+      <td>-0.092558</td>
+      <td>-1.180651</td>
+      <td>-0.773308</td>
+    </tr>
+    <tr>
+      <td>variance réalisée</td>
+      <td>6.0</td>
+      <td>959</td>
+      <td>-0.102771</td>
+      <td>-1.605549</td>
+      <td>-0.864614</td>
+    </tr>
+    <tr>
+      <td>variance réalisée centrée</td>
+      <td>0.0</td>
+      <td>959</td>
+      <td>-0.075119</td>
+      <td>-1.248332</td>
+      <td>-0.635508</td>
+    </tr>
+    <tr>
+      <td>variance réalisée centrée</td>
+      <td>1.0</td>
+      <td>959</td>
+      <td>-0.057448</td>
+      <td>-0.304487</td>
+      <td>-0.508968</td>
+    </tr>
+    <tr>
+      <td>variance réalisée centrée</td>
+      <td>1.5</td>
+      <td>959</td>
+      <td>-0.037434</td>
+      <td>-0.288486</td>
+      <td>-0.320396</td>
+    </tr>
+    <tr>
+      <td>variance réalisée centrée</td>
+      <td>3.0</td>
+      <td>959</td>
+      <td>-0.098397</td>
+      <td>-1.252100</td>
+      <td>-0.820725</td>
+    </tr>
+    <tr>
+      <td>variance réalisée centrée</td>
+      <td>6.0</td>
+      <td>959</td>
+      <td>-0.102759</td>
+      <td>-1.613930</td>
+      <td>-0.874868</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 5 séances</td>
+      <td>0.0</td>
+      <td>959</td>
+      <td>-0.088862</td>
+      <td>-1.402641</td>
+      <td>-0.761799</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 5 séances</td>
+      <td>1.0</td>
+      <td>959</td>
+      <td>-0.038951</td>
+      <td>-0.209068</td>
+      <td>-0.356668</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 5 séances</td>
+      <td>1.5</td>
+      <td>959</td>
+      <td>-0.024292</td>
+      <td>-0.189832</td>
+      <td>-0.213809</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 5 séances</td>
+      <td>3.0</td>
+      <td>959</td>
+      <td>-0.070888</td>
+      <td>-0.901189</td>
+      <td>-0.600922</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 5 séances</td>
+      <td>6.0</td>
+      <td>959</td>
+      <td>-0.106218</td>
+      <td>-1.631769</td>
+      <td>-0.909385</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 11 séances</td>
+      <td>0.0</td>
+      <td>959</td>
+      <td>-0.136746</td>
+      <td>-2.044101</td>
+      <td>-1.143729</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 11 séances</td>
+      <td>1.0</td>
+      <td>959</td>
+      <td>-0.057445</td>
+      <td>-0.300293</td>
+      <td>-0.500643</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 11 séances</td>
+      <td>1.5</td>
+      <td>959</td>
+      <td>-0.053733</td>
+      <td>-0.415281</td>
+      <td>-0.459329</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 11 séances</td>
+      <td>3.0</td>
+      <td>959</td>
+      <td>-0.082333</td>
+      <td>-1.025321</td>
+      <td>-0.674057</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 11 séances</td>
+      <td>6.0</td>
+      <td>959</td>
+      <td>-0.135066</td>
+      <td>-1.998955</td>
+      <td>-1.125526</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 22 séances</td>
+      <td>0.0</td>
+      <td>959</td>
+      <td>-0.150215</td>
+      <td>-2.140941</td>
+      <td>-1.213050</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 22 séances</td>
+      <td>1.0</td>
+      <td>959</td>
+      <td>-0.070679</td>
+      <td>-0.361280</td>
+      <td>-0.572950</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 22 séances</td>
+      <td>1.5</td>
+      <td>959</td>
+      <td>-0.067966</td>
+      <td>-0.515375</td>
+      <td>-0.550523</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 22 séances</td>
+      <td>3.0</td>
+      <td>959</td>
+      <td>-0.090024</td>
+      <td>-1.092531</td>
+      <td>-0.711716</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 22 séances</td>
+      <td>6.0</td>
+      <td>959</td>
+      <td>-0.144760</td>
+      <td>-2.050935</td>
+      <td>-1.165145</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 66 séances</td>
+      <td>0.0</td>
+      <td>959</td>
+      <td>-0.071951</td>
+      <td>-0.974126</td>
+      <td>-0.545640</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 66 séances</td>
+      <td>1.0</td>
+      <td>959</td>
+      <td>-0.050500</td>
+      <td>-0.243217</td>
+      <td>-0.376449</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 66 séances</td>
+      <td>1.5</td>
+      <td>959</td>
+      <td>-0.062069</td>
+      <td>-0.454630</td>
+      <td>-0.471124</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 66 séances</td>
+      <td>3.0</td>
+      <td>959</td>
+      <td>-0.051523</td>
+      <td>-0.602598</td>
+      <td>-0.383614</td>
+    </tr>
+    <tr>
+      <td>lissage exponentiel 66 séances</td>
+      <td>6.0</td>
+      <td>959</td>
+      <td>-0.065755</td>
+      <td>-0.881310</td>
+      <td>-0.495455</td>
+    </tr>
+    <tr>
+      <td>GARCH(1,1) réestimé</td>
+      <td>0.0</td>
+      <td>908</td>
+      <td>-0.261215</td>
+      <td>-3.728550</td>
+      <td>-2.064207</td>
+    </tr>
+    <tr>
+      <td>GARCH(1,1) réestimé</td>
+      <td>1.0</td>
+      <td>908</td>
+      <td>-0.194384</td>
+      <td>-0.985348</td>
+      <td>-1.540666</td>
+    </tr>
+    <tr>
+      <td>GARCH(1,1) réestimé</td>
+      <td>1.5</td>
+      <td>908</td>
+      <td>-0.235085</td>
+      <td>-1.880139</td>
+      <td>-1.859633</td>
+    </tr>
+    <tr>
+      <td>GARCH(1,1) réestimé</td>
+      <td>3.0</td>
+      <td>908</td>
+      <td>-0.227917</td>
+      <td>-2.965866</td>
+      <td>-1.808123</td>
+    </tr>
+    <tr>
+      <td>GARCH(1,1) réestimé</td>
+      <td>6.0</td>
+      <td>908</td>
+      <td>-0.261215</td>
+      <td>-3.728550</td>
+      <td>-2.064207</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><figcaption>Sous-périodes.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>label</th>
+      <th>start</th>
+      <th>end</th>
+      <th>n_observations</th>
+      <th>total_return</th>
+      <th>cagr</th>
+      <th>volatility</th>
+      <th>sharpe</th>
+      <th>sharpe_se_iid</th>
+      <th>sharpe_se_lo</th>
+      <th>t_stat</th>
+      <th>max_drawdown</th>
+      <th>hit_rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1946-08 à 1955-11</td>
+      <td>1946-08-31</td>
+      <td>1955-11-30</td>
+      <td>112</td>
+      <td>0.094574</td>
+      <td>0.009729</td>
+      <td>0.183832</td>
+      <td>0.142050</td>
+      <td>0.327464</td>
+      <td>0.343305</td>
+      <td>0.413772</td>
+      <td>-0.526572</td>
+      <td>0.473214</td>
+    </tr>
+    <tr>
+      <td>1955-12 à 1985-11</td>
+      <td>1955-12-31</td>
+      <td>1985-11-30</td>
+      <td>360</td>
+      <td>-0.068673</td>
+      <td>-0.002369</td>
+      <td>0.179409</td>
+      <td>0.076308</td>
+      <td>0.182596</td>
+      <td>0.187363</td>
+      <td>0.407274</td>
+      <td>-0.692001</td>
+      <td>0.486111</td>
+    </tr>
+    <tr>
+      <td>1985-12 à 2015-03</td>
+      <td>1985-12-31</td>
+      <td>2015-03-31</td>
+      <td>352</td>
+      <td>-0.495516</td>
+      <td>-0.023056</td>
+      <td>0.141687</td>
+      <td>-0.095364</td>
+      <td>0.184672</td>
+      <td>0.202943</td>
+      <td>-0.469908</td>
+      <td>-0.574170</td>
+      <td>0.446023</td>
+    </tr>
+    <tr>
+      <td>2015-04 à 2026-06</td>
+      <td>2015-04-30</td>
+      <td>2026-06-30</td>
+      <td>135</td>
+      <td>-0.476232</td>
+      <td>-0.055864</td>
+      <td>0.148954</td>
+      <td>-0.308709</td>
+      <td>0.298734</td>
+      <td>0.307615</td>
+      <td>-1.003559</td>
+      <td>-0.652738</td>
+      <td>0.474074</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><img src="figures/underwater_real_time.png" alt="Distance au sommet précédent, en points de pourcentage."><figcaption>Distance au sommet précédent, en points de pourcentage.</figcaption></figure>
+<figure><img src="figures/subperiod_bars.png" alt="Ratio de Sharpe annualisé et son intervalle à 95 pour cent, par sous-période."><figcaption>Ratio de Sharpe annualisé et son intervalle à 95 pour cent, par sous-période.</figcaption></figure>
+<figure><img src="figures/parameter_heatmap.png" alt="Une case par couple de réglages, ratio de Sharpe net de dix points de base."><figcaption>Une case par couple de réglages, ratio de Sharpe net de dix points de base.</figcaption></figure>
+</section>
+<section id="out_of_sample">
+<h2>11. Le hors échantillon</h2>
+<p>Avec une constante estimée sur le seul passé, l&#x27;alpha du marché passe de 4.74 à 2.44 pour cent par an. Le Sharpe hors échantillon de l&#x27;écart couvert net vaut -0.36.</p>
+<figure><figcaption>Constante ex post contre temps réel.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>factor</th>
+      <th>n_months</th>
+      <th>alpha_ex_post_pct</th>
+      <th>alpha_real_time_pct</th>
+      <th>alpha_gap_pct</th>
+      <th>tstat_ex_post</th>
+      <th>tstat_real_time</th>
+      <th>appraisal_ex_post</th>
+      <th>appraisal_real_time</th>
+      <th>appraisal_ratio_of_ratios</th>
+      <th>vol_ratio_ex_post</th>
+      <th>vol_ratio_real_time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Marché</td>
+      <td>1079</td>
+      <td>2.595859</td>
+      <td>2.438225</td>
+      <td>-0.157633</td>
+      <td>1.785959</td>
+      <td>1.250434</td>
+      <td>0.190482</td>
+      <td>0.133365</td>
+      <td>0.700147</td>
+      <td>1.199891</td>
+      <td>1.576894</td>
+    </tr>
+    <tr>
+      <td>Taille</td>
+      <td>1079</td>
+      <td>-0.837264</td>
+      <td>-0.247370</td>
+      <td>0.589895</td>
+      <td>-0.955793</td>
+      <td>-0.217921</td>
+      <td>-0.100932</td>
+      <td>-0.023013</td>
+      <td>0.228000</td>
+      <td>1.135283</td>
+      <td>1.407405</td>
+    </tr>
+    <tr>
+      <td>Valeur</td>
+      <td>1079</td>
+      <td>1.164696</td>
+      <td>1.809112</td>
+      <td>0.644416</td>
+      <td>1.117619</td>
+      <td>1.183122</td>
+      <td>0.118654</td>
+      <td>0.125608</td>
+      <td>1.058609</td>
+      <td>1.263185</td>
+      <td>1.871762</td>
+    </tr>
+    <tr>
+      <td>Momentum</td>
+      <td>1074</td>
+      <td>11.263013</td>
+      <td>11.072331</td>
+      <td>-0.190683</td>
+      <td>7.312111</td>
+      <td>4.824189</td>
+      <td>0.781602</td>
+      <td>0.515664</td>
+      <td>0.659753</td>
+      <td>1.213015</td>
+      <td>1.759082</td>
+    </tr>
+    <tr>
+      <td>Rentabilité (RMW)</td>
+      <td>635</td>
+      <td>2.721897</td>
+      <td>1.502764</td>
+      <td>-1.219133</td>
+      <td>3.251737</td>
+      <td>3.046809</td>
+      <td>0.449577</td>
+      <td>0.421244</td>
+      <td>0.936979</td>
+      <td>0.883459</td>
+      <td>0.542788</td>
+    </tr>
+    <tr>
+      <td>Investissement (CMA)</td>
+      <td>635</td>
+      <td>0.638958</td>
+      <td>0.434048</td>
+      <td>-0.204910</td>
+      <td>0.904253</td>
+      <td>0.748055</td>
+      <td>0.125431</td>
+      <td>0.103764</td>
+      <td>0.827263</td>
+      <td>0.957238</td>
+      <td>0.794760</td>
+    </tr>
+    <tr>
+      <td>Rentabilité sur fonds propres (ROE)</td>
+      <td>583</td>
+      <td>6.150788</td>
+      <td>4.652984</td>
+      <td>-1.497804</td>
+      <td>6.005520</td>
+      <td>5.852001</td>
+      <td>0.879791</td>
+      <td>0.857301</td>
+      <td>0.974437</td>
+      <td>0.967792</td>
+      <td>0.758605</td>
+    </tr>
+    <tr>
+      <td>Investissement (IA)</td>
+      <td>583</td>
+      <td>1.901136</td>
+      <td>1.314497</td>
+      <td>-0.586639</td>
+      <td>2.281828</td>
+      <td>1.916609</td>
+      <td>0.329976</td>
+      <td>0.277162</td>
+      <td>0.839945</td>
+      <td>1.009895</td>
+      <td>0.827407</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><figcaption>Combinaison moyenne-variance.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>risk_aversion</th>
+      <th>constant_window_months</th>
+      <th>n_months</th>
+      <th>sharpe_combination</th>
+      <th>sharpe_base_only</th>
+      <th>ce_combination</th>
+      <th>ce_base_only</th>
+      <th>median_weight_base</th>
+      <th>median_weight_managed</th>
+      <th>p99_weight_managed</th>
+      <th>combination_wins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1.0</td>
+      <td>60</td>
+      <td>1019</td>
+      <td>0.550243</td>
+      <td>0.527225</td>
+      <td>0.133715</td>
+      <td>0.118681</td>
+      <td>1.289052</td>
+      <td>1.038317</td>
+      <td>1.265978</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>1.0</td>
+      <td>120</td>
+      <td>959</td>
+      <td>0.519345</td>
+      <td>0.508666</td>
+      <td>0.130697</td>
+      <td>0.128685</td>
+      <td>2.193172</td>
+      <td>0.587063</td>
+      <td>0.966633</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>1.0</td>
+      <td>240</td>
+      <td>839</td>
+      <td>0.381408</td>
+      <td>0.411665</td>
+      <td>0.050811</td>
+      <td>0.058937</td>
+      <td>2.133520</td>
+      <td>0.979090</td>
+      <td>1.530177</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>1.0</td>
+      <td>360</td>
+      <td>719</td>
+      <td>0.404652</td>
+      <td>0.394647</td>
+      <td>0.081117</td>
+      <td>0.077672</td>
+      <td>1.084801</td>
+      <td>1.359975</td>
+      <td>1.874516</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>3.0</td>
+      <td>60</td>
+      <td>1019</td>
+      <td>0.550243</td>
+      <td>0.527225</td>
+      <td>0.044572</td>
+      <td>0.039560</td>
+      <td>0.429684</td>
+      <td>0.346106</td>
+      <td>0.421993</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>3.0</td>
+      <td>120</td>
+      <td>959</td>
+      <td>0.519345</td>
+      <td>0.508666</td>
+      <td>0.043566</td>
+      <td>0.042895</td>
+      <td>0.731057</td>
+      <td>0.195688</td>
+      <td>0.322211</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>3.0</td>
+      <td>240</td>
+      <td>839</td>
+      <td>0.381408</td>
+      <td>0.411665</td>
+      <td>0.016937</td>
+      <td>0.019646</td>
+      <td>0.711173</td>
+      <td>0.326363</td>
+      <td>0.510059</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>3.0</td>
+      <td>360</td>
+      <td>719</td>
+      <td>0.404652</td>
+      <td>0.394647</td>
+      <td>0.027039</td>
+      <td>0.025891</td>
+      <td>0.361600</td>
+      <td>0.453325</td>
+      <td>0.624839</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>5.0</td>
+      <td>60</td>
+      <td>1019</td>
+      <td>0.550243</td>
+      <td>0.527225</td>
+      <td>0.026743</td>
+      <td>0.023736</td>
+      <td>0.257810</td>
+      <td>0.207663</td>
+      <td>0.253196</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>5.0</td>
+      <td>120</td>
+      <td>959</td>
+      <td>0.519345</td>
+      <td>0.508666</td>
+      <td>0.026139</td>
+      <td>0.025737</td>
+      <td>0.438634</td>
+      <td>0.117413</td>
+      <td>0.193327</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>5.0</td>
+      <td>240</td>
+      <td>839</td>
+      <td>0.381408</td>
+      <td>0.411665</td>
+      <td>0.010162</td>
+      <td>0.011787</td>
+      <td>0.426704</td>
+      <td>0.195818</td>
+      <td>0.306035</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>5.0</td>
+      <td>360</td>
+      <td>719</td>
+      <td>0.404652</td>
+      <td>0.394647</td>
+      <td>0.016223</td>
+      <td>0.015534</td>
+      <td>0.216960</td>
+      <td>0.271995</td>
+      <td>0.374903</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>10.0</td>
+      <td>60</td>
+      <td>1019</td>
+      <td>0.550243</td>
+      <td>0.527225</td>
+      <td>0.013372</td>
+      <td>0.011868</td>
+      <td>0.128905</td>
+      <td>0.103832</td>
+      <td>0.126598</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>10.0</td>
+      <td>120</td>
+      <td>959</td>
+      <td>0.519345</td>
+      <td>0.508666</td>
+      <td>0.013070</td>
+      <td>0.012868</td>
+      <td>0.219317</td>
+      <td>0.058706</td>
+      <td>0.096663</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>10.0</td>
+      <td>240</td>
+      <td>839</td>
+      <td>0.381408</td>
+      <td>0.411665</td>
+      <td>0.005081</td>
+      <td>0.005894</td>
+      <td>0.213352</td>
+      <td>0.097909</td>
+      <td>0.153018</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>10.0</td>
+      <td>360</td>
+      <td>719</td>
+      <td>0.404652</td>
+      <td>0.394647</td>
+      <td>0.008112</td>
+      <td>0.007767</td>
+      <td>0.108480</td>
+      <td>0.135997</td>
+      <td>0.187452</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><figcaption>Validation croisée combinatoire purgée, sept chemins.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>statistic</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>count</td>
+      <td>7.000000</td>
+    </tr>
+    <tr>
+      <td>mean</td>
+      <td>-0.118755</td>
+    </tr>
+    <tr>
+      <td>median</td>
+      <td>-0.125758</td>
+    </tr>
+    <tr>
+      <td>std</td>
+      <td>0.023951</td>
+    </tr>
+    <tr>
+      <td>min</td>
+      <td>-0.145183</td>
+    </tr>
+    <tr>
+      <td>max</td>
+      <td>-0.075310</td>
+    </tr>
+    <tr>
+      <td>quantile_low</td>
+      <td>-0.143866</td>
+    </tr>
+    <tr>
+      <td>quantile_high</td>
+      <td>-0.083839</td>
+    </tr>
+    <tr>
+      <td>quantile_low_level</td>
+      <td>0.050000</td>
+    </tr>
+    <tr>
+      <td>quantile_high_level</td>
+      <td>0.950000</td>
+    </tr>
+    <tr>
+      <td>negative_share</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><img src="figures/rolling_sharpe_spread.png" alt="Ratio de Sharpe annualisé sur fenêtre glissante de 120 mois."><figcaption>Ratio de Sharpe annualisé sur fenêtre glissante de 120 mois.</figcaption></figure>
+</section>
+<section id="statistical_tests">
+<h2>12. Les tests statistiques</h2>
+<p>Le ratio de Sharpe dégonflé, la probabilité de surapprentissage et la correction de Holm sur les huit facteurs sont rapportés dans les tableaux joints.</p>
+<figure><figcaption>Correction de Holm.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>factor</th>
+      <th>tstat_real_time</th>
+      <th>pvalue</th>
+      <th>adjusted_pvalue</th>
+      <th>rejected</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Marché</td>
+      <td>1.250434</td>
+      <td>2.111410e-01</td>
+      <td>8.445640e-01</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>Taille</td>
+      <td>-0.217921</td>
+      <td>8.274910e-01</td>
+      <td>9.088538e-01</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>Valeur</td>
+      <td>1.183122</td>
+      <td>2.367609e-01</td>
+      <td>8.445640e-01</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>Momentum</td>
+      <td>4.824189</td>
+      <td>1.405742e-06</td>
+      <td>9.840194e-06</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>Rentabilité (RMW)</td>
+      <td>3.046809</td>
+      <td>2.312847e-03</td>
+      <td>1.387708e-02</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>Investissement (CMA)</td>
+      <td>0.748055</td>
+      <td>4.544269e-01</td>
+      <td>9.088538e-01</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>Rentabilité sur fonds propres (ROE)</td>
+      <td>5.852001</td>
+      <td>4.856944e-09</td>
+      <td>3.885555e-08</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>Investissement (IA)</td>
+      <td>1.916609</td>
+      <td>5.528767e-02</td>
+      <td>2.764383e-01</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><figcaption>Le compte des essais.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>family</th>
+      <th>n_trials</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>in_sample</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>real_time</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>combination</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <td>costs_ex_post</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>costs</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>cost_multiple</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>hedge</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>delay</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>sweep</td>
+      <td>35</td>
+    </tr>
+    <tr>
+      <td>window</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>TOTAL</td>
+      <td>89</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><img src="figures/return_histogram.png" alt="Histogramme des rendements mensuels et loi normale de même moyenne."><figcaption>Histogramme des rendements mensuels et loi normale de même moyenne.</figcaption></figure>
+<figure><img src="figures/qq_plot_spread.png" alt="Écart à la normalité des rendements mensuels de l&#x27;écart couvert."><figcaption>Écart à la normalité des rendements mensuels de l&#x27;écart couvert.</figcaption></figure>
+</section>
+<section id="factor_attribution">
+<h2>13. L&#x27;attribution factorielle</h2>
+<p>La corrélation de l&#x27;écart couvert avec le marché est celle d&#x27;une série construite pour être orthogonale au passé, et elle est publiée dans les métriques.</p>
+<figure><img src="figures/correlation_heatmap.png" alt="Corrélations de Pearson sur les mois communs aux quatre séries."><figcaption>Corrélations de Pearson sur les mois communs aux quatre séries.</figcaption></figure>
+</section>
+<section id="limitations">
+<h2>14. Les limites</h2>
+<p>Le portage de change manque. Les facteurs q sont d&#x27;un millésime plus récent que celui de l&#x27;article. Aucun coût de financement du levier n&#x27;est retranché.</p>
+</section>
+<section id="verdict">
+<h2>15. Le verdict</h2>
+<p>Le verdict est déduit des seuils écrits dans config.yaml, sans arbitrage.</p>
+<p class="verdict">REJECTED</p>
+<ul class="reasons">
+<li class="reason-pass">RÉUSSI | hypothèse économique : signe attendu retrouvé, le signe décide du rejet</li>
+<li class="reason-fail">ÉCHOUÉ | signe du Sharpe hors échantillon : -0,362 mesuré, rejet à 0,000 ou moins</li>
+<li class="reason-pass">RÉUSSI | réplication de « alpha annualisé, Marché » : 4,743 contre 4,860 publié, écart relatif 0,024, tolérance 0,250 (relative)</li>
+<li class="reason-pass">RÉUSSI | réplication de « alpha annualisé, Momentum » : 12,569 contre 12,510 publié, écart relatif 0,005, tolérance 0,250 (relative)</li>
+<li class="reason-pass">RÉUSSI | réplication de « alpha annualisé, Rentabilité (RMW) » : 2,494 contre 2,440 publié, écart relatif 0,022, tolérance 0,250 (relative)</li>
+<li class="reason-pass">RÉUSSI | réplication de « alpha annualisé, Rentabilité sur fonds propres (ROE) » : 4,975 contre 5,480 publié, écart relatif 0,092, tolérance 0,250 (relative)</li>
+<li class="reason-pass">RÉUSSI | réplication de « alpha annualisé, Investissement (IA) » : 1,655 contre 1,550 publié, écart relatif 0,067, tolérance 0,250 (relative)</li>
+<li class="reason-pass">RÉUSSI | réplication de « nombre de mois du marché » : 1065,000 contre 1065,000 publié, écart relatif 0,000, tolérance 0,000 (absolute), soit 0,000 en relatif</li>
+<li class="reason-pass">RÉUSSI | réplication de « bêta du marché géré » : 0,622 contre 0,610 publié, écart relatif 0,020, tolérance 0,250 (relative)</li>
+<li class="reason-pass">RÉUSSI | réplication de « erreur type de l&#x27;alpha du marché » : 1,565 contre 1,560 publié, écart relatif 0,004, tolérance 0,250 (relative)</li>
+<li class="reason-pass">RÉUSSI | réplication : 8 contrôle(s) sur 8 dans la tolérance, tous exigés</li>
+<li class="reason-fail">ÉCHOUÉ | Sharpe hors échantillon : -0,362 mesuré, minimum 0,500</li>
+<li class="reason-fail">ÉCHOUÉ | t après correction pour essais multiples : -1,179 mesuré, minimum 3,000</li>
+<li class="reason-fail">ÉCHOUÉ | Sharpe dégonflé : 0,000 mesuré, minimum 0,950</li>
+<li class="reason-fail">ÉCHOUÉ | probabilité de surapprentissage : 0,700 mesuré, maximum 0,500</li>
+<li class="reason-fail">ÉCHOUÉ | part de sous-périodes positives : 0,500 mesuré, minimum 0,600</li>
+<li class="reason-fail">ÉCHOUÉ | multiple de coûts survécu : 0,000 mesuré, minimum 2,000</li>
+<li class="reason-pass">RÉUSSI | corrélation absolue avec le portefeuille existant : 0,407 mesurée, maximum 0,600</li>
+<li class="reason-fail">VERDICT | REJECTED</li>
+</ul>
+</section>
+</body>
+</html>

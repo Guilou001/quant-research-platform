@@ -1,0 +1,31 @@
+name: time_series_momentum
+family: momentum
+paper: Moskowitz, T. J., Ooi, Y. H. et Pedersen, L. H. (2012). Time series momentum.
+  Journal of Financial Economics, 104(2), 228-250. doi:10.1016/j.jfineco.2011.11.003
+asset_classes:
+- equity_index
+- bond
+- commodity
+- fx
+horizon: formation de douze mois, détention d'un mois, rééquilibrage mensuel
+economic_rationale:
+- biais comportemental
+- contrainte institutionnelle
+inputs:
+- rendements quotidiens et mensuels de vingt-huit fonds négociés en bourse
+- taux sans risque mensuel et quotidien de Kenneth French
+- facteur TSMOM mensuel publié par AQR, série des auteurs
+known_risks:
+- le levier brut de la construction dépasse cinq fois le capital
+- la prévisibilité mesurée par régression groupée est contestée par Huang et coauteurs
+  (2020)
+- les fonds cotés ne portent ni le portage ni le coût de renouvellement des contrats
+  à terme
+validation_status: EXPERIMENTAL
+verdict_experiment_id: 001_time_series_momentum-0e835ea01d
+created: '2026-09-02'
+last_modified: '2026-09-02'
+notes: 'Les deux mécanismes sont ceux de l''article : sous-réaction du prix puis surréaction
+  retardée, et pression de couverture des intervenants commerciaux. Une réplication
+  en échantillon est impossible faute de contrats à terme et faute de fonds cotés
+  avant 2007. L''étude est donc un test hors échantillon.'

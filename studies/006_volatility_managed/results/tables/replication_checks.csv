@@ -1,0 +1,9 @@
+quantity,published,ours,absolute_error,relative_error,tolerance,tolerance_kind,verdict,source
+"alpha annualisé, Marché",4.86,4.743380416606838,0.11661958339316225,0.023995799052090996,0.25,relative,répliqué,"Moreira et Muir (2016), NBER 22208, tableau 1, panneau A"
+"alpha annualisé, Momentum",12.51,12.568805096508479,0.05880509650847898,0.004700647202915986,0.25,relative,répliqué,"Moreira et Muir (2016), NBER 22208, tableau 1, panneau A"
+"alpha annualisé, Rentabilité (RMW)",2.44,2.4939519070345098,0.053951907034509805,0.02211143730922533,0.25,relative,répliqué,"Moreira et Muir (2016), NBER 22208, tableau 1, panneau A"
+"alpha annualisé, Rentabilité sur fonds propres (ROE)",5.48,4.97523406182707,0.5047659381729304,0.09211057265929386,0.25,relative,répliqué,"Moreira et Muir (2016), NBER 22208, tableau 1, panneau A"
+"alpha annualisé, Investissement (IA)",1.55,1.6545299487247949,0.10452994872479482,0.06743867659664182,0.25,relative,répliqué,"Moreira et Muir (2016), NBER 22208, tableau 1, panneau A"
+nombre de mois du marché,1065.0,1065.0,0.0,0.0,0.0,absolute,répliqué,"Moreira et Muir (2016), NBER 22208, tableau 1, panneau A"
+bêta du marché géré,0.61,0.6224958088463846,0.01249580884638457,0.020484932535056673,0.25,relative,répliqué,"Moreira et Muir (2016), NBER 22208, tableau 1, panneau A"
+erreur type de l'alpha du marché,1.56,1.5654654091767455,0.005465409176745428,0.003503467420990659,0.25,relative,répliqué,"Moreira et Muir (2016), NBER 22208, tableau 1, panneau A"

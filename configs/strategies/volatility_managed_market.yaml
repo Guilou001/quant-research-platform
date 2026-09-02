@@ -1,0 +1,27 @@
+name: volatility_managed_market
+family: timing
+paper: Moreira, A. et Muir, T. (2017). Volatility-Managed Portfolios. The Journal
+  of Finance, 72(4), 1611-1644. Chiffres cibles lus dans le document de travail NBER
+  22208 d'avril 2016.
+asset_classes:
+- equity_index
+horizon: formation sur un mois de séances, détention un mois
+economic_rationale:
+- prime de risque
+- friction
+inputs:
+- rendements quotidiens du facteur, bibliothèque de Kenneth French
+- rendements mensuels du facteur, même bibliothèque
+known_risks:
+- La constante de mise à l'échelle emploie l'écart type de plein échantillon.
+- Le levier exigé dépasse deux plusieurs mois sur cent.
+- La rotation mensuelle rend la stratégie sensible aux frais.
+validation_status: REJECTED
+verdict_experiment_id: 006_volatility_managed-86fca82c0a
+created: '2026-09-02'
+last_modified: '2026-09-02'
+notes: Étude 006. Le mécanisme invoqué est une prime de risque dont le prix, le rapport
+  du rendement attendu à la variance, baisse quand la variance monte. La variance
+  se prévoit bien mieux à un mois que le rendement attendu, et c'est cet écart de
+  prévisibilité qui produit l'alpha en échantillon. La friction retenue est le coût
+  de rotation d'un levier qui change tous les mois. Le verdict est déduit par quantlab.reporting.study.decide_verdict.

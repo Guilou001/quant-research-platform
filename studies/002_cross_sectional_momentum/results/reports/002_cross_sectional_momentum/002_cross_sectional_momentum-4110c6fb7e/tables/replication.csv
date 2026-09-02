@@ -1,0 +1,12 @@
+quantity,published,ours,absolute_error,relative_error,tolerance,tolerance_kind,verdict,source
+ecart_mensuel,0.0131,0.013318666666666668,0.00021866666666666736,0.016692111959287582,0.3,relative,répliqué,"Table I, panneau A, J = 12 et K = 3, page 69"
+t_de_l_ecart,3.74,4.797150604208499,1.0571506042084984,0.28266058936056104,0.3,relative,répliqué,"Table I, panneau A, J = 12 et K = 3, page 69"
+beta_du_decile_perdant,1.36,1.280257903661926,0.07974209633807416,0.058633894366230996,0.3,relative,répliqué,"Table II, portefeuille P1, page 72"
+beta_du_decile_gagnant,1.28,1.2531327279884699,0.026867272011530163,0.02099005625900794,0.3,relative,répliqué,"Table II, portefeuille P10, page 72"
+beta_de_l_ecart,-0.08,-0.02712517567345607,0.05287482432654393,0.6609353040817991,0.1,absolute,répliqué,"Table II, P10 moins P1, page 72"
+rendement_de_janvier,-0.0686,-0.052615999999999996,0.015983999999999998,0.23300291545189503,0.3,relative,répliqué,"Table III, stratégie 6 sur 6, tous titres, page 79"
+t_de_janvier,-3.52,-3.3665935269277654,0.15340647307223465,0.04358138439552121,0.3,relative,répliqué,"Table III, stratégie 6 sur 6, tous titres, page 79"
+rendement_de_fevrier_a_decembre,0.0166,0.019312727272727273,0.002712727272727273,0.1634173055859803,0.3,relative,répliqué,"Table III, stratégie 6 sur 6, tous titres, page 79"
+t_de_fevrier_a_decembre,6.67,8.119402527398561,1.4494025273985613,0.21730172824566138,0.3,relative,répliqué,"Table III, stratégie 6 sur 6, tous titres, page 79"
+part_de_mois_positifs,0.67,0.6966666666666667,0.026666666666666616,0.039800995024875545,0.3,relative,répliqué,"Section II.A, page 78"
+part_de_mois_positifs_hors_janvier,0.71,0.7345454545454545,0.024545454545454537,0.03457106274007681,0.3,relative,répliqué,"Section II.A, page 78"

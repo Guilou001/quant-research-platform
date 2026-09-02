@@ -1,0 +1,122 @@
+{
+  "study": "006_volatility_managed",
+  "experiment_id": "006_volatility_managed-86fca82c0a",
+  "seed": 20260902,
+  "verdict": "REJECTED",
+  "reasons": [
+    "RÉUSSI | hypothèse économique : signe attendu retrouvé, le signe décide du rejet",
+    "ÉCHOUÉ | signe du Sharpe hors échantillon : -0,362 mesuré, rejet à 0,000 ou moins",
+    "RÉUSSI | réplication de « alpha annualisé, Marché » : 4,743 contre 4,860 publié, écart relatif 0,024, tolérance 0,250 (relative)",
+    "RÉUSSI | réplication de « alpha annualisé, Momentum » : 12,569 contre 12,510 publié, écart relatif 0,005, tolérance 0,250 (relative)",
+    "RÉUSSI | réplication de « alpha annualisé, Rentabilité (RMW) » : 2,494 contre 2,440 publié, écart relatif 0,022, tolérance 0,250 (relative)",
+    "RÉUSSI | réplication de « alpha annualisé, Rentabilité sur fonds propres (ROE) » : 4,975 contre 5,480 publié, écart relatif 0,092, tolérance 0,250 (relative)",
+    "RÉUSSI | réplication de « alpha annualisé, Investissement (IA) » : 1,655 contre 1,550 publié, écart relatif 0,067, tolérance 0,250 (relative)",
+    "RÉUSSI | réplication de « nombre de mois du marché » : 1065,000 contre 1065,000 publié, écart relatif 0,000, tolérance 0,000 (absolute), soit 0,000 en relatif",
+    "RÉUSSI | réplication de « bêta du marché géré » : 0,622 contre 0,610 publié, écart relatif 0,020, tolérance 0,250 (relative)",
+    "RÉUSSI | réplication de « erreur type de l'alpha du marché » : 1,565 contre 1,560 publié, écart relatif 0,004, tolérance 0,250 (relative)",
+    "RÉUSSI | réplication : 8 contrôle(s) sur 8 dans la tolérance, tous exigés",
+    "ÉCHOUÉ | Sharpe hors échantillon : -0,362 mesuré, minimum 0,500",
+    "ÉCHOUÉ | t après correction pour essais multiples : -1,179 mesuré, minimum 3,000",
+    "ÉCHOUÉ | Sharpe dégonflé : 0,000 mesuré, minimum 0,950",
+    "ÉCHOUÉ | probabilité de surapprentissage : 0,700 mesuré, maximum 0,500",
+    "ÉCHOUÉ | part de sous-périodes positives : 0,500 mesuré, minimum 0,600",
+    "ÉCHOUÉ | multiple de coûts survécu : 0,000 mesuré, minimum 2,000",
+    "RÉUSSI | corrélation absolue avec le portefeuille existant : 0,407 mesurée, maximum 0,600",
+    "VERDICT | REJECTED"
+  ],
+  "n_trials": 89,
+  "trials_by_family": {
+    "in_sample": 8,
+    "real_time": 8,
+    "combination": 16,
+    "costs_ex_post": 4,
+    "costs": 4,
+    "cost_multiple": 6,
+    "hedge": 1,
+    "delay": 3,
+    "sweep": 35,
+    "window": 4
+  },
+  "metrics": {
+    "alpha_marche_in_sample_pct": 4.743380416606838,
+    "tstat_alpha_marche_in_sample": 3.0300129206312576,
+    "appraisal_marche_in_sample": 0.32397558030153084,
+    "alpha_marche_temps_reel_pct": 2.4382254582237946,
+    "tstat_alpha_marche_temps_reel": 1.2504341085053476,
+    "appraisal_marche_temps_reel": 0.13336512908659234,
+    "sharpe_ecart_couvert_oos_net": -0.36211021739840044,
+    "sharpe_ecart_couvert_complet_net": -0.08004983488858665,
+    "rotation_annualisee": 9.743739920304307,
+    "cout_de_rentabilite_bps": -3.7082562434058826,
+    "probabilite_de_surapprentissage": 0.7,
+    "sharpe_degonfle": 6.9917362003807315e-37,
+    "t_apres_correction": -1.179133878780567,
+    "part_de_sous_periodes_positives": 0.5,
+    "correlation_avec_le_marche": -0.40672387740591437,
+    "cpcv_sharpe_moyen": -0.11875526618865584,
+    "cpcv_part_de_chemins_negatifs": 1.0
+  },
+  "metric_samples": {
+    "alpha_marche_in_sample_pct": "IS",
+    "tstat_alpha_marche_in_sample": "IS",
+    "appraisal_marche_in_sample": "IS",
+    "alpha_marche_temps_reel_pct": "VALIDATION",
+    "tstat_alpha_marche_temps_reel": "VALIDATION",
+    "appraisal_marche_temps_reel": "VALIDATION",
+    "sharpe_ecart_couvert_oos_net": "OOS",
+    "sharpe_ecart_couvert_complet_net": "VALIDATION",
+    "rotation_annualisee": "VALIDATION",
+    "cout_de_rentabilite_bps": "VALIDATION",
+    "probabilite_de_surapprentissage": "VALIDATION",
+    "sharpe_degonfle": "OOS",
+    "t_apres_correction": "OOS",
+    "part_de_sous_periodes_positives": "VALIDATION",
+    "correlation_avec_le_marche": "VALIDATION",
+    "cpcv_sharpe_moyen": "OOS",
+    "cpcv_part_de_chemins_negatifs": "OOS"
+  },
+  "cost_basis": {
+    "alpha_marche_in_sample_pct": "gross",
+    "tstat_alpha_marche_in_sample": "gross",
+    "appraisal_marche_in_sample": "gross",
+    "alpha_marche_temps_reel_pct": "gross",
+    "tstat_alpha_marche_temps_reel": "gross",
+    "appraisal_marche_temps_reel": "gross",
+    "sharpe_ecart_couvert_oos_net": "net",
+    "sharpe_ecart_couvert_complet_net": "net",
+    "rotation_annualisee": "gross",
+    "cout_de_rentabilite_bps": "gross",
+    "probabilite_de_surapprentissage": "net",
+    "sharpe_degonfle": "net",
+    "t_apres_correction": "net",
+    "part_de_sous_periodes_positives": "net",
+    "correlation_avec_le_marche": "gross",
+    "cpcv_sharpe_moyen": "net",
+    "cpcv_part_de_chemins_negatifs": "net"
+  },
+  "samples": {
+    "paper_window": [
+      "1926-08-31",
+      "2015-04-30"
+    ],
+    "full_window": [
+      "1926-08-31",
+      "2026-06-30"
+    ],
+    "real_time_window": [
+      "1936-08-31",
+      "2026-06-30"
+    ],
+    "holdout_window": [
+      "2015-05-31",
+      "2026-06-30"
+    ]
+  },
+  "cost_assumptions_bps": {
+    "spread_bps": 10.0
+  },
+  "data_sha256": {
+    "global_q_daily": "db88d58740315586e63b18af3d1c2242f5891fe1954502c84ced076a5971e14b",
+    "global_q_monthly": "8b2e2f1364890f8f5876da20e6bfad0acd8d272425de3b65c725f54b51128f6a"
+  }
+}

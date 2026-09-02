@@ -1,0 +1,161 @@
+# Étude 006, portefeuilles gérés en volatilité.
+# Validée par quantlab.core.config.ExperimentConfig. Aucune constante de
+# l'étude ne vit ailleurs que dans ce fichier, règle 13 du CLAUDE.md.
+
+name: 006_volatility_managed
+hypothesis: >-
+  Multiplier un facteur par l'inverse de sa variance réalisée du mois précédent
+  produit un alpha positif dans la régression d'engendrement. Cet alpha survit
+  à une constante de mise à l'échelle estimée sur le seul passé.
+paper: >-
+  Moreira, A. et Muir, T. (2017). Volatility-Managed Portfolios. The Journal of
+  Finance, 72(4), 1611-1644. Chiffres cibles lus dans le document de travail
+  NBER 22208 d'avril 2016.
+seed: 20260902
+
+data:
+  provider: french
+  universe:
+    - MKT-RF
+    - SMB
+    - HML
+    - MOM
+    - RMW
+    - CMA
+    - ROE
+    - IA
+  start: "1926-07-01"
+  end: "2026-06-30"
+  frequency: monthly
+  calendar: XNYS
+  price_field: total_return
+
+# Le coût de référence est celui de Frazzini, Israel et Moskowitz (2015), retenu
+# par l'article dans son tableau 4. Le point de base unique de Fleming, Kirby et
+# Ostdiek (2003) et la majoration de quatre points en volatilité haute sont
+# balayés dans params.cost_bps_grid.
+costs:
+  commission_bps: 0.0
+  spread_bps: 10.0
+  slippage_bps: 0.0
+  borrow_bps_annual: 0.0
+  financing_spread_bps_annual: 0.0
+
+risk:
+  leverage_cap: 100.0
+  leverage_floor: 0.0
+
+# Le découpage sert la validation croisée combinatoire et la lecture du hors
+# échantillon. La date de fin de l'article, avril 2015, sépare l'échantillon de
+# publication du reste.
+validation:
+  train_end: "1985-12-31"
+  validation_end: "2015-04-30"
+  final_holdout_start: "2015-05-31"
+  embargo_periods: 1
+  purge_periods: 1
+  n_folds: 8
+  n_test_folds: 2
+
+params:
+  # Les bornes d'échantillon testées au front 1.
+  paper_end: "2015-04-30"
+  naive_end: "2015-12-31"
+  candidate_starts:
+    - "1926-07-01"
+    - "1926-08-01"
+    - "1926-11-01"
+    - "1927-01-01"
+  candidate_min_days:
+    - 1
+    - 15
+    - 18
+    - 20
+    - 22
+
+  # La mesure de variance de référence, et ses variantes de robustesse.
+  variance_method: realized
+  demean_realized_variance: false
+  min_trading_days: 1
+  ewma_halflives:
+    - 5.0
+    - 11.0
+    - 22.0
+    - 66.0
+  garch_refit_months: 120
+  garch_min_train_days: 1260
+  garch_p: 1
+  garch_q: 1
+  garch_distribution: normal
+
+  # La constante de mise à l'échelle, cœur du front 3.
+  constant_min_periods: 120
+  constant_min_periods_grid:
+    - 60
+    - 120
+    - 240
+    - 360
+
+  # Le plafond de levier balayé en robustesse. La valeur nulle vaut « aucun
+  # plafond », et elle est celle du tableau 1 de l'article.
+  leverage_caps:
+    - 0.0
+    - 1.0
+    - 1.5
+    - 3.0
+    - 6.0
+
+  # Les coûts balayés, en points de base du montant négocié.
+  cost_bps_grid:
+    - 0.0
+    - 1.0
+    - 10.0
+    - 14.0
+  cost_multipliers:
+    - 0.0
+    - 0.5
+    - 1.0
+    - 2.0
+    - 3.0
+    - 5.0
+    - 10.0
+  execution_delays:
+    - 1
+    - 2
+    - 3
+
+  # La combinaison moyenne-variance en temps réel, test de Cederburg et al.
+  risk_aversion: 3.0
+  risk_aversion_grid:
+    - 1.0
+    - 3.0
+    - 5.0
+    - 10.0
+  combination_min_periods: 120
+
+  # Les sous-périodes de trente ans du tableau 2, panneau B, de l'article. Les
+  # étiquettes publiées sont déduites des dates réellement couvertes, la version
+  # tenable ne commençant qu'en août 1946.
+  subperiod_breakpoints:
+    - "1955-12-31"
+    - "1985-12-31"
+
+  # Les sources hors bibliothèque de Kenneth French.
+  global_q_daily_url: https://global-q.org/uploads/1/2/2/6/122679606/q5_factors_daily_2025.csv
+  global_q_monthly_url: https://global-q.org/uploads/1/2/2/6/122679606/q5_factors_monthly_2025.csv
+  global_q_start: "1967-06-30"
+
+  # Les tirages du rééchantillonnage par blocs.
+  bootstrap_resamples: 2000
+  bootstrap_block_months: 12.0
+
+  # Les seuils du verdict, écrits avant que les résultats existent.
+  verdict:
+    replication_tolerance: 0.25
+    min_oos_sharpe: 0.5
+    min_tstat: 3.0
+    min_dsr: 0.95
+    max_pbo: 0.5
+    min_positive_subperiod_share: 0.6
+    min_cost_multiple: 2.0
+    max_portfolio_correlation: 0.6

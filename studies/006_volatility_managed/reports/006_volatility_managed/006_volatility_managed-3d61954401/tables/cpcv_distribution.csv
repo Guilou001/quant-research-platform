@@ -1,0 +1,12 @@
+statistic,value
+count,7.0
+mean,-0.11875526618865584
+median,-0.1257584054523114
+std,0.02395056925922346
+min,-0.1451830438893884
+max,-0.0753100487916904
+quantile_low,-0.14386616610655562
+quantile_high,-0.08383928445838898
+quantile_low_level,0.05
+quantile_high_level,0.95
+negative_share,1.0

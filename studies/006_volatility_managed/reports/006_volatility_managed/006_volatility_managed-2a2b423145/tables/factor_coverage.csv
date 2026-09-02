@@ -1,0 +1,10 @@
+factor,daily_source,monthly_source,covered
+Marché,Kenneth French,Kenneth French,True
+Taille,Kenneth French,Kenneth French,True
+Valeur,Kenneth French,Kenneth French,True
+Momentum,Kenneth French,Kenneth French,True
+Rentabilité (RMW),Kenneth French,Kenneth French,True
+Investissement (CMA),Kenneth French,Kenneth French,True
+Rentabilité sur fonds propres (ROE),global-q.org,global-q.org,True
+Investissement (IA),global-q.org,global-q.org,True
+Portage de change,"non trouvé, série quotidienne non publiée","non trouvé, série quotidienne non publiée",False

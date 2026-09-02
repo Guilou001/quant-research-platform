@@ -1,0 +1,263 @@
+{
+  "study": "002_cross_sectional_momentum",
+  "experiment_id": "002_cross_sectional_momentum-4110c6fb7e",
+  "created_at": "2026-09-02T16:56:03.027172+00:00",
+  "hypothesis": "Acheter le décile des titres au plus fort rendement passé et vendre celui au plus faible rendement passé rapporte un écart positif, et cet écart survit à sa publication en 1993.",
+  "paper": "Jegadeesh, N. et Titman, S. (1993). Returns to buying winners and selling losers: implications for stock market efficiency. The Journal of Finance, 48(1), 65-91. doi:10.1111/j.1540-6261.1993.tb04702.x",
+  "verdict": "EXPERIMENTAL",
+  "reasons": [
+    "RÉUSSI | hypothèse économique : signe attendu retrouvé, le signe décide du rejet",
+    "RÉUSSI | signe du Sharpe hors échantillon : 0,306 mesuré, rejet à 0,000 ou moins",
+    "RÉUSSI | réplication de « ecart_mensuel » : 0,013 contre 0,013 publié, écart relatif 0,017, tolérance 0,300 (relative)",
+    "RÉUSSI | réplication de « t_de_l_ecart » : 4,797 contre 3,740 publié, écart relatif 0,283, tolérance 0,300 (relative)",
+    "RÉUSSI | réplication de « beta_du_decile_perdant » : 1,280 contre 1,360 publié, écart relatif 0,059, tolérance 0,300 (relative)",
+    "RÉUSSI | réplication de « beta_du_decile_gagnant » : 1,253 contre 1,280 publié, écart relatif 0,021, tolérance 0,300 (relative)",
+    "ÉCHOUÉ | réplication de « beta_de_l_ecart » : -0,027 contre -0,080 publié, écart relatif 0,661, tolérance 0,100 (absolute), soit 1,250 en relatif, plus large que la tolérance déclarée 0,300",
+    "RÉUSSI | réplication de « rendement_de_janvier » : -0,053 contre -0,069 publié, écart relatif 0,233, tolérance 0,300 (relative)",
+    "RÉUSSI | réplication de « t_de_janvier » : -3,367 contre -3,520 publié, écart relatif 0,044, tolérance 0,300 (relative)",
+    "RÉUSSI | réplication de « rendement_de_fevrier_a_decembre » : 0,019 contre 0,017 publié, écart relatif 0,163, tolérance 0,300 (relative)",
+    "RÉUSSI | réplication de « t_de_fevrier_a_decembre » : 8,119 contre 6,670 publié, écart relatif 0,217, tolérance 0,300 (relative)",
+    "RÉUSSI | réplication de « part_de_mois_positifs » : 0,697 contre 0,670 publié, écart relatif 0,040, tolérance 0,300 (relative)",
+    "RÉUSSI | réplication de « part_de_mois_positifs_hors_janvier » : 0,735 contre 0,710 publié, écart relatif 0,035, tolérance 0,300 (relative)",
+    "ÉCHOUÉ | réplication : 10 contrôle(s) sur 11 dans la tolérance, tous exigés",
+    "RÉUSSI | Sharpe hors échantillon : 0,306 mesuré, minimum 0,300",
+    "ÉCHOUÉ | t après correction pour essais multiples : 1,746 mesuré, minimum 3,180",
+    "ÉCHOUÉ | Sharpe dégonflé : 0,061 mesuré, minimum 0,950",
+    "ÉCHOUÉ | probabilité de surapprentissage : 0,326 mesuré, maximum 0,200",
+    "RÉUSSI | part de sous-périodes positives : 1,000 mesuré, minimum 0,600",
+    "RÉUSSI | multiple de coûts survécu : 1,412 mesuré, minimum 1,000",
+    "ÉCHOUÉ | corrélation absolue avec le portefeuille existant : 0,893 mesurée, maximum 0,600",
+    "VERDICT | EXPERIMENTAL"
+  ],
+  "criteria": {
+    "replication_tolerance": 0.3,
+    "min_oos_sharpe": 0.3,
+    "min_tstat": 3.18,
+    "min_dsr": 0.95,
+    "max_pbo": 0.2,
+    "min_positive_subperiod_share": 0.6,
+    "min_cost_multiple": 1.0,
+    "max_portfolio_correlation": 0.6
+  },
+  "metrics": [
+    {
+      "metric": "jambe_a_ecart_echantillon_article_pct_par_mois",
+      "value": 1.630333333333333,
+      "sample": "IS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "jambe_a_t_echantillon_article",
+      "value": 5.116007213294636,
+      "sample": "IS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "jambe_a_sharpe_echantillon_article",
+      "value": 1.023201442658927,
+      "sample": "IS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "jambe_a_ecart_apres_publication_pct_par_mois",
+      "value": 0.7683333333333333,
+      "sample": "OOS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "jambe_a_t_apres_publication",
+      "value": 1.7461867286800743,
+      "sample": "OOS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "jambe_a_sharpe_apres_publication",
+      "value": 0.30630141471927336,
+      "sample": "OOS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "jambe_b_ecart_deciles_pct_par_mois",
+      "value": 0.41723893997958816,
+      "sample": "OOS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "biais_de_survie_pp_par_an",
+      "value": 2.0449008077367674,
+      "sample": "OOS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "biais_de_survie_t_hac",
+      "value": 0.6130326102302488,
+      "sample": "OOS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "jambe_b_grille_spearman_contre_article",
+      "value": 0.5660066387159021,
+      "sample": "OOS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "jambe_b_seuil_de_rentabilite_bps",
+      "value": 34.11659254525469,
+      "sample": "OOS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "jambe_a_seuil_de_rentabilite_bps",
+      "value": 70.53084672230054,
+      "sample": "OOS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "sharpe_deflate",
+      "value": 0.061413009311624606,
+      "sample": "OOS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "probabilite_de_surapprentissage",
+      "value": 0.3257964257964258,
+      "sample": "OOS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "part_de_sous_periodes_positives",
+      "value": 1.0,
+      "sample": "OOS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "correlation_avec_le_momentum_publie",
+      "value": 0.8930715329650014,
+      "sample": "OOS",
+      "cost_basis": "gross"
+    }
+  ],
+  "replication": [
+    {
+      "quantity": "ecart_mensuel",
+      "published": 0.0131,
+      "ours": 0.013318666666666668,
+      "absolute_error": 0.00021866666666666736,
+      "relative_error": 0.016692111959287582,
+      "tolerance": 0.3,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Table I, panneau A, J = 12 et K = 3, page 69"
+    },
+    {
+      "quantity": "t_de_l_ecart",
+      "published": 3.74,
+      "ours": 4.797150604208499,
+      "absolute_error": 1.0571506042084984,
+      "relative_error": 0.28266058936056104,
+      "tolerance": 0.3,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Table I, panneau A, J = 12 et K = 3, page 69"
+    },
+    {
+      "quantity": "beta_du_decile_perdant",
+      "published": 1.36,
+      "ours": 1.280257903661926,
+      "absolute_error": 0.07974209633807416,
+      "relative_error": 0.058633894366230996,
+      "tolerance": 0.3,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Table II, portefeuille P1, page 72"
+    },
+    {
+      "quantity": "beta_du_decile_gagnant",
+      "published": 1.28,
+      "ours": 1.2531327279884699,
+      "absolute_error": 0.026867272011530163,
+      "relative_error": 0.02099005625900794,
+      "tolerance": 0.3,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Table II, portefeuille P10, page 72"
+    },
+    {
+      "quantity": "beta_de_l_ecart",
+      "published": -0.08,
+      "ours": -0.02712517567345607,
+      "absolute_error": 0.05287482432654393,
+      "relative_error": 0.6609353040817991,
+      "tolerance": 0.1,
+      "tolerance_kind": "absolute",
+      "verdict": "répliqué",
+      "source": "Table II, P10 moins P1, page 72"
+    },
+    {
+      "quantity": "rendement_de_janvier",
+      "published": -0.0686,
+      "ours": -0.052615999999999996,
+      "absolute_error": 0.015983999999999998,
+      "relative_error": 0.23300291545189503,
+      "tolerance": 0.3,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Table III, stratégie 6 sur 6, tous titres, page 79"
+    },
+    {
+      "quantity": "t_de_janvier",
+      "published": -3.52,
+      "ours": -3.3665935269277654,
+      "absolute_error": 0.15340647307223465,
+      "relative_error": 0.04358138439552121,
+      "tolerance": 0.3,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Table III, stratégie 6 sur 6, tous titres, page 79"
+    },
+    {
+      "quantity": "rendement_de_fevrier_a_decembre",
+      "published": 0.0166,
+      "ours": 0.019312727272727273,
+      "absolute_error": 0.002712727272727273,
+      "relative_error": 0.1634173055859803,
+      "tolerance": 0.3,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Table III, stratégie 6 sur 6, tous titres, page 79"
+    },
+    {
+      "quantity": "t_de_fevrier_a_decembre",
+      "published": 6.67,
+      "ours": 8.119402527398561,
+      "absolute_error": 1.4494025273985613,
+      "relative_error": 0.21730172824566138,
+      "tolerance": 0.3,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Table III, stratégie 6 sur 6, tous titres, page 79"
+    },
+    {
+      "quantity": "part_de_mois_positifs",
+      "published": 0.67,
+      "ours": 0.6966666666666667,
+      "absolute_error": 0.026666666666666616,
+      "relative_error": 0.039800995024875545,
+      "tolerance": 0.3,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Section II.A, page 78"
+    },
+    {
+      "quantity": "part_de_mois_positifs_hors_janvier",
+      "published": 0.71,
+      "ours": 0.7345454545454545,
+      "absolute_error": 0.024545454545454537,
+      "relative_error": 0.03457106274007681,
+      "tolerance": 0.3,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Section II.A, page 78"
+    }
+  ]
+}

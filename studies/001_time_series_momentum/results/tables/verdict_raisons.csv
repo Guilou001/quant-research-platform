@@ -1,0 +1,18 @@
+,raison
+0,"RÉUSSI | hypothèse économique : signe attendu retrouvé, le signe décide du rejet"
+1,"RÉUSSI | signe du Sharpe hors échantillon : 0,176 mesuré, rejet à 0,000 ou moins"
+2,"RÉUSSI | réplication de « volatilité annualisée du facteur, 1985-2009 » : 0,119 contre 0,120 publié, écart relatif 0,006, tolérance 0,100 (relative)"
+3,"RÉUSSI | réplication de « charge du facteur sur le momentum transversal, 1985-2009 » : 0,264 contre 0,280 publié, écart relatif 0,056, tolérance 0,100 (relative)"
+4,"ÉCHOUÉ | réplication de « alpha mensuel du facteur, 1985-2009 » : 0,012 contre 0,016 publié, écart relatif 0,226, tolérance 0,100 (relative)"
+5,"ÉCHOUÉ | réplication de « t de l'alpha mensuel du facteur, 1985-2009 » : 6,438 contre 7,990 publié, écart relatif 0,194, tolérance 0,100 (relative)"
+6,"ÉCHOUÉ | réplication de « part des instruments à ratio de Sharpe positif, pris isolément » : 0,821 contre 1,000 publié, écart relatif 0,179, tolérance 0,100 (relative)"
+7,"ÉCHOUÉ | réplication de « cellules de la grille à statistique t positive » : 26,000 contre 62,000 publié, écart relatif 0,581, tolérance 0,100 (relative)"
+8,"ÉCHOUÉ | réplication : 2 contrôle(s) sur 6 dans la tolérance, tous exigés"
+9,"ÉCHOUÉ | Sharpe hors échantillon : 0,176 mesuré, minimum 0,500"
+10,"ÉCHOUÉ | t après correction pour essais multiples : 0,659 mesuré, minimum 3,000"
+11,"ÉCHOUÉ | Sharpe dégonflé : 0,301 mesuré, minimum 0,950"
+12,"ÉCHOUÉ | probabilité de surapprentissage : 0,814 mesuré, maximum 0,500"
+13,"RÉUSSI | part de sous-périodes positives : 0,833 mesuré, minimum 0,600"
+14,"RÉUSSI | multiple de coûts survécu : 2,349 mesuré, minimum 2,000"
+15,"RÉUSSI | corrélation absolue avec le portefeuille existant : 0,096 mesurée, maximum 0,600"
+16,VERDICT | EXPERIMENTAL

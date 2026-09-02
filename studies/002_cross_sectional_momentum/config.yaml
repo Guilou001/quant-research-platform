@@ -1,0 +1,227 @@
+# La configuration de l'étude 002, validée par « quantlab.core.config.ExperimentConfig ».
+#
+# Aucun nombre qui décide de quelque chose ne vit ailleurs que dans ce fichier,
+# règle 13 du CLAUDE.md. Les seuils du verdict y sont aussi, écrits avant que les
+# résultats existent, parce qu'un seuil fixé après coup n'est plus un seuil.
+
+name: 002_cross_sectional_momentum
+hypothesis: >-
+  Acheter le décile des titres au plus fort rendement passé et vendre celui au
+  plus faible rendement passé rapporte un écart positif, et cet écart survit à sa
+  publication en 1993.
+paper: >-
+  Jegadeesh, N. et Titman, S. (1993). Returns to buying winners and selling
+  losers: implications for stock market efficiency. The Journal of Finance,
+  48(1), 65-91. doi:10.1111/j.1540-6261.1993.tb04702.x
+seed: 20260902
+
+data:
+  provider: yahoo
+  start: "1985-01-01"
+  end: "2026-08-31"
+  frequency: daily
+  calendar: XNYS
+  price_field: adj_close
+  # Les membres de l'indice S&P 500 relevés le 2026-09-02 sur la liste publique de
+  # Wikipédia. Cette liste EST le biais de survie que la jambe B mesure : elle ne
+  # contient que des sociétés vivantes et encore membres aujourd'hui.
+  universe: [
+    "A", "AAPL", "ABBV", "ABNB", "ABT", "ACGL", "ACN", "ADBE", "ADI", "ADM", "ADP", "ADSK",
+    "AEE", "AEP", "AES", "AFL", "AIG", "AIZ", "AJG", "AKAM", "ALB", "ALGN", "ALL", "ALLE",
+    "AMAT", "AMCR", "AMD", "AME", "AMGN", "AMP", "AMT", "AMZN", "ANET", "AON", "AOS", "APA",
+    "APD", "APH", "APO", "APP", "APTV", "ARE", "ARES", "ATO", "AVGO", "AVY", "AWK", "AXON",
+    "AXP", "AZO", "BA", "BAC", "BALL", "BAX", "BBY", "BDX", "BEN", "BF-B", "BG", "BIIB",
+    "BKNG", "BKR", "BLDR", "BLK", "BMY", "BNY", "BR", "BRK-B", "BRO", "BSX", "BX", "BXP",
+    "C", "CAH", "CARR", "CASY", "CAT", "CB", "CBOE", "CBRE", "CCI", "CCL", "CDNS", "CDW",
+    "CEG", "CF", "CFG", "CHD", "CHRW", "CHTR", "CI", "CIEN", "CINF", "CL", "CLX", "CMCSA",
+    "CME", "CMG", "CMI", "CMS", "CNC", "CNP", "COF", "COHR", "COIN", "COO", "COP", "COR",
+    "COST", "CPAY", "CPRT", "CPT", "CRH", "CRL", "CRM", "CRWD", "CSCO", "CSGP", "CSX",
+    "CTAS", "CTSH", "CTVA", "CVNA", "CVS", "CVX", "D", "DAL", "DASH", "DD", "DDOG", "DE",
+    "DECK", "DELL", "DG", "DGX", "DHI", "DHR", "DIS", "DLR", "DLTR", "DOC", "DOV", "DOW",
+    "DPZ", "DRI", "DTE", "DUK", "DVA", "DVN", "DXCM", "EBAY", "ECHO", "ECL", "ED", "EFX",
+    "EG", "EIX", "EL", "ELV", "EME", "EMR", "EOG", "EQIX", "EQT", "ERIE", "ES", "ESS",
+    "ETN", "ETR", "EVRG", "EW", "EXC", "EXE", "EXPD", "EXPE", "EXR", "F", "FANG", "FAST",
+    "FCX", "FDS", "FDX", "FDXF", "FE", "FERG", "FFIV", "FICO", "FIS", "FISV", "FITB", "FIX",
+    "FLEX", "FOX", "FOXA", "FRT", "FSLR", "FTNT", "FTV", "GD", "GDDY", "GE", "GEHC", "GEN",
+    "GEV", "GILD", "GIS", "GL", "GLW", "GM", "GNRC", "GOOG", "GOOGL", "GPC", "GPN", "GRMN",
+    "GS", "GWW", "HAL", "HAS", "HBAN", "HCA", "HD", "HIG", "HII", "HLT", "HON", "HONA",
+    "HOOD", "HPE", "HPQ", "HRL", "HSIC", "HST", "HSY", "HUBB", "HUM", "HWM", "IBKR", "IBM",
+    "ICE", "IDXX", "IEX", "IFF", "INCY", "INTC", "INTU", "INVH", "IP", "IQV", "IR", "IRM",
+    "ISRG", "IT", "ITW", "IVZ", "J", "JBHT", "JBL", "JCI", "JKHY", "JNJ", "JPM", "KDP",
+    "KEY", "KEYS", "KHC", "KIM", "KKR", "KLAC", "KMB", "KMI", "KO", "KR", "KVUE", "L",
+    "LDOS", "LEN", "LH", "LHX", "LII", "LIN", "LITE", "LLY", "LMT", "LNT", "LOW", "LRCX",
+    "LULU", "LUV", "LVS", "LYB", "LYV", "MA", "MAA", "MAR", "MAS", "MCD", "MCHP", "MCK",
+    "MCO", "MDLZ", "MDT", "MET", "META", "MGM", "MKC", "MLM", "MMM", "MNST", "MO", "MOS",
+    "MPC", "MPWR", "MRK", "MRNA", "MRSH", "MRVL", "MS", "MSCI", "MSFT", "MSI", "MTB", "MTD",
+    "MU", "NCLH", "NDAQ", "NDSN", "NEE", "NEM", "NFLX", "NI", "NKE", "NOC", "NOW", "NRG",
+    "NSC", "NTAP", "NTRS", "NUE", "NVDA", "NVR", "NWS", "NWSA", "NXPI", "O", "ODFL", "OKE",
+    "OMC", "ON", "ORCL", "ORLY", "OTIS", "OXY", "PANW", "PAYX", "PCAR", "PCG", "PEG", "PEP",
+    "PFE", "PFG", "PG", "PGR", "PH", "PHM", "PKG", "PLD", "PLTR", "PM", "PNC", "PNR", "PNW",
+    "PODD", "PPG", "PPL", "PRU", "PSA", "PSKY", "PSX", "PTC", "PWR", "PYPL", "Q", "QCOM",
+    "RCL", "RDDT", "REG", "REGN", "RF", "RJF", "RL", "RMD", "ROK", "ROL", "ROP", "ROST",
+    "RSG", "RTX", "RVTY", "SBAC", "SBUX", "SCHW", "SHW", "SJM", "SLB", "SMCI", "SNA",
+    "SNDK", "SNPS", "SO", "SOLV", "SPG", "SPGI", "SRE", "STE", "STLD", "STT", "STX", "STZ",
+    "SW", "SWK", "SWKS", "SYF", "SYK", "SYY", "T", "TAP", "TDG", "TDY", "TECH", "TEL",
+    "TER", "TFC", "TGT", "TJX", "TKO", "TMO", "TMUS", "TPL", "TPR", "TRGP", "TRMB", "TROW",
+    "TRV", "TSCO", "TSLA", "TSN", "TT", "TTD", "TTWO", "TXN", "TXT", "TYL", "UAL", "UBER",
+    "UDR", "UHS", "ULTA", "UNH", "UNP", "UPS", "URI", "USB", "V", "VEEV", "VICI", "VLO",
+    "VLTO", "VMC", "VMRK", "VRSK", "VRSN", "VRT", "VRTX", "VST", "VTR", "VTRS", "VZ", "WAB",
+    "WAT", "WBD", "WDAY", "WDC", "WEC", "WELL", "WFC", "WM", "WMB", "WMT", "WRB", "WSM",
+    "WST", "WTW", "WY", "WYNN", "XEL", "XOM", "XYL", "XYZ", "YUM", "ZBH", "ZBRA", "ZTS"
+  ]
+
+costs:
+  # L'article retient un demi-point de pourcentage par sens, jugé conservateur au
+  # regard des 23 points de base estimés par Berkowitz, Logue et Noser (1988).
+  commission_bps: 0.0
+  spread_bps: 50.0
+  slippage_bps: 0.0
+  # Le coût d'emprunt de titre n'entre pas dans les 0,5 % de l'article. Il est
+  # ajouté ici, à une valeur MODÉLISÉE, et sa sensibilité est publiée.
+  borrow_bps_annual: 40.0
+  financing_spread_bps_annual: 0.0
+
+risk:
+  # L'écart publié achète un dollar et en vend un, donc son exposition brute vaut deux.
+  leverage_cap: 2.0
+  leverage_floor: 0.0
+
+validation:
+  # La fenêtre de l'article s'arrête en 1989. Les quatre années suivantes séparent
+  # la fin de l'échantillon de la publication, et servent de validation. Tout ce
+  # qui vient après mars 1993 est hors échantillon au sens strict.
+  train_end: "1989-12-31"
+  validation_end: "1993-12-31"
+  final_holdout_start: null
+  embargo_periods: 0
+  purge_periods: 0
+  n_folds: 10
+  n_test_folds: 2
+
+params:
+  # Le tri de l'article : dix déciles, classement croissant, le premier vend.
+  n_quantiles: 10
+  n_quantiles_coarse: 5
+  # La grille publiée, seize combinaisons par panneau et deux panneaux.
+  formation_months: [3, 6, 9, 12]
+  holding_months: [3, 6, 9, 12]
+  # Le décalage du panneau B vaut UNE SEMAINE, pas un mois, soit cinq séances.
+  skip_sessions_panel_b: 5
+  # Le tri de Kenneth French saute le mois le plus récent. La jambe B le refait à
+  # l'identique pour que la comparaison des deux jambes porte sur le même tri.
+  comparison_formation_months: 12
+  comparison_skip_months: 1
+  comparison_holding_months: 1
+  # Sous ce nombre de titres classables, la date ne rend aucun portefeuille.
+  min_names: 100
+  # Les deux expositions brutes de l'étude. L'écart publié par le tri achète un
+  # dollar et en vend un, donc son exposition brute vaut DEUX. Le portefeuille du
+  # backtest, celui qui est déployable, vaut UN. Le seuil de rentabilité rapporte
+  # un rendement à une rotation : les deux doivent porter la MÊME exposition
+  # brute, faute de quoi le seuil est faux d'un facteur deux.
+  spread_gross_exposure: 2.0
+  backtest_gross_exposure: 1.0
+  # Un rendement mensuel au-dessus de 400 % signale une rupture de série de prix,
+  # non un mouvement de marché. Le plus fort mouvement RÉEL de l'univers vaut
+  # +359 %, Regeneron en février 2000, donc le seuil ne coupe rien de légitime.
+  max_abs_monthly_return: 4.0
+  # Le premier janvier complet où la jambe B dispose de son univers minimal.
+  leg_b_start: "1991-01-01"
+  # Les fenêtres nommées de la jambe A, bornes incluses.
+  windows:
+    avant_l_article: ["1927-01-01", "1964-12-31"]
+    echantillon_de_l_article: ["1965-01-01", "1989-12-31"]
+    apres_l_echantillon: ["1990-01-01", "2026-12-31"]
+    apres_publication: ["1994-01-01", "2026-12-31"]
+    tout: ["1927-01-01", "2026-12-31"]
+  # Le mois que l'article isole, et dont il mesure le renversement.
+  seasonal_month: 1
+  # Les sous-périodes de cinq ans que l'article publie pour sa stratégie 6 sur 6.
+  article_subperiods:
+    "1965-1969": ["1965-01-01", "1969-12-31"]
+    "1970-1974": ["1970-01-01", "1974-12-31"]
+    "1975-1979": ["1975-01-01", "1979-12-31"]
+    "1980-1984": ["1980-01-01", "1984-12-31"]
+    "1985-1989": ["1985-01-01", "1989-12-31"]
+  # La date qui sépare l'avant de l'après publication, mars 1993.
+  publication_date: "1993-03-31"
+  n_worst_months: 10
+  # Les contrôles de validation.
+  bootstrap_resamples: 10000
+  cscv_splits: 16
+  cost_multipliers: [1.0, 2.0, 3.0, 5.0, 10.0]
+  execution_delays: [1, 2, 3, 6]
+  # Le compte de TOUS les essais, y compris ceux qui n'ont rien donné et ceux
+  # qu'un balayage de paramètres a produits. Le détail ligne par ligne vit dans
+  # notes.md, et ce nombre alimente le Sharpe dégonflé.
+  n_trials: 53
+  # Les seuils du verdict, fixés avant de regarder les résultats de l'étude.
+  verdict:
+    replication_tolerance: 0.30
+    min_oos_sharpe: 0.30
+    min_tstat: 3.18
+    min_dsr: 0.95
+    max_pbo: 0.20
+    min_positive_subperiod_share: 0.60
+    min_cost_multiple: 1.0
+    max_portfolio_correlation: 0.60
+  # Les valeurs publiées, transcrites depuis le fac-similé, avec leur tolérance.
+  # Un contrôle porte le nom de la grandeur, la valeur de l'article et sa source.
+  replication_targets:
+    ecart_mensuel:
+      published: 0.0131
+      tolerance: 0.30
+      kind: relative
+      source: "Table I, panneau A, J = 12 et K = 3, page 69"
+    t_de_l_ecart:
+      published: 3.74
+      tolerance: 0.30
+      kind: relative
+      source: "Table I, panneau A, J = 12 et K = 3, page 69"
+    beta_du_decile_perdant:
+      published: 1.36
+      tolerance: 0.30
+      kind: relative
+      source: "Table II, portefeuille P1, page 72"
+    beta_du_decile_gagnant:
+      published: 1.28
+      tolerance: 0.30
+      kind: relative
+      source: "Table II, portefeuille P10, page 72"
+    beta_de_l_ecart:
+      published: -0.08
+      tolerance: 0.10
+      kind: absolute
+      source: "Table II, P10 moins P1, page 72"
+    rendement_de_janvier:
+      published: -0.0686
+      tolerance: 0.30
+      kind: relative
+      source: "Table III, stratégie 6 sur 6, tous titres, page 79"
+    t_de_janvier:
+      published: -3.52
+      tolerance: 0.30
+      kind: relative
+      source: "Table III, stratégie 6 sur 6, tous titres, page 79"
+    rendement_de_fevrier_a_decembre:
+      published: 0.0166
+      tolerance: 0.30
+      kind: relative
+      source: "Table III, stratégie 6 sur 6, tous titres, page 79"
+    t_de_fevrier_a_decembre:
+      published: 6.67
+      tolerance: 0.30
+      kind: relative
+      source: "Table III, stratégie 6 sur 6, tous titres, page 79"
+    part_de_mois_positifs:
+      published: 0.67
+      tolerance: 0.30
+      kind: relative
+      source: "Section II.A, page 78"
+    part_de_mois_positifs_hors_janvier:
+      published: 0.71
+      tolerance: 0.30
+      kind: relative
+      source: "Section II.A, page 78"
+  # Le seuil de t de Harvey, Liu et Zhu (2016) après correction pour essais multiples.
+  harvey_liu_zhu_threshold: 3.18

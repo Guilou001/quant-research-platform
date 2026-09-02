@@ -1,0 +1,128 @@
+costs:
+  borrow_bps_annual: 0.0
+  commission_bps: 0.0
+  financing_spread_bps_annual: 0.0
+  impact_coefficient: 1.0
+  impact_model: null
+  slippage_bps: 0.0
+  spread_bps: 10.0
+data:
+  calendar: XNYS
+  end: '2026-06-30'
+  frequency: monthly
+  price_field: total_return
+  provider: french
+  start: '1926-07-01'
+  universe:
+  - MKT-RF
+  - SMB
+  - HML
+  - MOM
+  - RMW
+  - CMA
+  - ROE
+  - IA
+hypothesis: Multiplier un facteur par l'inverse de sa variance réalisée du mois précédent
+  produit un alpha positif dans la régression d'engendrement. Cet alpha survit à une
+  constante de mise à l'échelle estimée sur le seul passé.
+name: 006_volatility_managed
+paper: Moreira, A. et Muir, T. (2017). Volatility-Managed Portfolios. The Journal
+  of Finance, 72(4), 1611-1644. Chiffres cibles lus dans le document de travail NBER
+  22208 d'avril 2016.
+params:
+  bootstrap_block_months: 12.0
+  bootstrap_resamples: 2000
+  candidate_min_days:
+  - 1
+  - 15
+  - 18
+  - 20
+  - 22
+  candidate_starts:
+  - '1926-07-01'
+  - '1926-08-01'
+  - '1926-11-01'
+  - '1927-01-01'
+  combination_min_periods: 120
+  constant_min_periods: 120
+  constant_min_periods_grid:
+  - 60
+  - 120
+  - 240
+  - 360
+  cost_bps_grid:
+  - 0.0
+  - 1.0
+  - 10.0
+  - 14.0
+  cost_multipliers:
+  - 0.0
+  - 0.5
+  - 1.0
+  - 2.0
+  - 3.0
+  - 5.0
+  - 10.0
+  demean_realized_variance: false
+  ewma_halflives:
+  - 5.0
+  - 11.0
+  - 22.0
+  - 66.0
+  execution_delays:
+  - 1
+  - 2
+  - 3
+  garch_distribution: normal
+  garch_min_train_days: 1260
+  garch_p: 1
+  garch_q: 1
+  garch_refit_months: 120
+  global_q_daily_url: https://global-q.org/uploads/1/2/2/6/122679606/q5_factors_daily_2025.csv
+  global_q_monthly_url: https://global-q.org/uploads/1/2/2/6/122679606/q5_factors_monthly_2025.csv
+  global_q_start: '1967-06-30'
+  leverage_caps:
+  - 0.0
+  - 1.0
+  - 1.5
+  - 3.0
+  - 6.0
+  min_trading_days: 1
+  naive_end: '2015-12-31'
+  paper_end: '2015-04-30'
+  risk_aversion: 3.0
+  risk_aversion_grid:
+  - 1.0
+  - 3.0
+  - 5.0
+  - 10.0
+  subperiod_breakpoints:
+  - '1955-12-31'
+  - '1985-12-31'
+  variance_method: realized
+  verdict:
+    max_pbo: 0.5
+    max_portfolio_correlation: 0.6
+    min_cost_multiple: 2.0
+    min_dsr: 0.95
+    min_oos_sharpe: 0.5
+    min_positive_subperiod_share: 0.6
+    min_tstat: 3.0
+    replication_tolerance: 0.25
+risk:
+  leverage_cap: 100.0
+  leverage_floor: 0.0
+  max_adv_participation: null
+  max_gross_exposure: null
+  max_net_exposure: null
+  max_position: null
+  vol_target_annual: null
+seed: 20260902
+validation:
+  embargo_periods: 1
+  final_holdout_start: '2015-05-31'
+  n_folds: 8
+  n_test_folds: 2
+  purge_periods: 1
+  train_end: '1985-12-31'
+  validation_end: '2015-04-30'

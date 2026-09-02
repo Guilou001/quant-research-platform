@@ -1,0 +1,25 @@
+name: cross_sectional_momentum
+family: momentum
+paper: 'Jegadeesh, N. et Titman, S. (1993). Returns to buying winners and selling
+  losers: implications for stock market efficiency. The Journal of Finance, 48(1),
+  65-91. doi:10.1111/j.1540-6261.1993.tb04702.x'
+asset_classes:
+- equity
+horizon: formation de 3 à 12 mois, détention de 1 à 12 mois
+economic_rationale:
+- biais comportemental
+- friction
+inputs:
+- déciles de momentum 12-2 de Kenneth French, mensuels, depuis 1927
+- prix quotidiens ajustés des membres actuels du S&P 500, Yahoo
+- cinq facteurs de Fama et French plus le momentum de Carhart
+known_risks:
+- krach de momentum après un renversement de marché, Daniel et Moskowitz (2016)
+- renversement de janvier, concentré sur les petites capitalisations
+- coûts de transaction corrélés au signal, Lesmond, Schill et Zhou (2004)
+- biais de survie de l'univers, mesuré par la jambe B de cette étude
+validation_status: EXPERIMENTAL
+verdict_experiment_id: 002_cross_sectional_momentum-4110c6fb7e
+created: '2026-09-02'
+last_modified: '2026-09-02'
+notes: Étude 002, deux jambes et leur confrontation.

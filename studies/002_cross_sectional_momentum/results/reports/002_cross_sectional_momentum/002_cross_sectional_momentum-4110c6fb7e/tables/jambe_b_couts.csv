@@ -1,0 +1,2 @@
+leg,gross_exposure,gross_pct_per_month,net_pct_per_month,gross_sharpe,net_sharpe,turnover_half_sum_per_month,turnover_full_sum_per_month,turnover_annualized,breakeven_bps_per_unit_traded,assumed_cost_bps_per_side,max_drawdown_gross,n_periods
+jambe_B_survivants,1.0,0.21549340305385378,-0.11736120354199861,0.18872955812237588,-0.10251705199357876,0.3162268807391546,0.6331173641053551,3.7947225688698554,34.11659254525469,50.0,-0.5998979679524097,428
