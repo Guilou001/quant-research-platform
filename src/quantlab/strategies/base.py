@@ -438,7 +438,7 @@ class AlphaRegistry:
         cible.write_text(metadata.to_yaml(), encoding="utf-8")
         _log.info(
             "fiche d'alpha enregistrée",
-            extra={"name": metadata.name, "family": metadata.family, "path": str(cible)},
+            extra={"alpha_name": metadata.name, "family": metadata.family, "path": str(cible)},
         )
         return cible
 
@@ -563,7 +563,7 @@ class AlphaRegistry:
         self.register(mise_a_jour, overwrite=True)
         _log.info(
             "verdict mis à jour",
-            extra={"name": name, "verdict": verdict.value, "experiment_id": experiment_id},
+            extra={"alpha_name": name, "verdict": verdict.value, "experiment_id": experiment_id},
         )
         return mise_a_jour
 

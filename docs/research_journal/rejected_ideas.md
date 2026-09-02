@@ -89,6 +89,28 @@ article suppose, et la perte hors échantillon est établie plutôt que conjectu
 **Ce que cela apprend.** Une rotation annuelle de 344 fois transforme un écart de
 quelques points de base en la totalité du rendement.
 
+### 2026-09-02, portefeuille de huit stratégies à parité de risque
+
+**Idée.** Combiner les huit stratégies répliquées par un budget de risque
+estimé chaque année sur le passé.
+
+**Hypothèse économique.** Leurs mauvais mois ne tombent pas aux mêmes dates, et
+la loi fondamentale multiplie l'avantage par la racine du nombre de paris
+indépendants.
+
+**Ce qui a été mesuré.** Corrélation moyenne de 0,097, largeur effective de
+5,4 paris sur huit. Parité de risque nette : Sharpe 0,652 sur 198 mois hors
+échantillon contre 0,693 pour la meilleure stratégie seule ; 0,239 sur le
+holdout 2020-2026, t de 0,585. Quatre allocations sur six battent la meilleure
+jambe, dont la parité hiérarchique à 0,900.
+
+**Pourquoi c'est rejeté.** La référence désignée avant le calcul ne bat pas la
+meilleure jambe, et rien ne survit au holdout. La parité hiérarchique n'est pas
+retenue parce qu'elle a été vue gagner parmi six essais.
+
+**Ce que cela apprend.** La diversification travaille, et la discipline de la
+référence déclarée empêche de le transformer en résultat.
+
 ## Le décompte des essais
 
 | Famille de stratégies | Essais menés | Retenus | Rejetés |
@@ -101,12 +123,13 @@ quelques points de base en la totalité du rendement.
 | Gestion de la volatilité | 89 | 0 | 1 |
 | Arbitrage statistique | 49 | 0 | 1 |
 | Portage | 33 | 0 | 0 |
-| **Total** | **715** | **0** | **3** |
+| Portefeuille multi-stratégies | 20 | 0 | 1 |
+| **Total** | **735** | **0** | **4** |
 
 Ce tableau alimente directement `quantlab.validation.dsr`. Il se met à jour à
 chaque expérience, y compris celles qui ne mènent nulle part.
 
-Comment le lire, en deux constats. Le premier est que 715 essais ont été menés
+Comment le lire, en deux constats. Le premier est que 735 essais ont été menés
 et qu'aucun n'a produit une stratégie retenue, ce qui est exactement ce que la
 correction pour tests multiples sert à rendre visible. Le deuxième est que les
 207 essais de l'étude 003 ramènent son ratio de Sharpe dégonflé à 0,000012 :

@@ -17,7 +17,7 @@ known_risks:
 - Le portage se paie sur des monnaies dont la liquidité se retire en même temps.
 - L'univers de dix monnaies développées est plus étroit que celui de l'article.
 validation_status: REPLICATED
-verdict_experiment_id: 008_carry-b6e98b7f4e
+verdict_experiment_id: 008_carry-f9c8c75b19
 created: '2026-09-02'
 last_modified: '2026-09-02'
 notes: Étude 008. Le mécanisme invoqué est une prime de risque qui varie dans le temps,

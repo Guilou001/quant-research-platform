@@ -37,6 +37,7 @@ from quantlab.data.providers.aqr import AqrProvider
 from quantlab.data.providers.french import FrenchProvider
 from quantlab.execution.costs import breakeven_cost_bps
 from quantlab.experiments import ExperimentRegistry
+from quantlab.reporting.series import save_series
 from quantlab.reporting.study import (
     MetricLabel,
     ReplicationCheck,
@@ -81,6 +82,7 @@ from quantlab.validation.pbo import probability_of_backtest_overfitting
 from quantlab.validation.robustness import cost_multiplier_analysis, subperiod_performance
 
 LOG = get_logger("quantlab.studies.003")
+
 STUDY_DIR = Path(__file__).resolve().parent
 RESULTS = STUDY_DIR / "results"
 TABLES = RESULTS / "tables"
@@ -646,6 +648,27 @@ def main() -> None:
             _write_table(cost_frame, "costs")
 
             headline_net = net_returns(spread_bps)
+            _univers_vme = "facteurs VME d'AQR, EVERYWHERE, mélange à parts égales valeur et momentum"
+            save_series(
+                RESULTS,
+                "value_momentum_blend_gross",
+                net_returns(0.0),
+                sample=SampleTag.VALIDATION,
+                basis=CostBasis.GROSS,
+                frequency=Frequency.MONTHLY,
+                universe=_univers_vme,
+            )
+            save_series(
+                RESULTS,
+                "value_momentum_blend_net",
+                headline_net,
+                sample=SampleTag.VALIDATION,
+                basis=CostBasis.NET,
+                frequency=Frequency.MONTHLY,
+                universe=_univers_vme,
+                cost_assumptions=f"{spread_bps} pb par unité de rotation du mélange",
+            )
+
             holdout = headline_net.loc[headline_net.index > paper_end]
 
             # La colonne EVERYWHERE d'AQR survit à ses composantes hors

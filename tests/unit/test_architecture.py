@@ -165,14 +165,18 @@ def test_analytics_ne_connait_pas_polars() -> None:
 
 
 def test_la_recherche_ne_connait_pas_les_fournisseurs() -> None:
-    """Aucune stratégie n'importe un fournisseur de données.
+    """Aucune stratégie n'importe un fournisseur de données ni un moteur d'optimisation.
 
-    C'est la règle d'ADR-003, et c'est elle qui rend ``YahooProvider``
-    remplaçable. Un import direct la casse, quelle que soit l'intention.
+    C'est la règle d'ADR-003 et d'ADR-011. Les fournisseurs sont interdits à
+    toute la couche de recherche, et les bibliothèques d'optimisation ne sont
+    permises que dans ``portfolio``, qui est leur enveloppe. Un import direct
+    ailleurs casse la remplaçabilité, quelle que soit l'intention.
     """
-    interdits = ("quantlab.data.providers", "yfinance", "requests")
+    fournisseurs = ("quantlab.data.providers", "yfinance", "requests")
+    moteurs = ("skfolio", "riskfolio", "cvxpy")
     fautifs: list[str] = []
-    for p in _modules("strategies", "signals", "features", "portfolio", "risk", "models"):
+    for p in _modules("strategies", "signals", "features", "portfolio", "risk", "models", "backtest"):
+        interdits = fournisseurs if "portfolio" in p.parts else fournisseurs + moteurs
         for n in _imported_names(p):
             if any(n == i or n.startswith(i + ".") for i in interdits):
                 fautifs.append(f"{p.relative_to(SRC)} importe {n}")

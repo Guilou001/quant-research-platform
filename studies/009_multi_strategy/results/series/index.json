@@ -1,0 +1,68 @@
+{
+  "portfolio_equal_weight_net": {
+    "basis": "net",
+    "cost_assumptions": "5.0 pb par unité de rotation",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 198,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2009-12-31",
+    "universe": "huit stratégies du laboratoire, poids réestimés chaque année sur le passé"
+  },
+  "portfolio_hrp_net": {
+    "basis": "net",
+    "cost_assumptions": "5.0 pb par unité de rotation",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 198,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2009-12-31",
+    "universe": "huit stratégies du laboratoire, poids réestimés chaque année sur le passé"
+  },
+  "portfolio_inverse_volatility_net": {
+    "basis": "net",
+    "cost_assumptions": "5.0 pb par unité de rotation",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 198,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2009-12-31",
+    "universe": "huit stratégies du laboratoire, poids réestimés chaque année sur le passé"
+  },
+  "portfolio_mean_variance_net": {
+    "basis": "net",
+    "cost_assumptions": "5.0 pb par unité de rotation",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 198,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2009-12-31",
+    "universe": "huit stratégies du laboratoire, poids réestimés chaque année sur le passé"
+  },
+  "portfolio_minimum_variance_net": {
+    "basis": "net",
+    "cost_assumptions": "5.0 pb par unité de rotation",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 198,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2009-12-31",
+    "universe": "huit stratégies du laboratoire, poids réestimés chaque année sur le passé"
+  },
+  "portfolio_risk_parity_net": {
+    "basis": "net",
+    "cost_assumptions": "5.0 pb par unité de rotation",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 198,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2009-12-31",
+    "universe": "huit stratégies du laboratoire, poids réestimés chaque année sur le passé"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "statarb_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-06-30",
+    "frequency": "daily",
+    "n_periods": 7672,
+    "notes": "",
+    "sample": "IS",
+    "start": "1996-01-03",
+    "universe": "grandes capitalisations américaines via Yahoo, biais de survie déclaré, règle de l'article"
+  },
+  "statarb_net": {
+    "basis": "net",
+    "cost_assumptions": "5 pb par unité négociée, l'hypothèse de l'article",
+    "end": "2026-06-30",
+    "frequency": "daily",
+    "n_periods": 7672,
+    "notes": "",
+    "sample": "IS",
+    "start": "1996-01-03",
+    "universe": "grandes capitalisations américaines via Yahoo, biais de survie déclaré, règle de l'article"
+  }
+}

@@ -36,6 +36,7 @@ from quantlab.core.types import AssetClass, CostBasis, Frequency, SampleTag
 from quantlab.data.providers.fred import FredProvider
 from quantlab.execution.costs import LinearCostModel, breakeven_cost_bps
 from quantlab.experiments import ExperimentRegistry
+from quantlab.reporting.series import save_series
 from quantlab.reporting.study import (
     MetricLabel,
     ReplicationCheck,
@@ -709,6 +710,37 @@ def main() -> None:
 
             reference_rate = float(config.costs.spread_bps)
             unit_cost = _cost_from_turnover(rotation, reference_rate)
+            _univers_fx = "dix monnaies développées contre le dollar, FRED, taux à trois mois"
+            save_series(
+                RESULTS,
+                "fx_carry_gross",
+                carry_returns,
+                sample=SampleTag.IN_SAMPLE,
+                basis=CostBasis.GROSS,
+                frequency=Frequency.MONTHLY,
+                universe=_univers_fx,
+                notes="fenêtre de l'article jusqu'à 2012-09 en IS, la suite en FINAL_HOLDOUT",
+            )
+            save_series(
+                RESULTS,
+                "fx_carry_net",
+                (carry_returns - unit_cost).dropna(),
+                sample=SampleTag.IN_SAMPLE,
+                basis=CostBasis.NET,
+                frequency=Frequency.MONTHLY,
+                universe=_univers_fx,
+                cost_assumptions=f"{reference_rate} pb par unité de rotation",
+            )
+            save_series(
+                RESULTS,
+                "fx_momentum_gross",
+                momentum_returns,
+                sample=SampleTag.IN_SAMPLE,
+                basis=CostBasis.GROSS,
+                frequency=Frequency.MONTHLY,
+                universe=_univers_fx,
+                notes="repère de momentum de change",
+            )
 
             def evaluate_multiplier(multiplier: float) -> float:
                 """Rend le ratio de Sharpe net au multiple de coût demandé."""

@@ -231,9 +231,52 @@ def study_list() -> None:
 
 
 @study_app.command("run")
-def study_run(name: str) -> None:
-    """Fait tourner une étude de réplication."""
-    _not_implemented(4, f"quant study run {name}")
+def study_run(
+    name: str,
+    dry_run: Annotated[bool, typer.Option("--dry-run", help="Affiche la commande sans l'exécuter.")] = False,
+) -> None:
+    """Fait tourner une étude de réplication, de la donnée au verdict.
+
+    Le nom se donne par son numéro ou son répertoire, « 001 » comme
+    « 001_time_series_momentum ». L'étude s'exécute dans un processus séparé,
+    par son propre ``run.py``, si bien que son état ne survit pas à l'appel et
+    que deux études ne partagent rien d'autre que le paquet.
+    """
+    import subprocess
+
+    directory = _resolve_study(name)
+    script = directory / "run.py"
+    if not script.is_file():
+        typer.secho(f"l'étude {directory.name} n'a pas de run.py", fg=typer.colors.RED)
+        raise typer.Exit(code=1)
+    command = [sys.executable, str(script)]
+    typer.echo(f"étude {directory.name} : {' '.join(command)}")
+    if dry_run:
+        raise typer.Exit()
+    completed = subprocess.run(command, cwd=str(project_root()), check=False)
+    raise typer.Exit(code=completed.returncode)
+
+
+def _resolve_study(name: str) -> Path:
+    """Rend le répertoire d'une étude depuis son numéro ou son nom complet.
+
+    Raises:
+        typer.Exit: si aucun répertoire ne correspond, ou si plusieurs
+            correspondent, ce qui ne doit pas arriver puisque les numéros
+            sont uniques.
+    """
+    root = studies_dir()
+    candidates = [
+        p for p in root.iterdir() if p.is_dir() and (p.name == name or p.name.startswith(f"{name}_"))
+    ]
+    if len(candidates) == 1:
+        return candidates[0]
+    known = ", ".join(sorted(p.name for p in root.iterdir() if p.is_dir()))
+    typer.secho(
+        f"étude « {name} » introuvable ou ambiguë. Études connues : {known}",
+        fg=typer.colors.RED,
+    )
+    raise typer.Exit(code=1)
 
 
 @app.command("backtest")

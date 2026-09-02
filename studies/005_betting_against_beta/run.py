@@ -43,6 +43,7 @@ from quantlab.data.providers.french import FrenchProvider
 from quantlab.data.providers.yahoo import YahooProvider, to_wide
 from quantlab.execution.costs import LinearCostModel, breakeven_cost_bps
 from quantlab.experiments import ExperimentRegistry
+from quantlab.reporting.series import save_series
 from quantlab.reporting.study import (
     MetricLabel,
     ReplicationCheck,
@@ -1106,6 +1107,31 @@ def main() -> None:
             base_net = _net_returns(
                 base_b1, config.costs.spread_bps, config.costs.financing_spread_bps_annual, "net"
             )
+            _univers_bab = (
+                "déciles de bêta de Ken French pondérés par la capitalisation, CRSP, "
+                "sans biais de survie, réglage de l'article"
+            )
+            save_series(
+                RESULTS,
+                "bab_kf_deciles_gross",
+                base_b1.returns,
+                sample=SampleTag.VALIDATION,
+                basis=CostBasis.GROSS,
+                frequency=Frequency.MONTHLY,
+                universe=_univers_bab,
+            )
+            save_series(
+                RESULTS,
+                "bab_kf_deciles_net",
+                base_net,
+                sample=SampleTag.VALIDATION,
+                basis=CostBasis.NET,
+                frequency=Frequency.MONTHLY,
+                universe=_univers_bab,
+                cost_assumptions=f"{config.costs.spread_bps} pb demi-écart, "
+                f"{config.costs.financing_spread_bps_annual} pb/an de financement",
+            )
+
             counter = counter.record(
                 "base", "deciles_rank_value_net", sharpe_ratio(base_net, frequency=MONTHLY)
             )

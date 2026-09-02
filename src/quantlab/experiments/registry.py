@@ -280,7 +280,7 @@ class ExperimentRegistry:
         )
         directory = ensure(self.root / experiment_id)
         ctx = RunContext(record=record, directory=directory)
-        _log.info("expérience ouverte", extra={"experiment_id": experiment_id, "name": name})
+        _log.info("expérience ouverte", extra={"experiment_id": experiment_id, "record_name": name})
         try:
             yield ctx
         finally:

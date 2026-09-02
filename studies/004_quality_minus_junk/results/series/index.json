@@ -1,0 +1,24 @@
+{
+  "qmj_ours_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-05-31",
+    "frequency": "monthly",
+    "n_periods": 132,
+    "notes": "quatre composantes, 21 variables, point-in-time ; corrèle 0,106 avec le facteur publié",
+    "sample": "VALIDATION",
+    "start": "2015-06-30",
+    "universe": "déposants DERA de la SEC, grandes capitalisations"
+  },
+  "qmj_published_usa_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 828,
+    "notes": "cible de réplication, construction des auteurs",
+    "sample": "VALIDATION",
+    "start": "1957-07-31",
+    "universe": "facteur QMJ d'AQR, colonne USA"
+  }
+}

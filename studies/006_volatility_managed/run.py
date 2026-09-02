@@ -41,6 +41,7 @@ from quantlab.core.types import AssetClass, CostBasis, Frequency, SampleTag
 from quantlab.data.providers.french import FrenchProvider
 from quantlab.execution.costs import LinearCostModel, breakeven_cost_bps
 from quantlab.experiments import ExperimentRegistry
+from quantlab.reporting.series import save_series
 from quantlab.reporting.study import (
     MetricLabel,
     ReplicationCheck,
@@ -436,6 +437,16 @@ def main() -> None:
 
         market = managed_paper["MKT-RF"]
         market_fit = spanning_regression(market.returns, market.base)
+        save_series(
+            RESULTS,
+            "managed_market_ex_post_gross",
+            market.returns,
+            sample=SampleTag.IN_SAMPLE,
+            basis=CostBasis.GROSS,
+            frequency=Frequency.MONTHLY,
+            universe="facteur Mkt-RF de Ken French",
+            notes="constante de calibrage choisie sur toute la fenêtre de l'article, non tenable en direct",
+        )
 
         # ------------------------------------------------------------------ #
         # 4. L'extension à juin 2026
@@ -580,6 +591,27 @@ def main() -> None:
         with stage("couts", experiment_id=run.record.experiment_id):
             live_market = real_time["MKT-RF"]
             spread_live = hedged_spread(live_market.returns, live_market.base, min_periods=min_periods)
+            save_series(
+                RESULTS,
+                "managed_market_real_time_gross",
+                live_market.returns,
+                sample=SampleTag.OUT_OF_SAMPLE,
+                basis=CostBasis.GROSS,
+                frequency=Frequency.MONTHLY,
+                universe="facteur Mkt-RF de Ken French",
+                notes="constante estimée en expansion, tenable en temps réel",
+            )
+            save_series(
+                RESULTS,
+                "hedged_spread_real_time_gross",
+                spread_live,
+                sample=SampleTag.OUT_OF_SAMPLE,
+                basis=CostBasis.GROSS,
+                frequency=Frequency.MONTHLY,
+                universe="facteur Mkt-RF de Ken French",
+                notes="facteur géré moins bêta estimé sur le passé, la seule version négociable",
+            )
+
             beta_live = (
                 (live_market.returns.loc[spread_live.index] - spread_live)
                 / live_market.base.loc[spread_live.index]

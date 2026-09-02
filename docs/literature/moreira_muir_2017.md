@@ -374,7 +374,25 @@ non commencé au 2026-09-01
 
 ## Nos résultats
 
-non commencé au 2026-09-01
+Étude `006_volatility_managed`, verdict **`REJECTED`**, menée le 2026-09-02.
+
+Huit contrôles de réplication sur huit passent, et la version négociable
+perd de l'argent. Sur la fenêtre de l'article, l'alpha du marché vaut 4,743 %
+par an contre 4,86 publié, le bêta 0,6225 contre 0,61, l'erreur type 1,565
+contre 1,56, l'alpha du momentum 12,569 contre 12,51.
+
+L'écart de huit mois sur le compte d'observations est élucidé : l'échantillon
+de l'article s'arrête en avril 2015 et non en décembre. Avec cette borne, six
+comptes sur six tombent exactement, 1 065 pour le marché, la taille et la
+valeur, 621 pour RMW et CMA.
+
+L'écart couvert par un bêta estimé sur le passé est la seule version tenable en
+temps réel. Il rapporte -0,32 % par an brut et -1,30 % net de dix points de
+base, avec un ratio de Sharpe hors échantillon de -0,362 sur 134 mois. La constante de
+calibrage de l'article emploie tout l'échantillon, et l'estimer en expansion
+suffit à faire disparaître le gain, ce qui donne raison à Cederburg et
+coauteurs. Verdict `REJECTED`, statut mesuré, source
+`studies/006_volatility_managed/results/`.
 
 ## Notre contrôle de robustesse
 

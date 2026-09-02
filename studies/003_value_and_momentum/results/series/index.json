@@ -1,0 +1,24 @@
+{
+  "value_momentum_blend_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 654,
+    "notes": "",
+    "sample": "VALIDATION",
+    "start": "1972-01-31",
+    "universe": "facteurs VME d'AQR, EVERYWHERE, mélange à parts égales valeur et momentum"
+  },
+  "value_momentum_blend_net": {
+    "basis": "net",
+    "cost_assumptions": "10.0 pb par unité de rotation du mélange",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 654,
+    "notes": "",
+    "sample": "VALIDATION",
+    "start": "1972-01-31",
+    "universe": "facteurs VME d'AQR, EVERYWHERE, mélange à parts égales valeur et momentum"
+  }
+}

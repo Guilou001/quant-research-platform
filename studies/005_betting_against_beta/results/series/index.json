@@ -1,0 +1,24 @@
+{
+  "bab_kf_deciles_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 720,
+    "notes": "",
+    "sample": "VALIDATION",
+    "start": "1966-07-31",
+    "universe": "déciles de bêta de Ken French pondérés par la capitalisation, CRSP, sans biais de survie, réglage de l'article"
+  },
+  "bab_kf_deciles_net": {
+    "basis": "net",
+    "cost_assumptions": "10.0 pb demi-écart, 0.0 pb/an de financement",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 720,
+    "notes": "",
+    "sample": "VALIDATION",
+    "start": "1966-07-31",
+    "universe": "déciles de bêta de Ken French pondérés par la capitalisation, CRSP, sans biais de survie, réglage de l'article"
+  }
+}

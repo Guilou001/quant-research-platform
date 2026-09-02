@@ -20,3 +20,4 @@ Une décision sans option écartée n'est pas une décision, c'est une habitude.
 | [ADR-008](adr-008-deux-moteurs-de-backtest.md) | Deux moteurs de backtest indépendants, et la réconciliation est un livrable | Acceptée | 2026-09-01 |
 | [ADR-009](adr-009-registre-experiences.md) | Le registre d'expériences est un fichier, pas un serveur | Acceptée | 2026-09-01 |
 | [ADR-010](adr-010-francais-code-anglais.md) | La prose est en français, le code en anglais | Acceptée | 2026-09-01 |
+| [ADR-011](adr-011-skfolio-moteur-de-portefeuille.md) | skfolio est le moteur d'optimisation, derrière nos protocoles | Acceptée | 2026-09-02 |

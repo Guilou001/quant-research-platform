@@ -1,0 +1,24 @@
+{
+  "tsmom_etf_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 234,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2007-01-31",
+    "universe": "28 fonds négociés en bourse, quatre classes d'actifs, substituts aux contrats à terme"
+  },
+  "tsmom_etf_net": {
+    "basis": "net",
+    "cost_assumptions": "1.0 pb commission, 2.0 pb demi-écart, 1.0 pb glissement, 50.0 pb/an financement au-delà de 1x",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 234,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2007-01-31",
+    "universe": "28 fonds négociés en bourse, quatre classes d'actifs, substituts aux contrats à terme"
+  }
+}

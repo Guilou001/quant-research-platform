@@ -46,6 +46,7 @@ from quantlab.execution.costs import breakeven_cost_bps
 from quantlab.execution.costs import from_config as cost_from_config
 from quantlab.experiments import ExperimentRegistry
 from quantlab.features.transforms import assert_causal
+from quantlab.reporting.series import save_series
 from quantlab.reporting.study import (
     MetricLabel,
     ReplicationCheck,
@@ -387,6 +388,28 @@ def jambe_b(config: ExperimentConfig, d: Donnees) -> dict[str, Any]:
     resultat = _backtest(poids, rendements_moteur, cost_model=modele)
     brut = resultat.gross_returns
     net = resultat.net_returns
+    _univers = "28 fonds négociés en bourse, quatre classes d'actifs, substituts aux contrats à terme"
+    save_series(
+        RESULTS,
+        "tsmom_etf_gross",
+        brut,
+        sample=SampleTag.OUT_OF_SAMPLE,
+        basis=CostBasis.GROSS,
+        frequency=Frequency.MONTHLY,
+        universe=_univers,
+    )
+    save_series(
+        RESULTS,
+        "tsmom_etf_net",
+        net,
+        sample=SampleTag.OUT_OF_SAMPLE,
+        basis=CostBasis.NET,
+        frequency=Frequency.MONTHLY,
+        universe=_univers,
+        cost_assumptions=f"{config.costs.commission_bps} pb commission, "
+        f"{config.costs.spread_bps} pb demi-écart, {config.costs.slippage_bps} pb glissement, "
+        f"{config.costs.financing_spread_bps_annual} pb/an financement au-delà de 1x",
+    )
 
     fenetres = {
         "chevauchement de l'article, 2007 à 2009": (None, p["paper_sample_end"], SampleTag.IN_SAMPLE),

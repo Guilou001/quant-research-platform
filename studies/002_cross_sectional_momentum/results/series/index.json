@@ -1,0 +1,35 @@
+{
+  "xsmom_kf_deciles_spread_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 1194,
+    "notes": "gagnant moins perdant ; fenêtre de l'article 1965-1989 en IS, le reste hors échantillon",
+    "sample": "OOS",
+    "start": "1927-01-31",
+    "universe": "déciles 12-2 de Ken French pondérés par la capitalisation, CRSP, sans biais de survie"
+  },
+  "xsmom_survivors_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-08-31",
+    "frequency": "monthly",
+    "n_periods": 428,
+    "notes": "",
+    "sample": "OOS",
+    "start": "1991-01-31",
+    "universe": "membres actuels du S&P 500 via Yahoo, biais de survie déclaré"
+  },
+  "xsmom_survivors_net": {
+    "basis": "net",
+    "cost_assumptions": "50.0 pb demi-écart par unité de rotation",
+    "end": "2026-08-31",
+    "frequency": "monthly",
+    "n_periods": 428,
+    "notes": "",
+    "sample": "OOS",
+    "start": "1991-01-31",
+    "universe": "membres actuels du S&P 500 via Yahoo, biais de survie déclaré"
+  }
+}

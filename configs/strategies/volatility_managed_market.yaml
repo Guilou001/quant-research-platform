@@ -17,7 +17,7 @@ known_risks:
 - Le levier exigé dépasse deux plusieurs mois sur cent.
 - La rotation mensuelle rend la stratégie sensible aux frais.
 validation_status: REJECTED
-verdict_experiment_id: 006_volatility_managed-86fca82c0a
+verdict_experiment_id: 006_volatility_managed-6084d59b46
 created: '2026-09-02'
 last_modified: '2026-09-02'
 notes: Étude 006. Le mécanisme invoqué est une prime de risque dont le prix, le rapport

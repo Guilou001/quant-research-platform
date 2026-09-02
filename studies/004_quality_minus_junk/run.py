@@ -51,6 +51,7 @@ from quantlab.data.providers.sec import SecProvider
 from quantlab.data.providers.yahoo import YahooProvider, to_wide
 from quantlab.execution.costs import breakeven_cost_bps
 from quantlab.experiments import ExperimentRegistry
+from quantlab.reporting.series import save_series
 from quantlab.reporting.study import (
     MetricLabel,
     ReplicationCheck,
@@ -1064,6 +1065,26 @@ def main() -> None:
             ]
         )
         _write_table(ours_regression, "our_factor_regressions")
+        save_series(
+            RESULTS,
+            "qmj_ours_gross",
+            ours.dropna(),
+            sample=SampleTag.VALIDATION,
+            basis=CostBasis.GROSS,
+            frequency=Frequency.MONTHLY,
+            universe="déposants DERA de la SEC, grandes capitalisations",
+            notes="quatre composantes, 21 variables, point-in-time ; corrèle 0,106 avec le facteur publié",
+        )
+        save_series(
+            RESULTS,
+            "qmj_published_usa_gross",
+            usa.dropna(),
+            sample=SampleTag.VALIDATION,
+            basis=CostBasis.GROSS,
+            frequency=Frequency.MONTHLY,
+            universe="facteur QMJ d'AQR, colonne USA",
+            notes="cible de réplication, construction des auteurs",
+        )
 
         # La qualité des rendements employés, mesurée plutôt que supposée.
         extreme = monthly_returns.stack(future_stack=True).dropna()  # noqa: PD013

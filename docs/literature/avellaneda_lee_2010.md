@@ -418,7 +418,22 @@ non commencé au 2026-09-01
 
 ## Nos résultats
 
-non commencé au 2026-09-01
+Étude `007_statistical_arbitrage`, verdict **`REJECTED`**, menée le 2026-09-02.
+
+Le ratio de Sharpe brut se réplique, le net ne se réplique pas, et le
+coût de seuil de rentabilité tranche. Sur 1997-2007, notre ratio brut vaut 1,460
+contre 1,44 publié, et le temps de retour à la moyenne médian 7,56 séances
+contre 7. Onze facteurs expliquent 55 % de la variance, contre une fourchette
+publiée de 10 à 30.
+
+Le coût qui annule l'alpha brut vaut 3,92 points de base par unité négociée,
+sous les 5 points de base que l'article lui-même retient. La rotation annuelle
+de 344 fois en convention de somme entière fait de cet écart la totalité du
+rendement. Hors échantillon, après 2010, le ratio net vaut -1,060 avec un t de
+-4,20 et un pire repli de -85,4 %. La décroissance après 2002 que l'article
+documente se retrouve, plus forte, 1,841 puis 0,807. Univers avec biais de
+survie déclaré. Verdict `REJECTED`, statut mesuré, source
+`studies/007_statistical_arbitrage/results/`.
 
 ## Notre contrôle de robustesse
 

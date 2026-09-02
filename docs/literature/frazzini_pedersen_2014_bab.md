@@ -402,7 +402,20 @@ non commencé au 2026-09-01
 
 ## Nos résultats
 
-non commencé au 2026-09-01
+Étude `005_betting_against_beta`, verdict **`REJECTED`**, menée le 2026-09-02.
+
+Le facteur publié ne s'affaiblit pas après l'article, et un détail
+d'estimation décide de tout. Sur la colonne USA du classeur d'AQR, le ratio de
+Sharpe vaut 0,703 jusqu'à 2012-03 et 0,689 après, écart 0,015, p = 0,960. Le
+rendement mensuel se réplique, 0,676 % contre 0,70 publié.
+
+Notre reconstruction au niveau du titre suit la méthode exacte de l'article.
+C'est le rétrécissement du bêta de 0,6 vers un qui tranche. Le ratio de Sharpe
+du facteur reconstruit passe de 0,394 sans rétrécissement à -0,001 au réglage de
+l'article, alors que le classement des titres est identique dans les deux cas.
+Le bêta réalisé du facteur passe de +0,081 à -0,182. Le constat rejoint la
+critique de Novy-Marx et Velikov. Verdict `REJECTED`, statut mesuré, source
+`studies/005_betting_against_beta/results/`.
 
 ## Notre contrôle de robustesse
 

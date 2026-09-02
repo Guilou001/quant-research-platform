@@ -421,7 +421,22 @@ non commencé au 2026-09-01
 
 ## Nos résultats
 
-non commencé au 2026-09-01
+Étude `004_quality_minus_junk`, verdict **`EXPERIMENTAL`**, menée le 2026-09-02.
+
+Le facteur publié se réplique, notre construction ne le reproduit pas, et
+la cause est mesurée. Sur la fenêtre de l'article, 1957-07 à 2012-12, le facteur
+QMJ d'AQR pour les États-Unis rend 0,347 % par mois contre 0,40 publié. Son
+ratio de Sharpe vaut 0,559 contre 0,58, et son alpha à quatre facteurs 0,522 %
+contre 0,66. Après publication, 2013-01 à 2026-06, la prime tombe à 0,168 % par mois
+avec un t de 0,72, sans que la baisse soit significative, p = 0,286.
+
+Notre facteur, bâti sur 21 variables et quatre composantes depuis les
+fondamentaux point-in-time des jeux DERA de la SEC, corrèle 0,106 avec le
+facteur publié sur 132 mois. La cause est l'univers : restreint aux grandes
+capitalisations, il perd la charge de taille de -0,577 que porte le facteur
+publié. Les dix portefeuilles de qualité restent pourtant ordonnés, du Sharpe
+0,151 au premier décile à 1,093 au dixième. Statut mesuré, source
+`studies/004_quality_minus_junk/results/`.
 
 ## Notre contrôle de robustesse
 

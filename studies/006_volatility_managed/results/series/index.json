@@ -1,0 +1,35 @@
+{
+  "hedged_spread_real_time_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 959,
+    "notes": "facteur géré moins bêta estimé sur le passé, la seule version négociable",
+    "sample": "OOS",
+    "start": "1946-08-31",
+    "universe": "facteur Mkt-RF de Ken French"
+  },
+  "managed_market_ex_post_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2015-04-30",
+    "frequency": "monthly",
+    "n_periods": 1065,
+    "notes": "constante de calibrage choisie sur toute la fenêtre de l'article, non tenable en direct",
+    "sample": "IS",
+    "start": "1926-08-31",
+    "universe": "facteur Mkt-RF de Ken French"
+  },
+  "managed_market_real_time_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 1079,
+    "notes": "constante estimée en expansion, tenable en temps réel",
+    "sample": "OOS",
+    "start": "1936-08-31",
+    "universe": "facteur Mkt-RF de Ken French"
+  }
+}

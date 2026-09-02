@@ -6,7 +6,7 @@
 4,"ÉCHOUÉ | réplication de « alpha mensuel du facteur, 1985-2009 » : 0,012 contre 0,016 publié, écart relatif 0,226, tolérance 0,100 (relative)"
 5,"ÉCHOUÉ | réplication de « t de l'alpha mensuel du facteur, 1985-2009 » : 6,438 contre 7,990 publié, écart relatif 0,194, tolérance 0,100 (relative)"
 6,"ÉCHOUÉ | réplication de « part des instruments à ratio de Sharpe positif, pris isolément » : 0,821 contre 1,000 publié, écart relatif 0,179, tolérance 0,100 (relative)"
-7,"ÉCHOUÉ | réplication de « cellules de la grille à statistique t positive » : 26,000 contre 62,000 publié, écart relatif 0,581, tolérance 0,100 (relative)"
+7,"ÉCHOUÉ | réplication de « cellules de la grille à statistique t positive » : 25,000 contre 62,000 publié, écart relatif 0,597, tolérance 0,100 (relative)"
 8,"ÉCHOUÉ | réplication : 2 contrôle(s) sur 6 dans la tolérance, tous exigés"
 9,"ÉCHOUÉ | Sharpe hors échantillon : 0,176 mesuré, minimum 0,500"
 10,"ÉCHOUÉ | t après correction pour essais multiples : 0,659 mesuré, minimum 3,000"

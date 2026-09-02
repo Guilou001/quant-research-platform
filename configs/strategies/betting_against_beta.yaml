@@ -20,7 +20,7 @@ known_risks:
 - Le levier de la jambe longue dépasse un dollar trente en moyenne.
 - L'univers de titres est celui d'aujourd'hui, donc il porte un biais de survie.
 validation_status: REJECTED
-verdict_experiment_id: 005_betting_against_beta-c1fbcfdc17
+verdict_experiment_id: 005_betting_against_beta-b21f54089f
 created: '2026-09-02'
 last_modified: '2026-09-02'
 notes: 'Étude 005. Le mécanisme invoqué est une contrainte de levier : qui ne peut

@@ -16,6 +16,7 @@ Sharpe du paquet partagé plutôt que le sien.
 | 006 | [Portefeuilles gérés en volatilité](006_volatility_managed/) | Moreira et Muir (2017) | 89 | `REJECTED` |
 | 007 | [Arbitrage statistique](007_statistical_arbitrage/) | Avellaneda et Lee (2010) | 49 | `REJECTED` |
 | 008 | [Portage](008_carry/) | Koijen, Moskowitz, Pedersen et Vrugt (2018) | 33 | `REPLICATED` |
+| 009 | [Huit sources d'alpha, un portefeuille](009_multi_strategy/) | Grinold (1989), DeMiguel et coauteurs (2009) | 20 | `REJECTED` |
 
 Comment lire ce tableau, en quatre constats. Le premier est qu'**aucune étude
 n'atteint `ROBUST` ni `PORTFOLIO_CANDIDATE`**, donc aucune ne mérite du capital
@@ -58,6 +59,11 @@ rentabilité vaut 3,92 points de base contre les 5 que l'article lui-même suppo
 
 **008.** Le coefficient du test central se retrouve à 0,5 % près, 1,084 contre
 1,09, et il tombe à 0,303 avec un t de 0,294 après la fin de l'échantillon.
+
+**009.** Huit stratégies valent 5,4 paris indépendants. Quatre allocations sur
+six battent la meilleure stratégie seule, mais pas la parité de risque désignée
+à l'avance, et la parité hiérarchique qui domine tout ne peut pas être retenue
+après coup.
 
 ## L'arborescence d'une étude
 

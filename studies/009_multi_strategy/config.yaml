@@ -1,0 +1,60 @@
+# Étude 009, portefeuille multi-stratégies. Tout paramètre et tout seuil du
+# verdict sont écrits ici AVANT le premier résultat.
+
+name: multi_strategy_009
+hypothesis: >-
+  Huit sources d'alpha faiblement corrélées, combinées par un budget de risque
+  estimé sur le seul passé, portent un ratio de Sharpe hors échantillon
+  supérieur à celui de la meilleure d'entre elles prise seule, parce que la
+  diversification multiplie l'avantage par la racine du nombre de paris
+  effectivement indépendants.
+paper: "Grinold (1989) pour la loi fondamentale ; DeMiguel, Garlappi et Uppal (2009) pour le repère 1/N ; Asness, Moskowitz et Pedersen (2013) pour la corrélation valeur-momentum"
+seed: 20260902
+
+# Les huit séries de tête, une par étude, en BRUT pour être comparables. Le
+# choix de chacune est déclaré dans le README.
+series:
+  tsmom:       {study: 001_time_series_momentum,     name: tsmom_etf_gross}
+  xsmom:       {study: 002_cross_sectional_momentum, name: xsmom_kf_deciles_spread_gross}
+  value_mom:   {study: 003_value_and_momentum,       name: value_momentum_blend_gross}
+  quality:     {study: 004_quality_minus_junk,       name: qmj_published_usa_gross}
+  bab:         {study: 005_betting_against_beta,     name: bab_kf_deciles_gross}
+  vol_managed: {study: 006_volatility_managed,       name: hedged_spread_real_time_gross}
+  statarb:     {study: 007_statistical_arbitrage,    name: statarb_gross}
+  fx_carry:    {study: 008_carry,                    name: fx_carry_gross}
+
+# La fenêtre commune est l'intersection des huit séries ; ce qui suit la borne
+# est le holdout final, jamais consulté avant la fin.
+final_holdout_start: "2020-01-31"
+
+walk_forward:
+  min_train_months: 36          # trois ans avant la première allocation
+  refit_every_months: 12        # réestimation annuelle, poids tenus entre deux
+  covariance: ledoit_wolf       # rétrécissement vers l'identité, ADR-011
+
+optimizers: [equal_weight, inverse_volatility, risk_parity, minimum_variance, hrp, mean_variance]
+mean_variance:
+  risk_aversion: 10.0
+  long_only: true
+  max_weight: 0.5
+
+costs:
+  # Les huit séries sont brutes ; la rotation d'un rééquilibrage annuel de
+  # portefeuille de stratégies est faible et facturée à ce taux.
+  spread_bps: 5.0
+
+benchmark_fund: QSPIX          # AQR Style Premia Alternative, multi-stratégies, coté depuis 2013-10
+
+# Compte des essais : six optimiseurs, huit retraits un à un, cinq multiples
+# de coûts, un repère.
+n_trials: 20
+
+verdict:
+  replication_tolerance: 0.10
+  min_oos_sharpe: 0.50
+  min_tstat: 3.00
+  min_dsr: 0.95
+  max_pbo: 0.50
+  min_positive_subperiod_share: 0.60
+  min_cost_multiple: 2.0
+  max_portfolio_correlation: 0.60

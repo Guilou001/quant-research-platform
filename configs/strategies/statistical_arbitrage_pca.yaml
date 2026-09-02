@@ -20,7 +20,7 @@ known_risks:
 - Notre couverture négocie la jambe de facteurs, ce que l'article ne fait pas pour
   ses variantes en composantes principales, et le coût de seuil en dépend.
 validation_status: REJECTED
-verdict_experiment_id: 007_statistical_arbitrage-ac3b8c18a1
+verdict_experiment_id: 007_statistical_arbitrage-413ede5568
 created: '2026-09-02'
 last_modified: '2026-09-02'
 notes: Étude 007. Le mécanisme invoqué est la rémunération du fournisseur de liquidité,

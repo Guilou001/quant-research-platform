@@ -1,9 +1,21 @@
-"""Phase 5. Construction de portefeuille : covariance, contraintes, optimiseurs.
+"""Construction de portefeuille : un signal n'est pas un portefeuille.
 
-Ce sous-paquet n'est pas implémenté à ce jour. Il figure dans l'arborescence
-parce que l'architecture est décidée et que les contrats correspondants vivent
-déjà dans :mod:`quantlab.core.protocols`. Écrire ici sans avoir lu ces
-protocoles produirait une brique non remplaçable.
+Le sous-paquet transforme un alpha attendu et un modèle de risque en poids
+cibles, sous contraintes, coûts compris. Il est le seul endroit du dépôt qui
+importe ``skfolio``, ``cvxpy`` ou ``Riskfolio-Lib``, conformément à
+l'ADR-011 : les stratégies parlent aux protocoles ``RiskModel`` et
+``PortfolioOptimizer``, jamais à une bibliothèque.
+
+``covariance``
+    Six estimateurs de la matrice de covariance, de l'empirique au débruité,
+    chacun avec son contrôle indépendant, et un rapport qui les compare.
+
+``optimizers``
+    Sept optimiseurs, de l'équipondération qui sert de repère à la
+    moyenne-variance avec coûts qui est la formulation centrale du laboratoire.
+    Chacun porte un contrôle indépendant de la propriété qui le définit.
 """
 
-__all__: list[str] = []
+from quantlab.portfolio import covariance, optimizers
+
+__all__ = ["covariance", "optimizers"]

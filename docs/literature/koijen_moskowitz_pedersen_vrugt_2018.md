@@ -390,7 +390,23 @@ non commencé au 2026-09-01
 
 ## Nos résultats
 
-non commencé au 2026-09-01
+Étude `008_carry`, verdict **`REPLICATED`**, menée le 2026-09-02.
+
+Le test central se reproduit sur les devises, et trois classes d'actifs
+sur quatre ne sont pas reproductibles sur données gratuites. Le coefficient de
+panel du rendement futur sur le portage vaut 1,084 contre 1,09 publié, t de
+2,159, sur 3 177 couples devise-mois de novembre 1983 à septembre 2012. Le
+portefeuille de portage rend un ratio de Sharpe de 0,602 contre 0,68 publié,
+une asymétrie de -0,666 contre -0,68.
+
+Après la fin de l'échantillon, le coefficient tombe à 0,303 avec un t de 0,294
+sur 1 782 couples : la prédiction s'éteint. Le portefeuille rend un Sharpe net
+de 0,144 sur 164 mois, intervalle par blocs [-1,17 % ; +2,80 %] par an.
+
+Les matières premières exigent une structure par terme, les indices actions un
+dividende attendu, les options une base payante : non trouvé au 2026-09-02,
+écrit comme tel plutôt qu'approximé. Verdict `REPLICATED`, sur le portage de
+change seul, statut mesuré, source `studies/008_carry/results/`.
 
 ## Notre contrôle de robustesse
 

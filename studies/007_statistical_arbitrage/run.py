@@ -41,6 +41,7 @@ from quantlab.core.types import AssetClass, CostBasis, Frequency, SampleTag
 from quantlab.data.providers.yahoo import YahooProvider, to_wide
 from quantlab.execution.costs import LinearCostModel, breakeven_cost_bps
 from quantlab.experiments import ExperimentRegistry
+from quantlab.reporting.series import save_series
 from quantlab.reporting.study import (
     MetricLabel,
     ReplicationCheck,
@@ -372,6 +373,29 @@ def main() -> None:
             first_trade = filled_returns.index[filled_returns.index.get_loc(first_decision) + 1]
             gross = reference_result.gross_returns.loc[first_trade:]
             net = reference_result.net_returns.loc[first_trade:]
+            _univers_sa = (
+                "grandes capitalisations américaines via Yahoo, biais de survie déclaré, règle de l'article"
+            )
+            save_series(
+                RESULTS,
+                "statarb_gross",
+                gross,
+                sample=SampleTag.IN_SAMPLE,
+                basis=CostBasis.GROSS,
+                frequency=Frequency.DAILY,
+                universe=_univers_sa,
+            )
+            save_series(
+                RESULTS,
+                "statarb_net",
+                net,
+                sample=SampleTag.IN_SAMPLE,
+                basis=CostBasis.NET,
+                frequency=Frequency.DAILY,
+                universe=_univers_sa,
+                cost_assumptions="5 pb par unité négociée, l'hypothèse de l'article",
+            )
+
             full_turnover = turnover_series(
                 reference_result.executed_weights.loc[first_trade:],
                 filled_returns,

@@ -19,7 +19,7 @@ known_risks:
 - coûts de transaction corrélés au signal, Lesmond, Schill et Zhou (2004)
 - biais de survie de l'univers, mesuré par la jambe B de cette étude
 validation_status: EXPERIMENTAL
-verdict_experiment_id: 002_cross_sectional_momentum-4110c6fb7e
+verdict_experiment_id: 002_cross_sectional_momentum-48b737b531
 created: '2026-09-02'
 last_modified: '2026-09-02'
 notes: Étude 002, deux jambes et leur confrontation.

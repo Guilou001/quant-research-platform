@@ -39,6 +39,7 @@ from quantlab.data.providers.french import FrenchProvider
 from quantlab.data.providers.yahoo import YahooProvider, to_wide
 from quantlab.execution.costs import breakeven_cost_bps, from_config
 from quantlab.experiments import ExperimentRegistry
+from quantlab.reporting.series import save_series
 from quantlab.reporting.study import (
     ReplicationCheck,
     ReportFigure,
@@ -1136,6 +1137,38 @@ def main() -> None:
     resultat = couts["resultat"]
     rendements_bruts = resultat.gross_returns
     rendements_nets = resultat.net_returns
+    save_series(
+        RESULTS,
+        "xsmom_kf_deciles_spread_gross",
+        (french["deciles_vw"].iloc[:, -1] - french["deciles_vw"].iloc[:, 0]).dropna(),
+        sample=SampleTag.OUT_OF_SAMPLE,
+        basis=CostBasis.GROSS,
+        frequency=Frequency.MONTHLY,
+        universe="déciles 12-2 de Ken French pondérés par la capitalisation, CRSP, sans biais de survie",
+        notes="gagnant moins perdant ; fenêtre de l'article 1965-1989 en IS, le reste hors échantillon",
+    )
+
+    _univers_b = "membres actuels du S&P 500 via Yahoo, biais de survie déclaré"
+    save_series(
+        RESULTS,
+        "xsmom_survivors_gross",
+        rendements_bruts,
+        sample=SampleTag.OUT_OF_SAMPLE,
+        basis=CostBasis.GROSS,
+        frequency=Frequency.MONTHLY,
+        universe=_univers_b,
+    )
+    save_series(
+        RESULTS,
+        "xsmom_survivors_net",
+        rendements_nets,
+        sample=SampleTag.OUT_OF_SAMPLE,
+        basis=CostBasis.NET,
+        frequency=Frequency.MONTHLY,
+        universe=_univers_b,
+        cost_assumptions=f"{config.costs.spread_bps} pb demi-écart par unité de rotation",
+    )
+
     resume_brut = spread_summary(rendements_bruts, frequency=MONTHLY)
     resume_net = spread_summary(rendements_nets, frequency=MONTHLY)
     contenu_b["tables"]["jambe_b_couts"] = pd.DataFrame(

@@ -1,0 +1,35 @@
+{
+  "fx_carry_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 664,
+    "notes": "fenêtre de l'article jusqu'à 2012-09 en IS, la suite en FINAL_HOLDOUT",
+    "sample": "IS",
+    "start": "1971-02-28",
+    "universe": "dix monnaies développées contre le dollar, FRED, taux à trois mois"
+  },
+  "fx_carry_net": {
+    "basis": "net",
+    "cost_assumptions": "2.0 pb par unité de rotation",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 664,
+    "notes": "",
+    "sample": "IS",
+    "start": "1971-02-28",
+    "universe": "dix monnaies développées contre le dollar, FRED, taux à trois mois"
+  },
+  "fx_momentum_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 652,
+    "notes": "repère de momentum de change",
+    "sample": "IS",
+    "start": "1972-02-29",
+    "universe": "dix monnaies développées contre le dollar, FRED, taux à trois mois"
+  }
+}
