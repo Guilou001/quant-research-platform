@@ -27,3 +27,9 @@ artifacts/**
 
 # Les études ne portent pas de cache Python.
 studies/**/__pycache__/
+
+# Les rapports d'étude sont régénérables et s'écrivent UNE FOIS PAR EXÉCUTION,
+# donc les suivre revient à commiter dix copies des mêmes figures. Le répertoire
+# « results/ » d'une étude est la copie canonique, celle que son README cite, et
+# elle est suivie. Le rapport se refait par « uv run quant report generate ».
+studies/**/reports/
