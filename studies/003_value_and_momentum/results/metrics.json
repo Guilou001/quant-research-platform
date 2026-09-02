@@ -1,0 +1,133 @@
+{
+  "study": "003_value_and_momentum",
+  "experiment_id": "003_value_and_momentum-21eb8243a8",
+  "seed": 20260902,
+  "verdict": "EXPERIMENTAL",
+  "reasons": [
+    "RÉUSSI | hypothèse économique : signe attendu retrouvé, le signe décide du rejet",
+    "RÉUSSI | signe du Sharpe hors échantillon : 0,604 mesuré, rejet à 0,000 ou moins",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Toutes classes d'actifs » : -0,586 contre -0,600 publié, écart relatif 0,023, tolérance 0,059 (absolute), soit 0,098 en relatif",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Actions, agrégat » : -0,598 contre -0,600 publié, écart relatif 0,003, tolérance 0,059 (absolute), soit 0,098 en relatif",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Hors actions, agrégat » : -0,538 contre -0,490 publié, écart relatif 0,097, tolérance 0,070 (absolute), soit 0,142 en relatif",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Actions américaines » : -0,623 contre -0,650 publié, écart relatif 0,041, tolérance 0,053 (absolute), soit 0,082 en relatif",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Actions britanniques » : -0,639 contre -0,620 publié, écart relatif 0,031, tolérance 0,065 (absolute), soit 0,105 en relatif",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Actions européennes » : -0,510 contre -0,550 publié, écart relatif 0,072, tolérance 0,073 (absolute), soit 0,133 en relatif",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Actions japonaises » : -0,637 contre -0,640 publié, écart relatif 0,004, tolérance 0,062 (absolute), soit 0,097 en relatif",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Indices actions par pays » : -0,389 contre -0,370 publié, écart relatif 0,052, tolérance 0,085 (absolute), soit 0,230 en relatif",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Devises » : -0,434 contre -0,430 publié, écart relatif 0,008, tolérance 0,082 (absolute), soit 0,192 en relatif",
+    "ÉCHOUÉ | réplication de « corrélation valeur contre momentum, Obligations d'État » : -0,224 contre -0,350 publié, écart relatif 0,359, tolérance 0,095 (absolute), soit 0,271 en relatif, plus large que la tolérance déclarée 0,250",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Matières premières » : -0,471 contre -0,460 publié, écart relatif 0,025, tolérance 0,072 (absolute), soit 0,157 en relatif",
+    "ÉCHOUÉ | réplication : 10 contrôle(s) sur 11 dans la tolérance, tous exigés",
+    "RÉUSSI | Sharpe hors échantillon : 0,604 mesuré, minimum 0,500",
+    "ÉCHOUÉ | t après correction pour essais multiples : 0,000 mesuré, minimum 3,000",
+    "ÉCHOUÉ | Sharpe dégonflé : 0,000 mesuré, minimum 0,950",
+    "RÉUSSI | probabilité de surapprentissage : 0,000 mesuré, maximum 0,500",
+    "RÉUSSI | part de sous-périodes positives : 1,000 mesuré, minimum 0,600",
+    "RÉUSSI | multiple de coûts survécu : 10,000 mesuré, minimum 2,000",
+    "RÉUSSI | corrélation absolue avec le portefeuille existant : 0,159 mesurée, maximum 0,600",
+    "VERDICT | EXPERIMENTAL"
+  ],
+  "n_trials": 207,
+  "trials_by_family": {
+    "replication_A": 11,
+    "balanced_panel": 3,
+    "pairs_A_ew": 11,
+    "pairs_A_rp": 11,
+    "pairs_B_ew": 4,
+    "pairs_B_rp": 4,
+    "paper_window_rp": 15,
+    "paper_window_B_ew": 4,
+    "costs": 4,
+    "holdout_window": 2,
+    "cost_multiple": 6,
+    "weight_grid": 121,
+    "rp_window": 4,
+    "rebalance": 4,
+    "lag": 3
+  },
+  "metrics": {
+    "correlation_toutes_classes": -0.5773117067282201,
+    "sharpe_valeur_toutes_classes": 0.4124013276330236,
+    "sharpe_momentum_toutes_classes": 0.5928582618873379,
+    "sharpe_melange_parts_egales": 1.0958401883842104,
+    "sharpe_melange_risque_egal": 1.093334662431441,
+    "gain_sur_la_meilleure_jambe": 0.5029819264968725,
+    "multiplicateur_de_diversification": 1.5381188341221343,
+    "sharpe_par_unite_de_correlation": -1.2933107917049047,
+    "ecart_maximal_mesure_contre_formule": 5.551115123125783e-16,
+    "sharpe_melange_oos_net": 0.6041763817060442,
+    "rotation_annualisee": 0.17636256921404206,
+    "cout_de_rentabilite_bps": 2581.2704306859696,
+    "probabilite_de_surapprentissage": 0.0,
+    "sharpe_degonfle": 1.1974785037220601e-05,
+    "t_apres_correction": 0.0,
+    "part_de_sous_periodes_positives": 1.0,
+    "correlation_avec_le_marche": -0.15947376118414197,
+    "cpcv_sharpe_moyen": 1.0916164754167852,
+    "cpcv_part_de_chemins_negatifs": 0.0
+  },
+  "metric_samples": {
+    "correlation_toutes_classes": "VALIDATION",
+    "sharpe_valeur_toutes_classes": "VALIDATION",
+    "sharpe_momentum_toutes_classes": "VALIDATION",
+    "sharpe_melange_parts_egales": "VALIDATION",
+    "sharpe_melange_risque_egal": "VALIDATION",
+    "gain_sur_la_meilleure_jambe": "VALIDATION",
+    "multiplicateur_de_diversification": "VALIDATION",
+    "sharpe_par_unite_de_correlation": "VALIDATION",
+    "ecart_maximal_mesure_contre_formule": "VALIDATION",
+    "sharpe_melange_oos_net": "OOS",
+    "rotation_annualisee": "VALIDATION",
+    "cout_de_rentabilite_bps": "VALIDATION",
+    "probabilite_de_surapprentissage": "VALIDATION",
+    "sharpe_degonfle": "OOS",
+    "t_apres_correction": "OOS",
+    "part_de_sous_periodes_positives": "VALIDATION",
+    "correlation_avec_le_marche": "VALIDATION",
+    "cpcv_sharpe_moyen": "OOS",
+    "cpcv_part_de_chemins_negatifs": "OOS"
+  },
+  "cost_basis": {
+    "correlation_toutes_classes": "gross",
+    "sharpe_valeur_toutes_classes": "gross",
+    "sharpe_momentum_toutes_classes": "gross",
+    "sharpe_melange_parts_egales": "gross",
+    "sharpe_melange_risque_egal": "gross",
+    "gain_sur_la_meilleure_jambe": "gross",
+    "multiplicateur_de_diversification": "gross",
+    "sharpe_par_unite_de_correlation": "gross",
+    "ecart_maximal_mesure_contre_formule": "gross",
+    "sharpe_melange_oos_net": "net",
+    "rotation_annualisee": "gross",
+    "cout_de_rentabilite_bps": "gross",
+    "probabilite_de_surapprentissage": "net",
+    "sharpe_degonfle": "net",
+    "t_apres_correction": "net",
+    "part_de_sous_periodes_positives": "net",
+    "correlation_avec_le_marche": "gross",
+    "cpcv_sharpe_moyen": "net",
+    "cpcv_part_de_chemins_negatifs": "net"
+  },
+  "hypothesis_parts": {
+    "toutes_les_correlations_negatives": true,
+    "le_melange_bat_les_deux_jambes_partout": true,
+    "meilleur_poids_de_valeur_sur_la_paire_de_reference": 0.5
+  },
+  "samples": {
+    "paper_window": [
+      "1972-01-31",
+      "2011-07-31"
+    ],
+    "full_window": [
+      "1972-01-31",
+      "2026-06-30"
+    ],
+    "holdout_window": [
+      "2011-08-31",
+      "2026-06-30"
+    ]
+  },
+  "cost_assumptions_bps": {
+    "spread_bps": 10.0
+  }
+}

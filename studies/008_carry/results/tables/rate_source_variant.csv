@@ -1,0 +1,3 @@
+rate_source,first_jpy_carry,first_chf_carry,n_months,annual_return_pct,sharpe,skewness,panel_c,panel_t
+taux interbancaire à trois mois seul,2002-04-30,1999-07-31,664,3.8664749267800986,0.5275708299665348,-0.5702727667900663,1.1883905881698376,3.2006790668411025
+"rallongé, certificats de dépôt au Japon et argent au jour le jour en Suisse",1979-05-31,1972-01-31,664,3.1531402341365435,0.4236323580079397,-0.8935887161144757,1.0621092031305015,3.3581318222730094

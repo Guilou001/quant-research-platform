@@ -1,0 +1,275 @@
+{
+  "study": "008_carry",
+  "experiment_id": "008_carry-d662df0ea9",
+  "created_at": "2026-09-02T17:37:06.159533+00:00",
+  "hypothesis": "Le portage, l'écart de taux entre deux devises, prédit le rendement futur du change avec un coefficient proche de un, et le portefeuille trié par portage rapporte un ratio de Sharpe élevé assorti d'une asymétrie négative marquée.",
+  "paper": "Koijen, R. S. J., Moskowitz, T. J., Pedersen, L. H. et Vrugt, E. B. (2018). Carry. Journal of Financial Economics, 127(2), 197-225. Chiffres cibles lus dans le manuscrit accepté déposé au CBS Research Portal.",
+  "verdict": "REPLICATED",
+  "reasons": [
+    "RÉUSSI | hypothèse économique : signe attendu retrouvé, le signe décide du rejet",
+    "RÉUSSI | signe du Sharpe hors échantillon : 0,144 mesuré, rejet à 0,000 ou moins",
+    "RÉUSSI | réplication de « ratio de Sharpe du portage de change » : 0,602 contre 0,680 publié, écart relatif 0,115, tolérance 0,500 (relative)",
+    "RÉUSSI | réplication de « volatilité annualisée du portage, en pourcentage » : 8,361 contre 7,800 publié, écart relatif 0,072, tolérance 0,500 (relative)",
+    "RÉUSSI | réplication de « asymétrie du portage de change » : -0,666 contre -0,680 publié, écart relatif 0,020, tolérance 0,500 (relative)",
+    "RÉUSSI | réplication de « coefficient c de l'équation (23) » : 1,084 contre 1,090 publié, écart relatif 0,005, tolérance 0,500 (relative)",
+    "RÉUSSI | réplication de « statistique t du coefficient c » : 2,159 contre 2,690 publié, écart relatif 0,197, tolérance 0,500 (relative)",
+    "RÉUSSI | réplication : 5 contrôle(s) sur 5 dans la tolérance, tous exigés",
+    "ÉCHOUÉ | Sharpe hors échantillon : 0,144 mesuré, minimum 0,500",
+    "ÉCHOUÉ | t après correction pour essais multiples : 0,000 mesuré, minimum 3,000",
+    "ÉCHOUÉ | Sharpe dégonflé : 0,000 mesuré, minimum 0,950",
+    "RÉUSSI | probabilité de surapprentissage : 0,100 mesuré, maximum 0,500",
+    "RÉUSSI | part de sous-périodes positives : 1,000 mesuré, minimum 0,600",
+    "RÉUSSI | multiple de coûts survécu : 10,000 mesuré, minimum 2,000",
+    "RÉUSSI | corrélation absolue avec le portefeuille existant : 0,370 mesurée, maximum 0,600",
+    "VERDICT | REPLICATED"
+  ],
+  "criteria": {
+    "replication_tolerance": 0.5,
+    "min_oos_sharpe": 0.5,
+    "min_tstat": 3.0,
+    "min_dsr": 0.95,
+    "max_pbo": 0.5,
+    "min_positive_subperiod_share": 0.6,
+    "min_cost_multiple": 2.0,
+    "max_portfolio_correlation": 0.6
+  },
+  "metrics": [
+    {
+      "metric": "sharpe_portage_fenetre_article",
+      "value": 0.6019492302247449,
+      "sample": "IS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "rendement_portage_fenetre_article_pct",
+      "value": 5.0330849961083794,
+      "sample": "IS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "volatilite_portage_fenetre_article_pct",
+      "value": 8.361311458491636,
+      "sample": "IS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "asymetrie_portage_fenetre_article",
+      "value": -0.6661147636453658,
+      "sample": "IS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "aplatissement_portage_fenetre_article",
+      "value": 2.852074199451904,
+      "sample": "IS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "panel_c_fenetre_article",
+      "value": 1.084345462525044,
+      "sample": "IS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "panel_t_fenetre_article",
+      "value": 2.1590034273778977,
+      "sample": "IS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "panel_c_echantillon_complet",
+      "value": 1.1883905881698376,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "panel_t_echantillon_complet",
+      "value": 3.2006790668411025,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "sharpe_portage_complet",
+      "value": 0.5275708299665348,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "asymetrie_portage_complet",
+      "value": -0.5702727667900663,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "asymetrie_momentum_complet",
+      "value": -0.25011276061670223,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "perte_esperee_portage_pct",
+      "value": 4.93654840832852,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "perte_esperee_momentum_pct",
+      "value": 5.020866033345671,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "sharpe_hors_echantillon_net",
+      "value": 0.1442836429269622,
+      "sample": "FINAL_HOLDOUT",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "rotation_annualisee",
+      "value": 4.281577773069675,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "cout_de_rentabilite_bps",
+      "value": 90.30490935139622,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "probabilite_de_surapprentissage",
+      "value": 0.1,
+      "sample": "VALIDATION",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "sharpe_degonfle",
+      "value": 6.816639904503643e-91,
+      "sample": "FINAL_HOLDOUT",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "t_apres_correction",
+      "value": 0.0,
+      "sample": "FINAL_HOLDOUT",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "part_de_sous_periodes_positives",
+      "value": 1.0,
+      "sample": "VALIDATION",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "correlation_avec_le_passif",
+      "value": 0.3695268922476068,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "cpcv_sharpe_moyen",
+      "value": 0.44839767297881244,
+      "sample": "OOS",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "cpcv_part_de_chemins_negatifs",
+      "value": 0.0,
+      "sample": "OOS",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "sharpe_pente_obligataire",
+      "value": 0.3361082737495721,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "panel_c_pente_obligataire",
+      "value": 1.353011407674493,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "sharpe_jambe_neutre_au_dollar",
+      "value": 0.4828764092151792,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "asymetrie_jambe_neutre_au_dollar",
+      "value": -0.20472763793155435,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "sharpe_jambe_de_dollar",
+      "value": 0.29875461027973715,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "asymetrie_jambe_de_dollar",
+      "value": -0.30603738288481674,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    }
+  ],
+  "replication": [
+    {
+      "quantity": "ratio de Sharpe du portage de change",
+      "published": 0.68,
+      "ours": 0.6019492302247449,
+      "absolute_error": 0.07805076977525516,
+      "relative_error": 0.11478054378713994,
+      "tolerance": 0.5,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Koijen et coauteurs (2018), tableau 2, panneau A, colonne Devises"
+    },
+    {
+      "quantity": "volatilité annualisée du portage, en pourcentage",
+      "published": 7.8,
+      "ours": 8.361311458491636,
+      "absolute_error": 0.5613114584916366,
+      "relative_error": 0.07196300749892777,
+      "tolerance": 0.5,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Koijen et coauteurs (2018), tableau 2, panneau A, colonne Devises"
+    },
+    {
+      "quantity": "asymétrie du portage de change",
+      "published": -0.68,
+      "ours": -0.6661147636453658,
+      "absolute_error": 0.013885236354634234,
+      "relative_error": 0.020419465227403285,
+      "tolerance": 0.5,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Koijen et coauteurs (2018), tableau 2, panneau A, colonne Devises"
+    },
+    {
+      "quantity": "coefficient c de l'équation (23)",
+      "published": 1.09,
+      "ours": 1.084345462525044,
+      "absolute_error": 0.005654537474956145,
+      "relative_error": 0.005187649059592793,
+      "tolerance": 0.5,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Koijen et coauteurs (2018), tableau 4, ligne Devises"
+    },
+    {
+      "quantity": "statistique t du coefficient c",
+      "published": 2.69,
+      "ours": 2.1590034273778977,
+      "absolute_error": 0.5309965726221022,
+      "relative_error": 0.197396495398551,
+      "tolerance": 0.5,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Koijen et coauteurs (2018), tableau 4, ligne Devises"
+    }
+  ]
+}

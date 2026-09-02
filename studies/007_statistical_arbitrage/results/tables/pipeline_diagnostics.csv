@@ -1,0 +1,6 @@
+statistic,value
+n_decisions,7673.0
+n_degenerate_windows,0.0
+n_capped_windows,0.0
+factor_cap,58.0
+survivorship_bias_risk,1.0

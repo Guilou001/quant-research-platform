@@ -1,0 +1,2 @@
+sharpe_observe_oos_net,tstat_observe,n_observations,essais,variance_des_essais,sharpe_attendu_du_maximum,sharpe_degonfle,tstat_exige_bonferroni,tstat_apres_correction,etat_du_rabais
+0.15820113269968672,0.5465839641139387,162,67,0.062319676101954546,0.5957239134154599,4.9462442854777255e-08,3.3719910787175387,0.0,calculé

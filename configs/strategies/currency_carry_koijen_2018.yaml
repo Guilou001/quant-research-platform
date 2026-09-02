@@ -1,0 +1,26 @@
+name: currency_carry_koijen_2018
+family: carry
+paper: Koijen, R. S. J., Moskowitz, T. J., Pedersen, L. H. et Vrugt, E. B. (2018).
+  Carry. Journal of Financial Economics, 127(2), 197-225. Chiffres cibles lus dans
+  le manuscrit accepté déposé au CBS Research Portal.
+asset_classes:
+- fx
+horizon: formation à la fin du mois, détention un mois
+economic_rationale:
+- prime de risque
+- contrainte institutionnelle
+inputs:
+- taux de change quotidiens de la Réserve fédérale, série DEX
+- taux interbancaires à trois mois de l'OCDE, série IR3TIB01
+known_risks:
+- L'asymétrie des rendements est négative et les pertes se concentrent dans les crises.
+- Le portage se paie sur des monnaies dont la liquidité se retire en même temps.
+- L'univers de dix monnaies développées est plus étroit que celui de l'article.
+validation_status: REPLICATED
+verdict_experiment_id: 008_carry-b6e98b7f4e
+created: '2026-09-02'
+last_modified: '2026-09-02'
+notes: Étude 008. Le mécanisme invoqué est une prime de risque qui varie dans le temps,
+  dont le portage est la partie observable. La contrainte institutionnelle est le
+  retrait du capital d'arbitrage quand la liquidité mondiale se dégrade, ce que mesure
+  le comportement en crise. Le verdict est déduit par quantlab.reporting.study.decide_verdict.

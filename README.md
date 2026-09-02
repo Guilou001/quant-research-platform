@@ -200,7 +200,7 @@ laboratoire ne connaît pas de seuil de Sharpe qui suffirait seul.
 | 1 | fournisseurs, lac, provenance, point-in-time, qualité | **fait** |
 | 2 | analytique : rendements, risque, ratios, régression, IC, rotation, contributions | **fait** |
 | 3 | validation : découpages, purge, embargo, CPCV, bootstrap, DSR, PBO, tests multiples | **fait** |
-| 4 | réplications académiques, de TSMOM à l'arbitrage statistique | non commencé |
+| 4 | réplications académiques, de TSMOM à l'arbitrage statistique | **fait**, huit études |
 | 5 | moteur de portefeuille et de risque | non commencé |
 | 6 | moteur de coûts et de capacité | non commencé |
 | 7 | portefeuille multi-stratégies | non commencé |
@@ -209,11 +209,54 @@ laboratoire ne connaît pas de seuil de Sharpe qui suffirait seul.
 | 10 | tableau de bord et rapport institutionnel | non commencé |
 | 11 | recherche propre | non commencé |
 
-**Aucun résultat de stratégie n'est publié à ce jour**, puisqu'aucune stratégie
-n'a encore été testée. Le tableau des rejets de
-[`docs/research_journal/rejected_ideas.md`](docs/research_journal/rejected_ideas.md)
-est vide pour la même raison, et son remplissage sera le signe que le
-laboratoire travaille.
+## Ce que les huit réplications ont trouvé
+
+**Aucune des huit stratégies ne mérite du capital en l'état.** Aucune n'atteint
+`ROBUST` ni `PORTFOLIO_CANDIDATE`, et c'est le résultat de la phase 4.
+
+| Étude | Article | Essais | Verdict | Ce qui décide |
+|---|---|---:|---|---|
+| 001 Momentum de série temporelle | Moskowitz, Ooi et Pedersen (2012) | 73 | `EXPERIMENTAL` | Sharpe 1,411 puis 0,337 après publication, z = 3,239 |
+| 002 Momentum transversal | Jegadeesh et Titman (1993) | 53 | `EXPERIMENTAL` | t de 5,12 puis 1,746 |
+| 003 Valeur et momentum | Asness, Moskowitz et Pedersen (2013) | 207 | `EXPERIMENTAL` | corrélation -0,577, mélange à 1,096 |
+| 004 Qualité moins camelote | Asness, Frazzini et Pedersen (2019) | 67 | `EXPERIMENTAL` | notre construction corrèle 0,106 avec le facteur publié |
+| 005 Parier contre le bêta | Frazzini et Pedersen (2014) | 144 | `REJECTED` | le rétrécissement de 0,6 fait passer le Sharpe de 0,394 à -0,001 |
+| 006 Gestion de la volatilité | Moreira et Muir (2017) | 89 | `REJECTED` | version négociable à -1,30 %/an net |
+| 007 Arbitrage statistique | Avellaneda et Lee (2010) | 49 | `REJECTED` | seuil de rentabilité à 3,92 points de base |
+| 008 Portage | Koijen, Moskowitz, Pedersen et Vrugt (2018) | 33 | `REPLICATED` | coefficient 1,084 contre 1,09, puis 0,303 hors échantillon |
+
+Comment lire ce tableau, en trois constats. Le premier est que sept articles sur
+huit se répliquent correctement dans leur propre fenêtre : ce n'est pas la
+réplication qui échoue, c'est la survie. Le deuxième est que la colonne des
+essais entre dans le ratio de Sharpe dégonflé, et que les 207 essais de l'étude
+003 le ramènent à 0,000012. Le troisième est que le seul verdict `REPLICATED`
+est aussi celui dont trois classes d'actifs sur quatre n'ont pas pu être testées
+faute de données, ce qui est écrit dans son README plutôt que contourné.
+
+**Quatre trouvailles que les articles ne donnent pas.**
+
+L'échantillon de Moreira et Muir s'arrête en **avril 2015** et non en décembre,
+ce qui explique l'écart de huit mois entre leur compte d'observations et le
+nôtre. Avec cette borne, six comptes sur six tombent exactement.
+
+Le biais de survie **retire** 2,04 à 4,34 points de pourcentage par an au
+momentum au lieu d'en ajouter, parce qu'un décile perdant reconstitué sur un
+indice actuel se remplit de titres tombés puis remontés.
+
+Frazzini et Pedersen présentent le rétrécissement du bêta de 0,6 vers un comme
+un détail d'estimation. Il fait passer le ratio de Sharpe du facteur reconstruit
+de 0,394 à -0,001, alors que le classement des titres ne change pas.
+
+Les colonnes hors actions du classeur public d'AQR s'arrêtent au 2025-01-31
+alors que sa colonne agrégée court jusqu'au 2026-06-30, sans que le fichier le
+signale. Le ratio de Sharpe hors échantillon passe de 0,604 à 0,246 selon la
+colonne lue.
+
+Les trois rejets sont documentés un par un dans
+[`docs/research_journal/rejected_ideas.md`](docs/research_journal/rejected_ideas.md),
+avec leur hypothèse économique, ce qui a été mesuré, et pourquoi cela ne suffit
+pas. **715 essais** ont été menés au total, et aucun n'a produit une stratégie
+retenue.
 
 ## Ce que porte le dépôt, mesuré le 2026-09-01
 

@@ -1,0 +1,269 @@
+{
+  "study": "005_betting_against_beta",
+  "experiment_id": "005_betting_against_beta-6778219a49",
+  "created_at": "2026-09-02T17:34:27.021603+00:00",
+  "hypothesis": "Un portefeuille long sur les titres à bêta faible et court sur les titres à bêta élevé, chaque jambe mise à l'échelle par l'inverse de son bêta ex ante, rapporte un rendement excédentaire positif de bêta nul. Ce rendement survit à une pondération plus sage que celle des rangs et au coût du levier.",
+  "paper": "Frazzini, A. et Pedersen, L. H. (2014). Betting against beta. Journal of Financial Economics, 111(1), 1-25. doi:10.1016/j.jfineco.2013.10.005. Chiffres cibles lus dans la version de travail du 2013-05-10, tableaux III, IV et V.",
+  "verdict": "REJECTED",
+  "reasons": [
+    "RÉUSSI | hypothèse économique : signe attendu retrouvé, le signe décide du rejet",
+    "ÉCHOUÉ | signe du Sharpe hors échantillon : -0,002 mesuré, rejet à 0,000 ou moins",
+    "RÉUSSI | réplication de « Rendement excédentaire mensuel, % » : 0,676 contre 0,700 publié, écart relatif 0,034, tolérance 0,250 (relative)",
+    "RÉUSSI | réplication de « Statistique t du rendement excédentaire » : 6,343 contre 7,120 publié, écart relatif 0,109, tolérance 0,250 (relative)",
+    "RÉUSSI | réplication de « Volatilité annualisée, % » : 11,538 contre 10,700 publié, écart relatif 0,078, tolérance 0,250 (relative)",
+    "RÉUSSI | réplication de « Ratio de Sharpe annualisé » : 0,703 contre 0,780 publié, écart relatif 0,098, tolérance 0,250 (relative)",
+    "RÉUSSI | réplication de « Alpha du modèle à trois facteurs, %/mois » : 0,741 contre 0,730 publié, écart relatif 0,015, tolérance 0,250 (relative)",
+    "RÉUSSI | réplication de « Alpha du modèle à quatre facteurs, %/mois » : 0,541 contre 0,550 publié, écart relatif 0,016, tolérance 0,250 (relative)",
+    "RÉUSSI | réplication de « Part de marchés au ratio de Sharpe positif » : 1,000 contre 0,947 publié, écart relatif 0,056, tolérance 0,250 (relative)",
+    "RÉUSSI | réplication de « Levier de la jambe longue, dollars » : 1,367 contre 1,400 publié, écart relatif 0,024, tolérance 0,250 (relative)",
+    "ÉCHOUÉ | réplication de « Bêta réalisé de notre facteur reconstruit » : -0,182 contre 0,000 publié, écart relatif inf, tolérance 0,150 (absolute), sans équivalent relatif car la valeur publiée est nulle",
+    "ÉCHOUÉ | réplication : 8 contrôle(s) sur 9 dans la tolérance, tous exigés",
+    "ÉCHOUÉ | Sharpe hors échantillon : -0,002 mesuré, minimum 0,500",
+    "ÉCHOUÉ | t après correction pour essais multiples : -0,007 mesuré, minimum 3,000",
+    "ÉCHOUÉ | Sharpe dégonflé : 0,000 mesuré, minimum 0,950",
+    "RÉUSSI | probabilité de surapprentissage : 0,000 mesuré, maximum 0,500",
+    "RÉUSSI | part de sous-périodes positives : 0,667 mesuré, minimum 0,600",
+    "RÉUSSI | multiple de coûts survécu : 3,876 mesuré, minimum 2,000",
+    "RÉUSSI | corrélation absolue avec le portefeuille existant : 0,259 mesurée, maximum 0,600",
+    "VERDICT | REJECTED"
+  ],
+  "criteria": {
+    "replication_tolerance": 0.25,
+    "min_oos_sharpe": 0.5,
+    "min_tstat": 3.0,
+    "min_dsr": 0.95,
+    "max_pbo": 0.5,
+    "min_positive_subperiod_share": 0.6,
+    "min_cost_multiple": 2.0,
+    "max_portfolio_correlation": 0.6
+  },
+  "metrics": [
+    {
+      "metric": "rendement_mensuel_publie_pct",
+      "value": 0.6762973336710307,
+      "sample": "IS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "sharpe_publie_in_sample",
+      "value": 0.7033520288562785,
+      "sample": "IS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "sharpe_publie_hors_echantillon",
+      "value": 0.6885641787098767,
+      "sample": "OOS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "part_de_marches_positifs",
+      "value": 1.0,
+      "sample": "IS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "sharpe_deciles_reference",
+      "value": 0.12091663993226565,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "sharpe_titres_reference",
+      "value": -0.0010134601180331905,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "sharpe_titres_sans_retrecissement",
+      "value": 0.3943822783198421,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "beta_realise_reference",
+      "value": -0.18180251368875208,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "sharpe_hors_echantillon_net",
+      "value": -0.0016291400625083117,
+      "sample": "OOS",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "ecart_de_financement_qui_annule_bps",
+      "value": -2.557588389195511,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "rotation_annualisee",
+      "value": 3.456221039936949,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "cout_de_rentabilite_bps",
+      "value": 35.81010893989084,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "probabilite_de_surapprentissage",
+      "value": 0.0,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "sharpe_degonfle",
+      "value": 4.45441835046962e-26,
+      "sample": "OOS",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "t_apres_correction",
+      "value": -0.006707436840552431,
+      "sample": "OOS",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "part_de_sous_periodes_positives",
+      "value": 0.6666666666666666,
+      "sample": "VALIDATION",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "multiple_de_couts_survecu",
+      "value": 3.8758357169127167,
+      "sample": "VALIDATION",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "correlation_avec_le_marche",
+      "value": -0.2586247239810179,
+      "sample": "VALIDATION",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "cpcv_sharpe_moyen",
+      "value": 0.6307824420829365,
+      "sample": "OOS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "cpcv_part_de_chemins_negatifs",
+      "value": 0.0,
+      "sample": "OOS",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "ecart_identite_novy_marx",
+      "value": 1.7763568394002505e-15,
+      "sample": "IS",
+      "cost_basis": "gross"
+    }
+  ],
+  "replication": [
+    {
+      "quantity": "Rendement excédentaire mensuel, %",
+      "published": 0.7,
+      "ours": 0.6762973336710307,
+      "absolute_error": 0.023702666328969224,
+      "relative_error": 0.03386095189852747,
+      "tolerance": 0.25,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Frazzini et Pedersen (2013), tableau III, actions américaines"
+    },
+    {
+      "quantity": "Statistique t du rendement excédentaire",
+      "published": 7.12,
+      "ours": 6.34317992453531,
+      "absolute_error": 0.7768200754646903,
+      "relative_error": 0.10910394318324303,
+      "tolerance": 0.25,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Frazzini et Pedersen (2013), tableau III, actions américaines"
+    },
+    {
+      "quantity": "Volatilité annualisée, %",
+      "published": 10.7,
+      "ours": 11.53841557441599,
+      "absolute_error": 0.8384155744159916,
+      "relative_error": 0.0783565957398123,
+      "tolerance": 0.25,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Frazzini et Pedersen (2013), tableau III, actions américaines"
+    },
+    {
+      "quantity": "Ratio de Sharpe annualisé",
+      "published": 0.78,
+      "ours": 0.7033520288562785,
+      "absolute_error": 0.07664797114372157,
+      "relative_error": 0.09826662967143791,
+      "tolerance": 0.25,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Frazzini et Pedersen (2013), tableau III, actions américaines"
+    },
+    {
+      "quantity": "Alpha du modèle à trois facteurs, %/mois",
+      "published": 0.73,
+      "ours": 0.7407156595231548,
+      "absolute_error": 0.010715659523154786,
+      "relative_error": 0.014678985648157242,
+      "tolerance": 0.25,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Frazzini et Pedersen (2013), tableau III, actions américaines"
+    },
+    {
+      "quantity": "Alpha du modèle à quatre facteurs, %/mois",
+      "published": 0.55,
+      "ours": 0.5409969985656923,
+      "absolute_error": 0.009003001434307767,
+      "relative_error": 0.01636909351692321,
+      "tolerance": 0.25,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Frazzini et Pedersen (2013), tableau III, actions américaines"
+    },
+    {
+      "quantity": "Part de marchés au ratio de Sharpe positif",
+      "published": 0.9474,
+      "ours": 1.0,
+      "absolute_error": 0.05259999999999998,
+      "relative_error": 0.055520371543170764,
+      "tolerance": 0.25,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Frazzini et Pedersen (2013), tableau V"
+    },
+    {
+      "quantity": "Levier de la jambe longue, dollars",
+      "published": 1.4,
+      "ours": 1.3667491995046182,
+      "absolute_error": 0.03325080049538176,
+      "relative_error": 0.023750571782415544,
+      "tolerance": 0.25,
+      "tolerance_kind": "relative",
+      "verdict": "répliqué",
+      "source": "Frazzini et Pedersen (2013), page 19"
+    },
+    {
+      "quantity": "Bêta réalisé de notre facteur reconstruit",
+      "published": 0.0,
+      "ours": -0.18180251368875208,
+      "absolute_error": 0.18180251368875208,
+      "relative_error": Infinity,
+      "tolerance": 0.15,
+      "tolerance_kind": "absolute",
+      "verdict": "écart",
+      "source": "Frazzini et Pedersen (2013), tableau III, bêta ex ante 0,00"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+family,n_trials
+replication_A,11
+balanced_panel,3
+pairs_A_ew,11
+pairs_A_rp,11
+pairs_B_ew,4
+pairs_B_rp,4
+paper_window_rp,15
+paper_window_B_ew,4
+costs,4
+holdout_window,2
+cost_multiple,6
+weight_grid,121
+rp_window,4
+rebalance,4
+lag,3
+TOTAL,207

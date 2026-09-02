@@ -1,0 +1,30 @@
+name: statistical_arbitrage_pca
+family: mean_reversion
+paper: Avellaneda, M. et Lee, J.-H. (2010). Statistical Arbitrage in the US Equities
+  Market. Quantitative Finance 10(7), 761-782. Chiffres cibles lus dans le fac-similé
+  de l'article publié, fiche docs/literature/avellaneda_lee_2010.md.
+asset_classes:
+- equity
+horizon: signal quotidien, détention jusqu'au retour du s-score
+economic_rationale:
+- friction
+- biais comportemental
+inputs:
+- cours de clôture quotidiens ajustés, fournisseur Yahoo
+- volume quotidien, pour le filtre de liquidité
+known_risks:
+- L'univers est choisi parmi les titres qui cotent encore, biais du survivant.
+- La rotation quotidienne rend la stratégie sensible au moindre point de base.
+- Le débouclage forcé d'août 2007 frappe toutes les variantes en même temps.
+- L'estimateur de la vitesse de rappel est biaisé sur soixante points.
+- Notre couverture négocie la jambe de facteurs, ce que l'article ne fait pas pour
+  ses variantes en composantes principales, et le coût de seuil en dépend.
+validation_status: REJECTED
+verdict_experiment_id: 007_statistical_arbitrage-ac3b8c18a1
+created: '2026-09-02'
+last_modified: '2026-09-02'
+notes: Étude 007. Le mécanisme invoqué est la rémunération du fournisseur de liquidité,
+  qui achète ce que personne ne veut et vend ce que tout le monde veut. La friction
+  retenue est le coût de rotation d'un signal qui change de position tous les jours.
+  Le verdict est déduit par quantlab.reporting.study.decide_verdict, et l'étude déclare
+  que le biais du survivant lui interdit de dépasser la réplication.

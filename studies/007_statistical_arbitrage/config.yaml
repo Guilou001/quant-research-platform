@@ -1,0 +1,456 @@
+# Étude 007, arbitrage statistique.
+# Validée par quantlab.core.config.ExperimentConfig. Aucune constante de
+# l'étude ne vit ailleurs que dans ce fichier, règle 13 du CLAUDE.md.
+# Les seuils du verdict sont écrits AVANT la première exécution.
+
+name: 007_statistical_arbitrage
+hypothesis: >-
+  Le résidu d'une action face aux composantes principales de la matrice de
+  corrélation de son univers revient à sa moyenne, et un signal tout ou rien
+  sur ce résidu rapporte plus que le coût de la rotation qu'il exige.
+paper: >-
+  Avellaneda, M. et Lee, J.-H. (2010). Statistical Arbitrage in the US Equities
+  Market. Quantitative Finance 10(7), 761-782. Chiffres cibles lus dans le
+  fac-similé de l'article publié, fiche docs/literature/avellaneda_lee_2010.md.
+seed: 20260902
+
+data:
+  provider: yahoo
+  universe:
+    - A
+    - AAPL
+    - ABT
+    - ACN
+    - ADBE
+    - ADI
+    - AEE
+    - AEP
+    - AET
+    - AFL
+    - AIG
+    - ALL
+    - AMAT
+    - AMD
+    - AMGN
+    - AON
+    - APA
+    - APD
+    - AXP
+    - AZO
+    - BA
+    - BAC
+    - BAX
+    - BBY
+    - BDX
+    - BEN
+    - BIIB
+    - BLK
+    - BMY
+    - BSX
+    - BXP
+    - C
+    - CAG
+    - CAH
+    - CAT
+    - CB
+    - CCL
+    - CL
+    - CLX
+    - CMCSA
+    - CME
+    - CMI
+    - CMS
+    - COF
+    - COP
+    - COST
+    - CPB
+    - CRM
+    - CSCO
+    - CSX
+    - CTSH
+    - CVS
+    - CVX
+    - D
+    - DAL
+    - DD
+    - DE
+    - DHI
+    - DHR
+    - DIS
+    - DOV
+    - DOW
+    - DRI
+    - DTE
+    - DUK
+    - DVN
+    - ECL
+    - ED
+    - EL
+    - EMR
+    - EOG
+    - ES
+    - ESRX
+    - ETN
+    - ETR
+    - EW
+    - EXC
+    - F
+    - FCX
+    - FDX
+    - FE
+    - FITB
+    - GAP
+    - GD
+    - GE
+    - GILD
+    - GIS
+    - GLW
+    - GM
+    - GOOGL
+    - GPC
+    - GS
+    - HAL
+    - HBAN
+    - HD
+    - HLT
+    - HON
+    - HPQ
+    - HST
+    - HSY
+    - HUM
+    - IBM
+    - ICE
+    - INTC
+    - INTU
+    - IP
+    - ISRG
+    - ITW
+    - JNJ
+    - JPM
+    - KEY
+    - KIM
+    - KLAC
+    - KMB
+    - KMI
+    - KO
+    - KR
+    - LEN
+    - LIN
+    - LLY
+    - LMT
+    - LOW
+    - LRCX
+    - LUV
+    - LVS
+    - MAR
+    - MCD
+    - MCK
+    - MDT
+    - MET
+    - META
+    - MLM
+    - MMM
+    - MO
+    - MPC
+    - MRK
+    - MS
+    - MSFT
+    - MSI
+    - MTB
+    - MU
+    - NEE
+    - NEM
+    - NFLX
+    - NKE
+    - NOC
+    - NSC
+    - NTRS
+    - NUE
+    - NVDA
+    - NVR
+    - O
+    - OKE
+    - OMC
+    - ORCL
+    - ORLY
+    - OXY
+    - PCAR
+    - PCG
+    - PEG
+    - PEP
+    - PFE
+    - PG
+    - PH
+    - PHM
+    - PKG
+    - PM
+    - PNC
+    - PPG
+    - PPL
+    - PRU
+    - PSA
+    - PSX
+    - QCOM
+    - RCL
+    - RF
+    - ROK
+    - ROST
+    - RSG
+    - RTX
+    - SBUX
+    - SCHW
+    - SHW
+    - SJM
+    - SLB
+    - SO
+    - SPG
+    - SPGI
+    - SRE
+    - STT
+    - STX
+    - STZ
+    - SWK
+    - SYK
+    - SYY
+    - T
+    - TAP
+    - TGT
+    - TJX
+    - TMO
+    - TROW
+    - TRV
+    - TWX
+    - TXN
+    - UNH
+    - UNP
+    - UPS
+    - USB
+    - VLO
+    - VMC
+    - VTR
+    - VZ
+    - WDC
+    - WEC
+    - WELL
+    - WFC
+    - WM
+    - WMB
+    - WMT
+    - WYNN
+    - XEL
+    - XOM
+    - YUM
+    - ZBH
+    - SPY
+  start: "1995-01-01"
+  end: "2026-06-30"
+  frequency: daily
+  calendar: XNYS
+  price_field: adj_close
+
+# Le glissement de l'article, page 771 : 0,05 pour cent par transaction, soit
+# cinq points de base par unité négociée en convention de somme entière.
+costs:
+  commission_bps: 0.0
+  spread_bps: 5.0
+  slippage_bps: 0.0
+  borrow_bps_annual: 0.0
+  financing_spread_bps_annual: 0.0
+
+# L'exposition brute est fixée, jamais calibrée. L'article retient un levier de
+# deux plus deux choisi par rétrotest sur 2002-2004, donc sur une fenêtre
+# incluse dans sa période de résultats.
+risk:
+  leverage_cap: 4.0
+  leverage_floor: 0.0
+  max_gross_exposure: 4.0
+
+# Le découpage sépare la fenêtre de l'article, la crise, et l'après-publication.
+validation:
+  train_end: "2002-12-31"
+  validation_end: "2009-12-31"
+  final_holdout_start: "2010-01-01"
+  embargo_periods: 21
+  purge_periods: 21
+  n_folds: 8
+  n_test_folds: 2
+
+params:
+  # Le titre servant de repère de marché, retiré du panneau d'actions.
+  benchmark_symbol: SPY
+
+  # Les bornes des échantillons nommés.
+  paper_start: "1997-01-01"
+  paper_end: "2007-12-31"
+  paper_early_end: "2002-12-31"
+  paper_late_start: "2003-01-01"
+  publication_date: "2010-01-01"
+
+  # Le cas de référence, celui de l'article.
+  correlation_window: 252
+  estimation_window: 60
+  n_components: 15
+  max_characteristic_days: 30.0
+  gross_leverage: 4.0
+  reestimation_days: 1
+  min_names: 40
+
+  # La couverture par les facteurs se fixe au jour de l'entrée. C'est la seule
+  # lecture compatible avec les positions tout ou rien de l'article et avec son
+  # coût de cinq points de base par transaction. La lecture opposée, recalculer
+  # la couverture chaque séance, est balayée en robustesse.
+  hedge_at_entry: true
+
+  # Le seuil de liquidité, substitut déclaré du seuil de capitalisation d'un
+  # milliard de dollars que l'article applique à la date de négociation. Il
+  # porte sur la médiane du volume en dollars sur la fenêtre de corrélation.
+  min_dollar_volume: 5000000.0
+
+  # La règle de l'équation (16), puis trois variantes.
+  rules:
+    - name: article
+      open_long: 1.25
+      open_short: 1.25
+      close_long: 0.50
+      close_short: 0.75
+    - name: seuils_symetriques
+      open_long: 1.25
+      open_short: 1.25
+      close_long: 0.75
+      close_short: 0.75
+    - name: entree_large
+      open_long: 2.00
+      open_short: 2.00
+      close_long: 0.50
+      close_short: 0.75
+    - name: entree_etroite
+      open_long: 0.75
+      open_short: 0.75
+      close_long: 0.25
+      close_short: 0.50
+
+  # La grille principale, seize cellules, qui porte la carte de chaleur.
+  grid_n_components:
+    - 5
+    - 10
+    - 15
+    - 20
+  grid_estimation_windows:
+    - 30
+    - 60
+    - 90
+    - 120
+
+  # Les variantes hors grille, chacune comptée comme un essai.
+  extra_n_components:
+    - 1
+    - 30
+  variance_shares:
+    - 0.45
+    - 0.55
+    - 0.65
+    - 0.75
+  extra_correlation_windows:
+    - 126
+    - 504
+  extra_reestimation_days:
+    - 5
+    - 21
+  extra_characteristic_days:
+    - 15.0
+    - 45.0
+    - 0.0
+  s_score_variants:
+    - sans_centrage
+    - modifie
+  hedge_variants:
+    - quotidienne
+
+  # Les deux lectures du livre négocié, mesurées et comptées comme deux essais.
+  # Le cas de référence replie les portefeuilles propres sur les titres, donc il
+  # NÉGOCIE la jambe de facteurs. L'article ne la négocie pas quand les facteurs
+  # viennent d'une analyse en composantes principales : ses sections 5.1 et 5.3
+  # disent que les portefeuilles propres ne sont pas des instruments cotés, donc
+  # que seules les actions du signal se négocient, le bêta d'ensemble étant
+  # couvert par le fonds indiciel. La fenêtre du bêta glissant vaut celle de la
+  # régression résiduelle, faute d'indication contraire.
+  book_conventions:
+    - actions_plus_repere
+    - actions_seules
+  market_beta_window: 60
+
+  # Les coûts balayés, en points de base par unité négociée.
+  cost_bps_grid:
+    - 0.0
+    - 1.0
+    - 2.0
+    - 5.0
+    - 10.0
+    - 20.0
+  cost_multipliers:
+    - 0.5
+    - 1.0
+    - 2.0
+    - 3.0
+    - 5.0
+    - 10.0
+
+  # Les sous-périodes publiées, bornes de fin.
+  subperiod_breakpoints:
+    - "2002-12-31"
+    - "2007-12-31"
+    - "2015-12-31"
+
+  # Le rééchantillonnage par blocs du hors échantillon.
+  bootstrap_resamples: 2000
+  bootstrap_block_days: 21
+
+  # Les titres retirés de l'index qui ont été demandés à Yahoo, pour mesurer le
+  # biais du survivant en direct plutôt que de l'affirmer.
+  delisted_probe:
+    - LEH
+    - BSC
+    - ENE
+    - WCOM
+    - EK
+    - NT
+    - MON
+    - RTN
+    - UTX
+    - CELG
+    - ABC
+    - ATVI
+    - SYMC
+    - DPS
+    - GMGMQ
+    - AET
+    - ESRX
+    - TWX
+
+  # Les chiffres publiés servant de cibles, tous RAPPORTÉS.
+  paper_targets:
+    sharpe_pca15_1997_2007: 1.44
+    sharpe_pca15_2003_2007: 0.90
+    sharpe_one_eigenportfolio_2002_2007: 0.70
+    sharpe_share55_2002_2007: 0.70
+    sharpe_share65_2002_2007: 0.40
+    mean_reversion_days: 7.0
+    residual_equilibrium_vol_bps: 300.0
+    n_factors_at_share55: 20.0
+
+  # Les seuils du verdict, écrits avant que les résultats existent.
+  # La tolérance de réplication vaut 0,50 et non les 0,10 du laboratoire. La
+  # raison est chiffrée : sous Lo (2002), l'erreur type d'un ratio de Sharpe
+  # vrai de 1,44 estimé sur onze ans vaut racine de (1 + 1,44 au carré sur 2)
+  # sur 11, soit 0,43, donc 30 pour cent de la valeur publiée. Une tolérance
+  # plus serrée que l'incertitude de la cible ferait échouer le contrôle par la
+  # seule variance d'échantillonnage de l'article.
+  verdict:
+    replication_tolerance: 0.50
+    min_oos_sharpe: 0.5
+    min_tstat: 3.0
+    min_dsr: 0.95
+    max_pbo: 0.5
+    min_positive_subperiod_share: 0.6
+    min_cost_multiple: 2.0
+    max_portfolio_correlation: 0.6

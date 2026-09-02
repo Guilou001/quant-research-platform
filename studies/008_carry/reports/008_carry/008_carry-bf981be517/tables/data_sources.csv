@@ -1,0 +1,22 @@
+currency,role,fred_series,quote_convention,start,end,n_rows
+Dollar australien,change au comptant,DEXUSAL,usd_per_unit,1971-01-04,2026-08-28,13950
+Dollar canadien,change au comptant,DEXCAUS,unit_per_usd,1971-01-04,2026-08-28,13963
+Franc suisse,change au comptant,DEXSZUS,unit_per_usd,1971-01-04,2026-08-28,13957
+Couronne danoise,change au comptant,DEXDNUS,unit_per_usd,1971-01-04,2026-08-28,13956
+Euro,change au comptant,DEXUSEU,usd_per_unit,1999-01-04,2026-08-28,6936
+Livre sterling,change au comptant,DEXUSUK,usd_per_unit,1971-01-04,2026-08-28,13957
+Yen,change au comptant,DEXJPUS,unit_per_usd,1971-01-04,2026-08-28,13951
+Couronne norvégienne,change au comptant,DEXNOUS,unit_per_usd,1971-01-04,2026-08-28,13956
+Dollar néo-zélandais,change au comptant,DEXUSNZ,usd_per_unit,1971-01-04,2026-08-28,13941
+Couronne suédoise,change au comptant,DEXSDUS,unit_per_usd,1971-01-04,2026-08-28,13956
+Dollar australien,taux interbancaire à trois mois,IR3TIB01AUM156N,pourcentage annualisé,1968-01-31,2026-06-30,702
+Dollar canadien,taux interbancaire à trois mois,IR3TIB01CAM156N,pourcentage annualisé,1956-01-31,2026-06-30,846
+Franc suisse,taux interbancaire à trois mois,IR3TIB01CHM156N,pourcentage annualisé,1999-07-31,2026-06-30,324
+Couronne danoise,taux interbancaire à trois mois,IR3TIB01DKM156N,pourcentage annualisé,1987-01-31,2026-06-30,474
+Euro,taux interbancaire à trois mois,IR3TIB01EZM156N,pourcentage annualisé,1994-01-31,2026-01-31,385
+Livre sterling,taux interbancaire à trois mois,IR3TIB01GBM156N,pourcentage annualisé,1957-01-31,2026-01-31,829
+Yen,taux interbancaire à trois mois,IR3TIB01JPM156N,pourcentage annualisé,2002-04-30,2026-05-31,290
+Couronne norvégienne,taux interbancaire à trois mois,IR3TIB01NOM156N,pourcentage annualisé,1979-01-31,2026-06-30,570
+Dollar néo-zélandais,taux interbancaire à trois mois,IR3TIB01NZM156N,pourcentage annualisé,1973-12-31,2026-06-30,631
+Couronne suédoise,taux interbancaire à trois mois,IR3TIB01SEM156N,pourcentage annualisé,1982-01-31,2026-06-30,534
+Dollar des États-Unis,taux interbancaire à trois mois,IR3TIB01USM156N,pourcentage annualisé,1964-06-30,2026-06-30,744

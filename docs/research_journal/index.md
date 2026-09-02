@@ -32,6 +32,7 @@ règle du journal qui ne se rattrape pas après coup.
 |---|---|---|
 | [2026-09-01](2026-09-01-fondations.md) | choix du socle technique et des sources | socle mesuré, SEC débloquée, Plotly borné |
 | [2026-09-01](2026-09-01-restatements-apple.md) | ce que le point-in-time change, mesuré | règle conservée, révision de 11,8 % trouvée |
+| [2026-09-02](2026-09-02-phase-4.md) | huit réplications, aucune retenue | le parcours de validation est conservé |
 
 ## Les idées rejetées
 

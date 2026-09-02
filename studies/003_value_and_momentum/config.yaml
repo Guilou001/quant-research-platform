@@ -1,0 +1,186 @@
+# Étude 003, valeur et momentum, partout.
+# Validée par quantlab.core.config.ExperimentConfig. Aucune constante de
+# l'étude ne vit ailleurs que dans ce fichier, règle 13 du CLAUDE.md.
+#
+# Ce fichier est écrit AVANT que les résultats de l'étude existent. Deux
+# mesures étaient connues à ce moment, et elles sont déclarées dans notes.md :
+# la corrélation de la paire EVERYWHERE sur l'échantillon complet et les trois
+# ratios de Sharpe qui l'accompagnent, tous quatre lus dans les ancres du
+# laboratoire du 2026-09-02.
+
+name: 003_value_and_momentum
+hypothesis: >-
+  La valeur et le momentum sont négativement corrélés dans chacun des onze
+  regroupements publiés par AQR. Leur mélange à parts égales porte un ratio de
+  Sharpe supérieur à celui de chacune de ses deux jambes. Ce gain survit hors
+  de l'échantillon de l'article et à un coût de rotation de dix points de base.
+paper: >-
+  Asness, C. S., Moskowitz, T. J. et Pedersen, L. H. (2013). Value and Momentum
+  Everywhere. The Journal of Finance, 68(3), 929-985. Chiffres cibles lus dans
+  la version publiée, table I, colonne « facteur ».
+seed: 20260902
+
+data:
+  provider: aqr
+  universe:
+    - EVERYWHERE
+    - ALL_EQUITIES
+    - ALL_OTHER
+    - US
+    - UK
+    - EU
+    - JP
+    - EQ
+    - FX
+    - FI
+    - COM
+    - FF_FACTORS
+    - FF_FIVE_BY_FIVE
+    - FF_RANK_WEIGHTED
+  start: "1972-01-31"
+  end: "2026-06-30"
+  frequency: monthly
+  calendar: XNYS
+  price_field: total_return
+
+# Le coût de référence est celui de Frazzini, Israel et Moskowitz (2012), que
+# l'article invoque page 976 pour écarter les modèles de coût de Korajczyk et
+# Sadka (2004). Il porte sur une unité de rotation.
+costs:
+  commission_bps: 0.0
+  spread_bps: 10.0
+  slippage_bps: 0.0
+  borrow_bps_annual: 0.0
+  financing_spread_bps_annual: 0.0
+
+risk:
+  leverage_cap: 2.0
+  leverage_floor: 0.0
+
+# La fin de l'échantillon de l'article, juillet 2011, sépare l'échantillon de
+# publication du hors échantillon. La borne de 1994 coupe la partie publiée en
+# deux parts d'à peu près même longueur.
+validation:
+  train_end: "1994-12-31"
+  validation_end: "2011-07-31"
+  final_holdout_start: "2011-08-31"
+  embargo_periods: 1
+  purge_periods: 1
+  n_folds: 8
+  n_test_folds: 2
+
+params:
+  # Les bornes d'échantillon.
+  paper_start: "1972-01-31"
+  paper_end: "2011-07-31"
+
+  # La paire de référence de l'étude, celle qui porte le verdict.
+  headline_pair: EVERYWHERE
+
+  # Le poids de la jambe de valeur dans le mélange de référence, celui de
+  # l'équation (3) de l'article. La grille sert la robustesse.
+  blend_value_weight: 0.5
+  blend_weight_grid:
+    - 0.0
+    - 0.1
+    - 0.2
+    - 0.3
+    - 0.4
+    - 0.5
+    - 0.6
+    - 0.7
+    - 0.8
+    - 0.9
+    - 1.0
+
+  # Le mélange à risque égal pondère chaque jambe par l'inverse de son écart
+  # type. La version tenable estime cet écart type sur une fenêtre en
+  # expansion, close à la fin du mois précédent.
+  risk_parity_min_periods: 60
+  risk_parity_min_periods_grid:
+    - 36
+    - 60
+    - 120
+    - 240
+
+  # La fenêtre glissante de la corrélation, en mois.
+  rolling_correlation_window: 60
+  rolling_correlation_window_grid:
+    - 36
+    - 60
+    - 120
+
+  # La période de tension est définie par le rendement du marché américain, le
+  # facteur MKT-RF de Kenneth French. Les deux seuils sont balayés.
+  stress_quantile: 0.1
+  stress_quantile_grid:
+    - 0.05
+    - 0.1
+    - 0.2
+
+  # Le rééquilibrage du mélange. Un mois est la convention de l'article.
+  rebalance_months: 1
+  rebalance_months_grid:
+    - 1
+    - 3
+    - 6
+    - 12
+
+  # Le délai d'exécution, en mois. La valeur de un est la règle du laboratoire.
+  execution_lag: 1
+  execution_lags:
+    - 1
+    - 2
+    - 3
+
+  # Les coûts balayés, en points de base par unité de rotation.
+  cost_bps_grid:
+    - 0.0
+    - 1.0
+    - 10.0
+    - 20.0
+  cost_multipliers:
+    - 0.0
+    - 0.5
+    - 1.0
+    - 2.0
+    - 3.0
+    - 5.0
+    - 10.0
+
+  # Les sous-périodes de la table VII, panneau A, de l'article, plus la période
+  # postérieure à sa publication.
+  subperiod_breakpoints:
+    - "1991-12-31"
+    - "2011-07-31"
+
+  # Les tirages du rééchantillonnage par blocs.
+  bootstrap_resamples: 2000
+  bootstrap_block_months: 12.0
+
+  # Les fichiers de la bibliothèque de Kenneth French employés par la jambe B.
+  french_factors_dataset: F-F_Research_Data_Factors
+  french_momentum_dataset: F-F_Momentum_Factor
+  french_value_grid_dataset: 25_Portfolios_5x5
+  french_momentum_grid_dataset: 25_Portfolios_ME_Prior_12_2
+  french_momentum_decile_dataset: 10_Portfolios_Prior_12_2
+  french_start: "1927-01-31"
+
+  # La tolérance des contrôles de corrélation, exprimée en écarts types
+  # d'échantillonnage. L'erreur type d'un coefficient de corrélation vaut
+  # (1 - rho^2) / racine(n), et deux écarts types est le seuil usuel de 5 %.
+  # La règle est écrite avant de connaître le résultat de chaque contrôle.
+  correlation_tolerance_sigmas: 2.0
+
+  # Les seuils du verdict, écrits avant que les résultats existent. Sept sont
+  # ceux du laboratoire ; la tolérance de réplication est la seule à être
+  # déclarée ici, et elle vaut celle de l'étude 006.
+  verdict:
+    replication_tolerance: 0.25
+    min_oos_sharpe: 0.5
+    min_tstat: 3.0
+    min_dsr: 0.95
+    max_pbo: 0.5
+    min_positive_subperiod_share: 0.6
+    min_cost_multiple: 2.0
+    max_portfolio_correlation: 0.6

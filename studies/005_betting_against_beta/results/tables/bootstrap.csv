@@ -1,0 +1,2 @@
+n_resamples,block_months,seed,mean_annual_pct,q025_annual_pct,q975_annual_pct,share_positive
+2000,12,20260902,0.04894691412936146,-6.035530843732493,5.8863110755597665,0.515

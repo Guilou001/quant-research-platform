@@ -1,0 +1,163 @@
+{
+  "study": "004_quality_minus_junk",
+  "experiment_id": "004_quality_minus_junk-9983cbba94",
+  "seed": 20260902,
+  "generator_draw": 0.5316298520593771,
+  "verdict": "EXPERIMENTAL",
+  "reasons": [
+    "RÉUSSI | hypothèse économique : signe attendu retrouvé, le signe décide du rejet",
+    "RÉUSSI | signe du Sharpe hors échantillon : 0,158 mesuré, rejet à 0,000 ou moins",
+    "RÉUSSI | réplication de « Rendement excédentaire mensuel, États-Unis » : 0,347 contre 0,400 publié, écart relatif 0,132, tolérance 0,250 (relative)",
+    "RÉUSSI | réplication de « Ratio de Sharpe annualisé, États-Unis » : 0,559 contre 0,580 publié, écart relatif 0,035, tolérance 0,250 (relative)",
+    "RÉUSSI | réplication de « Alpha à quatre facteurs, mensuel, États-Unis » : 0,522 contre 0,660 publié, écart relatif 0,210, tolérance 0,250 (relative)",
+    "RÉUSSI | réplication de « Chargement sur la taille, quatre facteurs » : -0,300 contre -0,380 publié, écart relatif 0,211, tolérance 0,250 (relative)",
+    "RÉUSSI | réplication de « Chargement sur le marché, quatre facteurs » : -0,230 contre -0,250 publié, écart relatif 0,081, tolérance 0,250 (relative)",
+    "ÉCHOUÉ | réplication de « Corrélation de notre construction avec le facteur publié » : 0,098 contre 1,000 publié, écart relatif 0,902, tolérance 0,500 (absolute), soit 0,500 en relatif, plus large que la tolérance déclarée 0,250",
+    "ÉCHOUÉ | réplication : 5 contrôle(s) sur 6 dans la tolérance, tous exigés",
+    "ÉCHOUÉ | Sharpe hors échantillon : 0,158 mesuré, minimum 0,300",
+    "ÉCHOUÉ | t après correction pour essais multiples : 0,000 mesuré, minimum 3,000",
+    "ÉCHOUÉ | Sharpe dégonflé : 0,000 mesuré, minimum 0,950",
+    "RÉUSSI | probabilité de surapprentissage : 0,000 mesuré, maximum 0,500",
+    "RÉUSSI | part de sous-périodes positives : 1,000 mesuré, minimum 0,600",
+    "RÉUSSI | multiple de coûts survécu : 2,590 mesuré, minimum 2,000",
+    "RÉUSSI | corrélation absolue avec le portefeuille existant : 0,493 mesurée, maximum 0,600",
+    "VERDICT | EXPERIMENTAL"
+  ],
+  "n_trials": 67,
+  "trials_by_family": {
+    "qmj-pays": 24,
+    "qmj-construction": 1,
+    "qmj-univers": 1,
+    "qmj-composantes": 4,
+    "qmj-deciles": 1,
+    "qmj-repli": 3,
+    "qmj-balayage": 20,
+    "qmj-delai": 3,
+    "qmj-couts": 4,
+    "qmj-multiples": 6
+  },
+  "metrics": {
+    "publie_rendement_mensuel_is_pct": 0.3471726531314126,
+    "publie_sharpe_is": 0.5594670681698461,
+    "publie_alpha_4f_is_pct": 0.5216607892234666,
+    "publie_rendement_mensuel_oos_pct": 0.16825242379845348,
+    "publie_sharpe_oos_brut": 0.20927717979637994,
+    "publie_sharpe_oos_net": 0.15820113269968672,
+    "publie_alpha_4f_oos_pct": 0.29381439262278297,
+    "ecart_de_sharpe_z": 1.0677114889853103,
+    "notre_rendement_mensuel_pct": 0.13038702665645158,
+    "notre_sharpe": 0.15204334969923933,
+    "correlation_avec_le_publie": 0.098291671206275,
+    "beta_sur_le_publie": 0.0975009359914297,
+    "alpha_sur_le_publie_mensuel_pct": 0.11458754509438816,
+    "rotation_annualisee": 4.927628744093721,
+    "cout_de_rentabilite_bps": 25.905295588382913,
+    "sharpe_net_reference": 0.07630317304070439,
+    "probabilite_de_surapprentissage": 0.0,
+    "sharpe_degonfle": 4.9462442854777255e-08,
+    "t_apres_correction": 0.0,
+    "part_de_sous_periodes_positives": 1.0,
+    "correlation_avec_le_marche": -0.49308578938836833,
+    "cpcv_sharpe_moyen": 0.3006295937670272,
+    "cpcv_part_de_chemins_negatifs": 0.0,
+    "proxy_sharpe": 0.040115290108088744,
+    "proxy_correlation": 0.6844114916276773
+  },
+  "metric_samples": {
+    "publie_rendement_mensuel_is_pct": "IS",
+    "publie_sharpe_is": "IS",
+    "publie_alpha_4f_is_pct": "IS",
+    "publie_rendement_mensuel_oos_pct": "FINAL_HOLDOUT",
+    "publie_sharpe_oos_brut": "FINAL_HOLDOUT",
+    "publie_sharpe_oos_net": "FINAL_HOLDOUT",
+    "publie_alpha_4f_oos_pct": "FINAL_HOLDOUT",
+    "ecart_de_sharpe_z": "FINAL_HOLDOUT",
+    "notre_rendement_mensuel_pct": "OOS",
+    "notre_sharpe": "OOS",
+    "correlation_avec_le_publie": "OOS",
+    "beta_sur_le_publie": "OOS",
+    "alpha_sur_le_publie_mensuel_pct": "OOS",
+    "rotation_annualisee": "OOS",
+    "cout_de_rentabilite_bps": "OOS",
+    "sharpe_net_reference": "OOS",
+    "probabilite_de_surapprentissage": "OOS",
+    "sharpe_degonfle": "FINAL_HOLDOUT",
+    "t_apres_correction": "FINAL_HOLDOUT",
+    "part_de_sous_periodes_positives": "IS",
+    "correlation_avec_le_marche": "FINAL_HOLDOUT",
+    "cpcv_sharpe_moyen": "FINAL_HOLDOUT",
+    "cpcv_part_de_chemins_negatifs": "FINAL_HOLDOUT",
+    "proxy_sharpe": "IS",
+    "proxy_correlation": "IS"
+  },
+  "cost_basis": {
+    "publie_rendement_mensuel_is_pct": "gross",
+    "publie_sharpe_is": "gross",
+    "publie_alpha_4f_is_pct": "gross",
+    "publie_rendement_mensuel_oos_pct": "gross",
+    "publie_sharpe_oos_brut": "gross",
+    "publie_sharpe_oos_net": "net",
+    "publie_alpha_4f_oos_pct": "gross",
+    "ecart_de_sharpe_z": "gross",
+    "notre_rendement_mensuel_pct": "gross",
+    "notre_sharpe": "gross",
+    "correlation_avec_le_publie": "gross",
+    "beta_sur_le_publie": "gross",
+    "alpha_sur_le_publie_mensuel_pct": "gross",
+    "rotation_annualisee": "gross",
+    "cout_de_rentabilite_bps": "gross",
+    "sharpe_net_reference": "net",
+    "probabilite_de_surapprentissage": "gross",
+    "sharpe_degonfle": "net",
+    "t_apres_correction": "net",
+    "part_de_sous_periodes_positives": "gross",
+    "correlation_avec_le_marche": "gross",
+    "cpcv_sharpe_moyen": "net",
+    "cpcv_part_de_chemins_negatifs": "net",
+    "proxy_sharpe": "gross",
+    "proxy_correlation": "gross"
+  },
+  "samples": {
+    "published_full": [
+      "1957-07-31",
+      "2026-06-30"
+    ],
+    "published_paper_window": [
+      "1957-07-31",
+      "2012-12-31"
+    ],
+    "published_holdout": [
+      "2013-01-31",
+      "2026-06-30"
+    ],
+    "construction": [
+      "2015-06-30",
+      "2026-05-31"
+    ],
+    "common_window": [
+      "2015-06-30",
+      "2026-05-31"
+    ],
+    "proxy": [
+      "1963-07-31",
+      "2026-06-30"
+    ]
+  },
+  "cost_assumptions_bps": {
+    "spread_bps": 10.0
+  },
+  "universe": {
+    "n_symbols_downloaded": 1583,
+    "n_symbols_matched": 1526,
+    "n_entities": 1526,
+    "n_rows": 178005,
+    "evol_rows": 710612,
+    "removed_close_cells": 0,
+    "removed_adjusted_cells": 3511,
+    "dropped_monthly_returns": 18,
+    "dropped_daily_returns": 20,
+    "largest_dropped_monthly": 309.90911108719183,
+    "rows_before_screen": 178005,
+    "rows_after_screen": 147289
+  }
+}

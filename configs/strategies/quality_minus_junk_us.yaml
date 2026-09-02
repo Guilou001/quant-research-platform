@@ -1,0 +1,29 @@
+name: quality_minus_junk_us
+family: quality
+paper: Asness, C. S., Frazzini, A. et Pedersen, L. H. (2019). Quality Minus Junk.
+  Review of Accounting Studies 24(1), 34-112. Chiffres cibles lus dans la version
+  de travail du 19 juin 2014, l'article publié restant inaccessible.
+asset_classes:
+- equity
+horizon: formation mensuelle sur données comptables annuelles, détention un mois
+economic_rationale:
+- biais comportemental
+- contrainte institutionnelle
+inputs:
+- facteur QMJ mensuel d'AQR, vingt-quatre pays
+- jeux trimestriels de données financières de la SEC, dates de dépôt comprises
+- prix quotidiens de Yahoo Finance pour environ mille six cents titres américains
+- portefeuilles triés de Kenneth French pour le repli à trois composantes
+known_risks:
+- Notre construction ne couvre que onze années, les jeux DERA commençant en 2009.
+- L'univers vient de la carte des symboles d'aujourd'hui, donc il survit.
+- La version publiée de l'article n'a pas été obtenue, les définitions viennent de
+  2014.
+- La rotation employée pour chiffrer les frais du facteur publié est la nôtre.
+validation_status: EXPERIMENTAL
+verdict_experiment_id: 004_quality_minus_junk-9983cbba94
+created: '2026-09-02'
+last_modified: '2026-09-02'
+notes: 'Étude 004. Le mécanisme invoqué est une mauvaise évaluation : le marché paie
+  la qualité, mais trop peu, et l''écart de prix ne suffit pas à annuler l''écart
+  de rendement. Le verdict est déduit par quantlab.reporting.study.decide_verdict.'

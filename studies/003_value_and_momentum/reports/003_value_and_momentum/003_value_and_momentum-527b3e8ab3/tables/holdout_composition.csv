@@ -1,0 +1,4 @@
+window,start,end,n_months,asset_classes_present,sharpe_net
+hors échantillon complet,2011-08-31,2026-06-30,179,8,0.6041763817060442
+"hors échantillon, huit classes présentes",2011-08-31,2025-01-31,162,8,0.24564766149110756
+"hors échantillon, actions seules",2025-02-28,2026-06-30,17,4,2.4708498953781945

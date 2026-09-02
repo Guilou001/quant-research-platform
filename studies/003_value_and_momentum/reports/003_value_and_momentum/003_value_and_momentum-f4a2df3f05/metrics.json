@@ -1,0 +1,281 @@
+{
+  "study": "003_value_and_momentum",
+  "experiment_id": "003_value_and_momentum-f4a2df3f05",
+  "created_at": "2026-09-02T17:27:45.521647+00:00",
+  "hypothesis": "La valeur et le momentum sont négativement corrélés dans chacun des onze regroupements publiés par AQR, et leur mélange à parts égales porte un ratio de Sharpe supérieur à celui de chacune de ses deux jambes. Ce gain survit hors de l'échantillon de l'article et à un coût de rotation de dix points de base.",
+  "paper": "Asness, C. S., Moskowitz, T. J. et Pedersen, L. H. (2013). Value and Momentum Everywhere. The Journal of Finance, 68(3), 929-985. Chiffres cibles lus dans la version publiée, table I, colonne « facteur ».",
+  "verdict": "EXPERIMENTAL",
+  "reasons": [
+    "RÉUSSI | hypothèse économique : signe attendu retrouvé, le signe décide du rejet",
+    "RÉUSSI | signe du Sharpe hors échantillon : 0,604 mesuré, rejet à 0,000 ou moins",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Toutes classes d'actifs » : -0,586 contre -0,600 publié, écart relatif 0,023, tolérance 0,059 (absolute), soit 0,098 en relatif",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Actions, agrégat » : -0,598 contre -0,600 publié, écart relatif 0,003, tolérance 0,059 (absolute), soit 0,098 en relatif",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Hors actions, agrégat » : -0,538 contre -0,490 publié, écart relatif 0,097, tolérance 0,070 (absolute), soit 0,142 en relatif",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Actions américaines » : -0,623 contre -0,650 publié, écart relatif 0,041, tolérance 0,053 (absolute), soit 0,082 en relatif",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Actions britanniques » : -0,639 contre -0,620 publié, écart relatif 0,031, tolérance 0,065 (absolute), soit 0,105 en relatif",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Actions européennes » : -0,510 contre -0,550 publié, écart relatif 0,072, tolérance 0,073 (absolute), soit 0,133 en relatif",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Actions japonaises » : -0,637 contre -0,640 publié, écart relatif 0,004, tolérance 0,062 (absolute), soit 0,097 en relatif",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Indices actions par pays » : -0,389 contre -0,370 publié, écart relatif 0,052, tolérance 0,085 (absolute), soit 0,230 en relatif",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Devises » : -0,434 contre -0,430 publié, écart relatif 0,008, tolérance 0,082 (absolute), soit 0,192 en relatif",
+    "ÉCHOUÉ | réplication de « corrélation valeur contre momentum, Obligations d'État » : -0,224 contre -0,350 publié, écart relatif 0,359, tolérance 0,095 (absolute), soit 0,271 en relatif, plus large que la tolérance déclarée 0,250",
+    "RÉUSSI | réplication de « corrélation valeur contre momentum, Matières premières » : -0,471 contre -0,460 publié, écart relatif 0,025, tolérance 0,072 (absolute), soit 0,157 en relatif",
+    "ÉCHOUÉ | réplication : 10 contrôle(s) sur 11 dans la tolérance, tous exigés",
+    "RÉUSSI | Sharpe hors échantillon : 0,604 mesuré, minimum 0,500",
+    "ÉCHOUÉ | t après correction pour essais multiples : 0,000 mesuré, minimum 3,000",
+    "ÉCHOUÉ | Sharpe dégonflé : 0,005 mesuré, minimum 0,950",
+    "RÉUSSI | probabilité de surapprentissage : 0,000 mesuré, maximum 0,500",
+    "RÉUSSI | part de sous-périodes positives : 1,000 mesuré, minimum 0,600",
+    "RÉUSSI | multiple de coûts survécu : 10,000 mesuré, minimum 2,000",
+    "RÉUSSI | corrélation absolue avec le portefeuille existant : 0,159 mesurée, maximum 0,600",
+    "VERDICT | EXPERIMENTAL"
+  ],
+  "criteria": {
+    "replication_tolerance": 0.25,
+    "min_oos_sharpe": 0.5,
+    "min_tstat": 3.0,
+    "min_dsr": 0.95,
+    "max_pbo": 0.5,
+    "min_positive_subperiod_share": 0.6,
+    "min_cost_multiple": 2.0,
+    "max_portfolio_correlation": 0.6
+  },
+  "metrics": [
+    {
+      "metric": "correlation_toutes_classes",
+      "value": -0.5773117067282201,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "sharpe_valeur_toutes_classes",
+      "value": 0.4124013276330236,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "sharpe_momentum_toutes_classes",
+      "value": 0.5928582618873379,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "sharpe_melange_parts_egales",
+      "value": 1.0958401883842104,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "sharpe_melange_risque_egal",
+      "value": 1.093334662431441,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "gain_sur_la_meilleure_jambe",
+      "value": 0.5029819264968725,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "multiplicateur_de_diversification",
+      "value": 1.5381188341221343,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "sharpe_par_unite_de_correlation",
+      "value": -1.2933107917049047,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "ecart_maximal_mesure_contre_formule",
+      "value": 5.551115123125783e-16,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "sharpe_melange_oos_net",
+      "value": 0.6041763817060442,
+      "sample": "OOS",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "rotation_annualisee",
+      "value": 0.17636256921404206,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "cout_de_rentabilite_bps",
+      "value": 2581.2704306859696,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "probabilite_de_surapprentissage",
+      "value": 0.0,
+      "sample": "VALIDATION",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "sharpe_degonfle",
+      "value": 0.0045867183384220795,
+      "sample": "OOS",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "t_apres_correction",
+      "value": 0.0,
+      "sample": "OOS",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "part_de_sous_periodes_positives",
+      "value": 1.0,
+      "sample": "VALIDATION",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "correlation_avec_le_marche",
+      "value": -0.15947376118414197,
+      "sample": "VALIDATION",
+      "cost_basis": "gross"
+    },
+    {
+      "metric": "cpcv_sharpe_moyen",
+      "value": 1.0916164754167852,
+      "sample": "OOS",
+      "cost_basis": "net"
+    },
+    {
+      "metric": "cpcv_part_de_chemins_negatifs",
+      "value": 0.0,
+      "sample": "OOS",
+      "cost_basis": "net"
+    }
+  ],
+  "replication": [
+    {
+      "quantity": "corrélation valeur contre momentum, Toutes classes d'actifs",
+      "published": -0.6,
+      "ours": -0.5860084446840005,
+      "absolute_error": 0.013991555315999493,
+      "relative_error": 0.023319258859999158,
+      "tolerance": 0.05873042787086381,
+      "tolerance_kind": "absolute",
+      "verdict": "répliqué",
+      "source": "Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »"
+    },
+    {
+      "quantity": "corrélation valeur contre momentum, Actions, agrégat",
+      "published": -0.6,
+      "ours": -0.5984404020149094,
+      "absolute_error": 0.0015595979850905328,
+      "relative_error": 0.002599329975150888,
+      "tolerance": 0.05879234715835205,
+      "tolerance_kind": "absolute",
+      "verdict": "répliqué",
+      "source": "Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »"
+    },
+    {
+      "quantity": "corrélation valeur contre momentum, Hors actions, agrégat",
+      "published": -0.49,
+      "ours": -0.5377243613071094,
+      "absolute_error": 0.04772436130710944,
+      "relative_error": 0.09739665572879479,
+      "tolerance": 0.06973320646729596,
+      "tolerance_kind": "absolute",
+      "verdict": "répliqué",
+      "source": "Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »"
+    },
+    {
+      "quantity": "corrélation valeur contre momentum, Actions américaines",
+      "published": -0.65,
+      "ours": -0.6231711280478873,
+      "absolute_error": 0.0268288719521127,
+      "relative_error": 0.04127518761863492,
+      "tolerance": 0.05305090700616922,
+      "tolerance_kind": "absolute",
+      "verdict": "répliqué",
+      "source": "Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »"
+    },
+    {
+      "quantity": "corrélation valeur contre momentum, Actions britanniques",
+      "published": -0.62,
+      "ours": -0.6391849035873796,
+      "absolute_error": 0.019184903587379565,
+      "relative_error": 0.030943392882870267,
+      "tolerance": 0.0648,
+      "tolerance_kind": "absolute",
+      "verdict": "répliqué",
+      "source": "Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »"
+    },
+    {
+      "quantity": "corrélation valeur contre momentum, Actions européennes",
+      "published": -0.55,
+      "ours": -0.510353668453248,
+      "absolute_error": 0.03964633154675201,
+      "relative_error": 0.07208423917591274,
+      "tolerance": 0.07342105263157894,
+      "tolerance_kind": "absolute",
+      "verdict": "répliqué",
+      "source": "Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »"
+    },
+    {
+      "quantity": "corrélation valeur contre momentum, Actions japonaises",
+      "published": -0.64,
+      "ours": -0.6373639839762877,
+      "absolute_error": 0.0026360160237123287,
+      "relative_error": 0.0041187750370505136,
+      "tolerance": 0.06214736842105264,
+      "tolerance_kind": "absolute",
+      "verdict": "répliqué",
+      "source": "Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »"
+    },
+    {
+      "quantity": "corrélation valeur contre momentum, Indices actions par pays",
+      "published": -0.37,
+      "ours": -0.3891805983031853,
+      "absolute_error": 0.019180598303185303,
+      "relative_error": 0.05183945487347379,
+      "tolerance": 0.08494074903989031,
+      "tolerance_kind": "absolute",
+      "verdict": "répliqué",
+      "source": "Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »"
+    },
+    {
+      "quantity": "corrélation valeur contre momentum, Devises",
+      "published": -0.43,
+      "ours": -0.4336049807891159,
+      "absolute_error": 0.003604980789115919,
+      "relative_error": 0.008383676253757952,
+      "tolerance": 0.08244275763488879,
+      "tolerance_kind": "absolute",
+      "verdict": "répliqué",
+      "source": "Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »"
+    },
+    {
+      "quantity": "corrélation valeur contre momentum, Obligations d'État",
+      "published": -0.35,
+      "ours": -0.22443681747972602,
+      "absolute_error": 0.12556318252027396,
+      "relative_error": 0.3587519500579256,
+      "tolerance": 0.09476109287588483,
+      "tolerance_kind": "absolute",
+      "verdict": "écart",
+      "source": "Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »"
+    },
+    {
+      "quantity": "corrélation valeur contre momentum, Matières premières",
+      "published": -0.46,
+      "ours": -0.4714341719332681,
+      "absolute_error": 0.011434171933268067,
+      "relative_error": 0.02485689550710449,
+      "tolerance": 0.07234854583342035,
+      "tolerance_kind": "absolute",
+      "verdict": "répliqué",
+      "source": "Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »"
+    }
+  ]
+}

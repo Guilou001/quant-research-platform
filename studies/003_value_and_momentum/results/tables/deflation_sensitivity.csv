@@ -1,0 +1,4 @@
+convention,n_trials,variance_of_trial_sharpes,expected_maximum_sharpe_under_null,deflated_sharpe,required_tstat_bonferroni
+"les 15 mélanges à parts égales, un par paire",15,0.04287029599842739,0.36662257376231494,0.999835086898363,2.935199468866699
+les 121 cellules du balayage des poids,121,0.053039520365238096,0.5980872628375973,0.536666163972902,3.5314915013032535
+"tous les essais comptés, référence",207,0.10127414899580635,0.8836618569465496,1.1974785037220601e-05,3.6710607715954806

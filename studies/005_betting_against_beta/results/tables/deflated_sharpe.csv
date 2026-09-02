@@ -1,0 +1,2 @@
+n_trials,trial_sharpe_variance,expected_max_sharpe,oos_sharpe,oos_tstat,deflated_sharpe,required_tstat_bonferroni,adjusted_tstat,haircut_status
+144,0.08598413112109728,0.7789187383288576,-0.0016291400625083117,-0.006707436840552431,1.1960722246367468e-24,3.5772543873072213,-0.006707436840552431,"non défini : rabattre un ratio de Sharpe négatif n'a pas de sens, la statistique t brute est reportée telle quelle"

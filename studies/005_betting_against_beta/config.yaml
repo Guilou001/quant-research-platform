@@ -1,0 +1,308 @@
+# La configuration de l'étude 005, validée par « quantlab.core.config.ExperimentConfig ».
+#
+# Aucun nombre qui décide de quelque chose ne vit ailleurs que dans ce fichier,
+# règle 13 du CLAUDE.md. Les seuils du verdict sont écrits ici avant que le
+# moindre résultat existe, parce qu'un seuil fixé après coup n'est plus un seuil.
+
+name: 005_betting_against_beta
+hypothesis: >-
+  Un portefeuille long sur les titres à bêta faible et court sur les titres à
+  bêta élevé, chaque jambe mise à l'échelle par l'inverse de son bêta ex ante,
+  rapporte un rendement excédentaire positif de bêta nul. Ce rendement survit
+  à une pondération plus sage que celle des rangs et au coût du levier.
+paper: >-
+  Frazzini, A. et Pedersen, L. H. (2014). Betting against beta. Journal of
+  Financial Economics, 111(1), 1-25. doi:10.1016/j.jfineco.2013.10.005. Chiffres
+  cibles lus dans la version de travail du 2013-05-10, tableaux III, IV et V.
+seed: 20260902
+
+data:
+  provider: yahoo
+  start: "1998-01-01"
+  end: "2026-06-30"
+  frequency: daily
+  calendar: XNYS
+  price_field: adj_close
+  # Les membres de l'indice S&P 500 relevés le 2026-09-02, repris tels quels de
+  # l'étude 002. L'univers est celui d'AUJOURD'HUI, donc il porte un biais de
+  # survie, mesuré et déclaré dans la jambe B2 plutôt que corrigé.
+  universe: [
+    "A", "AAPL", "ABBV", "ABNB", "ABT", "ACGL", "ACN", "ADBE", "ADI", "ADM", "ADP", "ADSK",
+    "AEE", "AEP", "AES", "AFL", "AIG", "AIZ", "AJG", "AKAM", "ALB", "ALGN", "ALL", "ALLE",
+    "AMAT", "AMCR", "AMD", "AME", "AMGN", "AMP", "AMT", "AMZN", "ANET", "AON", "AOS", "APA",
+    "APD", "APH", "APO", "APP", "APTV", "ARE", "ARES", "ATO", "AVGO", "AVY", "AWK", "AXON",
+    "AXP", "AZO", "BA", "BAC", "BALL", "BAX", "BBY", "BDX", "BEN", "BF-B", "BG", "BIIB",
+    "BKNG", "BKR", "BLDR", "BLK", "BMY", "BNY", "BR", "BRK-B", "BRO", "BSX", "BX", "BXP",
+    "C", "CAH", "CARR", "CASY", "CAT", "CB", "CBOE", "CBRE", "CCI", "CCL", "CDNS", "CDW",
+    "CEG", "CF", "CFG", "CHD", "CHRW", "CHTR", "CI", "CIEN", "CINF", "CL", "CLX", "CMCSA",
+    "CME", "CMG", "CMI", "CMS", "CNC", "CNP", "COF", "COHR", "COIN", "COO", "COP", "COR",
+    "COST", "CPAY", "CPRT", "CPT", "CRH", "CRL", "CRM", "CRWD", "CSCO", "CSGP", "CSX",
+    "CTAS", "CTSH", "CTVA", "CVNA", "CVS", "CVX", "D", "DAL", "DASH", "DD", "DDOG", "DE",
+    "DECK", "DELL", "DG", "DGX", "DHI", "DHR", "DIS", "DLR", "DLTR", "DOC", "DOV", "DOW",
+    "DPZ", "DRI", "DTE", "DUK", "DVA", "DVN", "DXCM", "EBAY", "ECHO", "ECL", "ED", "EFX",
+    "EG", "EIX", "EL", "ELV", "EME", "EMR", "EOG", "EQIX", "EQT", "ERIE", "ES", "ESS",
+    "ETN", "ETR", "EVRG", "EW", "EXC", "EXE", "EXPD", "EXPE", "EXR", "F", "FANG", "FAST",
+    "FCX", "FDS", "FDX", "FDXF", "FE", "FERG", "FFIV", "FICO", "FIS", "FISV", "FITB", "FIX",
+    "FLEX", "FOX", "FOXA", "FRT", "FSLR", "FTNT", "FTV", "GD", "GDDY", "GE", "GEHC", "GEN",
+    "GEV", "GILD", "GIS", "GL", "GLW", "GM", "GNRC", "GOOG", "GOOGL", "GPC", "GPN", "GRMN",
+    "GS", "GWW", "HAL", "HAS", "HBAN", "HCA", "HD", "HIG", "HII", "HLT", "HON", "HONA",
+    "HOOD", "HPE", "HPQ", "HRL", "HSIC", "HST", "HSY", "HUBB", "HUM", "HWM", "IBKR", "IBM",
+    "ICE", "IDXX", "IEX", "IFF", "INCY", "INTC", "INTU", "INVH", "IP", "IQV", "IR", "IRM",
+    "ISRG", "IT", "ITW", "IVZ", "J", "JBHT", "JBL", "JCI", "JKHY", "JNJ", "JPM", "KDP",
+    "KEY", "KEYS", "KHC", "KIM", "KKR", "KLAC", "KMB", "KMI", "KO", "KR", "KVUE", "L",
+    "LDOS", "LEN", "LH", "LHX", "LII", "LIN", "LITE", "LLY", "LMT", "LNT", "LOW", "LRCX",
+    "LULU", "LUV", "LVS", "LYB", "LYV", "MA", "MAA", "MAR", "MAS", "MCD", "MCHP", "MCK",
+    "MCO", "MDLZ", "MDT", "MET", "META", "MGM", "MKC", "MLM", "MMM", "MNST", "MO", "MOS",
+    "MPC", "MPWR", "MRK", "MRNA", "MRSH", "MRVL", "MS", "MSCI", "MSFT", "MSI", "MTB", "MTD",
+    "MU", "NCLH", "NDAQ", "NDSN", "NEE", "NEM", "NFLX", "NI", "NKE", "NOC", "NOW", "NRG",
+    "NSC", "NTAP", "NTRS", "NUE", "NVDA", "NVR", "NWS", "NWSA", "NXPI", "O", "ODFL", "OKE",
+    "OMC", "ON", "ORCL", "ORLY", "OTIS", "OXY", "PANW", "PAYX", "PCAR", "PCG", "PEG", "PEP",
+    "PFE", "PFG", "PG", "PGR", "PH", "PHM", "PKG", "PLD", "PLTR", "PM", "PNC", "PNR", "PNW",
+    "PODD", "PPG", "PPL", "PRU", "PSA", "PSKY", "PSX", "PTC", "PWR", "PYPL", "Q", "QCOM",
+    "RCL", "RDDT", "REG", "REGN", "RF", "RJF", "RL", "RMD", "ROK", "ROL", "ROP", "ROST",
+    "RSG", "RTX", "RVTY", "SBAC", "SBUX", "SCHW", "SHW", "SJM", "SLB", "SMCI", "SNA",
+    "SNDK", "SNPS", "SO", "SOLV", "SPG", "SPGI", "SRE", "STE", "STLD", "STT", "STX", "STZ",
+    "SW", "SWK", "SWKS", "SYF", "SYK", "SYY", "T", "TAP", "TDG", "TDY", "TECH", "TEL",
+    "TER", "TFC", "TGT", "TJX", "TKO", "TMO", "TMUS", "TPL", "TPR", "TRGP", "TRMB", "TROW",
+    "TRV", "TSCO", "TSLA", "TSN", "TT", "TTD", "TTWO", "TXN", "TXT", "TYL", "UAL", "UBER",
+    "UDR", "UHS", "ULTA", "UNH", "UNP", "UPS", "URI", "USB", "V", "VEEV", "VICI", "VLO",
+    "VLTO", "VMC", "VMRK", "VRSK", "VRSN", "VRT", "VRTX", "VST", "VTR", "VTRS", "VZ", "WAB",
+    "WAT", "WBD", "WDAY", "WDC", "WEC", "WELL", "WFC", "WM", "WMB", "WMT", "WRB", "WSM",
+    "WST", "WTW", "WY", "WYNN", "XEL", "XOM", "XYL", "XYZ", "YUM", "ZBH", "ZBRA", "ZTS"
+  ]
+
+costs:
+  # Dix points de base par unité de rotation, la valeur de Frazzini, Israel et
+  # Moskowitz (2015) retenue par l'étude 006. Novy-Marx et Velikov (2022)
+  # mesurent bien plus cher, 60 points de base par MOIS de rendement sur
+  # 1968-2017, et leur ordre de grandeur est balayé par cost_multipliers.
+  commission_bps: 0.0
+  spread_bps: 10.0
+  slippage_bps: 0.0
+  # Le coût d'emprunt de titre de la jambe courte n'est pas modélisé ici, la
+  # rotation seule l'étant. Son omission est déclarée dans les limites.
+  borrow_bps_annual: 0.0
+  # L'écart de financement du levier est l'objet du quatrième front de l'étude,
+  # donc il est balayé dans params.financing_spreads_bps et vaut zéro au cas de
+  # référence, comme dans l'article.
+  financing_spread_bps_annual: 0.0
+
+risk:
+  # La jambe longue de l'article porte 1,40 dollar et la jambe courte 0,70, donc
+  # l'exposition brute vaut 2,10. Le plafond laisse de la marge au cas où nos
+  # bêtas ex ante sortent plus bas que les leurs.
+  leverage_cap: 10.0
+  leverage_floor: 0.0
+
+validation:
+  # La coupure de validation est la fin d'échantillon de l'article, mars 2012.
+  # Tout ce qui suit est hors échantillon au sens strict, et le holdout final
+  # commence au mois suivant.
+  train_end: "1990-12-31"
+  validation_end: "2012-03-31"
+  final_holdout_start: "2012-04-30"
+  embargo_periods: 1
+  purge_periods: 1
+  n_folds: 8
+  n_test_folds: 2
+
+params:
+  # ------------------------------------------------------------------ #
+  # Jambe A, le facteur publié par AQR
+  # ------------------------------------------------------------------ #
+  aqr_dataset: bab
+  aqr_us_column: USA
+  # Les cinq colonnes d'agrégats du classeur, à retirer du décompte par pays.
+  aqr_aggregate_columns:
+    - Global
+    - Global Ex USA
+    - Europe
+    - North America
+    - Pacific
+  # La fin d'échantillon de l'article, et la date de publication au Journal of
+  # Financial Economics. Les deux découpent la jambe A.
+  paper_sample_end: "2012-03-31"
+  publication_start: "2014-01-31"
+  # Un pays n'entre dans le décompte que s'il porte au moins dix ans de données.
+  min_months_per_country: 120
+
+  # ------------------------------------------------------------------ #
+  # Jambe B1, les portefeuilles triés par bêta de Kenneth French
+  # ------------------------------------------------------------------ #
+  french_beta_dataset: Portfolios_Formed_on_BETA
+  french_decile_columns:
+    - LO 10
+    - DEC 2
+    - DEC 3
+    - DEC 4
+    - DEC 5
+    - DEC 6
+    - DEC 7
+    - DEC 8
+    - DEC 9
+    - HI 10
+  french_size_block: Average Firm Size
+  french_count_block: Number of Firms in Portfolios
+
+  # ------------------------------------------------------------------ #
+  # Le bêta ex ante de l'article, équation (16) et note 14
+  # ------------------------------------------------------------------ #
+  # Volatilité : un an de rendements logarithmiques QUOTIDIENS, au moins 120
+  # séances non manquantes. Corrélation : cinq ans de rendements logarithmiques
+  # RECOUVRANTS DE TROIS JOURS, au moins 750 séances. Rétrécissement de poids
+  # 0,6 sur l'estimation temporelle et 0,4 sur la valeur un.
+  volatility_window_days: 252
+  volatility_min_days: 120
+  correlation_window_days: 1250
+  correlation_min_days: 750
+  overlap_days: 3
+  # « backward » somme les rendements de t-2 à t, « forward » ceux de t à t+2
+  # comme l'article l'écrit. Le cas de référence est backward, qui n'emploie
+  # aucune donnée postérieure à la date de l'observation.
+  overlap_alignment: backward
+  shrinkage_weight: 0.6
+  shrinkage_target: 1.0
+
+  # Le même bêta en fréquence MENSUELLE, faute de rendements quotidiens pour les
+  # portefeuilles triés par bêta. L'article annonce au moins 12 et 36
+  # observations en données mensuelles, ce qui fixe les deux minima.
+  volatility_window_months: 12
+  volatility_min_months: 12
+  correlation_window_months: 60
+  correlation_min_months: 36
+
+  # ------------------------------------------------------------------ #
+  # Les portefeuilles et la critique de Novy-Marx et Velikov
+  # ------------------------------------------------------------------ #
+  # Pondération ENTRE les titres classés : rangs comme l'article, équipondérée,
+  # ou proportionnelle à la capitalisation.
+  weighting_methods:
+    - rank
+    - equal
+    - cap
+  # Pondération DANS chaque décile de Kenneth French, publiée dans les deux
+  # versions par la bibliothèque.
+  within_weightings:
+    - value
+    - equal
+  # La couverture : par le levier comme l'article, ou par un marché comme
+  # Novy-Marx et Velikov le proposent.
+  hedge_methods:
+    - leverage
+    - market_value_weighted
+    - market_equal_weighted
+  # Le nombre minimal de titres classés à une date pour former les deux jambes.
+  min_names_deciles: 10
+  min_names_stocks: 30
+
+  # ------------------------------------------------------------------ #
+  # Le levier et son prix
+  # ------------------------------------------------------------------ #
+  # L'écart de financement annuel au-dessus du taux sans risque, en points de
+  # base, balayé jusqu'à cinq points de pourcentage.
+  financing_spreads_bps:
+    - 0.0
+    - 25.0
+    - 50.0
+    - 100.0
+    - 150.0
+    - 200.0
+    - 300.0
+    - 500.0
+  # « net » facture l'écart sur le capital emprunté net, la jambe longue moins
+  # le produit de la vente à découvert. « gross » le facture sur la seule jambe
+  # longue, ce qui suppose que le produit du découvert ne rapporte rien.
+  financing_basis: net
+  financing_bases:
+    - net
+    - gross
+
+  # ------------------------------------------------------------------ #
+  # Les grilles de robustesse, toutes comptées comme essais
+  # ------------------------------------------------------------------ #
+  # Le poids nul est écarté : il rend tous les bêtas égaux à un, donc aucun
+  # classement n'existe et les deux jambes ne peuvent pas se former. Le défaut a
+  # été trouvé au premier lancement et il est déclaré dans notes.md.
+  shrinkage_weights_grid:
+    - 0.3
+    - 0.6
+    - 0.8
+    - 1.0
+  correlation_windows_grid:
+    - 750
+    - 1250
+    - 2500
+  volatility_windows_grid:
+    - 63
+    - 126
+    - 252
+  overlap_days_grid:
+    - 1
+    - 3
+    - 5
+  cost_multipliers:
+    - 0.0
+    - 0.5
+    - 1.0
+    - 2.0
+    - 5.0
+    - 10.0
+  execution_delays:
+    - 1
+    - 2
+    - 3
+
+  # Les bornes des sous-périodes, celles de l'article et de sa critique. 1968
+  # ouvre l'échantillon de Novy-Marx et Velikov, 1990 coupe en deux la fenêtre
+  # restante, et 2012-03 ferme l'échantillon de l'article.
+  subperiod_breakpoints:
+    - "1990-12-31"
+    - "2012-03-31"
+
+  # Les tirages du rééchantillonnage par blocs.
+  bootstrap_resamples: 2000
+  bootstrap_block_months: 12.0
+
+  # ------------------------------------------------------------------ #
+  # Les chiffres publiés, cibles des contrôles de réplication
+  # ------------------------------------------------------------------ #
+  # Tableau III de la version de travail, actions américaines, janvier 1926 à
+  # mars 2012. Statut : RAPPORTÉ.
+  paper_us_monthly_excess_pct: 0.70
+  paper_us_tstat: 7.12
+  paper_us_volatility_pct: 10.7
+  paper_us_sharpe: 0.78
+  paper_us_alpha_3f_pct: 0.73
+  paper_us_alpha_4f_pct: 0.55
+  paper_us_realized_beta: -0.06
+  paper_us_ex_ante_beta: 0.0
+  # Tableau V : dix-huit des dix-neuf marchés développés au Sharpe positif.
+  paper_positive_country_share: 0.9474
+  # Page 19 : la construction américaine achète 1,40 dollar et en vend 0,70.
+  paper_long_leverage: 1.40
+  paper_short_leverage: 0.70
+  # La tolérance ABSOLUE du bêta réalisé. L'article annonce un bêta ex ante de
+  # 0,00 et un bêta réalisé de -0,06, donc une bande de 0,15 autour de zéro est
+  # la lecture large de « proche de zéro ». La tolérance est absolue parce que
+  # la valeur publiée est nulle et qu'aucun écart relatif n'existe alors.
+  realized_beta_tolerance: 0.15
+
+  # La série qui porte le verdict, et son échantillon hors échantillon. C'est
+  # notre reconstruction sur les déciles de Kenneth French, pondérée par les
+  # rangs, rendements de décile pondérés par la capitalisation, nette de frais.
+  verdict_series: bab_deciles_rank_value
+  # Le portefeuille déjà détenu, contre lequel la corrélation d'apport se mesure.
+  incumbent_portfolio: MKT-RF
+
+  # ------------------------------------------------------------------ #
+  # Les seuils du verdict, écrits avant que les résultats existent
+  # ------------------------------------------------------------------ #
+  verdict:
+    replication_tolerance: 0.25
+    min_oos_sharpe: 0.5
+    min_tstat: 3.0
+    min_dsr: 0.95
+    max_pbo: 0.5
+    min_positive_subperiod_share: 0.6
+    min_cost_multiple: 2.0
+    max_portfolio_correlation: 0.6

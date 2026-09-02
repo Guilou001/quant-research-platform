@@ -1,0 +1,7 @@
+source,dataset,sheet_or_table,start,end,n_rows,n_columns
+AQR,Value-and-Momentum-Everywhere-Factors-Monthly,VME Factors,1972-01-31,2026-06-30,654,22
+Kenneth French,F-F_Research_Data_Factors,monthly,1926-07-31,2026-06-30,1200,4
+Kenneth French,F-F_Momentum_Factor,monthly,1927-01-31,2026-06-30,1194,1
+Kenneth French,25_Portfolios_5x5,average_value_weighted_returns_monthly,1926-07-31,2026-06-30,1200,25
+Kenneth French,25_Portfolios_ME_Prior_12_2,average_value_weighted_returns_monthly,1927-01-31,2026-06-30,1194,25
+Kenneth French,10_Portfolios_Prior_12_2,value_weight_returns_monthly,1927-01-31,2026-06-30,1194,10

@@ -1,0 +1,9 @@
+quantity,published,ours,absolute_error,relative_error,tolerance,tolerance_kind,verdict,source
+"ratio de Sharpe, 15 composantes, 1997-2007",1.44,0.18125731266161765,1.2587426873383822,0.8741268662072099,0.5,relative,écart,"Avellaneda et Lee (2010), Quantitative Finance 10(7), table 6, page 774"
+"ratio de Sharpe, 15 composantes, 2003-2007",0.9,-1.1805512051082223,2.0805512051082222,2.311723561231358,0.5,relative,écart,"Avellaneda et Lee (2010), Quantitative Finance 10(7), résumé page 761 et table 6"
+"ratio de Sharpe, 1 portefeuille propre, 2002-2007",0.7,-0.12074466126940327,0.8207446612694033,1.1724923732420047,0.5,relative,écart,"Avellaneda et Lee (2010), Quantitative Finance 10(7), table 8, page 776"
+"ratio de Sharpe, 55 pour cent de variance, 2002-2007",0.7,-0.6667394531398295,1.3667394531398296,1.9524849330568996,0.5,relative,écart,"Avellaneda et Lee (2010), Quantitative Finance 10(7), table 8, page 776"
+"ratio de Sharpe, 65 pour cent de variance, 2002-2007",0.4,-1.0160940010653978,1.4160940010653977,3.5402350026634943,0.5,relative,écart,"Avellaneda et Lee (2010), Quantitative Finance 10(7), table 8, page 776"
+"temps de retour à la moyenne médian, en séances",7.0,7.559548257155302,0.5595482571553019,0.07993546530790027,3.0,absolute,répliqué,"Avellaneda et Lee (2010), Quantitative Finance 10(7), page 771"
+"volatilité d'équilibre du résidu, en points de base",300.0,209.94145289966337,90.05854710033663,0.3001951570011221,150.0,absolute,répliqué,"Avellaneda et Lee (2010), Quantitative Finance 10(7), page 771"
+nombre de facteurs à 55 pour cent de variance,20.0,11.0,9.0,0.45,10.0,absolute,répliqué,"Avellaneda et Lee (2010), Quantitative Finance 10(7), conclusion pages 779 et 780"

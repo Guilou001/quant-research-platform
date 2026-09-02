@@ -1,0 +1,6 @@
+source,dataset,start,end,n_rows,n_columns
+AQR,Betting-Against-Beta-Equity-Factors-Monthly.xlsx,1930-12-31,2026-06-30,1147,29
+Kenneth French,Portfolios_Formed_on_BETA,1963-07-31,2026-06-30,756,15
+Kenneth French,F-F_Research_Data_Factors,1926-07-31,2026-06-30,1200,4
+Kenneth French,F-F_Research_Data_Factors_daily,1926-07-01,2026-06-30,26274,4
+Yahoo,membres du S&P 500 relevés le 2026-09-02,1998-01-02,2026-06-30,7166,503

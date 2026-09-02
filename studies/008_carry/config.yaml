@@ -1,0 +1,221 @@
+# Étude 008, le portage.
+# Validée par quantlab.core.config.ExperimentConfig. Aucune constante de
+# l'étude ne vit ailleurs que dans ce fichier, règle 13 du CLAUDE.md.
+#
+# Écrit le 2026-09-02 AVANT toute mesure de performance. Les seuls chiffres
+# connus à l'écriture sont les dates de couverture des séries FRED, relevées le
+# même jour, et les valeurs publiées par l'article.
+
+name: 008_carry
+hypothesis: >-
+  Le portage, l'écart de taux entre deux devises, prédit le rendement futur du
+  change avec un coefficient proche de un, et le portefeuille trié par portage
+  rapporte un ratio de Sharpe élevé assorti d'une asymétrie négative marquée.
+paper: >-
+  Koijen, R. S. J., Moskowitz, T. J., Pedersen, L. H. et Vrugt, E. B. (2018).
+  Carry. Journal of Financial Economics, 127(2), 197-225. Chiffres cibles lus
+  dans le manuscrit accepté déposé au CBS Research Portal.
+seed: 20260902
+
+data:
+  provider: fred
+  universe:
+    - AUD
+    - CAD
+    - CHF
+    - DKK
+    - EUR
+    - GBP
+    - JPY
+    - NOK
+    - NZD
+    - SEK
+    - USD
+  start: "1971-01-01"
+  end: "2026-06-30"
+  frequency: monthly
+  calendar: XNYS
+  price_field: total_return
+
+# Le demi-écart acheteur-vendeur de référence est un PRÉCEPTE déclaré et non
+# une mesure : aucune série publique ne donne les fourchettes de change au
+# comptant sur cinquante-cinq ans. Deux points de base est l'ordre de grandeur
+# retenu par la littérature de change pour les monnaies développées, et la
+# grille params.cost_bps_grid balaie de zéro à dix.
+costs:
+  commission_bps: 0.0
+  spread_bps: 2.0
+  slippage_bps: 0.0
+  borrow_bps_annual: 0.0
+  financing_spread_bps_annual: 0.0
+
+risk:
+  leverage_cap: 100.0
+  leverage_floor: 0.0
+
+# La date de fin de l'article, septembre 2012, sépare son échantillon du nôtre.
+# Tout ce qui suit est hors échantillon pour lui comme pour nous.
+validation:
+  train_end: "1995-12-31"
+  validation_end: "2012-09-30"
+  final_holdout_start: "2012-10-31"
+  embargo_periods: 1
+  purge_periods: 1
+  n_folds: 8
+  n_test_folds: 2
+
+params:
+  # ------------------------------------------------------------------ #
+  # Les séries FRED. Le SENS de cotation est la donnée qui décide du signe
+  # du portage, et il est écrit ici plutôt que déduit d'un nom de série.
+  # « usd_per_unit » signifie que la série cote déjà des dollars par unité
+  # étrangère. « unit_per_usd » signifie l'inverse, et la série est retournée.
+  # ------------------------------------------------------------------ #
+  spot_series:
+    AUD: {series: DEXUSAL, quote: usd_per_unit}
+    CAD: {series: DEXCAUS, quote: unit_per_usd}
+    CHF: {series: DEXSZUS, quote: unit_per_usd}
+    DKK: {series: DEXDNUS, quote: unit_per_usd}
+    EUR: {series: DEXUSEU, quote: usd_per_unit}
+    GBP: {series: DEXUSUK, quote: usd_per_unit}
+    JPY: {series: DEXJPUS, quote: unit_per_usd}
+    NOK: {series: DEXNOUS, quote: unit_per_usd}
+    NZD: {series: DEXUSNZ, quote: usd_per_unit}
+    SEK: {series: DEXSDUS, quote: unit_per_usd}
+
+  # Le taux interbancaire à trois mois, même famille OCDE pour les onze zones.
+  rate_series:
+    AUD: IR3TIB01AUM156N
+    CAD: IR3TIB01CAM156N
+    CHF: IR3TIB01CHM156N
+    DKK: IR3TIB01DKM156N
+    EUR: IR3TIB01EZM156N
+    GBP: IR3TIB01GBM156N
+    JPY: IR3TIB01JPM156N
+    NOK: IR3TIB01NOM156N
+    NZD: IR3TIB01NZM156N
+    SEK: IR3TIB01SEM156N
+    USD: IR3TIB01USM156N
+
+  # La variante qui rallonge les deux monnaies de financement. Le taux de
+  # référence prime partout où il existe, la série ci-dessous ne sert qu'AVANT
+  # son premier point. Le mélange d'instruments est une substitution déclarée.
+  extended_rate_series:
+    CHF: IRSTCI01CHM156N
+    JPY: IR3TCD01JPM156N
+
+  # Le rendement obligataire à dix ans, pour la substitution de pente.
+  bond_yield_series:
+    AUD: IRLTLT01AUM156N
+    CAD: IRLTLT01CAM156N
+    CHF: IRLTLT01CHM156N
+    DKK: IRLTLT01DKM156N
+    EUR: IRLTLT01EZM156N
+    GBP: IRLTLT01GBM156N
+    JPY: IRLTLT01JPM156N
+    NOK: IRLTLT01NOM156N
+    NZD: IRLTLT01NZM156N
+    SEK: IRLTLT01SEM156N
+    USD: IRLTLT01USM156N
+  bond_maturity_years: 10.0
+
+  # ------------------------------------------------------------------ #
+  # La construction du portefeuille
+  # ------------------------------------------------------------------ #
+  gross_exposure: 2.0
+  min_assets_per_month: 4
+  weighting: rank
+  weighting_grid:
+    - rank
+    - sign
+    - tercile
+  signal_variant: carry
+  signal_variant_grid:
+    - carry
+    - carry1_12
+    - carry2_13
+  momentum_lookback_months: 12
+  execution_lag: 1
+
+  # ------------------------------------------------------------------ #
+  # Les coûts, en points de base du montant négocié
+  # ------------------------------------------------------------------ #
+  cost_bps_grid:
+    - 0.0
+    - 1.0
+    - 2.0
+    - 5.0
+    - 10.0
+  cost_multipliers:
+    - 0.0
+    - 0.5
+    - 1.0
+    - 2.0
+    - 3.0
+    - 5.0
+    - 10.0
+  execution_delays:
+    - 1
+    - 2
+    - 3
+
+  # ------------------------------------------------------------------ #
+  # Les fenêtres de lecture
+  # ------------------------------------------------------------------ #
+  paper_start: "1983-11-30"
+  paper_end: "2012-09-30"
+  subperiod_breakpoints:
+    - "1985-12-31"
+    - "1999-12-31"
+    - "2012-09-30"
+
+  # Les épisodes de tension, nommés AVANT de voir les résultats. Les trois
+  # premiers sont les pires reculs du facteur mondial selon l'annexe D de
+  # l'article, les deux derniers sont les crises de change les plus citées.
+  crisis_windows:
+    - {label: "Recul 1, annexe D", start: "1972-08-31", end: "1975-09-30"}
+    - {label: "Recul 2, annexe D", start: "1980-03-31", end: "1982-06-30"}
+    - {label: "Recul 3, annexe D", start: "2008-08-31", end: "2009-02-28"}
+    - {label: "Crise du mécanisme de change européen", start: "1992-08-31", end: "1992-10-31"}
+    - {label: "Pandémie", start: "2020-01-31", end: "2020-03-31"}
+
+  # Le risque de queue
+  var_alpha: 0.05
+
+  # Les tirages du rééchantillonnage par blocs
+  bootstrap_resamples: 2000
+  bootstrap_block_months: 12.0
+
+  # ------------------------------------------------------------------ #
+  # Les valeurs publiées, tableau 2 panneau A et tableau 4 du manuscrit,
+  # colonne « Devises ». Statut : RAPPORTÉ.
+  # ------------------------------------------------------------------ #
+  published:
+    currency_mean_pct: 5.29
+    currency_vol_pct: 7.80
+    currency_skew: -0.68
+    currency_excess_kurtosis: 4.46
+    currency_sharpe: 0.68
+    currency_passive_sharpe: 0.36
+    currency_panel_c: 1.09
+    currency_panel_t: 2.69
+    currency_turnover: 1.0
+    slope_sharpe: 1.03
+    slope_panel_c: 0.81
+    slope_panel_t: 4.91
+
+  # Les seuils du verdict, écrits avant que les résultats existent. La
+  # tolérance de réplication vaut 0,50 au lieu du 0,10 par défaut du
+  # laboratoire, et la raison est déclarée : notre univers compte dix monnaies
+  # développées contre vingt monnaies dont des émergentes, notre portage vient
+  # d'un écart de taux interbancaire et non de points de report, et notre
+  # échantillon déborde des deux côtés de celui de l'article.
+  verdict:
+    replication_tolerance: 0.50
+    min_oos_sharpe: 0.5
+    min_tstat: 3.0
+    min_dsr: 0.95
+    max_pbo: 0.5
+    min_positive_subperiod_share: 0.6
+    min_cost_multiple: 2.0
+    max_portfolio_correlation: 0.6

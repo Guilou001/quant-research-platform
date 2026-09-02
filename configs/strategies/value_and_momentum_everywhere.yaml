@@ -1,0 +1,31 @@
+name: value_and_momentum_everywhere
+family: value
+paper: Asness, C. S., Moskowitz, T. J. et Pedersen, L. H. (2013). Value and Momentum
+  Everywhere. The Journal of Finance, 68(3), 929-985. Chiffres cibles lus dans la
+  version publiée, table I, colonne « facteur ».
+asset_classes:
+- equity
+- equity_index
+- fx
+- bond
+- commodity
+horizon: formation mensuelle, détention un mois, rééquilibrage mensuel
+economic_rationale:
+- contrainte institutionnelle
+- prime de risque
+inputs:
+- facteurs de valeur et de momentum d'AQR, mensuels, depuis janvier 1972
+- facteurs et portefeuilles triés de Kenneth French, mensuels, depuis 1926
+known_risks:
+- Une part de la corrélation négative vient du prix partagé par les deux signaux.
+- Les facteurs d'AQR sont bruts de frais et leur rotation interne n'est pas publiée.
+- Le panneau est déséquilibré avant 1983, les huit classes n'existant pas toutes.
+- Le momentum s'effondre par crises, Daniel et Moskowitz (2016).
+validation_status: EXPERIMENTAL
+verdict_experiment_id: 003_value_and_momentum-21eb8243a8
+created: '2026-09-02'
+last_modified: '2026-09-02'
+notes: 'Étude 003. Le mécanisme invoqué est le risque de financement : le momentum
+  tient les positions encombrées et souffre des chocs de liquidité, la valeur tient
+  les positions contrariennes et y gagne. Le résultat de l''étude porte sur la diversification
+  et non sur les rendements des jambes. Le verdict est déduit par quantlab.reporting.study.decide_verdict.'

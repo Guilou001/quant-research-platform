@@ -1,0 +1,7 @@
+quantity,published,ours,absolute_error,relative_error,tolerance,tolerance_kind,verdict,source
+"Rendement excédentaire mensuel, États-Unis",0.4,0.3471726531314126,0.05282734686858742,0.13206836717146855,0.25,relative,répliqué,"Tableau VI, version de travail du 19 juin 2014"
+"Ratio de Sharpe annualisé, États-Unis",0.58,0.5594670681698461,0.02053293183015381,0.03540160660371347,0.25,relative,répliqué,"Tableau VI, version de travail du 19 juin 2014"
+"Alpha à quatre facteurs, mensuel, États-Unis",0.66,0.5216607892234666,0.13833921077653344,0.20960486481292945,0.25,relative,répliqué,"Tableau VI, version de travail du 19 juin 2014"
+"Chargement sur la taille, quatre facteurs",-0.38,-0.2997142944985369,0.08028570550146308,0.21127817237227126,0.25,relative,répliqué,"Tableau VI, version de travail du 19 juin 2014"
+"Chargement sur le marché, quatre facteurs",-0.25,-0.2297540729186641,0.020245927081335907,0.08098370832534363,0.25,relative,répliqué,"Tableau VI, version de travail du 19 juin 2014"
+Corrélation de notre construction avec le facteur publié,1.0,0.098291671206275,0.901708328793725,0.901708328793725,0.5,absolute,écart,"Contrôle propre à l'étude, seuil écrit dans config.yaml"

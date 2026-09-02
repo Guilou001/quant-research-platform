@@ -1,0 +1,14 @@
+family,n_trials
+rules,3
+grid,16
+n_components,2
+variance_share,4
+correlation_window,2
+reestimation,2
+characteristic_days,3
+s_score,2
+hedge,1
+convention,2
+costs,6
+cost_multiple,6
+TOTAL,49

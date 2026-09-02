@@ -1,0 +1,2968 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>003_value_and_momentum (003_value_and_momentum-ab3576bc28)</title>
+<style>
+:root { color-scheme: light dark; }
+body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.55;
+       max-width: 52rem; margin: 2rem auto; padding: 0 1rem; }
+h1 { font-size: 1.7rem; border-bottom: 2px solid currentColor; padding-bottom: .3rem; }
+h2 { font-size: 1.25rem; margin-top: 2.2rem; }
+nav ol { columns: 2; }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { border: 1px solid #999; padding: .3rem .5rem; text-align: right; }
+th:first-child, td:first-child { text-align: left; }
+figure { margin: 1rem 0; }
+img { max-width: 100%; height: auto; }
+.meta { font-size: .85rem; }
+.verdict { font-size: 1.1rem; font-weight: bold; }
+.reason-pass::before { content: "OK "; }
+.reason-fail::before { content: "NON "; }
+ul.reasons { list-style: none; padding-left: 0; }
+ul.reasons li { border-left: 3px solid #999; padding-left: .6rem; margin: .3rem 0; }
+</style>
+</head>
+<body>
+<h1>003_value_and_momentum</h1>
+<p class="meta">Expérience 003_value_and_momentum-ab3576bc28, écrite le 2026-09-02T17:22:07.061058+00:00.</p>
+<p class="meta">Article : Asness, C. S., Moskowitz, T. J. et Pedersen, L. H. (2013). Value and Momentum Everywhere. The Journal of Finance, 68(3), 929-985. Chiffres cibles lus dans la version publiée, table I, colonne « facteur ».</p>
+<p class="verdict">Verdict : EXPERIMENTAL</p>
+<nav><ol>
+<li><a href="#hypothesis">L&#x27;hypothèse</a></li>
+<li><a href="#paper">L&#x27;article</a></li>
+<li><a href="#methodology">La méthodologie</a></li>
+<li><a href="#data">Les données</a></li>
+<li><a href="#implementation">L&#x27;implémentation</a></li>
+<li><a href="#assumptions">Les hypothèses</a></li>
+<li><a href="#replication">La réplication</a></li>
+<li><a href="#performance">La performance</a></li>
+<li><a href="#costs">Les coûts</a></li>
+<li><a href="#robustness">La robustesse</a></li>
+<li><a href="#out_of_sample">Le hors échantillon</a></li>
+<li><a href="#statistical_tests">Les tests statistiques</a></li>
+<li><a href="#factor_attribution">L&#x27;attribution factorielle</a></li>
+<li><a href="#limitations">Les limites</a></li>
+<li><a href="#verdict">Le verdict</a></li>
+</ol></nav>
+<section id="hypothesis">
+<h2>1. L&#x27;hypothèse</h2>
+<p>La valeur et le momentum sont-ils deux anomalies séparées, ou deux faces d&#x27;un même phénomène dont la corrélation négative fait tout le rendement du mélange ?</p>
+</section>
+<section id="paper">
+<h2>2. L&#x27;article</h2>
+<p>Asness, Moskowitz et Pedersen (2013), Value and Momentum Everywhere, Journal of Finance 68(3). Les chiffres cibles viennent de sa table I, colonne facteur.</p>
+</section>
+<section id="methodology">
+<h2>3. La méthodologie</h2>
+<p>Chaque paire donne une corrélation, deux ratios de Sharpe de jambe, et deux mélanges. Le premier pèse les dollars à parts égales, le second égalise les risques. La forme fermée du second prédit le résultat depuis trois nombres.</p>
+</section>
+<section id="data">
+<h2>4. Les données</h2>
+<p>Onze paires viennent des facteurs publiés par AQR, mensuels depuis janvier 1972. Quatre paires sont bâties sur les portefeuilles triés de Kenneth French, sans biais de survie, depuis 1927.</p>
+</section>
+<section id="implementation">
+<h2>5. L&#x27;implémentation</h2>
+<p>La logique vit dans quantlab.strategies.value_momentum. Le mélange à parts égales n&#x27;estime rien. Le mélange à risque égal estime deux écarts types, et sa version tenable les calcule sur une fenêtre en expansion décalée d&#x27;un mois.</p>
+</section>
+<section id="assumptions">
+<h2>6. Les hypothèses</h2>
+<p>Les facteurs sont autofinancés, donc leur rendement est déjà excédentaire. Les coûts internes de chaque jambe ne sont pas publiés et ne sont pas retranchés.</p>
+</section>
+<section id="replication">
+<h2>7. La réplication</h2>
+<p>La corrélation de la paire toutes classes d&#x27;actifs vaut -0.577 contre -0,60 publié.</p>
+<table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>quantity</th>
+      <th>published</th>
+      <th>ours</th>
+      <th>absolute_error</th>
+      <th>relative_error</th>
+      <th>tolerance</th>
+      <th>tolerance_kind</th>
+      <th>verdict</th>
+      <th>source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>corrélation valeur contre momentum, Toutes classes d'actifs</td>
+      <td>-0.60</td>
+      <td>-0.586008</td>
+      <td>0.013992</td>
+      <td>0.023319</td>
+      <td>0.058730</td>
+      <td>absolute</td>
+      <td>répliqué</td>
+      <td>Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »</td>
+    </tr>
+    <tr>
+      <td>corrélation valeur contre momentum, Actions, agrégat</td>
+      <td>-0.60</td>
+      <td>-0.598440</td>
+      <td>0.001560</td>
+      <td>0.002599</td>
+      <td>0.058792</td>
+      <td>absolute</td>
+      <td>répliqué</td>
+      <td>Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »</td>
+    </tr>
+    <tr>
+      <td>corrélation valeur contre momentum, Hors actions, agrégat</td>
+      <td>-0.49</td>
+      <td>-0.537724</td>
+      <td>0.047724</td>
+      <td>0.097397</td>
+      <td>0.069733</td>
+      <td>absolute</td>
+      <td>répliqué</td>
+      <td>Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »</td>
+    </tr>
+    <tr>
+      <td>corrélation valeur contre momentum, Actions américaines</td>
+      <td>-0.65</td>
+      <td>-0.623171</td>
+      <td>0.026829</td>
+      <td>0.041275</td>
+      <td>0.053051</td>
+      <td>absolute</td>
+      <td>répliqué</td>
+      <td>Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »</td>
+    </tr>
+    <tr>
+      <td>corrélation valeur contre momentum, Actions britanniques</td>
+      <td>-0.62</td>
+      <td>-0.639185</td>
+      <td>0.019185</td>
+      <td>0.030943</td>
+      <td>0.064800</td>
+      <td>absolute</td>
+      <td>répliqué</td>
+      <td>Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »</td>
+    </tr>
+    <tr>
+      <td>corrélation valeur contre momentum, Actions européennes</td>
+      <td>-0.55</td>
+      <td>-0.510354</td>
+      <td>0.039646</td>
+      <td>0.072084</td>
+      <td>0.073421</td>
+      <td>absolute</td>
+      <td>répliqué</td>
+      <td>Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »</td>
+    </tr>
+    <tr>
+      <td>corrélation valeur contre momentum, Actions japonaises</td>
+      <td>-0.64</td>
+      <td>-0.637364</td>
+      <td>0.002636</td>
+      <td>0.004119</td>
+      <td>0.062147</td>
+      <td>absolute</td>
+      <td>répliqué</td>
+      <td>Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »</td>
+    </tr>
+    <tr>
+      <td>corrélation valeur contre momentum, Indices actions par pays</td>
+      <td>-0.37</td>
+      <td>-0.389181</td>
+      <td>0.019181</td>
+      <td>0.051839</td>
+      <td>0.084941</td>
+      <td>absolute</td>
+      <td>répliqué</td>
+      <td>Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »</td>
+    </tr>
+    <tr>
+      <td>corrélation valeur contre momentum, Devises</td>
+      <td>-0.43</td>
+      <td>-0.433605</td>
+      <td>0.003605</td>
+      <td>0.008384</td>
+      <td>0.082443</td>
+      <td>absolute</td>
+      <td>répliqué</td>
+      <td>Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »</td>
+    </tr>
+    <tr>
+      <td>corrélation valeur contre momentum, Obligations d'État</td>
+      <td>-0.35</td>
+      <td>-0.224437</td>
+      <td>0.125563</td>
+      <td>0.358752</td>
+      <td>0.094761</td>
+      <td>absolute</td>
+      <td>écart</td>
+      <td>Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »</td>
+    </tr>
+    <tr>
+      <td>corrélation valeur contre momentum, Matières premières</td>
+      <td>-0.46</td>
+      <td>-0.471434</td>
+      <td>0.011434</td>
+      <td>0.024857</td>
+      <td>0.072349</td>
+      <td>absolute</td>
+      <td>répliqué</td>
+      <td>Asness, Moskowitz et Pedersen (2013), table I, colonne « facteur »</td>
+    </tr>
+  </tbody>
+</table>
+<figure><figcaption>La table I, colonne facteur.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>key</th>
+      <th>pair</th>
+      <th>n_months</th>
+      <th>start</th>
+      <th>end</th>
+      <th>correlation</th>
+      <th>correlation_stderr</th>
+      <th>sharpe_value</th>
+      <th>sharpe_momentum</th>
+      <th>sharpe_equal_weight</th>
+      <th>sharpe_risk_parity</th>
+      <th>sharpe_risk_parity_formula</th>
+      <th>formula_gap</th>
+      <th>volatility_value_pct</th>
+      <th>volatility_momentum_pct</th>
+      <th>gain_over_best_leg</th>
+      <th>diversification_multiplier</th>
+      <th>sharpe_per_unit_correlation</th>
+      <th>published_correlation</th>
+      <th>published_correlation_high_minus_low</th>
+      <th>published_sharpe_value</th>
+      <th>published_sharpe_momentum</th>
+      <th>published_sharpe_blend</th>
+      <th>correlation_gap</th>
+      <th>correlation_gap_in_sigmas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>475</td>
+      <td>1972-01-31</td>
+      <td>2011-07-31</td>
+      <td>-0.586008</td>
+      <td>0.030127</td>
+      <td>0.499795</td>
+      <td>0.631714</td>
+      <td>1.244912</td>
+      <td>1.243505</td>
+      <td>1.243505</td>
+      <td>2.220446e-16</td>
+      <td>9.725623</td>
+      <td>9.964377</td>
+      <td>0.613198</td>
+      <td>1.554191</td>
+      <td>-1.501848</td>
+      <td>-0.60</td>
+      <td>-0.53</td>
+      <td>0.72</td>
+      <td>0.74</td>
+      <td>1.59</td>
+      <td>0.013992</td>
+      <td>0.476467</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>474</td>
+      <td>1972-02-29</td>
+      <td>2011-07-31</td>
+      <td>-0.598440</td>
+      <td>0.029482</td>
+      <td>0.470503</td>
+      <td>0.590007</td>
+      <td>1.180735</td>
+      <td>1.183381</td>
+      <td>1.183381</td>
+      <td>0.000000e+00</td>
+      <td>12.166134</td>
+      <td>11.793090</td>
+      <td>0.590729</td>
+      <td>1.578065</td>
+      <td>-1.473481</td>
+      <td>-0.60</td>
+      <td>-0.52</td>
+      <td>0.51</td>
+      <td>0.59</td>
+      <td>1.28</td>
+      <td>0.001560</td>
+      <td>0.053054</td>
+    </tr>
+    <tr>
+      <td>ALL_OTHER</td>
+      <td>Hors actions, agrégat</td>
+      <td>475</td>
+      <td>1972-01-31</td>
+      <td>2011-07-31</td>
+      <td>-0.537724</td>
+      <td>0.032616</td>
+      <td>0.317595</td>
+      <td>0.432898</td>
+      <td>0.780745</td>
+      <td>0.780514</td>
+      <td>0.780514</td>
+      <td>1.110223e-16</td>
+      <td>13.419627</td>
+      <td>13.472419</td>
+      <td>0.347847</td>
+      <td>1.470786</td>
+      <td>-0.844209</td>
+      <td>-0.49</td>
+      <td>-0.40</td>
+      <td>0.55</td>
+      <td>0.62</td>
+      <td>1.14</td>
+      <td>-0.047724</td>
+      <td>-1.368770</td>
+    </tr>
+    <tr>
+      <td>US</td>
+      <td>Actions américaines</td>
+      <td>474</td>
+      <td>1972-02-29</td>
+      <td>2011-07-31</td>
+      <td>-0.623171</td>
+      <td>0.028094</td>
+      <td>0.267985</td>
+      <td>0.461517</td>
+      <td>0.844419</td>
+      <td>0.840310</td>
+      <td>0.840310</td>
+      <td>0.000000e+00</td>
+      <td>15.829783</td>
+      <td>16.561686</td>
+      <td>0.382902</td>
+      <td>1.629026</td>
+      <td>-1.114976</td>
+      <td>-0.65</td>
+      <td>-0.53</td>
+      <td>0.26</td>
+      <td>0.45</td>
+      <td>0.86</td>
+      <td>0.026829</td>
+      <td>1.011439</td>
+    </tr>
+    <tr>
+      <td>UK</td>
+      <td>Actions britanniques</td>
+      <td>361</td>
+      <td>1981-07-31</td>
+      <td>2011-07-31</td>
+      <td>-0.639185</td>
+      <td>0.031129</td>
+      <td>0.338584</td>
+      <td>0.557887</td>
+      <td>1.062168</td>
+      <td>1.055308</td>
+      <td>1.055308</td>
+      <td>4.440892e-16</td>
+      <td>14.938935</td>
+      <td>16.460532</td>
+      <td>0.504280</td>
+      <td>1.664783</td>
+      <td>-1.462395</td>
+      <td>-0.62</td>
+      <td>-0.43</td>
+      <td>0.38</td>
+      <td>0.48</td>
+      <td>1.07</td>
+      <td>-0.019185</td>
+      <td>-0.592127</td>
+    </tr>
+    <tr>
+      <td>EU</td>
+      <td>Actions européennes</td>
+      <td>361</td>
+      <td>1981-07-31</td>
+      <td>2011-07-31</td>
+      <td>-0.510354</td>
+      <td>0.038923</td>
+      <td>0.467751</td>
+      <td>0.553817</td>
+      <td>1.017389</td>
+      <td>1.032312</td>
+      <td>1.032312</td>
+      <td>0.000000e+00</td>
+      <td>10.572313</td>
+      <td>13.736249</td>
+      <td>0.463571</td>
+      <td>1.429087</td>
+      <td>-1.054141</td>
+      <td>-0.55</td>
+      <td>-0.52</td>
+      <td>0.54</td>
+      <td>0.75</td>
+      <td>1.20</td>
+      <td>0.039646</td>
+      <td>1.079972</td>
+    </tr>
+    <tr>
+      <td>JP</td>
+      <td>Actions japonaises</td>
+      <td>361</td>
+      <td>1981-07-31</td>
+      <td>2011-07-31</td>
+      <td>-0.637364</td>
+      <td>0.031251</td>
+      <td>0.711902</td>
+      <td>0.109119</td>
+      <td>0.883054</td>
+      <td>0.964059</td>
+      <td>0.964059</td>
+      <td>2.220446e-16</td>
+      <td>14.500809</td>
+      <td>17.412009</td>
+      <td>0.171153</td>
+      <td>1.660598</td>
+      <td>-1.329238</td>
+      <td>-0.64</td>
+      <td>-0.60</td>
+      <td>0.77</td>
+      <td>0.13</td>
+      <td>0.88</td>
+      <td>0.002636</td>
+      <td>0.084831</td>
+    </tr>
+    <tr>
+      <td>EQ</td>
+      <td>Indices actions par pays</td>
+      <td>413</td>
+      <td>1977-03-31</td>
+      <td>2011-07-31</td>
+      <td>-0.389181</td>
+      <td>0.041754</td>
+      <td>0.507257</td>
+      <td>0.580313</td>
+      <td>0.977562</td>
+      <td>0.983979</td>
+      <td>0.983979</td>
+      <td>2.220446e-16</td>
+      <td>9.223850</td>
+      <td>11.547208</td>
+      <td>0.397249</td>
+      <td>1.279510</td>
+      <td>-0.805458</td>
+      <td>-0.37</td>
+      <td>-0.34</td>
+      <td>0.60</td>
+      <td>0.63</td>
+      <td>1.00</td>
+      <td>-0.019181</td>
+      <td>-0.451623</td>
+    </tr>
+    <tr>
+      <td>FX</td>
+      <td>Devises</td>
+      <td>391</td>
+      <td>1979-01-31</td>
+      <td>2011-07-31</td>
+      <td>-0.433605</td>
+      <td>0.041064</td>
+      <td>0.410998</td>
+      <td>0.329778</td>
+      <td>0.689846</td>
+      <td>0.696005</td>
+      <td>0.696005</td>
+      <td>0.000000e+00</td>
+      <td>7.926975</td>
+      <td>8.779008</td>
+      <td>0.278848</td>
+      <td>1.328741</td>
+      <td>-0.614416</td>
+      <td>-0.43</td>
+      <td>-0.42</td>
+      <td>0.44</td>
+      <td>0.32</td>
+      <td>0.69</td>
+      <td>-0.003605</td>
+      <td>-0.087454</td>
+    </tr>
+    <tr>
+      <td>FI</td>
+      <td>Obligations d'État</td>
+      <td>343</td>
+      <td>1983-01-31</td>
+      <td>2011-07-31</td>
+      <td>-0.224437</td>
+      <td>0.051275</td>
+      <td>0.160334</td>
+      <td>0.137801</td>
+      <td>0.239720</td>
+      <td>0.239381</td>
+      <td>0.239381</td>
+      <td>2.775558e-17</td>
+      <td>5.974784</td>
+      <td>5.191006</td>
+      <td>0.079386</td>
+      <td>1.135511</td>
+      <td>-0.154327</td>
+      <td>-0.35</td>
+      <td>-0.17</td>
+      <td>0.07</td>
+      <td>0.17</td>
+      <td>0.20</td>
+      <td>0.125563</td>
+      <td>2.650100</td>
+    </tr>
+    <tr>
+      <td>COM</td>
+      <td>Matières premières</td>
+      <td>475</td>
+      <td>1972-01-31</td>
+      <td>2011-07-31</td>
+      <td>-0.471434</td>
+      <td>0.035686</td>
+      <td>0.258580</td>
+      <td>0.520062</td>
+      <td>0.750257</td>
+      <td>0.757310</td>
+      <td>0.757310</td>
+      <td>0.000000e+00</td>
+      <td>23.490669</td>
+      <td>22.338677</td>
+      <td>0.230196</td>
+      <td>1.375468</td>
+      <td>-0.716381</td>
+      <td>-0.46</td>
+      <td>-0.39</td>
+      <td>0.31</td>
+      <td>0.51</td>
+      <td>0.77</td>
+      <td>-0.011434</td>
+      <td>-0.316086</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><figcaption>Le panneau déséquilibré.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>key</th>
+      <th>pair</th>
+      <th>panel</th>
+      <th>n_months</th>
+      <th>start</th>
+      <th>correlation</th>
+      <th>sharpe_value</th>
+      <th>sharpe_momentum</th>
+      <th>sharpe_equal_weight</th>
+      <th>published_sharpe_blend</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>panneau déséquilibré</td>
+      <td>475</td>
+      <td>1972-01-31</td>
+      <td>-0.586008</td>
+      <td>0.499795</td>
+      <td>0.631714</td>
+      <td>1.244912</td>
+      <td>1.59</td>
+    </tr>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>panneau équilibré</td>
+      <td>343</td>
+      <td>1983-01-31</td>
+      <td>-0.639043</td>
+      <td>0.641718</td>
+      <td>0.635569</td>
+      <td>1.465889</td>
+      <td>1.59</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>panneau déséquilibré</td>
+      <td>474</td>
+      <td>1972-02-29</td>
+      <td>-0.598440</td>
+      <td>0.470503</td>
+      <td>0.590007</td>
+      <td>1.180735</td>
+      <td>1.28</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>panneau équilibré</td>
+      <td>343</td>
+      <td>1983-01-31</td>
+      <td>-0.664867</td>
+      <td>0.503635</td>
+      <td>0.489979</td>
+      <td>1.201463</td>
+      <td>1.28</td>
+    </tr>
+    <tr>
+      <td>ALL_OTHER</td>
+      <td>Hors actions, agrégat</td>
+      <td>panneau déséquilibré</td>
+      <td>475</td>
+      <td>1972-01-31</td>
+      <td>-0.537724</td>
+      <td>0.317595</td>
+      <td>0.432898</td>
+      <td>0.780745</td>
+      <td>1.14</td>
+    </tr>
+    <tr>
+      <td>ALL_OTHER</td>
+      <td>Hors actions, agrégat</td>
+      <td>panneau équilibré</td>
+      <td>343</td>
+      <td>1983-01-31</td>
+      <td>-0.462938</td>
+      <td>0.487883</td>
+      <td>0.625477</td>
+      <td>1.077070</td>
+      <td>1.14</td>
+    </tr>
+  </tbody>
+</table></figure>
+</section>
+<section id="performance">
+<h2>8. La performance</h2>
+<p>Tous les chiffres portent leur échantillon et leur base de coût dans le tableau ci-dessous.</p>
+<table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>metric</th>
+      <th>value</th>
+      <th>sample</th>
+      <th>cost_basis</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>correlation_toutes_classes</td>
+      <td>-5.773117e-01</td>
+      <td>VALIDATION</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>sharpe_valeur_toutes_classes</td>
+      <td>4.124013e-01</td>
+      <td>VALIDATION</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>sharpe_momentum_toutes_classes</td>
+      <td>5.928583e-01</td>
+      <td>VALIDATION</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>sharpe_melange_parts_egales</td>
+      <td>1.095840e+00</td>
+      <td>VALIDATION</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>sharpe_melange_risque_egal</td>
+      <td>1.093335e+00</td>
+      <td>VALIDATION</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>gain_sur_la_meilleure_jambe</td>
+      <td>5.029819e-01</td>
+      <td>VALIDATION</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>multiplicateur_de_diversification</td>
+      <td>1.538119e+00</td>
+      <td>VALIDATION</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>sharpe_par_unite_de_correlation</td>
+      <td>-1.293311e+00</td>
+      <td>VALIDATION</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>ecart_maximal_mesure_contre_formule</td>
+      <td>5.551115e-16</td>
+      <td>VALIDATION</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>sharpe_melange_oos_net</td>
+      <td>6.041764e-01</td>
+      <td>OOS</td>
+      <td>net</td>
+    </tr>
+    <tr>
+      <td>rotation_annualisee</td>
+      <td>1.763626e-01</td>
+      <td>VALIDATION</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>cout_de_rentabilite_bps</td>
+      <td>2.581270e+03</td>
+      <td>VALIDATION</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>probabilite_de_surapprentissage</td>
+      <td>0.000000e+00</td>
+      <td>VALIDATION</td>
+      <td>net</td>
+    </tr>
+    <tr>
+      <td>sharpe_degonfle</td>
+      <td>4.586718e-03</td>
+      <td>OOS</td>
+      <td>net</td>
+    </tr>
+    <tr>
+      <td>t_apres_correction</td>
+      <td>0.000000e+00</td>
+      <td>OOS</td>
+      <td>net</td>
+    </tr>
+    <tr>
+      <td>part_de_sous_periodes_positives</td>
+      <td>1.000000e+00</td>
+      <td>VALIDATION</td>
+      <td>net</td>
+    </tr>
+    <tr>
+      <td>correlation_avec_le_marche</td>
+      <td>-1.594738e-01</td>
+      <td>VALIDATION</td>
+      <td>gross</td>
+    </tr>
+    <tr>
+      <td>cpcv_sharpe_moyen</td>
+      <td>1.091616e+00</td>
+      <td>OOS</td>
+      <td>net</td>
+    </tr>
+    <tr>
+      <td>cpcv_part_de_chemins_negatifs</td>
+      <td>0.000000e+00</td>
+      <td>OOS</td>
+      <td>net</td>
+    </tr>
+  </tbody>
+</table>
+<figure><figcaption>Les quinze paires.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>key</th>
+      <th>pair</th>
+      <th>n_months</th>
+      <th>start</th>
+      <th>end</th>
+      <th>correlation</th>
+      <th>correlation_stderr</th>
+      <th>sharpe_value</th>
+      <th>sharpe_momentum</th>
+      <th>sharpe_equal_weight</th>
+      <th>sharpe_risk_parity</th>
+      <th>sharpe_risk_parity_formula</th>
+      <th>formula_gap</th>
+      <th>volatility_value_pct</th>
+      <th>volatility_momentum_pct</th>
+      <th>gain_over_best_leg</th>
+      <th>diversification_multiplier</th>
+      <th>sharpe_per_unit_correlation</th>
+      <th>leg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>654</td>
+      <td>1972-01-31</td>
+      <td>2026-06-30</td>
+      <td>-0.577312</td>
+      <td>0.026070</td>
+      <td>0.412401</td>
+      <td>0.592858</td>
+      <td>1.095840</td>
+      <td>1.093335</td>
+      <td>1.093335</td>
+      <td>2.220446e-16</td>
+      <td>8.882042</td>
+      <td>9.155480</td>
+      <td>0.502982</td>
+      <td>1.538119</td>
+      <td>-1.293311</td>
+      <td>A</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>653</td>
+      <td>1972-02-29</td>
+      <td>2026-06-30</td>
+      <td>-0.590424</td>
+      <td>0.025491</td>
+      <td>0.333425</td>
+      <td>0.571054</td>
+      <td>0.995561</td>
+      <td>0.999346</td>
+      <td>0.999346</td>
+      <td>4.440892e-16</td>
+      <td>11.666696</td>
+      <td>11.363956</td>
+      <td>0.424507</td>
+      <td>1.562545</td>
+      <td>-1.219975</td>
+      <td>A</td>
+    </tr>
+    <tr>
+      <td>ALL_OTHER</td>
+      <td>Hors actions, agrégat</td>
+      <td>637</td>
+      <td>1972-01-31</td>
+      <td>2025-01-31</td>
+      <td>-0.537849</td>
+      <td>0.028160</td>
+      <td>0.292936</td>
+      <td>0.357904</td>
+      <td>0.677227</td>
+      <td>0.676966</td>
+      <td>0.676966</td>
+      <td>2.220446e-16</td>
+      <td>11.775091</td>
+      <td>11.872860</td>
+      <td>0.319323</td>
+      <td>1.470985</td>
+      <td>-0.732409</td>
+      <td>A</td>
+    </tr>
+    <tr>
+      <td>US</td>
+      <td>Actions américaines</td>
+      <td>653</td>
+      <td>1972-02-29</td>
+      <td>2026-06-30</td>
+      <td>-0.609918</td>
+      <td>0.024576</td>
+      <td>0.154435</td>
+      <td>0.459431</td>
+      <td>0.700528</td>
+      <td>0.694993</td>
+      <td>0.694993</td>
+      <td>1.110223e-16</td>
+      <td>14.891408</td>
+      <td>15.415098</td>
+      <td>0.241098</td>
+      <td>1.601113</td>
+      <td>-0.890829</td>
+      <td>A</td>
+    </tr>
+    <tr>
+      <td>UK</td>
+      <td>Actions britanniques</td>
+      <td>540</td>
+      <td>1981-07-31</td>
+      <td>2026-06-30</td>
+      <td>-0.604558</td>
+      <td>0.027305</td>
+      <td>0.210100</td>
+      <td>0.555131</td>
+      <td>0.873645</td>
+      <td>0.860470</td>
+      <td>0.860470</td>
+      <td>3.330669e-16</td>
+      <td>14.084654</td>
+      <td>15.319724</td>
+      <td>0.318514</td>
+      <td>1.590224</td>
+      <td>-1.087984</td>
+      <td>A</td>
+    </tr>
+    <tr>
+      <td>EU</td>
+      <td>Actions européennes</td>
+      <td>540</td>
+      <td>1981-07-31</td>
+      <td>2026-06-30</td>
+      <td>-0.516962</td>
+      <td>0.031533</td>
+      <td>0.260405</td>
+      <td>0.561604</td>
+      <td>0.853030</td>
+      <td>0.836317</td>
+      <td>0.836317</td>
+      <td>2.220446e-16</td>
+      <td>10.782710</td>
+      <td>12.884020</td>
+      <td>0.291426</td>
+      <td>1.438829</td>
+      <td>-0.865683</td>
+      <td>A</td>
+    </tr>
+    <tr>
+      <td>JP</td>
+      <td>Actions japonaises</td>
+      <td>540</td>
+      <td>1981-07-31</td>
+      <td>2026-06-30</td>
+      <td>-0.621085</td>
+      <td>0.026433</td>
+      <td>0.561804</td>
+      <td>0.110038</td>
+      <td>0.727958</td>
+      <td>0.771757</td>
+      <td>0.771757</td>
+      <td>3.330669e-16</td>
+      <td>13.820897</td>
+      <td>15.896331</td>
+      <td>0.166154</td>
+      <td>1.624535</td>
+      <td>-1.018377</td>
+      <td>A</td>
+    </tr>
+    <tr>
+      <td>EQ</td>
+      <td>Indices actions par pays</td>
+      <td>575</td>
+      <td>1977-03-31</td>
+      <td>2025-01-31</td>
+      <td>-0.413738</td>
+      <td>0.034564</td>
+      <td>0.310213</td>
+      <td>0.464868</td>
+      <td>0.721502</td>
+      <td>0.715791</td>
+      <td>0.715791</td>
+      <td>2.220446e-16</td>
+      <td>9.404430</td>
+      <td>10.785417</td>
+      <td>0.256634</td>
+      <td>1.306033</td>
+      <td>-0.610471</td>
+      <td>A</td>
+    </tr>
+    <tr>
+      <td>FX</td>
+      <td>Devises</td>
+      <td>553</td>
+      <td>1979-01-31</td>
+      <td>2025-01-31</td>
+      <td>-0.436654</td>
+      <td>0.034416</td>
+      <td>0.319212</td>
+      <td>0.220685</td>
+      <td>0.503113</td>
+      <td>0.508638</td>
+      <td>0.508638</td>
+      <td>1.110223e-16</td>
+      <td>7.453920</td>
+      <td>8.161853</td>
+      <td>0.183901</td>
+      <td>1.332332</td>
+      <td>-0.451444</td>
+      <td>A</td>
+    </tr>
+    <tr>
+      <td>FI</td>
+      <td>Obligations d'État</td>
+      <td>505</td>
+      <td>1983-01-31</td>
+      <td>2025-01-31</td>
+      <td>-0.247884</td>
+      <td>0.041765</td>
+      <td>0.105698</td>
+      <td>0.127960</td>
+      <td>0.188601</td>
+      <td>0.190512</td>
+      <td>0.190512</td>
+      <td>5.551115e-17</td>
+      <td>5.099300</td>
+      <td>4.460276</td>
+      <td>0.060641</td>
+      <td>1.153075</td>
+      <td>-0.126651</td>
+      <td>A</td>
+    </tr>
+    <tr>
+      <td>COM</td>
+      <td>Matières premières</td>
+      <td>637</td>
+      <td>1972-01-31</td>
+      <td>2025-01-31</td>
+      <td>-0.504202</td>
+      <td>0.029549</td>
+      <td>0.316029</td>
+      <td>0.375873</td>
+      <td>0.693760</td>
+      <td>0.694828</td>
+      <td>0.694828</td>
+      <td>0.000000e+00</td>
+      <td>22.011652</td>
+      <td>21.394418</td>
+      <td>0.317887</td>
+      <td>1.420194</td>
+      <td>-0.700716</td>
+      <td>A</td>
+    </tr>
+    <tr>
+      <td>FF_HML_UMD</td>
+      <td>HML contre momentum de Carhart</td>
+      <td>1194</td>
+      <td>1927-01-31</td>
+      <td>2026-06-30</td>
+      <td>-0.408300</td>
+      <td>0.024115</td>
+      <td>0.345579</td>
+      <td>0.463958</td>
+      <td>0.742761</td>
+      <td>0.744168</td>
+      <td>0.744168</td>
+      <td>0.000000e+00</td>
+      <td>12.321305</td>
+      <td>16.209014</td>
+      <td>0.278803</td>
+      <td>1.300018</td>
+      <td>-0.628840</td>
+      <td>B</td>
+    </tr>
+    <tr>
+      <td>FF_RANK_5X5</td>
+      <td>Rang sur quintiles, taille neutralisée</td>
+      <td>1194</td>
+      <td>1927-01-31</td>
+      <td>2026-06-30</td>
+      <td>-0.361127</td>
+      <td>0.025166</td>
+      <td>0.397681</td>
+      <td>0.495382</td>
+      <td>0.782808</td>
+      <td>0.790059</td>
+      <td>0.790059</td>
+      <td>1.110223e-16</td>
+      <td>11.134861</td>
+      <td>15.379700</td>
+      <td>0.287426</td>
+      <td>1.251102</td>
+      <td>-0.618322</td>
+      <td>B</td>
+    </tr>
+    <tr>
+      <td>FF_SPREAD_5X5</td>
+      <td>Haut moins bas sur quintiles</td>
+      <td>1194</td>
+      <td>1927-01-31</td>
+      <td>2026-06-30</td>
+      <td>-0.353329</td>
+      <td>0.025327</td>
+      <td>0.403041</td>
+      <td>0.518154</td>
+      <td>0.804644</td>
+      <td>0.810018</td>
+      <td>0.810018</td>
+      <td>2.220446e-16</td>
+      <td>13.970620</td>
+      <td>19.365204</td>
+      <td>0.286490</td>
+      <td>1.243536</td>
+      <td>-0.626299</td>
+      <td>B</td>
+    </tr>
+    <tr>
+      <td>FF_HML_DECILES</td>
+      <td>HML contre déciles 12-2</td>
+      <td>1194</td>
+      <td>1927-01-31</td>
+      <td>2026-06-30</td>
+      <td>-0.397519</td>
+      <td>0.024367</td>
+      <td>0.345579</td>
+      <td>0.417222</td>
+      <td>0.680474</td>
+      <td>0.694904</td>
+      <td>0.694904</td>
+      <td>0.000000e+00</td>
+      <td>12.321305</td>
+      <td>17.916669</td>
+      <td>0.263251</td>
+      <td>1.288333</td>
+      <td>-0.576702</td>
+      <td>B</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><figcaption>La mesure contre la formule.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>key</th>
+      <th>pair</th>
+      <th>leg</th>
+      <th>n_months</th>
+      <th>correlation</th>
+      <th>sharpe_equal_weight_measured</th>
+      <th>sharpe_equal_weight_formula</th>
+      <th>sharpe_risk_parity_measured</th>
+      <th>sharpe_risk_parity_formula</th>
+      <th>sharpe_if_independent</th>
+      <th>diversification_multiplier</th>
+      <th>sharpe_per_unit_correlation</th>
+      <th>sharpe_from_correlation</th>
+      <th>max_absolute_gap</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>A</td>
+      <td>654</td>
+      <td>-0.577312</td>
+      <td>1.095840</td>
+      <td>1.095840</td>
+      <td>1.093335</td>
+      <td>1.093335</td>
+      <td>0.710826</td>
+      <td>1.538119</td>
+      <td>-1.293311</td>
+      <td>0.382509</td>
+      <td>2.220446e-16</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>A</td>
+      <td>653</td>
+      <td>-0.590424</td>
+      <td>0.995561</td>
+      <td>0.995561</td>
+      <td>0.999346</td>
+      <td>0.999346</td>
+      <td>0.639563</td>
+      <td>1.562545</td>
+      <td>-1.219975</td>
+      <td>0.359783</td>
+      <td>4.440892e-16</td>
+    </tr>
+    <tr>
+      <td>ALL_OTHER</td>
+      <td>Hors actions, agrégat</td>
+      <td>A</td>
+      <td>637</td>
+      <td>-0.537849</td>
+      <td>0.677227</td>
+      <td>0.677227</td>
+      <td>0.676966</td>
+      <td>0.676966</td>
+      <td>0.460213</td>
+      <td>1.470985</td>
+      <td>-0.732409</td>
+      <td>0.216753</td>
+      <td>5.551115e-16</td>
+    </tr>
+    <tr>
+      <td>US</td>
+      <td>Actions américaines</td>
+      <td>A</td>
+      <td>653</td>
+      <td>-0.609918</td>
+      <td>0.700528</td>
+      <td>0.700528</td>
+      <td>0.694993</td>
+      <td>0.694993</td>
+      <td>0.434069</td>
+      <td>1.601113</td>
+      <td>-0.890829</td>
+      <td>0.260924</td>
+      <td>1.110223e-16</td>
+    </tr>
+    <tr>
+      <td>UK</td>
+      <td>Actions britanniques</td>
+      <td>A</td>
+      <td>540</td>
+      <td>-0.604558</td>
+      <td>0.873645</td>
+      <td>0.873645</td>
+      <td>0.860470</td>
+      <td>0.860470</td>
+      <td>0.541100</td>
+      <td>1.590224</td>
+      <td>-1.087984</td>
+      <td>0.319370</td>
+      <td>3.330669e-16</td>
+    </tr>
+    <tr>
+      <td>EU</td>
+      <td>Actions européennes</td>
+      <td>A</td>
+      <td>540</td>
+      <td>-0.516962</td>
+      <td>0.853030</td>
+      <td>0.853030</td>
+      <td>0.836317</td>
+      <td>0.836317</td>
+      <td>0.581248</td>
+      <td>1.438829</td>
+      <td>-0.865683</td>
+      <td>0.255068</td>
+      <td>2.220446e-16</td>
+    </tr>
+    <tr>
+      <td>JP</td>
+      <td>Actions japonaises</td>
+      <td>A</td>
+      <td>540</td>
+      <td>-0.621085</td>
+      <td>0.727958</td>
+      <td>0.727958</td>
+      <td>0.771757</td>
+      <td>0.771757</td>
+      <td>0.475064</td>
+      <td>1.624535</td>
+      <td>-1.018377</td>
+      <td>0.296694</td>
+      <td>3.330669e-16</td>
+    </tr>
+    <tr>
+      <td>EQ</td>
+      <td>Indices actions par pays</td>
+      <td>A</td>
+      <td>575</td>
+      <td>-0.413738</td>
+      <td>0.721502</td>
+      <td>0.721502</td>
+      <td>0.715791</td>
+      <td>0.715791</td>
+      <td>0.548065</td>
+      <td>1.306033</td>
+      <td>-0.610471</td>
+      <td>0.167726</td>
+      <td>2.220446e-16</td>
+    </tr>
+    <tr>
+      <td>FX</td>
+      <td>Devises</td>
+      <td>A</td>
+      <td>553</td>
+      <td>-0.436654</td>
+      <td>0.503113</td>
+      <td>0.503113</td>
+      <td>0.508638</td>
+      <td>0.508638</td>
+      <td>0.381765</td>
+      <td>1.332332</td>
+      <td>-0.451444</td>
+      <td>0.126873</td>
+      <td>2.220446e-16</td>
+    </tr>
+    <tr>
+      <td>FI</td>
+      <td>Obligations d'État</td>
+      <td>A</td>
+      <td>505</td>
+      <td>-0.247884</td>
+      <td>0.188601</td>
+      <td>0.188601</td>
+      <td>0.190512</td>
+      <td>0.190512</td>
+      <td>0.165221</td>
+      <td>1.153075</td>
+      <td>-0.126651</td>
+      <td>0.025291</td>
+      <td>1.110223e-16</td>
+    </tr>
+    <tr>
+      <td>COM</td>
+      <td>Matières premières</td>
+      <td>A</td>
+      <td>637</td>
+      <td>-0.504202</td>
+      <td>0.693760</td>
+      <td>0.693760</td>
+      <td>0.694828</td>
+      <td>0.694828</td>
+      <td>0.489248</td>
+      <td>1.420194</td>
+      <td>-0.700716</td>
+      <td>0.205579</td>
+      <td>1.110223e-16</td>
+    </tr>
+    <tr>
+      <td>FF_HML_UMD</td>
+      <td>HML contre momentum de Carhart</td>
+      <td>B</td>
+      <td>1194</td>
+      <td>-0.408300</td>
+      <td>0.742761</td>
+      <td>0.742761</td>
+      <td>0.744168</td>
+      <td>0.744168</td>
+      <td>0.572429</td>
+      <td>1.300018</td>
+      <td>-0.628840</td>
+      <td>0.171739</td>
+      <td>0.000000e+00</td>
+    </tr>
+    <tr>
+      <td>FF_RANK_5X5</td>
+      <td>Rang sur quintiles, taille neutralisée</td>
+      <td>B</td>
+      <td>1194</td>
+      <td>-0.361127</td>
+      <td>0.782808</td>
+      <td>0.782808</td>
+      <td>0.790059</td>
+      <td>0.790059</td>
+      <td>0.631491</td>
+      <td>1.251102</td>
+      <td>-0.618322</td>
+      <td>0.158568</td>
+      <td>2.220446e-16</td>
+    </tr>
+    <tr>
+      <td>FF_SPREAD_5X5</td>
+      <td>Haut moins bas sur quintiles</td>
+      <td>B</td>
+      <td>1194</td>
+      <td>-0.353329</td>
+      <td>0.804644</td>
+      <td>0.804644</td>
+      <td>0.810018</td>
+      <td>0.810018</td>
+      <td>0.651383</td>
+      <td>1.243536</td>
+      <td>-0.626299</td>
+      <td>0.158635</td>
+      <td>2.220446e-16</td>
+    </tr>
+    <tr>
+      <td>FF_HML_DECILES</td>
+      <td>HML contre déciles 12-2</td>
+      <td>B</td>
+      <td>1194</td>
+      <td>-0.397519</td>
+      <td>0.680474</td>
+      <td>0.680474</td>
+      <td>0.694904</td>
+      <td>0.694904</td>
+      <td>0.539382</td>
+      <td>1.288333</td>
+      <td>-0.576702</td>
+      <td>0.155522</td>
+      <td>0.000000e+00</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><img src="figures/equity_everywhere.png" alt="La richesse cumulée des deux jambes et de leur mélange."><figcaption>La richesse cumulée des deux jambes et de leur mélange.</figcaption></figure>
+<figure><img src="figures/correlation_heatmap.png" alt="Les quatre agrégats de la table II."><figcaption>Les quatre agrégats de la table II.</figcaption></figure>
+<figure><img src="figures/sharpe_versus_correlation.png" alt="La mesure contre la forme fermée, quinze paires."><figcaption>La mesure contre la forme fermée, quinze paires.</figcaption></figure>
+<figure><img src="figures/underwater_blend.png" alt="Le repli du mélange."><figcaption>Le repli du mélange.</figcaption></figure>
+<figure><img src="figures/return_histogram.png" alt="La distribution du mélange."><figcaption>La distribution du mélange.</figcaption></figure>
+</section>
+<section id="costs">
+<h2>9. Les coûts</h2>
+<p>La rotation annualisée du seul rééquilibrage vaut 0.18 et le coût qui annule le rendement brut vaut 2581 points de base.</p>
+<figure><figcaption>Le rééquilibrage et sa rotation.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>rebalance_months</th>
+      <th>n_months</th>
+      <th>annual_turnover</th>
+      <th>gross_sharpe</th>
+      <th>net_sharpe</th>
+      <th>max_value_weight</th>
+      <th>min_value_weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>654</td>
+      <td>0.176363</td>
+      <td>1.095840</td>
+      <td>1.091616</td>
+      <td>0.500000</td>
+      <td>0.500000</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>654</td>
+      <td>0.264508</td>
+      <td>1.106678</td>
+      <td>1.100317</td>
+      <td>0.585958</td>
+      <td>0.398701</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>654</td>
+      <td>0.277393</td>
+      <td>1.107605</td>
+      <td>1.100967</td>
+      <td>0.670246</td>
+      <td>0.378305</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>654</td>
+      <td>0.267547</td>
+      <td>1.082010</td>
+      <td>1.075789</td>
+      <td>0.702986</td>
+      <td>0.345497</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><figcaption>Les coûts et le rendement net.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>cost_bps</th>
+      <th>n_months</th>
+      <th>gross_annual_pct</th>
+      <th>net_annual_pct</th>
+      <th>annual_turnover</th>
+      <th>net_sharpe</th>
+      <th>breakeven_cost_bps</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0.0</td>
+      <td>654</td>
+      <td>4.545434</td>
+      <td>4.545434</td>
+      <td>0.176363</td>
+      <td>1.095840</td>
+      <td>2581.270431</td>
+    </tr>
+    <tr>
+      <td>1.0</td>
+      <td>654</td>
+      <td>4.545434</td>
+      <td>4.543673</td>
+      <td>0.176363</td>
+      <td>1.095418</td>
+      <td>2581.270431</td>
+    </tr>
+    <tr>
+      <td>10.0</td>
+      <td>654</td>
+      <td>4.545434</td>
+      <td>4.527825</td>
+      <td>0.176363</td>
+      <td>1.091616</td>
+      <td>2581.270431</td>
+    </tr>
+    <tr>
+      <td>20.0</td>
+      <td>654</td>
+      <td>4.545434</td>
+      <td>4.510215</td>
+      <td>0.176363</td>
+      <td>1.087390</td>
+      <td>2581.270431</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><img src="figures/cost_sensitivity.png" alt="La sensibilité au coût."><figcaption>La sensibilité au coût.</figcaption></figure>
+</section>
+<section id="robustness">
+<h2>10. La robustesse</h2>
+<p>Le poids du mélange, la fenêtre de la corrélation, la période de tension, le pas de rééquilibrage et le délai d&#x27;exécution sont balayés. Chaque cellule compte comme un essai.</p>
+<figure><figcaption>La part mécanique de la corrélation.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>construction</th>
+      <th>price_lag</th>
+      <th>n_months</th>
+      <th>correlation</th>
+      <th>published_reference</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AQR, valeur au prix courant, actions américaines</td>
+      <td>aucun</td>
+      <td>474</td>
+      <td>-0.623171</td>
+      <td>-0.53</td>
+    </tr>
+    <tr>
+      <td>Kenneth French, HML contre momentum de Carhart</td>
+      <td>capitalisation de décembre de l'année précédente</td>
+      <td>475</td>
+      <td>-0.167984</td>
+      <td>-0.28</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><figcaption>Le balayage des poids.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>key</th>
+      <th>pair</th>
+      <th>value_weight</th>
+      <th>n_months</th>
+      <th>sharpe</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>0.0</td>
+      <td>654</td>
+      <td>0.592858</td>
+    </tr>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>0.1</td>
+      <td>654</td>
+      <td>0.676630</td>
+    </tr>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>0.2</td>
+      <td>654</td>
+      <td>0.785142</td>
+    </tr>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>0.3</td>
+      <td>654</td>
+      <td>0.918271</td>
+    </tr>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>0.4</td>
+      <td>654</td>
+      <td>1.048946</td>
+    </tr>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>0.5</td>
+      <td>654</td>
+      <td>1.095840</td>
+    </tr>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>0.6</td>
+      <td>654</td>
+      <td>0.995053</td>
+    </tr>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>0.7</td>
+      <td>654</td>
+      <td>0.814676</td>
+    </tr>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>0.8</td>
+      <td>654</td>
+      <td>0.644556</td>
+    </tr>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>0.9</td>
+      <td>654</td>
+      <td>0.511749</td>
+    </tr>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>1.0</td>
+      <td>654</td>
+      <td>0.412401</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>0.0</td>
+      <td>653</td>
+      <td>0.571054</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>0.1</td>
+      <td>653</td>
+      <td>0.649914</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>0.2</td>
+      <td>653</td>
+      <td>0.751825</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>0.3</td>
+      <td>653</td>
+      <td>0.874255</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>0.4</td>
+      <td>653</td>
+      <td>0.983644</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>0.5</td>
+      <td>653</td>
+      <td>0.995561</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>0.6</td>
+      <td>653</td>
+      <td>0.870256</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>0.7</td>
+      <td>653</td>
+      <td>0.692751</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>0.8</td>
+      <td>653</td>
+      <td>0.537835</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>0.9</td>
+      <td>653</td>
+      <td>0.420382</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>1.0</td>
+      <td>653</td>
+      <td>0.333425</td>
+    </tr>
+    <tr>
+      <td>ALL_OTHER</td>
+      <td>Hors actions, agrégat</td>
+      <td>0.0</td>
+      <td>637</td>
+      <td>0.357904</td>
+    </tr>
+    <tr>
+      <td>ALL_OTHER</td>
+      <td>Hors actions, agrégat</td>
+      <td>0.1</td>
+      <td>637</td>
+      <td>0.412759</td>
+    </tr>
+    <tr>
+      <td>ALL_OTHER</td>
+      <td>Hors actions, agrégat</td>
+      <td>0.2</td>
+      <td>637</td>
+      <td>0.482935</td>
+    </tr>
+    <tr>
+      <td>ALL_OTHER</td>
+      <td>Hors actions, agrégat</td>
+      <td>0.3</td>
+      <td>637</td>
+      <td>0.567176</td>
+    </tr>
+    <tr>
+      <td>ALL_OTHER</td>
+      <td>Hors actions, agrégat</td>
+      <td>0.4</td>
+      <td>637</td>
+      <td>0.647391</td>
+    </tr>
+    <tr>
+      <td>ALL_OTHER</td>
+      <td>Hors actions, agrégat</td>
+      <td>0.5</td>
+      <td>637</td>
+      <td>0.677227</td>
+    </tr>
+    <tr>
+      <td>ALL_OTHER</td>
+      <td>Hors actions, agrégat</td>
+      <td>0.6</td>
+      <td>637</td>
+      <td>0.624964</td>
+    </tr>
+    <tr>
+      <td>ALL_OTHER</td>
+      <td>Hors actions, agrégat</td>
+      <td>0.7</td>
+      <td>637</td>
+      <td>0.526805</td>
+    </tr>
+    <tr>
+      <td>ALL_OTHER</td>
+      <td>Hors actions, agrégat</td>
+      <td>0.8</td>
+      <td>637</td>
+      <td>0.430433</td>
+    </tr>
+    <tr>
+      <td>ALL_OTHER</td>
+      <td>Hors actions, agrégat</td>
+      <td>0.9</td>
+      <td>637</td>
+      <td>0.352611</td>
+    </tr>
+    <tr>
+      <td>ALL_OTHER</td>
+      <td>Hors actions, agrégat</td>
+      <td>1.0</td>
+      <td>637</td>
+      <td>0.292936</td>
+    </tr>
+    <tr>
+      <td>US</td>
+      <td>Actions américaines</td>
+      <td>0.0</td>
+      <td>653</td>
+      <td>0.459431</td>
+    </tr>
+    <tr>
+      <td>US</td>
+      <td>Actions américaines</td>
+      <td>0.1</td>
+      <td>653</td>
+      <td>0.507256</td>
+    </tr>
+    <tr>
+      <td>US</td>
+      <td>Actions américaines</td>
+      <td>0.2</td>
+      <td>653</td>
+      <td>0.568394</td>
+    </tr>
+    <tr>
+      <td>US</td>
+      <td>Actions américaines</td>
+      <td>0.3</td>
+      <td>653</td>
+      <td>0.641131</td>
+    </tr>
+    <tr>
+      <td>US</td>
+      <td>Actions américaines</td>
+      <td>0.4</td>
+      <td>653</td>
+      <td>0.704603</td>
+    </tr>
+    <tr>
+      <td>US</td>
+      <td>Actions américaines</td>
+      <td>0.5</td>
+      <td>653</td>
+      <td>0.700528</td>
+    </tr>
+    <tr>
+      <td>US</td>
+      <td>Actions américaines</td>
+      <td>0.6</td>
+      <td>653</td>
+      <td>0.591948</td>
+    </tr>
+    <tr>
+      <td>US</td>
+      <td>Actions américaines</td>
+      <td>0.7</td>
+      <td>653</td>
+      <td>0.442447</td>
+    </tr>
+    <tr>
+      <td>US</td>
+      <td>Actions américaines</td>
+      <td>0.8</td>
+      <td>653</td>
+      <td>0.315346</td>
+    </tr>
+    <tr>
+      <td>US</td>
+      <td>Actions américaines</td>
+      <td>0.9</td>
+      <td>653</td>
+      <td>0.221853</td>
+    </tr>
+    <tr>
+      <td>US</td>
+      <td>Actions américaines</td>
+      <td>1.0</td>
+      <td>653</td>
+      <td>0.154435</td>
+    </tr>
+    <tr>
+      <td>UK</td>
+      <td>Actions britanniques</td>
+      <td>0.0</td>
+      <td>540</td>
+      <td>0.555131</td>
+    </tr>
+    <tr>
+      <td>UK</td>
+      <td>Actions britanniques</td>
+      <td>0.1</td>
+      <td>540</td>
+      <td>0.612248</td>
+    </tr>
+    <tr>
+      <td>UK</td>
+      <td>Actions britanniques</td>
+      <td>0.2</td>
+      <td>540</td>
+      <td>0.685476</td>
+    </tr>
+    <tr>
+      <td>UK</td>
+      <td>Actions britanniques</td>
+      <td>0.3</td>
+      <td>540</td>
+      <td>0.774248</td>
+    </tr>
+    <tr>
+      <td>UK</td>
+      <td>Actions britanniques</td>
+      <td>0.4</td>
+      <td>540</td>
+      <td>0.858525</td>
+    </tr>
+    <tr>
+      <td>UK</td>
+      <td>Actions britanniques</td>
+      <td>0.5</td>
+      <td>540</td>
+      <td>0.873645</td>
+    </tr>
+    <tr>
+      <td>UK</td>
+      <td>Actions britanniques</td>
+      <td>0.6</td>
+      <td>540</td>
+      <td>0.760444</td>
+    </tr>
+    <tr>
+      <td>UK</td>
+      <td>Actions britanniques</td>
+      <td>0.7</td>
+      <td>540</td>
+      <td>0.579935</td>
+    </tr>
+    <tr>
+      <td>UK</td>
+      <td>Actions britanniques</td>
+      <td>0.8</td>
+      <td>540</td>
+      <td>0.418260</td>
+    </tr>
+    <tr>
+      <td>UK</td>
+      <td>Actions britanniques</td>
+      <td>0.9</td>
+      <td>540</td>
+      <td>0.297439</td>
+    </tr>
+    <tr>
+      <td>UK</td>
+      <td>Actions britanniques</td>
+      <td>1.0</td>
+      <td>540</td>
+      <td>0.210100</td>
+    </tr>
+    <tr>
+      <td>EU</td>
+      <td>Actions européennes</td>
+      <td>0.0</td>
+      <td>540</td>
+      <td>0.561604</td>
+    </tr>
+    <tr>
+      <td>EU</td>
+      <td>Actions européennes</td>
+      <td>0.1</td>
+      <td>540</td>
+      <td>0.613262</td>
+    </tr>
+    <tr>
+      <td>EU</td>
+      <td>Actions européennes</td>
+      <td>0.2</td>
+      <td>540</td>
+      <td>0.677284</td>
+    </tr>
+    <tr>
+      <td>EU</td>
+      <td>Actions européennes</td>
+      <td>0.3</td>
+      <td>540</td>
+      <td>0.752428</td>
+    </tr>
+    <tr>
+      <td>EU</td>
+      <td>Actions européennes</td>
+      <td>0.4</td>
+      <td>540</td>
+      <td>0.824857</td>
+    </tr>
+    <tr>
+      <td>EU</td>
+      <td>Actions européennes</td>
+      <td>0.5</td>
+      <td>540</td>
+      <td>0.853030</td>
+    </tr>
+    <tr>
+      <td>EU</td>
+      <td>Actions européennes</td>
+      <td>0.6</td>
+      <td>540</td>
+      <td>0.785956</td>
+    </tr>
+    <tr>
+      <td>EU</td>
+      <td>Actions européennes</td>
+      <td>0.7</td>
+      <td>540</td>
+      <td>0.640167</td>
+    </tr>
+    <tr>
+      <td>EU</td>
+      <td>Actions européennes</td>
+      <td>0.8</td>
+      <td>540</td>
+      <td>0.484686</td>
+    </tr>
+    <tr>
+      <td>EU</td>
+      <td>Actions européennes</td>
+      <td>0.9</td>
+      <td>540</td>
+      <td>0.357002</td>
+    </tr>
+    <tr>
+      <td>EU</td>
+      <td>Actions européennes</td>
+      <td>1.0</td>
+      <td>540</td>
+      <td>0.260405</td>
+    </tr>
+    <tr>
+      <td>JP</td>
+      <td>Actions japonaises</td>
+      <td>0.0</td>
+      <td>540</td>
+      <td>0.110038</td>
+    </tr>
+    <tr>
+      <td>JP</td>
+      <td>Actions japonaises</td>
+      <td>0.1</td>
+      <td>540</td>
+      <td>0.174234</td>
+    </tr>
+    <tr>
+      <td>JP</td>
+      <td>Actions japonaises</td>
+      <td>0.2</td>
+      <td>540</td>
+      <td>0.263324</td>
+    </tr>
+    <tr>
+      <td>JP</td>
+      <td>Actions japonaises</td>
+      <td>0.3</td>
+      <td>540</td>
+      <td>0.388446</td>
+    </tr>
+    <tr>
+      <td>JP</td>
+      <td>Actions japonaises</td>
+      <td>0.4</td>
+      <td>540</td>
+      <td>0.555112</td>
+    </tr>
+    <tr>
+      <td>JP</td>
+      <td>Actions japonaises</td>
+      <td>0.5</td>
+      <td>540</td>
+      <td>0.727958</td>
+    </tr>
+    <tr>
+      <td>JP</td>
+      <td>Actions japonaises</td>
+      <td>0.6</td>
+      <td>540</td>
+      <td>0.810590</td>
+    </tr>
+    <tr>
+      <td>JP</td>
+      <td>Actions japonaises</td>
+      <td>0.7</td>
+      <td>540</td>
+      <td>0.775726</td>
+    </tr>
+    <tr>
+      <td>JP</td>
+      <td>Actions japonaises</td>
+      <td>0.8</td>
+      <td>540</td>
+      <td>0.696722</td>
+    </tr>
+    <tr>
+      <td>JP</td>
+      <td>Actions japonaises</td>
+      <td>0.9</td>
+      <td>540</td>
+      <td>0.621845</td>
+    </tr>
+    <tr>
+      <td>JP</td>
+      <td>Actions japonaises</td>
+      <td>1.0</td>
+      <td>540</td>
+      <td>0.561804</td>
+    </tr>
+    <tr>
+      <td>EQ</td>
+      <td>Indices actions par pays</td>
+      <td>0.0</td>
+      <td>575</td>
+      <td>0.464868</td>
+    </tr>
+    <tr>
+      <td>EQ</td>
+      <td>Indices actions par pays</td>
+      <td>0.1</td>
+      <td>575</td>
+      <td>0.513427</td>
+    </tr>
+    <tr>
+      <td>EQ</td>
+      <td>Indices actions par pays</td>
+      <td>0.2</td>
+      <td>575</td>
+      <td>0.571832</td>
+    </tr>
+    <tr>
+      <td>EQ</td>
+      <td>Indices actions par pays</td>
+      <td>0.3</td>
+      <td>575</td>
+      <td>0.637341</td>
+    </tr>
+    <tr>
+      <td>EQ</td>
+      <td>Indices actions par pays</td>
+      <td>0.4</td>
+      <td>575</td>
+      <td>0.696991</td>
+    </tr>
+    <tr>
+      <td>EQ</td>
+      <td>Indices actions par pays</td>
+      <td>0.5</td>
+      <td>575</td>
+      <td>0.721502</td>
+    </tr>
+    <tr>
+      <td>EQ</td>
+      <td>Indices actions par pays</td>
+      <td>0.6</td>
+      <td>575</td>
+      <td>0.682245</td>
+    </tr>
+    <tr>
+      <td>EQ</td>
+      <td>Indices actions par pays</td>
+      <td>0.7</td>
+      <td>575</td>
+      <td>0.589571</td>
+    </tr>
+    <tr>
+      <td>EQ</td>
+      <td>Indices actions par pays</td>
+      <td>0.8</td>
+      <td>575</td>
+      <td>0.482472</td>
+    </tr>
+    <tr>
+      <td>EQ</td>
+      <td>Indices actions par pays</td>
+      <td>0.9</td>
+      <td>575</td>
+      <td>0.387120</td>
+    </tr>
+    <tr>
+      <td>EQ</td>
+      <td>Indices actions par pays</td>
+      <td>1.0</td>
+      <td>575</td>
+      <td>0.310213</td>
+    </tr>
+    <tr>
+      <td>FX</td>
+      <td>Devises</td>
+      <td>0.0</td>
+      <td>553</td>
+      <td>0.220685</td>
+    </tr>
+    <tr>
+      <td>FX</td>
+      <td>Devises</td>
+      <td>0.1</td>
+      <td>553</td>
+      <td>0.263610</td>
+    </tr>
+    <tr>
+      <td>FX</td>
+      <td>Devises</td>
+      <td>0.2</td>
+      <td>553</td>
+      <td>0.317905</td>
+    </tr>
+    <tr>
+      <td>FX</td>
+      <td>Devises</td>
+      <td>0.3</td>
+      <td>553</td>
+      <td>0.383700</td>
+    </tr>
+    <tr>
+      <td>FX</td>
+      <td>Devises</td>
+      <td>0.4</td>
+      <td>553</td>
+      <td>0.453115</td>
+    </tr>
+    <tr>
+      <td>FX</td>
+      <td>Devises</td>
+      <td>0.5</td>
+      <td>553</td>
+      <td>0.503113</td>
+    </tr>
+    <tr>
+      <td>FX</td>
+      <td>Devises</td>
+      <td>0.6</td>
+      <td>553</td>
+      <td>0.507595</td>
+    </tr>
+    <tr>
+      <td>FX</td>
+      <td>Devises</td>
+      <td>0.7</td>
+      <td>553</td>
+      <td>0.469634</td>
+    </tr>
+    <tr>
+      <td>FX</td>
+      <td>Devises</td>
+      <td>0.8</td>
+      <td>553</td>
+      <td>0.415224</td>
+    </tr>
+    <tr>
+      <td>FX</td>
+      <td>Devises</td>
+      <td>0.9</td>
+      <td>553</td>
+      <td>0.363060</td>
+    </tr>
+    <tr>
+      <td>FX</td>
+      <td>Devises</td>
+      <td>1.0</td>
+      <td>553</td>
+      <td>0.319212</td>
+    </tr>
+    <tr>
+      <td>FI</td>
+      <td>Obligations d'État</td>
+      <td>0.0</td>
+      <td>505</td>
+      <td>0.127960</td>
+    </tr>
+    <tr>
+      <td>FI</td>
+      <td>Obligations d'État</td>
+      <td>0.1</td>
+      <td>505</td>
+      <td>0.144819</td>
+    </tr>
+    <tr>
+      <td>FI</td>
+      <td>Obligations d'État</td>
+      <td>0.2</td>
+      <td>505</td>
+      <td>0.163141</td>
+    </tr>
+    <tr>
+      <td>FI</td>
+      <td>Obligations d'État</td>
+      <td>0.3</td>
+      <td>505</td>
+      <td>0.180005</td>
+    </tr>
+    <tr>
+      <td>FI</td>
+      <td>Obligations d'État</td>
+      <td>0.4</td>
+      <td>505</td>
+      <td>0.190111</td>
+    </tr>
+    <tr>
+      <td>FI</td>
+      <td>Obligations d'État</td>
+      <td>0.5</td>
+      <td>505</td>
+      <td>0.188601</td>
+    </tr>
+    <tr>
+      <td>FI</td>
+      <td>Obligations d'État</td>
+      <td>0.6</td>
+      <td>505</td>
+      <td>0.175890</td>
+    </tr>
+    <tr>
+      <td>FI</td>
+      <td>Obligations d'État</td>
+      <td>0.7</td>
+      <td>505</td>
+      <td>0.157271</td>
+    </tr>
+    <tr>
+      <td>FI</td>
+      <td>Obligations d'État</td>
+      <td>0.8</td>
+      <td>505</td>
+      <td>0.137923</td>
+    </tr>
+    <tr>
+      <td>FI</td>
+      <td>Obligations d'État</td>
+      <td>0.9</td>
+      <td>505</td>
+      <td>0.120491</td>
+    </tr>
+    <tr>
+      <td>FI</td>
+      <td>Obligations d'État</td>
+      <td>1.0</td>
+      <td>505</td>
+      <td>0.105698</td>
+    </tr>
+    <tr>
+      <td>COM</td>
+      <td>Matières premières</td>
+      <td>0.0</td>
+      <td>637</td>
+      <td>0.375873</td>
+    </tr>
+    <tr>
+      <td>COM</td>
+      <td>Matières premières</td>
+      <td>0.1</td>
+      <td>637</td>
+      <td>0.434820</td>
+    </tr>
+    <tr>
+      <td>COM</td>
+      <td>Matières premières</td>
+      <td>0.2</td>
+      <td>637</td>
+      <td>0.508966</td>
+    </tr>
+    <tr>
+      <td>COM</td>
+      <td>Matières premières</td>
+      <td>0.3</td>
+      <td>637</td>
+      <td>0.595012</td>
+    </tr>
+    <tr>
+      <td>COM</td>
+      <td>Matières premières</td>
+      <td>0.4</td>
+      <td>637</td>
+      <td>0.671548</td>
+    </tr>
+    <tr>
+      <td>COM</td>
+      <td>Matières premières</td>
+      <td>0.5</td>
+      <td>637</td>
+      <td>0.693760</td>
+    </tr>
+    <tr>
+      <td>COM</td>
+      <td>Matières premières</td>
+      <td>0.6</td>
+      <td>637</td>
+      <td>0.639180</td>
+    </tr>
+    <tr>
+      <td>COM</td>
+      <td>Matières premières</td>
+      <td>0.7</td>
+      <td>637</td>
+      <td>0.544456</td>
+    </tr>
+    <tr>
+      <td>COM</td>
+      <td>Matières premières</td>
+      <td>0.8</td>
+      <td>637</td>
+      <td>0.451508</td>
+    </tr>
+    <tr>
+      <td>COM</td>
+      <td>Matières premières</td>
+      <td>0.9</td>
+      <td>637</td>
+      <td>0.375337</td>
+    </tr>
+    <tr>
+      <td>COM</td>
+      <td>Matières premières</td>
+      <td>1.0</td>
+      <td>637</td>
+      <td>0.316029</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><figcaption>Les sous-périodes.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>label</th>
+      <th>start</th>
+      <th>end</th>
+      <th>n_observations</th>
+      <th>total_return</th>
+      <th>cagr</th>
+      <th>volatility</th>
+      <th>sharpe</th>
+      <th>sharpe_se_iid</th>
+      <th>sharpe_se_lo</th>
+      <th>t_stat</th>
+      <th>max_drawdown</th>
+      <th>hit_rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>P1</td>
+      <td>1972-01-31</td>
+      <td>1991-11-30</td>
+      <td>239</td>
+      <td>2.993182</td>
+      <td>0.071993</td>
+      <td>0.055443</td>
+      <td>1.284744</td>
+      <td>0.231651</td>
+      <td>0.199482</td>
+      <td>6.440415</td>
+      <td>-0.064859</td>
+      <td>0.694561</td>
+    </tr>
+    <tr>
+      <td>P2</td>
+      <td>1991-12-31</td>
+      <td>2011-06-30</td>
+      <td>235</td>
+      <td>1.174461</td>
+      <td>0.040463</td>
+      <td>0.029908</td>
+      <td>1.343243</td>
+      <td>0.234313</td>
+      <td>0.240333</td>
+      <td>5.589092</td>
+      <td>-0.067567</td>
+      <td>0.693617</td>
+    </tr>
+    <tr>
+      <td>P3</td>
+      <td>2011-07-31</td>
+      <td>2026-06-30</td>
+      <td>180</td>
+      <td>0.291243</td>
+      <td>0.017186</td>
+      <td>0.029619</td>
+      <td>0.590312</td>
+      <td>0.260067</td>
+      <td>0.295252</td>
+      <td>1.999351</td>
+      <td>-0.115584</td>
+      <td>0.550000</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><figcaption>La corrélation en période de tension.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>key</th>
+      <th>pair</th>
+      <th>quantile</th>
+      <th>threshold_market_pct</th>
+      <th>n_stress</th>
+      <th>correlation_stress</th>
+      <th>correlation_calm</th>
+      <th>gap</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>0.05</td>
+      <td>-7.3655</td>
+      <td>33</td>
+      <td>-0.785201</td>
+      <td>-0.553317</td>
+      <td>-0.231884</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>0.05</td>
+      <td>-7.3820</td>
+      <td>33</td>
+      <td>-0.513331</td>
+      <td>-0.611210</td>
+      <td>0.097879</td>
+    </tr>
+    <tr>
+      <td>US</td>
+      <td>Actions américaines</td>
+      <td>0.05</td>
+      <td>-7.3820</td>
+      <td>33</td>
+      <td>-0.416392</td>
+      <td>-0.639495</td>
+      <td>0.223103</td>
+    </tr>
+    <tr>
+      <td>FF_HML_UMD</td>
+      <td>HML contre momentum de Carhart</td>
+      <td>0.05</td>
+      <td>-7.9140</td>
+      <td>60</td>
+      <td>-0.162277</td>
+      <td>-0.429158</td>
+      <td>0.266881</td>
+    </tr>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>0.10</td>
+      <td>-4.9130</td>
+      <td>66</td>
+      <td>-0.640007</td>
+      <td>-0.566851</td>
+      <td>-0.073156</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>0.10</td>
+      <td>-4.9220</td>
+      <td>66</td>
+      <td>-0.528533</td>
+      <td>-0.628800</td>
+      <td>0.100267</td>
+    </tr>
+    <tr>
+      <td>US</td>
+      <td>Actions américaines</td>
+      <td>0.10</td>
+      <td>-4.9220</td>
+      <td>66</td>
+      <td>-0.428962</td>
+      <td>-0.671272</td>
+      <td>0.242310</td>
+    </tr>
+    <tr>
+      <td>FF_HML_UMD</td>
+      <td>HML contre momentum de Carhart</td>
+      <td>0.10</td>
+      <td>-5.3150</td>
+      <td>120</td>
+      <td>-0.168776</td>
+      <td>-0.452421</td>
+      <td>0.283645</td>
+    </tr>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>0.20</td>
+      <td>-2.5740</td>
+      <td>131</td>
+      <td>-0.467047</td>
+      <td>-0.626815</td>
+      <td>0.159769</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>0.20</td>
+      <td>-2.5760</td>
+      <td>131</td>
+      <td>-0.560129</td>
+      <td>-0.617103</td>
+      <td>0.056974</td>
+    </tr>
+    <tr>
+      <td>US</td>
+      <td>Actions américaines</td>
+      <td>0.20</td>
+      <td>-2.5760</td>
+      <td>131</td>
+      <td>-0.484411</td>
+      <td>-0.669829</td>
+      <td>0.185418</td>
+    </tr>
+    <tr>
+      <td>FF_HML_UMD</td>
+      <td>HML contre momentum de Carhart</td>
+      <td>0.20</td>
+      <td>-2.6980</td>
+      <td>239</td>
+      <td>-0.205970</td>
+      <td>-0.461909</td>
+      <td>0.255939</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><img src="figures/rolling_correlation.png" alt="La corrélation sur fenêtre glissante."><figcaption>La corrélation sur fenêtre glissante.</figcaption></figure>
+<figure><img src="figures/weight_heatmap.png" alt="Le ratio de Sharpe par poids et par regroupement."><figcaption>Le ratio de Sharpe par poids et par regroupement.</figcaption></figure>
+<figure><img src="figures/subperiod_bars.png" alt="Les trois sous-périodes."><figcaption>Les trois sous-périodes.</figcaption></figure>
+</section>
+<section id="out_of_sample">
+<h2>11. Le hors échantillon</h2>
+<p>Après juillet 2011, le mélange net rend un ratio de Sharpe de 0.60.</p>
+<figure><figcaption>Le poids en temps réel.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>min_periods</th>
+      <th>n_months</th>
+      <th>start</th>
+      <th>median_value_weight</th>
+      <th>sharpe_live</th>
+      <th>sharpe_full_sample_weight</th>
+      <th>sharpe_equal_weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>36</td>
+      <td>618</td>
+      <td>1975-01-31</td>
+      <td>0.492332</td>
+      <td>1.181410</td>
+      <td>1.093335</td>
+      <td>1.187725</td>
+    </tr>
+    <tr>
+      <td>60</td>
+      <td>594</td>
+      <td>1977-01-31</td>
+      <td>0.493204</td>
+      <td>1.253207</td>
+      <td>1.093335</td>
+      <td>1.254010</td>
+    </tr>
+    <tr>
+      <td>120</td>
+      <td>534</td>
+      <td>1982-01-31</td>
+      <td>0.498490</td>
+      <td>1.166125</td>
+      <td>1.093335</td>
+      <td>1.170706</td>
+    </tr>
+    <tr>
+      <td>240</td>
+      <td>414</td>
+      <td>1992-01-31</td>
+      <td>0.501583</td>
+      <td>1.017634</td>
+      <td>1.093335</td>
+      <td>1.022683</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><figcaption>La validation croisée combinatoire purgée.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>statistic</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>count</td>
+      <td>7.000000</td>
+    </tr>
+    <tr>
+      <td>mean</td>
+      <td>1.091616</td>
+    </tr>
+    <tr>
+      <td>median</td>
+      <td>1.091616</td>
+    </tr>
+    <tr>
+      <td>std</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>min</td>
+      <td>1.091616</td>
+    </tr>
+    <tr>
+      <td>max</td>
+      <td>1.091616</td>
+    </tr>
+    <tr>
+      <td>quantile_low</td>
+      <td>1.091616</td>
+    </tr>
+    <tr>
+      <td>quantile_high</td>
+      <td>1.091616</td>
+    </tr>
+    <tr>
+      <td>quantile_low_level</td>
+      <td>0.050000</td>
+    </tr>
+    <tr>
+      <td>quantile_high_level</td>
+      <td>0.950000</td>
+    </tr>
+    <tr>
+      <td>negative_share</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table></figure>
+</section>
+<section id="statistical_tests">
+<h2>12. Les tests statistiques</h2>
+<p>Le ratio de Sharpe dégonflé, la probabilité de surapprentissage et la correction de Holm sur les quinze paires sont rapportés dans les tableaux joints.</p>
+<figure><figcaption>La correction de Holm.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>key</th>
+      <th>pair</th>
+      <th>leg</th>
+      <th>n_months</th>
+      <th>sharpe_blend</th>
+      <th>tstat</th>
+      <th>pvalue</th>
+      <th>adjusted_pvalue</th>
+      <th>rejected</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>EVERYWHERE</td>
+      <td>Toutes classes d'actifs</td>
+      <td>A</td>
+      <td>654</td>
+      <td>1.095840</td>
+      <td>8.378969</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>ALL_EQUITIES</td>
+      <td>Actions, agrégat</td>
+      <td>A</td>
+      <td>653</td>
+      <td>0.995561</td>
+      <td>6.787998</td>
+      <td>1.137002e-11</td>
+      <td>1.591802e-10</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>ALL_OTHER</td>
+      <td>Hors actions, agrégat</td>
+      <td>A</td>
+      <td>637</td>
+      <td>0.677227</td>
+      <td>5.357326</td>
+      <td>8.446248e-08</td>
+      <td>5.912374e-07</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>US</td>
+      <td>Actions américaines</td>
+      <td>A</td>
+      <td>653</td>
+      <td>0.700528</td>
+      <td>5.400945</td>
+      <td>6.629077e-08</td>
+      <td>5.379033e-07</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>UK</td>
+      <td>Actions britanniques</td>
+      <td>A</td>
+      <td>540</td>
+      <td>0.873645</td>
+      <td>5.419497</td>
+      <td>5.976704e-08</td>
+      <td>5.379033e-07</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>EU</td>
+      <td>Actions européennes</td>
+      <td>A</td>
+      <td>540</td>
+      <td>0.853030</td>
+      <td>5.168072</td>
+      <td>2.365216e-07</td>
+      <td>1.182608e-06</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>JP</td>
+      <td>Actions japonaises</td>
+      <td>A</td>
+      <td>540</td>
+      <td>0.727958</td>
+      <td>4.551822</td>
+      <td>5.318339e-06</td>
+      <td>1.595502e-05</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>EQ</td>
+      <td>Indices actions par pays</td>
+      <td>A</td>
+      <td>575</td>
+      <td>0.721502</td>
+      <td>5.336645</td>
+      <td>9.468241e-08</td>
+      <td>5.912374e-07</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>FX</td>
+      <td>Devises</td>
+      <td>A</td>
+      <td>553</td>
+      <td>0.503113</td>
+      <td>3.660014</td>
+      <td>2.522018e-04</td>
+      <td>5.044037e-04</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>FI</td>
+      <td>Obligations d'État</td>
+      <td>A</td>
+      <td>505</td>
+      <td>0.188601</td>
+      <td>1.487735</td>
+      <td>1.368208e-01</td>
+      <td>1.368208e-01</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>COM</td>
+      <td>Matières premières</td>
+      <td>A</td>
+      <td>637</td>
+      <td>0.693760</td>
+      <td>4.897837</td>
+      <td>9.689736e-07</td>
+      <td>3.875895e-06</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>FF_HML_UMD</td>
+      <td>HML contre momentum de Carhart</td>
+      <td>B</td>
+      <td>1194</td>
+      <td>0.742761</td>
+      <td>6.013397</td>
+      <td>1.816751e-09</td>
+      <td>1.998426e-08</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>FF_RANK_5X5</td>
+      <td>Rang sur quintiles, taille neutralisée</td>
+      <td>B</td>
+      <td>1194</td>
+      <td>0.782808</td>
+      <td>6.146350</td>
+      <td>7.928640e-10</td>
+      <td>9.514368e-09</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>FF_SPREAD_5X5</td>
+      <td>Haut moins bas sur quintiles</td>
+      <td>B</td>
+      <td>1194</td>
+      <td>0.804644</td>
+      <td>6.295871</td>
+      <td>3.056777e-10</td>
+      <td>3.973810e-09</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>FF_HML_DECILES</td>
+      <td>HML contre déciles 12-2</td>
+      <td>B</td>
+      <td>1194</td>
+      <td>0.680474</td>
+      <td>5.728004</td>
+      <td>1.016194e-08</td>
+      <td>1.016194e-07</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table></figure>
+<figure><figcaption>Le compte des essais.</figcaption><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>family</th>
+      <th>n_trials</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>replication_A</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <td>pairs_A_ew</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <td>pairs_A_rp</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <td>pairs_B_ew</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>pairs_B_rp</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>costs</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>cost_multiple</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>weight_grid</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <td>rp_window</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>rebalance</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>lag</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>TOTAL</td>
+      <td>183</td>
+    </tr>
+  </tbody>
+</table></figure>
+</section>
+<section id="factor_attribution">
+<h2>13. L&#x27;attribution factorielle</h2>
+<p>La corrélation du mélange avec le marché américain vaut -0.159, et elle décide du critère d&#x27;apport au portefeuille.</p>
+</section>
+<section id="limitations">
+<h2>14. Les limites</h2>
+<p>Les facteurs d&#x27;AQR ne sont pas reconstructibles sans données commerciales. Une part de la corrélation négative vient de la construction des deux signaux. Le panneau est déséquilibré avant 1983.</p>
+</section>
+<section id="verdict">
+<h2>15. Le verdict</h2>
+<p>Le verdict est déduit des seuils écrits dans config.yaml, sans arbitrage.</p>
+<p class="verdict">EXPERIMENTAL</p>
+<ul class="reasons">
+<li class="reason-pass">RÉUSSI | hypothèse économique : signe attendu retrouvé, le signe décide du rejet</li>
+<li class="reason-pass">RÉUSSI | signe du Sharpe hors échantillon : 0,604 mesuré, rejet à 0,000 ou moins</li>
+<li class="reason-pass">RÉUSSI | réplication de « corrélation valeur contre momentum, Toutes classes d&#x27;actifs » : -0,586 contre -0,600 publié, écart relatif 0,023, tolérance 0,059 (absolute), soit 0,098 en relatif</li>
+<li class="reason-pass">RÉUSSI | réplication de « corrélation valeur contre momentum, Actions, agrégat » : -0,598 contre -0,600 publié, écart relatif 0,003, tolérance 0,059 (absolute), soit 0,098 en relatif</li>
+<li class="reason-pass">RÉUSSI | réplication de « corrélation valeur contre momentum, Hors actions, agrégat » : -0,538 contre -0,490 publié, écart relatif 0,097, tolérance 0,070 (absolute), soit 0,142 en relatif</li>
+<li class="reason-pass">RÉUSSI | réplication de « corrélation valeur contre momentum, Actions américaines » : -0,623 contre -0,650 publié, écart relatif 0,041, tolérance 0,053 (absolute), soit 0,082 en relatif</li>
+<li class="reason-pass">RÉUSSI | réplication de « corrélation valeur contre momentum, Actions britanniques » : -0,639 contre -0,620 publié, écart relatif 0,031, tolérance 0,065 (absolute), soit 0,105 en relatif</li>
+<li class="reason-pass">RÉUSSI | réplication de « corrélation valeur contre momentum, Actions européennes » : -0,510 contre -0,550 publié, écart relatif 0,072, tolérance 0,073 (absolute), soit 0,133 en relatif</li>
+<li class="reason-pass">RÉUSSI | réplication de « corrélation valeur contre momentum, Actions japonaises » : -0,637 contre -0,640 publié, écart relatif 0,004, tolérance 0,062 (absolute), soit 0,097 en relatif</li>
+<li class="reason-pass">RÉUSSI | réplication de « corrélation valeur contre momentum, Indices actions par pays » : -0,389 contre -0,370 publié, écart relatif 0,052, tolérance 0,085 (absolute), soit 0,230 en relatif</li>
+<li class="reason-pass">RÉUSSI | réplication de « corrélation valeur contre momentum, Devises » : -0,434 contre -0,430 publié, écart relatif 0,008, tolérance 0,082 (absolute), soit 0,192 en relatif</li>
+<li class="reason-fail">ÉCHOUÉ | réplication de « corrélation valeur contre momentum, Obligations d&#x27;État » : -0,224 contre -0,350 publié, écart relatif 0,359, tolérance 0,095 (absolute), soit 0,271 en relatif, plus large que la tolérance déclarée 0,250</li>
+<li class="reason-pass">RÉUSSI | réplication de « corrélation valeur contre momentum, Matières premières » : -0,471 contre -0,460 publié, écart relatif 0,025, tolérance 0,072 (absolute), soit 0,157 en relatif</li>
+<li class="reason-fail">ÉCHOUÉ | réplication : 10 contrôle(s) sur 11 dans la tolérance, tous exigés</li>
+<li class="reason-pass">RÉUSSI | Sharpe hors échantillon : 0,604 mesuré, minimum 0,500</li>
+<li class="reason-fail">ÉCHOUÉ | t après correction pour essais multiples : 0,000 mesuré, minimum 3,000</li>
+<li class="reason-fail">ÉCHOUÉ | Sharpe dégonflé : 0,005 mesuré, minimum 0,950</li>
+<li class="reason-pass">RÉUSSI | probabilité de surapprentissage : 0,000 mesuré, maximum 0,500</li>
+<li class="reason-pass">RÉUSSI | part de sous-périodes positives : 1,000 mesuré, minimum 0,600</li>
+<li class="reason-pass">RÉUSSI | multiple de coûts survécu : 10,000 mesuré, minimum 2,000</li>
+<li class="reason-pass">RÉUSSI | corrélation absolue avec le portefeuille existant : 0,159 mesurée, maximum 0,600</li>
+<li class="reason-fail">VERDICT | EXPERIMENTAL</li>
+</ul>
+</section>
+</body>
+</html>

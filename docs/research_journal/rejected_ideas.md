@@ -21,24 +21,99 @@ gonfle mécaniquement tous les résultats gardés.
 
 ## Les rejets
 
-Aucun au 2026-09-01. Les phases 0 à 3 construisent l'infrastructure ; aucune
-stratégie n'a encore été testée, donc aucune n'a encore été rejetée.
+Trois des huit réplications de la phase 4 sont rejetées, et chacune l'est pour
+une raison différente. Aucune n'échoue faute de se répliquer.
 
-Cette ligne se remplira à partir de la phase 4, et son absence de remplissage
-serait un signal d'alarme : un laboratoire qui ne rejette rien ne teste rien.
+### 2026-09-02, portefeuilles gérés en volatilité
+
+**Idée.** Diviser un facteur par sa variance réalisée du mois précédent produit
+de l'alpha (Moreira et Muir, 2017).
+
+**Hypothèse économique.** La volatilité est prévisible à court terme alors que le
+rendement attendu ne l'est pas, donc réduire l'exposition quand la volatilité
+monte améliore le rapport rendement sur risque.
+
+**Ce qui a été mesuré.** L'alpha se réplique sur huit contrôles sur huit, dont
+l'erreur type au centième, 1,565 contre 1,56. La version réellement négociable,
+l'écart couvert par un bêta estimé sur le passé, rapporte -0,32 %/an brut et
+-1,30 %/an net de dix points de base, avec un ratio de Sharpe hors échantillon
+de -0,362 sur 134 mois.
+
+**Pourquoi c'est rejeté.** Le signe du ratio de Sharpe hors échantillon. La
+constante de calibrage de l'article est choisie en connaissance de tout
+l'échantillon, et l'estimer en expansion suffit à faire disparaître le gain.
+
+**Ce que cela apprend.** Un article peut se répliquer parfaitement et rester
+inutilisable. La réplication et l'investissabilité sont deux questions
+distinctes.
+
+### 2026-09-02, parier contre le bêta
+
+**Idée.** Acheter les titres à faible bêta avec du levier et vendre ceux à fort
+bêta produit un alpha (Frazzini et Pedersen, 2014).
+
+**Hypothèse économique.** Les intervenants qui ne peuvent pas emprunter achètent
+du bêta à la place, donc ils le paient trop cher.
+
+**Ce qui a été mesuré.** Le facteur publié ne s'affaiblit pas après l'article,
+0,703 contre 0,689, p = 0,960. Mais un détail d'estimation décide de tout : le
+rétrécissement du bêta de 0,6 vers un. Le ratio de Sharpe du facteur reconstruit
+au niveau du titre passe de 0,394 sans rétrécissement à -0,001 au réglage de
+l'article. Le CLASSEMENT des titres est pourtant identique dans les deux cas, et
+le bêta réalisé du facteur passe de +0,081 à -0,182.
+
+**Pourquoi c'est rejeté.** Notre reconstruction au réglage de l'article ne
+produit pas d'alpha, et le paramètre qui décide n'est pas justifié par une
+mesure.
+
+**Ce que cela apprend.** Une hypothèse de construction non discutée peut porter
+tout le résultat. Le constat rejoint la critique de Novy-Marx et Velikov.
+
+### 2026-09-02, arbitrage statistique sur résidus d'analyse en composantes principales
+
+**Idée.** Les résidus d'un modèle factoriel reviennent à leur moyenne, et le
+s-score dit quand entrer (Avellaneda et Lee, 2010).
+
+**Hypothèse économique.** Les écarts de valorisation entre titres d'un même
+secteur se referment, parce que des arbitragistes les referment.
+
+**Ce qui a été mesuré.** Le ratio de Sharpe brut se réplique presque exactement,
+1,460 contre 1,44 publié. Le coût de seuil de rentabilité vaut 3,92 points de
+base par unité négociée, contre les 5 points de base par transaction que
+l'article lui-même retient. Hors échantillon, après 2010, le ratio net vaut
+-1,060 avec un t de -4,20 et un pire repli de -85,4 %.
+
+**Pourquoi c'est rejeté.** La stratégie meurt sous les coûts que son propre
+article suppose, et la perte hors échantillon est établie plutôt que conjecturée.
+
+**Ce que cela apprend.** Une rotation annuelle de 344 fois transforme un écart de
+quelques points de base en la totalité du rendement.
 
 ## Le décompte des essais
 
 | Famille de stratégies | Essais menés | Retenus | Rejetés |
-|---|---|---|---|
-| Momentum temporel | 0 | 0 | 0 |
-| Momentum transversal | 0 | 0 | 0 |
-| Valeur | 0 | 0 | 0 |
-| Qualité | 0 | 0 | 0 |
-| Bêta défensif | 0 | 0 | 0 |
-| Gestion de la volatilité | 0 | 0 | 0 |
-| Arbitrage statistique | 0 | 0 | 0 |
-| Portage | 0 | 0 | 0 |
+|---|---:|---:|---:|
+| Momentum temporel | 73 | 0 | 0 |
+| Momentum transversal | 53 | 0 | 0 |
+| Valeur et momentum | 207 | 0 | 0 |
+| Qualité | 67 | 0 | 0 |
+| Bêta défensif | 144 | 0 | 1 |
+| Gestion de la volatilité | 89 | 0 | 1 |
+| Arbitrage statistique | 49 | 0 | 1 |
+| Portage | 33 | 0 | 0 |
+| **Total** | **715** | **0** | **3** |
 
 Ce tableau alimente directement `quantlab.validation.dsr`. Il se met à jour à
 chaque expérience, y compris celles qui ne mènent nulle part.
+
+Comment le lire, en deux constats. Le premier est que 715 essais ont été menés
+et qu'aucun n'a produit une stratégie retenue, ce qui est exactement ce que la
+correction pour tests multiples sert à rendre visible. Le deuxième est que les
+207 essais de l'étude 003 ramènent son ratio de Sharpe dégonflé à 0,000012 :
+avoir beaucoup cherché coûte, et ce coût est chiffré plutôt que passé sous
+silence.
+
+Une colonne « retenus » à zéro n'est pas un échec du laboratoire. C'est le
+résultat de la phase 4, et il est cohérent avec ce que Harvey, Liu et Zhu (2016)
+prédisent d'une littérature où des centaines de facteurs ont été testés avant
+publication.

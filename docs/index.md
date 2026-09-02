@@ -43,7 +43,7 @@ indépendant.
 | 1 | fournisseurs de données, lac, provenance, point-in-time, qualité | **fait** |
 | 2 | analytique : rendements, risque, ratios, régression, IC, rotation, contributions | **fait** |
 | 3 | validation : découpages, purge, embargo, CPCV, bootstrap, DSR, PBO, tests multiples | **fait** |
-| 4 | réplications académiques, de TSMOM à l'arbitrage statistique | non commencé |
+| 4 | réplications académiques, de TSMOM à l'arbitrage statistique | **fait**, huit études |
 | 5 | moteur de portefeuille et de risque | non commencé |
 | 6 | moteur de coûts et de capacité | non commencé |
 | 7 | portefeuille multi-stratégies | non commencé |

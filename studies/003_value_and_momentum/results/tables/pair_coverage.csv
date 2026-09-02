@@ -1,0 +1,16 @@
+key,pair,n_months,start,end,n_months_paper_window
+EVERYWHERE,Toutes classes d'actifs,654,1972-01-31,2026-06-30,475
+ALL_EQUITIES,"Actions, agrégat",653,1972-02-29,2026-06-30,474
+ALL_OTHER,"Hors actions, agrégat",637,1972-01-31,2025-01-31,475
+US,Actions américaines,653,1972-02-29,2026-06-30,474
+UK,Actions britanniques,540,1981-07-31,2026-06-30,361
+EU,Actions européennes,540,1981-07-31,2026-06-30,361
+JP,Actions japonaises,540,1981-07-31,2026-06-30,361
+EQ,Indices actions par pays,575,1977-03-31,2025-01-31,413
+FX,Devises,553,1979-01-31,2025-01-31,391
+FI,Obligations d'État,505,1983-01-31,2025-01-31,343
+COM,Matières premières,637,1972-01-31,2025-01-31,475
+FF_HML_UMD,HML contre momentum de Carhart,1194,1927-01-31,2026-06-30,475
+FF_RANK_5X5,"Rang sur quintiles, taille neutralisée",1194,1927-01-31,2026-06-30,475
+FF_SPREAD_5X5,Haut moins bas sur quintiles,1194,1927-01-31,2026-06-30,475
+FF_HML_DECILES,HML contre déciles 12-2,1194,1927-01-31,2026-06-30,475

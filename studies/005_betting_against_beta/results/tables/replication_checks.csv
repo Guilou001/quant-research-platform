@@ -1,0 +1,10 @@
+quantity,published,ours,absolute_error,relative_error,tolerance,tolerance_kind,verdict,source
+"Rendement excédentaire mensuel, %",0.7,0.6762973336710307,0.023702666328969224,0.03386095189852747,0.25,relative,répliqué,"Frazzini et Pedersen (2013), tableau III, actions américaines"
+Statistique t du rendement excédentaire,7.12,6.34317992453531,0.7768200754646903,0.10910394318324303,0.25,relative,répliqué,"Frazzini et Pedersen (2013), tableau III, actions américaines"
+"Volatilité annualisée, %",10.7,11.53841557441599,0.8384155744159916,0.0783565957398123,0.25,relative,répliqué,"Frazzini et Pedersen (2013), tableau III, actions américaines"
+Ratio de Sharpe annualisé,0.78,0.7033520288562785,0.07664797114372157,0.09826662967143791,0.25,relative,répliqué,"Frazzini et Pedersen (2013), tableau III, actions américaines"
+"Alpha du modèle à trois facteurs, %/mois",0.73,0.7407156595231548,0.010715659523154786,0.014678985648157242,0.25,relative,répliqué,"Frazzini et Pedersen (2013), tableau III, actions américaines"
+"Alpha du modèle à quatre facteurs, %/mois",0.55,0.5409969985656923,0.009003001434307767,0.01636909351692321,0.25,relative,répliqué,"Frazzini et Pedersen (2013), tableau III, actions américaines"
+Part de marchés au ratio de Sharpe positif,0.9474,1.0,0.05259999999999998,0.055520371543170764,0.25,relative,répliqué,"Frazzini et Pedersen (2013), tableau V"
+"Levier de la jambe longue, dollars",1.4,1.3667491995046182,0.03325080049538176,0.023750571782415544,0.25,relative,répliqué,"Frazzini et Pedersen (2013), page 19"
+Bêta réalisé de notre facteur reconstruit,0.0,-0.18180251368875208,0.18180251368875208,inf,0.15,absolute,écart,"Frazzini et Pedersen (2013), tableau III, bêta ex ante 0,00"

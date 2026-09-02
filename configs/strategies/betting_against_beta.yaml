@@ -1,0 +1,29 @@
+name: betting_against_beta
+family: low_risk
+paper: Frazzini, A. et Pedersen, L. H. (2014). Betting against beta. Journal of Financial
+  Economics, 111(1), 1-25. doi:10.1016/j.jfineco.2013.10.005. Chiffres cibles lus
+  dans la version de travail du 2013-05-10, tableaux III, IV et V.
+asset_classes:
+- equity
+horizon: formation mensuelle sur bêta ex ante, détention un mois
+economic_rationale:
+- contrainte institutionnelle
+- friction
+inputs:
+- rendements quotidiens des membres du S&P 500, Yahoo
+- portefeuilles mensuels triés par bêta, Kenneth French
+- facteur BAB mensuel publié par AQR, série des auteurs
+- trois facteurs, momentum et taux sans risque, Kenneth French
+known_risks:
+- Le bêta ex ante sert de diviseur, donc son bruit devient du levier.
+- La pondération par les rangs ignore la capitalisation.
+- Le levier de la jambe longue dépasse un dollar trente en moyenne.
+- L'univers de titres est celui d'aujourd'hui, donc il porte un biais de survie.
+validation_status: REJECTED
+verdict_experiment_id: 005_betting_against_beta-c1fbcfdc17
+created: '2026-09-02'
+last_modified: '2026-09-02'
+notes: 'Étude 005. Le mécanisme invoqué est une contrainte de levier : qui ne peut
+  pas emprunter achète du bêta élevé, en fait monter le prix, et baisse son rendement
+  futur. La friction retenue est le prix du levier, mesurée par l''écart de financement
+  qui annule le rendement. Le verdict est déduit par quantlab.reporting.study.decide_verdict.'
