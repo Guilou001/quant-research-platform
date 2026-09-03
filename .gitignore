@@ -33,3 +33,6 @@ studies/**/__pycache__/
 # « results/ » d'une étude est la copie canonique, celle que son README cite, et
 # elle est suivie. Le rapport se refait par « uv run quant report generate ».
 studies/**/reports/
+
+# Phase 9 : les entrées et sorties de LEAN se reconstruisent par script.
+lean/data/

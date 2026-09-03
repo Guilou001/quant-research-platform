@@ -21,6 +21,7 @@ Sharpe du paquet partagé plutôt que le sien.
 | 011 | [Arbres contre régression, après coûts](011_cross_sectional_ml/) | Gu, Kelly et Xiu (2020) | 17 | `REJECTED` |
 | 012 | [Le portefeuille 009 sur séries nettes](012_multi_strategy_net/) | Grinold (1989), DeMiguel et coauteurs (2009) | 20 | `REJECTED` |
 | 013 | [Arbres contre régression sur quarante ans de survivants](013_cross_sectional_ml_long/) | Gu, Kelly et Xiu (2020) | 17 | `REJECTED` |
+| 014 | [Ce que la publication laisse, huit stratégies ensemble](014_publication_decay/) | McLean et Pontiff (2016) | 12 | `EXPERIMENTAL` |
 
 Comment lire ce tableau, en quatre constats. Le premier est qu'**aucune étude
 n'atteint `ROBUST` ni `PORTFOLIO_CANDIDATE`**, donc aucune ne mérite du capital
@@ -91,6 +92,12 @@ R² de 1,6 % et déciles nets de 0,60 à 0,85, et c'est le signe du biais de
 survie plutôt qu'un mérite : les arbres ne battent toujours pas la régression
 au test de Diebold et Mariano, p 0,58, et un titre encore dans l'indice a
 remonté par construction.
+
+**014.** Les huit stratégies perdent après la publication de leur article, 73 % du
+rendement mensuel moyen par la moyenne des rapports et 67 % par la régression,
+contre 58 % chez McLean et Pontiff ; entre la fin de l'échantillon et la
+publication, elles ne perdent que 3 à 4 % contre 26 %, parce que ce sont celles
+que leurs années suivantes n'ont pas démenties.
 
 ## L'arborescence d'une étude
 

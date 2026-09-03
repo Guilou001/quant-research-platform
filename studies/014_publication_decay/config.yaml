@@ -1,0 +1,93 @@
+# Étude 014, recherche propre : ce qui survit à la publication, sur nos huit
+# réplications. Tout seuil et toute date sont écrits AVANT le premier résultat.
+
+name: publication_decay_014
+hypothesis: >-
+  Mises ensemble, les huit stratégies répliquées par le laboratoire perdent
+  après la publication de leur article la part de rendement que McLean et
+  Pontiff (2016) mesurent sur 97 caractéristiques, soit 58 % du rendement
+  moyen de la fenêtre de l'article, et 26 % dès la fin de l'échantillon, avant
+  publication.
+paper: >-
+  McLean, R. D. et Pontiff, J. (2016). Does Academic Research Destroy Stock
+  Return Predictability? The Journal of Finance, 71(1), 5-32.
+  doi:10.1111/jofi.12365
+seed: 20260903
+
+# Les chiffres de l'article auxquels se comparer. Statut : rapportés, lus dans
+# le résumé de l'article le 2026-09-03.
+published:
+  post_sample_decline: 0.26
+  post_publication_decline: 0.58
+  n_predictors: 97
+
+# Une série de tête par étude, la plus longue et BRUTE de frais, parce que
+# l'article mesure des rendements bruts. Pour l'étude 001, la série des auteurs
+# eux-mêmes, celle qu'AQR publie, plutôt que notre reconstruction sur fonds
+# cotés qui ne commence qu'en 2007. La fin d'échantillon vient de la fiche de
+# littérature de chaque article ; la publication est le mois du numéro de la
+# revue, lu sur la même fiche.
+strategies:
+  tsmom:
+    label: "Momentum de série temporelle"
+    study: 001_time_series_momentum
+    series: aqr_tsmom            # chargée par le fournisseur AQR, colonne TSMOM
+    sample_end: "2009-12-31"
+    publication: "2012-05-31"    # Journal of Financial Economics 104(2), mai 2012
+  xsmom:
+    label: "Momentum transversal"
+    study: 002_cross_sectional_momentum
+    series: xsmom_kf_deciles_spread_gross
+    sample_end: "1989-12-31"
+    publication: "1993-03-31"    # The Journal of Finance 48(1), mars 1993
+  value_mom:
+    label: "Valeur et momentum"
+    study: 003_value_and_momentum
+    series: value_momentum_blend_gross
+    sample_end: "2011-07-31"
+    publication: "2013-06-30"    # The Journal of Finance 68(3), juin 2013
+  quality:
+    label: "Qualité moins camelote"
+    study: 004_quality_minus_junk
+    series: qmj_published_usa_gross
+    sample_end: "2012-12-31"
+    publication: "2019-03-31"    # Review of Accounting Studies 24(1), mars 2019
+  bab:
+    label: "Parier contre le bêta"
+    study: 005_betting_against_beta
+    series: bab_kf_deciles_gross
+    sample_end: "2012-03-31"
+    publication: "2014-01-31"    # Journal of Financial Economics 111(1), janvier 2014
+  vol_managed:
+    label: "Gestion de la volatilité"
+    study: 006_volatility_managed
+    series: managed_market_real_time_gross
+    sample_end: "2015-04-30"
+    publication: "2017-08-31"    # The Journal of Finance 72(4), août 2017
+  statarb:
+    label: "Arbitrage statistique"
+    study: 007_statistical_arbitrage
+    series: statarb_gross
+    sample_end: "2007-12-31"
+    publication: "2010-08-31"    # Quantitative Finance 10(7), août-septembre 2010
+  fx_carry:
+    label: "Portage de change"
+    study: 008_carry
+    series: fx_carry_gross
+    sample_end: "2012-09-30"
+    publication: "2018-02-28"    # Journal of Financial Economics 127(2), février 2018
+
+# La mesure de l'article : le rendement moyen d'une fenêtre rapporté au
+# rendement moyen de la fenêtre de l'article, mis en commun par une régression
+# des rendements normalisés sur deux indicatrices, avec un effet fixe par
+# stratégie et des erreurs types groupées par mois.
+pooling:
+  bootstrap_resamples: 10000     # rééchantillonnage des stratégies, pas des mois
+  min_months_per_window: 24      # une fenêtre plus courte n'est pas mesurée
+
+# Compte des essais : trois mesures mises en commun (rendement moyen, ratio de
+# Sharpe, régression), un test d'hétérogénéité, huit retraits d'une stratégie.
+n_trials: 12
+
+verdict:
+  replication_tolerance: 0.10

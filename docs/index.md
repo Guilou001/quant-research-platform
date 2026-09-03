@@ -48,9 +48,9 @@ indépendant.
 | 6 | moteur de coûts et de capacité | **fait**, impact à l'échelle du capital, étude 010 |
 | 7 | portefeuille multi-stratégies | **fait**, étude 009 |
 | 8 | apprentissage automatique transversal | **fait**, panneau point-in-time, six méthodes, étude 011 |
-| 9 | validation indépendante sous LEAN | non commencé |
+| 9 | validation indépendante sous LEAN | **fait**, l'étude 001 retrouvée à 4e-6 par mois, `lean/` |
 | 10 | tableau de bord et rapport institutionnel | **fait**, `quant dashboard build` et `quant report` |
-| 11 | recherche propre | non commencé |
+| 11 | recherche propre | **ouverte**, étude 014 sur ce que la publication laisse |
 
 ## Avertissement
 

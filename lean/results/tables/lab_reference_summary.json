@@ -1,0 +1,12 @@
+{
+  "n_months": 234,
+  "first_month": "2007-01-31",
+  "last_month": "2026-06-30",
+  "n_months_common_with_published": 234,
+  "max_abs_gap_vs_published": 5.1187503002161905e-06,
+  "mean_abs_gap_vs_published": 7.871013444638708e-07,
+  "n_months_gap_above_1e-6": 59,
+  "n_decisions_with_positions": 234,
+  "gross_leverage_mean": 5.056754019964021,
+  "gross_leverage_max": 9.122104765898703
+}

@@ -15,6 +15,6 @@ hypothèses, sa provenance académique, ses limites et la façon de vérifier qu
 l'implémentation est correcte.
 """
 
-__version__ = "0.1.0"
+__version__ = "1.0.0"
 
 __all__ = ["__version__"]

@@ -8,8 +8,8 @@ authors:
     orcid: ""
 repository-code: "https://github.com/Guilou001/quant-research-platform"
 license: MIT
-version: 0.1.0
-date-released: "2026-09-01"
+version: 1.0.0
+date-released: "2026-09-03"
 abstract: >-
   Plateforme de recherche quantitative en source ouverte. Elle réplique des
   stratégies documentées dans la littérature académique, mesure ce qui survit

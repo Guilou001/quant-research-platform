@@ -1,0 +1,14 @@
+reason
+"RÉUSSI | hypothèse économique : signe attendu retrouvé, le signe décide du rejet"
+"RÉUSSI | signe du Sharpe hors échantillon : non mesuré, rejet à 0,000 ou moins"
+"ÉCHOUÉ | réplication de « baisse_apres_publication_regression » : 0,667 contre 0,580 publié, écart relatif 0,151, tolérance 0,100 (relative)"
+"ÉCHOUÉ | réplication de « baisse_apres_echantillon_regression » : 0,044 contre 0,260 publié, écart relatif 0,831, tolérance 0,100 (relative)"
+"ÉCHOUÉ | réplication : 0 contrôle(s) sur 2 dans la tolérance, tous exigés"
+"ÉCHOUÉ | Sharpe hors échantillon : non mesuré, minimum 0,500"
+"ÉCHOUÉ | t après correction pour essais multiples : non mesuré, minimum 3,000"
+"ÉCHOUÉ | Sharpe dégonflé : non mesuré, minimum 0,950"
+"ÉCHOUÉ | probabilité de surapprentissage : non mesuré, maximum 0,500"
+"ÉCHOUÉ | part de sous-périodes positives : non mesuré, minimum 0,600"
+"ÉCHOUÉ | multiple de coûts survécu : non mesuré, minimum 2,000"
+"ÉCHOUÉ | corrélation absolue avec le portefeuille existant : non mesuré, maximum 0,600"
+VERDICT | EXPERIMENTAL

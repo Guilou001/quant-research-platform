@@ -1,25 +1,55 @@
 # quant-research-platform
 
+[![CI](https://github.com/Guilou001/quant-research-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/Guilou001/quant-research-platform/actions/workflows/ci.yml)
+[![Documentation](https://github.com/Guilou001/quant-research-platform/actions/workflows/docs.yml/badge.svg)](https://guilou001.github.io/quant-research-platform/)
+[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](pyproject.toml)
+[![Licence MIT](https://img.shields.io/badge/code-MIT-green.svg)](LICENSE)
+[![Rapport PDF](https://img.shields.io/badge/rapport-PDF-orange.svg)](rapport/rapport.pdf)
+
 Un laboratoire de recherche quantitative en source ouverte, construit autour
 d'une seule idée : **un backtest flatteur ne prouve rien, et le travail
-intéressant consiste à savoir lequel ne prouve rien.**
+intéressant consiste à savoir lequel ne prouve rien**. Un backtest, c'est le
+rejeu d'une règle de placement sur les prix du passé, pour voir ce qu'elle
+aurait rapporté.
 
-Prenez mille stratégies tirées au hasard, et testez-les sur trente ans de
-données. La meilleure affichera un ratio de Sharpe supérieur à 2 sans porter le
-moindre signal, le ratio de Sharpe étant le rendement gagné par unité de risque
-pris. Ce n'est pas une possibilité
-théorique. C'est la conséquence arithmétique du maximum de mille tirages d'une
-loi centrée sur zéro. Tout ce que porte ce dépôt sert à distinguer un rendement
-d'un tirage chanceux.
+**Le résultat, en une phrase**. Quatorze études, 809 essais comptés, huit
+articles répliqués dans leur propre fenêtre, et **aucune stratégie qui mérite
+du capital**. Après leur publication, les huit stratégies gardent en moyenne un
+quart à un tiers du rendement que leur article annonçait, mesuré sur 1996 à
+2026. Les coûts de transaction emportent le reste.
 
 > **English summary.** An open source quantitative research platform. It
 > replicates documented academic strategies, measures what survives out of
-> sample after costs, and rejects what does not. The foundation carries a
-> provenance tracked data lake, point-in-time fundamentals, a tested analytics
-> engine, and a validation engine that handles backtest overfitting explicitly.
+> sample after costs, and rejects what does not. Fourteen studies, 809 counted
+> trials, eight papers replicated within their own window, and no strategy
+> that earns capital. After publication the eight strategies keep on average a
+> quarter to a third of the return their paper reported, and transaction costs
+> take the rest. The foundation carries a provenance tracked data lake,
+> point-in-time fundamentals, a tested analytics engine, and a validation
+> engine that handles backtest overfitting explicitly. An independent
+> re-implementation under LEAN matches the lab engine to 4e-6 per month.
 > Documentation is in French; code, APIs and identifiers are in English.
 
----
+![Richesse cumulée des huit séries de tête, 2015-2026](docs/dashboard/figures/richesse_cumulee_tetes.png)
+
+Comment lire cette figure : chaque courbe est ce que devient un dollar placé
+le 30 juin 2015 dans la série de tête d'une étude, sur une échelle
+logarithmique. La série est nette de coûts quand une version nette existe.
+Deux séries sur huit finissent au-dessus de leur point de départ, la valeur et
+le momentum en vert et le portage de change en noir. L'arbitrage statistique,
+en jaune, perd quatre cinquièmes de sa mise. La figure vient du [tableau de
+bord](docs/dashboard/index.md), engendré depuis les fichiers du dépôt.
+
+## Par où commencer, en trente secondes
+
+| Vous voulez | Allez à |
+|---|---|
+| voir d'un seul écran ce que le laboratoire a établi | le [tableau de bord](docs/dashboard/index.md), ou le même en [PDF](rapport/rapport.pdf) |
+| lire une étude complète, de l'hypothèse au verdict | [l'étude 013](studies/013_cross_sectional_ml_long/), où un panneau de survivants fait passer tous les contrôles à une stratégie qui n'existait pas |
+| voir comment un moteur se contrôle par un autre | [la réconciliation avec LEAN](lean/README.md), 234 mois retrouvés à 4e-6 près |
+| lire la recherche propre | [l'étude 014](studies/014_publication_decay/), ce que la publication laisse aux huit stratégies |
+| suivre les décisions dans l'ordre où elles ont été prises | le [journal de recherche](docs/research_journal/index.md) et les [quinze décisions d'architecture](docs/architecture/adr/index.md) |
+| faire tourner le tout | la section [Reproduire](#reproduire), trois commandes |
 
 ## La question posée
 
@@ -34,30 +64,37 @@ Une anomalie de marché semble fonctionner. La question qui compte n'est pas
 En mots simples : est-ce que ce rendement existe pour une raison, ou parce que
 nous avons beaucoup cherché ?
 
-Répondre exige une infrastructure, pas un script. Il faut des données qui savent
+Prenez mille stratégies tirées au hasard, et testez-les sur trente ans de
+données. La meilleure affichera un ratio de Sharpe supérieur à 2 sans porter
+le moindre signal, le ratio de Sharpe étant le rendement gagné par unité de
+risque pris. Ce n'est pas une possibilité théorique. C'est la conséquence
+arithmétique du maximum de mille tirages d'une loi centrée sur zéro. Répondre
+exige donc une infrastructure, pas un script. Il faut des données qui savent
 ce qu'elles étaient à une date passée, un décompte honnête du nombre d'essais
 menés, des coûts de transaction modélisés, et une seconde implémentation
 indépendante pour vérifier la première.
 
 ## D'où vient le projet, et ce qu'il apporte
 
-La littérature financière empirique souffre d'un problème documenté. Harvey, Liu
-et Zhu (2016) montrent que des centaines de facteurs ont été publiés, que le
-seuil usuel de significativité de 2,0 en valeur de \(t\) est très insuffisant
-dans ce contexte, et qu'une part importante des découvertes publiées ne survit
-pas à la correction pour tests multiples.
+La littérature financière empirique souffre d'un problème documenté. Harvey,
+Liu et Zhu (2016) montrent que des centaines de facteurs ont été publiés, et
+que le seuil usuel de significativité de 2,0 en valeur de $t$ est très
+insuffisant dans ce contexte. Une part importante des découvertes publiées ne
+survit pas à la correction pour tests multiples. McLean et Pontiff (2016) mesurent
+qu'après publication, 97 anomalies d'actions perdent 58 % de leur rendement.
 
-Ce dépôt part de ce constat plutôt que de l'ignorer. Il apporte quatre choses.
+Ce dépôt part de ce constat plutôt que de l'ignorer. Il apporte cinq choses.
 
 - **Un socle de données à provenance tracée.** Chaque jeu porte vingt-trois
   champs de métadonnées, dont l'horodatage de téléchargement, la licence,
   l'empreinte SHA-256 et la lignée jusqu'au fichier brut. La question « quelle
   donnée exacte a produit ce résultat ? » a une réponse ou le résultat n'est pas
   publié.
-- **Des fondamentaux point-in-time.** Un rapport financier accepté par la SEC le
-  15 mai 2015 n'est pas connaissable le 31 mars 2015, quelle que soit la période
-  qu'il décrit. La règle est structurelle, pas affaire de vigilance : une
-  violation lève une exception et arrête le pipeline.
+- **Des fondamentaux point-in-time**, c'est-à-dire lus tels qu'ils étaient
+  connus à chaque date. Un rapport financier accepté par la SEC le 15 mai 2015
+  n'est pas connaissable le 31 mars 2015, quelle que soit la période qu'il
+  décrit. La règle est structurelle, pas affaire de vigilance : une violation
+  lève une exception et arrête le pipeline.
 - **Un moteur d'analytique testé, sans doublon.** Le ratio de Sharpe vit à un
   seul endroit du dépôt. Quand il existe en quatre exemplaires, il finit par
   exister en quatre versions, et personne ne sait laquelle a produit le chiffre
@@ -66,31 +103,36 @@ Ce dépôt part de ce constat plutôt que de l'ignorer. Il apporte quatre choses
   chronologique, walk-forward ancré et glissant, purge, embargo, validation
   croisée combinatoire purgée, bootstrap par blocs, ratio de Sharpe dégonflé,
   probabilité de surapprentissage, corrections pour tests multiples.
+- **Un second moteur, écrit par d'autres**. La stratégie de l'étude 001 est
+  refaite sous LEAN, le moteur événementiel de QuantConnect, sans une ligne du
+  laboratoire. Les deux moteurs rendent la même série au millionième.
 
 ## Le modèle mental
 
 La performance d'un fonds systématique ne vient pas d'un indicateur secret. Elle
 se décompose en un produit :
 
-\[
+$$
 \text{Performance} \approx
 \text{Edge} \times \text{Breadth} \times \text{Diversification}
 \times \text{Execution} \times \text{RiskManagement}
-\]
+$$
 
 Chaque terme est un facteur, donc un zéro sur un seul annule tout. Un signal
 excellent exécuté trop cher rend zéro. Mille paris parfaitement corrélés valent
 un pari.
 
 Pour illustrer ce dernier point avec des nombres. La loi fondamentale de la
-gestion active de Grinold (1989) écrit \(IR \approx IC\sqrt{BR}\), où \(IC\) est
-la qualité de prédiction et \(BR\) le nombre de paris. Avec un coefficient
+gestion active de Grinold (1989) écrit $IR \approx IC\sqrt{BR}$, où $IC$ est
+la qualité de prédiction et $BR$ le nombre de paris. Avec un coefficient
 d'information de 0,05 et cent paris **indépendants**, le ratio d'information
-attendu vaut \(0{,}05 \times \sqrt{100} = 0{,}5\). Avec les mêmes cent paris
+attendu vaut $0{,}05 \times \sqrt{100} = 0{,}5$. Avec les mêmes cent paris
 mais corrélés en moyenne à 0,3, la largeur effective tombe autour de trois selon
 la formule d'équicorrélation, et le ratio d'information attendu tombe à
-\(0{,}05 \times \sqrt{3} \approx 0{,}09\). Le nombre de positions n'a pas
-changé ; la valeur de la stratégie a été divisée par près de six.
+$0{,}05 \times \sqrt{3} \approx 0{,}09$. Le nombre de positions n'a pas
+changé ; la valeur de la stratégie a été divisée par près de six. L'étude 009
+l'a mesuré sur les huit stratégies du dépôt : huit séries valent 5,4 paris
+indépendants.
 
 ## L'architecture
 
@@ -107,6 +149,7 @@ flowchart LR
     B --> M[Analytique]
     M --> V{Validation}
     V --> D[Verdict]
+    B -.contrôle.-> X[LEAN]
 ```
 
 Aucune flèche ne remonte. Une étape ne consulte jamais une étape ultérieure, et
@@ -118,7 +161,7 @@ jour où un fournisseur professionnel remplace Yahoo, aucune stratégie ne chang
 Un test mécanique vérifie cette règle plutôt que de compter sur la relecture.
 
 Le détail vit dans [`docs/architecture/`](docs/architecture/index.md), et les
-dix décisions structurantes sont écrites une par une dans
+quinze décisions structurantes sont écrites une par une dans
 [`docs/architecture/adr/`](docs/architecture/adr/index.md).
 
 ## Les données, et ce qu'elles ne donnent pas
@@ -132,8 +175,8 @@ en-tête d'identification HTTP.
 | SEC EDGAR | dépôts, XBRL, dates d'acceptation | 200 | **oui** |
 | FRED | séries macroéconomiques | 200, CSV sans clé | non |
 | ALFRED | millésimes des séries macroéconomiques | 200 | **oui** |
-| Ken French | facteurs MKT, SMB, HML, RMW, CMA, MOM | 200 | non |
-| AQR | jeux BAB, QMJ, valeur et momentum | 200 | non |
+| Ken French | facteurs MKT, SMB, HML, RMW, CMA, MOM, déciles | 200 | non |
+| AQR | jeux BAB, QMJ, TSMOM, valeur et momentum | 200 | non |
 | Open Source Asset Pricing | plusieurs centaines de caractéristiques | accessible | variable |
 
 Comment lire ce tableau, en trois constats. Le premier est que deux sources
@@ -143,7 +186,8 @@ concerne la SEC. Elle répondait 403 « Request Rate Threshold Exceeded » depui
 cet environnement le 2026-08-29, sur sept relances en vingt minutes, et 200 le
 2026-09-01. Le blocage était un débit, pas une politique. Le troisième est
 qu'aucune de ces sources ne donne les titres radiés, ce qui plafonne la qualité
-de tout backtest sur actions individuelles.
+de tout backtest sur actions individuelles, et l'étude 013 mesure ce que ce
+plafond coûte.
 
 Les limites sont écrites une par une dans
 [`docs/data/free_data_limitations.md`](docs/data/free_data_limitations.md).
@@ -179,7 +223,8 @@ Le détail des vingt étapes vit dans
 ## Le verdict
 
 Cinq verdicts, et aucun ne se choisit à la main : ils se déduisent des contrôles
-qui ont réellement tourné.
+qui ont réellement tourné, et les seuils sont écrits dans la configuration de
+chaque étude avant le premier chiffre.
 
 | Verdict | Ce qu'il signifie |
 |---|---|
@@ -192,7 +237,7 @@ qui ont réellement tourné.
 Un ratio de Sharpe supérieur à 1 ne suffit à aucun de ces verdicts. Le
 laboratoire ne connaît pas de seuil de Sharpe qui suffirait seul.
 
-## Ce qui est fait, et ce qui ne l'est pas
+## Les douze phases
 
 Le [tableau de bord](docs/dashboard/index.md) et le [rapport PDF](rapport/rapport.pdf)
 sont engendrés depuis les fichiers du dépôt par `quant report`, jamais écrits à la
@@ -207,16 +252,16 @@ main (ADR-014).
 | 4 | réplications académiques, de TSMOM à l'arbitrage statistique | **fait**, huit études |
 | 5 | moteur de portefeuille et de risque | **fait**, six estimateurs de covariance, sept optimiseurs |
 | 6 | moteur de coûts et de capacité | **fait**, impact à l'échelle du capital, étude 010 |
-| 7 | portefeuille multi-stratégies | **fait**, étude 009 |
-| 8 | apprentissage automatique transversal | **fait**, panneau point-in-time, six méthodes, étude 011 |
-| 9 | validation indépendante sous LEAN | non commencé |
+| 7 | portefeuille multi-stratégies | **fait**, études 009 et 012 |
+| 8 | apprentissage automatique transversal | **fait**, panneau point-in-time, six méthodes, études 011 et 013 |
+| 9 | validation indépendante sous LEAN | **fait**, l'étude 001 retrouvée à 4e-6 par mois, une séance de retard coûte 71 pb/an |
 | 10 | tableau de bord et rapport institutionnel | **fait**, `quant dashboard build` et `quant report` |
-| 11 | recherche propre | non commencé |
+| 11 | recherche propre | **ouverte**, étude 014 : la publication laisse un quart à un tiers du rendement |
 
-## Ce que les huit réplications ont trouvé
+## Ce que les quatorze études ont trouvé
 
 **Aucune des huit stratégies ne mérite du capital en l'état.** Aucune n'atteint
-`ROBUST` ni `PORTFOLIO_CANDIDATE`, et c'est le résultat de la phase 4.
+`ROBUST` ni `PORTFOLIO_CANDIDATE`, et c'est le résultat des phases 4 à 8.
 
 | Étude | Article | Essais | Verdict | Ce qui décide |
 |---|---|---:|---|---|
@@ -229,20 +274,23 @@ main (ADR-014).
 | 007 Arbitrage statistique | Avellaneda et Lee (2010) | 49 | `REJECTED` | seuil de rentabilité à 3,92 points de base |
 | 008 Portage | Koijen, Moskowitz, Pedersen et Vrugt (2018) | 33 | `REPLICATED` | coefficient 1,084 contre 1,09, puis 0,303 hors échantillon |
 | 009 Huit sources, un portefeuille | Grinold (1989), DeMiguel et coauteurs (2009) | 20 | `REJECTED` | 5,4 paris indépendants ; la référence déclarée rend 0,646 contre 0,721 seule |
-| 012 Le même portefeuille sur séries nettes | Grinold (1989), DeMiguel et coauteurs (2009) | 20 | `REJECTED` | parité de risque à -0,128 net contre 0,535 pour la meilleure jambe ; l'arbitrage statistique net retire 0,379 |
-| 013 Arbres contre régression sur quarante ans de survivants | Gu, Kelly et Xiu (2020) | 17 | `REJECTED` | R² 1,6 %, quatre fois l'article, déciles nets 0,60 à 0,85 : le biais de survie, pas un mérite ; les arbres ne battent pas la régression, p 0,58 |
-| 010 Capacité des deux stratégies chiffrables | Almgren et coauteurs (2005), Gatheral (2010) | 8 | `REJECTED` | momentum borné par la participation à 84 940 $, arbitrage statistique à capacité nulle, son brut ne couvrant pas 5 pb |
-| 011 Apprentissage transversal, six méthodes | Gu, Kelly et Xiu (2020) | 17 | `REJECTED` | R² mensuel 0,35 à 0,48 % dans la plage publiée, mais corrélation de rang négative ; les arbres ne battent pas la régression au test de Diebold et Mariano, p 0,65 |
+| 010 Capacité des deux stratégies chiffrables | Almgren et coauteurs (2005), Gatheral (2010) | 8 | `REJECTED` | momentum borné par la participation à 84 940 $, arbitrage statistique à capacité nulle |
+| 011 Apprentissage transversal, six méthodes | Gu, Kelly et Xiu (2020) | 17 | `REJECTED` | R² dans la plage publiée, corrélation de rang négative ; les arbres ne battent pas la régression, p 0,65 |
+| 012 Le même portefeuille sur séries nettes | Grinold (1989), DeMiguel et coauteurs (2009) | 20 | `REJECTED` | parité de risque à -0,128 net contre 0,535 pour la meilleure jambe |
+| 013 Arbres contre régression sur quarante ans de survivants | Gu, Kelly et Xiu (2020) | 17 | `REJECTED` | R² quatre fois l'article, déciles nets 0,60 à 0,85 : le biais de survie, pas un mérite |
+| 014 Ce que la publication laisse, huit stratégies ensemble | McLean et Pontiff (2016) | 12 | `EXPERIMENTAL` | 67 à 73 % de baisse après publication contre 58 % publié, et rien avant |
 
 Comment lire ce tableau, en trois constats. Le premier est que sept articles sur
 huit se répliquent correctement dans leur propre fenêtre : ce n'est pas la
 réplication qui échoue, c'est la survie. Le deuxième est que la colonne des
 essais entre dans le ratio de Sharpe dégonflé, et que les 207 essais de l'étude
-003 le ramènent à 0,000012. Le troisième est que le seul verdict `REPLICATED`
-est aussi celui dont trois classes d'actifs sur quatre n'ont pas pu être testées
-faute de données, ce qui est écrit dans son README plutôt que contourné.
+003 le ramènent à 0,000012. Le troisième est que la contrainte fatale change
+d'une étude à l'autre. La publication pour le momentum, les coûts pour
+l'arbitrage statistique, l'investissabilité pour la gestion de volatilité, une
+hypothèse de construction pour le bêta défensif, le biais de survie pour
+l'apprentissage.
 
-**Quatre trouvailles que les articles ne donnent pas.**
+**Cinq trouvailles que les articles ne donnent pas.**
 
 L'échantillon de Moreira et Muir s'arrête en **avril 2015** et non en décembre,
 ce qui explique l'écart de huit mois entre leur compte d'observations et le
@@ -250,7 +298,10 @@ nôtre. Avec cette borne, six comptes sur six tombent exactement.
 
 Le biais de survie **retire** 2,04 à 4,34 points de pourcentage par an au
 momentum au lieu d'en ajouter, parce qu'un décile perdant reconstitué sur un
-indice actuel se remplit de titres tombés puis remontés.
+indice actuel se remplit de titres tombés puis remontés. Mais il **fabrique**
+deux renversements : acheter les perdants de long terme rapporte 7,1 % par an
+chez les survivants et coûte 1,7 % sur les déciles de Kenneth French, qui
+incluent les sociétés radiées.
 
 Frazzini et Pedersen présentent le rétrécissement du bêta de 0,6 vers un comme
 un détail d'estimation. Il fait passer le ratio de Sharpe du facteur reconstruit
@@ -261,33 +312,60 @@ alors que sa colonne agrégée court jusqu'au 2026-06-30, sans que le fichier le
 signale. Le ratio de Sharpe hors échantillon passe de 0,604 à 0,246 selon la
 colonne lue.
 
-Les trois rejets sont documentés un par un dans
+Retarder l'exécution d'une seule séance coûte **71 points de base par an** au
+momentum de série temporelle, une mesure que seul le moteur événementiel de la
+phase 9 pouvait faire.
+
+Les rejets sont documentés un par un dans
 [`docs/research_journal/rejected_ideas.md`](docs/research_journal/rejected_ideas.md),
 avec leur hypothèse économique, ce qui a été mesuré, et pourquoi cela ne suffit
-pas. **797 essais** ont été menés au total, et aucun n'a produit une stratégie
+pas. **809 essais** ont été menés au total, et aucun n'a produit une stratégie
 retenue.
 
-## Ce que porte le dépôt, mesuré le 2026-09-01
+## Se comparer aux fonds réels
+
+Un laboratoire qui ne se compare à personne ne sait pas où il en est. Le dépôt
+compare donc ses séries à des fonds cotés qui négocient les mêmes facteurs. Il
+compare aussi le portefeuille de l'étude 009 aux rendements annuels rapportés
+de onze grands fonds fermés, Medallion, Wellington, Pure Alpha et les autres.
+
+![Rendements annuels du portefeuille 009 et de onze fonds, 2010-2025](docs/dashboard/figures/fonds_fermes_rendements_annuels.png)
+
+Comment lire cette figure : la ligne noire épaisse est le portefeuille de
+l'étude 009, net, à sa volatilité naturelle de 3,6 % par an. Chaque autre
+ligne est un fonds dont les rendements annuels sont **rapportés** par la presse
+ou par une source citée dans `benchmarks/hedge_funds.yaml`, jamais mesurés.
+Les fonds ne partagent que quelques années avec le laboratoire, sept ou huit
+au mieux, et aucun co-mouvement n'est établi : l'intervalle de Fisher de chaque
+corrélation contient zéro. La réponse à « pourquoi notre Sharpe n'est pas celui
+de Medallion » est écrite dans [`benchmarks/README.md`](benchmarks/README.md).
+Ce sont des facteurs académiques mensuels, quelques paris, un alpha qui décroît
+après publication ; ce n'est pas le même jeu.
+
+## Ce que porte le dépôt, mesuré le 2026-09-03
 
 | | |
 |---|---:|
-| Modules de code | 54 fichiers, 31 385 lignes |
-| Tests | 31 fichiers, 21 805 lignes, **1 700 tests verts** hors réseau |
-| Tests réseau, contre les sources vivantes | 9, tous verts |
-| Documentation | 57 pages, 11 529 lignes |
-| Fiches de littérature | 21, chaque chiffre sourcé ou marqué « non trouvé » |
-| Décisions d'architecture écrites | 10 |
+| Modules de code | 81 fichiers, 57 912 lignes |
+| Tests | 53 fichiers, 38 625 lignes, **2 948 tests verts** hors réseau, en 31 secondes |
+| Tests réseau, contre les sources vivantes | 16, marqués `network`, appelés séparément |
+| Documentation | 75 pages, 13 191 lignes, construite en mode strict |
+| Fiches de littérature | 22, chaque chiffre sourcé ou marqué « non trouvé » |
+| Décisions d'architecture écrites | 15 |
+| Études | 14, chacune avec configuration, résultats, README et notes |
+| Essais déclarés | 809 |
 
 Les huit modules d'analytique sont `returns`, `risk`, `drawdown`, `ratios`,
 `regression`, `ic`, `turnover` et `contributions`. Les huit modules de
 validation sont `splits`, `purging`, `cpcv`, `bootstrap`, `dsr`, `pbo`,
 `multiple_testing` et `robustness`. Cinq fournisseurs de données sont
-implémentés : Yahoo, Ken French, FRED, ALFRED et SEC EDGAR.
+implémentés : Yahoo, Ken French, AQR, FRED avec ALFRED, et SEC EDGAR.
 
 ## Comment ce code a été vérifié
 
 Chaque module a été écrit, puis **contredit** par un second passage dont la
-consigne était de trouver ses erreurs, pas de le valider. Le bilan est mesuré.
+consigne était de trouver ses erreurs, pas de le valider. Le bilan est mesuré
+au 2026-09-01, sur les phases 1 à 3.
 
 | Contrôle | Résultat |
 |---|---:|
@@ -300,9 +378,7 @@ Les deux lignes du milieu se lisent en deux temps, et c'est voulu. Un contrôle
 qui ne trouve rien rend quand même un constat, du type « aucune erreur de
 formule, recalcul indépendant sur 200 tirages, écart maximal 8,9e-16 ». Ces
 constats-là comptent autant que les autres, parce qu'ils disent ce qui a été
-cherché sans être trouvé. Les 64 injections sont celles de la phase 3, la seule
-à les avoir comptées séparément. Les phases 1 et 2 en ont fait davantage sans
-les dénombrer, l'une des vérifications en rapportant dix-huit à elle seule.
+cherché sans être trouvé.
 
 Trois exemples de ce que ce second passage a trouvé, et qu'aucun test de forme
 n'aurait vu.
@@ -322,7 +398,8 @@ Après correction, treize mutations sur treize sont attrapées.
 La règle qui rend ce travail possible est écrite dans le `CLAUDE.md` : **aucune
 valeur attendue d'un test ne vient de la sortie du code**. Elle vient d'un calcul
 à la main écrit en commentaire, d'une identité mathématique, d'une valeur
-publiée et citée, ou d'une bibliothèque indépendante.
+publiée et citée, ou d'une bibliothèque indépendante. Le second moteur de la
+phase 9 est la même règle appliquée au moteur de backtest entier.
 
 ## Reproduire
 
@@ -331,19 +408,26 @@ git clone https://github.com/Guilou001/quant-research-platform
 cd quant-research-platform
 make install                 # uv sync --all-extras --dev
 
-cp .env.example .env         # poser QUANTLAB_USER_AGENT, exigé par la SEC
+cp .env.example .env         # poser QUANTLAB_USER_AGENT, exigé par la SEC et par Kenneth French
 
 make lint                    # ruff format --check puis ruff check
-make test                    # pytest, tests réseau exclus
-make docs                    # mkdocs build --strict
+make test                    # pytest, tests réseau exclus, 31 secondes mesurées
+make docs                    # mkdocs build --strict, une seconde
 
 uv run quant info            # versions, chemins, état du lac
+uv run quant report          # le tableau de bord et le PDF, depuis les fichiers
 ```
 
 `make test` n'a besoin d'aucun accès réseau : chaque fournisseur de données est
 testé contre une réponse enregistrée dans le fichier de test. Les tests qui
 sortent réellement sur Internet portent le marqueur `network` et s'appellent
 séparément par `uv run pytest -m network`.
+
+Une étude se relance par `uv run python studies/<étude>/run.py`. Elle
+télécharge ses données par script, les range dans le lac, et réécrit son
+`results/`. Les données ne sont jamais commitées. La réconciliation avec LEAN
+demande Docker et se lance par les quatre commandes de
+[`lean/README.md`](lean/README.md).
 
 ## Les quinze règles
 
@@ -365,26 +449,31 @@ fausse précisément le test qui sert à détecter le surapprentissage.
 
 | Limite | Statut |
 |---|---|
-| Aucune stratégie n'atteint `ROBUST` sur onze études | mesuré, c'est le résultat des phases 4 à 8 |
-| Pas d'univers sans biais de survie sur actions individuelles | mesuré, les sources gratuites ne le donnent pas |
+| Aucune stratégie n'atteint `ROBUST` sur quatorze études | mesuré, c'est le résultat des phases 4 à 11 |
+| Pas d'univers sans biais de survie sur actions individuelles | mesuré, les sources gratuites ne le donnent pas, et l'étude 013 chiffre ce que cela fabrique |
 | Pas de carnet d'ordres, donc écart acheteur-vendeur supposé | reconnu, hypothèse déclarée dans chaque étude |
 | Impact de marché modélisé en racine carrée, sans microstructure | modélisé, marqué comme tel partout |
 | Coût d'emprunt de titre supposé, disponibilité supposée acquise | reconnu, hypothèse **optimiste**, testée à un, deux et cinq fois |
+| Une seule stratégie réconciliée sous LEAN, sans frais | mesuré, phase 9 ; le pont est en place pour toute stratégie retenue |
+| Huit stratégies dans l'étude de la publication, choisies parce que célèbres | reconnu, l'objection la plus forte est traitée dans son README |
 | Plotly borné sous la version 7 | mesuré le 2026-09-01, cause et condition de levée dans ADR-006 |
-| Second moteur de backtest sous LEAN non encore écrit | reconnu, phase 9 |
 
 ## Avertissement
 
-Rien ici n'est un conseil en investissement. Les résultats qui seront publiés
-sont des mesures faites sur des données historiques, sous des hypothèses
-déclarées. Un résultat historique ne dit rien de l'avenir, et le vocabulaire du
-dépôt suit cette règle : « mesuré sur telle période », jamais « la stratégie
-rapporte ».
+Rien ici n'est un conseil en investissement. Les résultats publiés sont des
+mesures faites sur des données historiques, sous des hypothèses déclarées. Un
+résultat historique ne dit rien de l'avenir, et le vocabulaire du dépôt suit
+cette règle : « mesuré sur telle période », jamais « la stratégie rapporte ».
 
 ## Crédits et licence
 
-Code sous licence MIT, documentation sous CC BY 4.0. Voir [`LICENSE`](LICENSE)
-et [`CITATION.cff`](CITATION.cff).
+Code sous licence MIT, documentation, figures et rapport sous CC BY 4.0. Voir
+[`LICENSE`](LICENSE) et [`CITATION.cff`](CITATION.cff) pour citer le dépôt.
 
-Le paquet `gvf` ([gv-fintools](https://github.com/Guilou001/gv-fintools)) fournit
-la feuille de style des figures, commune au reste du portefeuille.
+Les données restent chez leurs éditeurs et sous leurs licences : Yahoo en usage
+personnel, Kenneth French et AQR en accès libre avec attribution, la SEC et la
+FRED en données publiques. Le paquet `gvf`
+([gv-fintools](https://github.com/Guilou001/gv-fintools)) fournit la feuille de
+style des figures et le générateur de rapport, communs au reste du
+portefeuille. LEAN est le moteur en source ouverte de QuantConnect, employé
+dans son image Docker publique.

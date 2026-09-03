@@ -1,0 +1,82 @@
+{
+  "threshold_monthly": 0.0001,
+  "delay_0": {
+    "n_months": 234,
+    "first_month": "2007-01-31",
+    "last_month": "2026-06-30",
+    "max_abs_difference": 4.020251355343202e-06,
+    "mean_difference": -2.8618912283139154e-09,
+    "rms_difference": 1.2552309854060425e-06,
+    "n_months_above_threshold": 0,
+    "threshold": 0.0001,
+    "correlation": 0.9999999996797816,
+    "sharpe_lab": 0.37695624688714924,
+    "sharpe_lean_excess": 0.37695599321081763,
+    "sharpe_lean_total": 0.4082748979128477,
+    "wealth_lab": 2.652088188844662,
+    "wealth_lean_excess": 2.6520863610957734,
+    "annual_return_lab_pct": 5.128982132438353,
+    "annual_return_lean_excess_pct": 5.128978416944419,
+    "financing_mean_annual_pct": 0.6334253570118636,
+    "fills": {
+      "n_fills": 6447,
+      "n_fills_at_previous_close": 6447,
+      "n_fills_at_same_day_close": 0,
+      "n_fills_elsewhere": 0,
+      "examples_elsewhere": [],
+      "first_fill_time_new_york": "2007-02-01 16:00:00-05:00"
+    },
+    "decisions": {
+      "n_decision_dates_common": 234,
+      "n_decision_dates_lean": 234,
+      "max_abs_weight_difference": 0.0014987185470740627,
+      "mean_abs_weight_difference": 5.763910097898559e-06,
+      "n_dates_instrument_count_differs": 0,
+      "n_sign_disagreements": 0
+    }
+  },
+  "delay_1": {
+    "n_months": 234,
+    "first_month": "2007-01-31",
+    "last_month": "2026-06-30",
+    "max_abs_difference": 0.03332493407789543,
+    "mean_difference": -0.0005543836512895208,
+    "rms_difference": 0.00655027500059723,
+    "n_months_above_threshold": 226,
+    "threshold": 0.0001,
+    "correlation": 0.9914188689716389,
+    "sharpe_lab": 0.37695624688714924,
+    "sharpe_lean_excess": 0.3361384387820988,
+    "sharpe_lean_total": 0.3681632004912609,
+    "wealth_lab": 2.652088188844662,
+    "wealth_lean_excess": 2.3225457709734885,
+    "annual_return_lab_pct": 5.128982132438353,
+    "annual_return_lean_excess_pct": 4.4160834144839844,
+    "financing_mean_annual_pct": 0.6334253570118636,
+    "fills": {
+      "n_fills": 6447,
+      "n_fills_at_previous_close": 6447,
+      "n_fills_at_same_day_close": 0,
+      "n_fills_elsewhere": 0,
+      "examples_elsewhere": [],
+      "first_fill_time_new_york": "2007-02-02 16:00:00-05:00"
+    },
+    "decisions": {
+      "n_decision_dates_common": 234,
+      "n_decision_dates_lean": 234,
+      "max_abs_weight_difference": 0.0014987185470740627,
+      "mean_abs_weight_difference": 5.763910097898559e-06,
+      "n_dates_instrument_count_differs": 0,
+      "n_sign_disagreements": 0
+    }
+  },
+  "one_day_delay": {
+    "n_months": 234,
+    "annual_return_base_pct": 5.128978416944419,
+    "annual_return_delayed_pct": 4.4160834144839844,
+    "mean_monthly_cost_bps": 5.543807893982928,
+    "sharpe_base": 0.37695599321081763,
+    "sharpe_delayed": 0.3361384387820988,
+    "correlation": 0.9914192539054281
+  }
+}

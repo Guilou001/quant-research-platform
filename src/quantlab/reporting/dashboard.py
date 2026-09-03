@@ -570,8 +570,8 @@ def build_report(
         titre_affiche=gvf_markdown.ligne(document.titre),
         pied=gvf_markdown.ligne(root.name),
         date=date or dt.date.today().isoformat(),
-        depot="https://github.com/Guilou001",
-        depot_court="dépôt local, non publié",
+        depot="https://github.com/Guilou001/quant-research-platform",
+        depot_court="github.com/Guilou001/quant-research-platform",
         corps=document.corps,
     )
     destination.parent.mkdir(parents=True, exist_ok=True)

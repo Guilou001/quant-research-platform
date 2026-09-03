@@ -23,6 +23,7 @@ from __future__ import annotations
 import datetime as dt
 import hashlib
 import io
+import os
 import zipfile
 
 import numpy as np
@@ -766,7 +767,11 @@ def test_une_frequence_sans_fichier_de_reference_est_refusee(tmp_path) -> None:
 # --------------------------------------------------------------------------- #
 def _client_reseau() -> HttpClient:
     """Un client identifié par un courriel, comme le socle l'exige."""
-    return HttpClient(settings=Settings(user_agent="quantlab research (vaudescal.guillaumepro@gmail.com)"))
+    return HttpClient(
+        settings=Settings(
+            user_agent=os.environ.get("QUANTLAB_USER_AGENT", "quantlab research (exemple@exemple.ca)")
+        )
+    )
 
 
 @pytest.mark.network

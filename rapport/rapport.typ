@@ -32,21 +32,21 @@
   #block(width: 100%)[
     #text(size: 18pt, weight: "bold")[Tableau de bord du laboratoire]
     #v(0.6em)
-    #text(size: 10pt, fill: luma(70))[Guillaume Vaudescal · 2026-09-03 · #link("https://github.com/Guilou001")[dépôt local, non publié]]
+    #text(size: 10pt, fill: luma(70))[Guillaume Vaudescal · 2026-09-03 · #link("https://github.com/Guilou001/quant-research-platform")[github.com/Guilou001/quant-research-platform]]
   ]
 ]
 #v(1.2em)
 #line(length: 100%, stroke: 0.6pt + luma(190))
 #v(0.8em)
 
-Engendré le 2026-09-03 par #raw("quant dashboard build"), commit #raw("c6c9b46"). Chaque chiffre vient d'un fichier du dépôt, nommé sous chaque tableau. Rien ici n'est un conseil en investissement.
+Engendré le 2026-09-03 par #raw("quant dashboard build"), commit #raw("5b55a3a"). Chaque chiffre vient d'un fichier du dépôt, nommé sous chaque tableau. Rien ici n'est un conseil en investissement.
 
 == L'état en quatre nombres
 
-- *13 études* menées, verdicts : 4 #raw("EXPERIMENTAL"), 8 #raw("REJECTED"), 1 #raw("REPLICATED").
-- *797 essais déclarés* dans les configurations, qui entrent dans le ratio de Sharpe dégonflé.
-- *134 expériences* au registre, 797 essais sur les dernières exécutions.
-- *2413 fonctions de test*, dont les gardiens d'architecture et de style.
+- *14 études* menées, verdicts : 5 #raw("EXPERIMENTAL"), 8 #raw("REJECTED"), 1 #raw("REPLICATED").
+- *809 essais déclarés* dans les configurations, qui entrent dans le ratio de Sharpe dégonflé.
+- *135 expériences* au registre, 809 essais sur les dernières exécutions.
+- *2424 fonctions de test*, dont les gardiens d'architecture et de style.
 
 == Les verdicts
 
@@ -113,6 +113,10 @@ Source : #raw("studies/*/config.yaml") et #raw("studies/*/results/metrics.json")
     [17],
     [#raw("REJECTED")],
     [Sur 502 survivants du S&P 500 rejoués depuis 1986, tout est positif, R² de 1,6 % et déciles nets de 0,60 à 0,85, et c'est le signe du biais de survie plutôt qu'un mérite : les arbres ne battent toujours pas la régression au test de Diebold et Mariano, p 0,58, et un titre encore dans l'indice a remonté par construction.],
+    [014 Ce que la publication laisse, huit stratégies ensemble],
+    [12],
+    [#raw("EXPERIMENTAL")],
+    [Les huit stratégies perdent après la publication de leur article, 73 % du rendement mensuel moyen par la moyenne des rapports et 67 % par la régression, contre 58 % chez McLean et Pontiff ; entre la fin de l'échantillon et la publication, elles ne perdent que 3 à 4 % contre 26 %, parce que ce sont celles que leurs années suivantes n'ont pas démenties.],
 )
 
 == Les séries, et ce qu'elles valent
@@ -500,6 +504,11 @@ Source : #raw("artifacts/experiments.jsonl"), non suivi par git, régénéré pa
     [*Verdict*],
     [*Essais*],
     [*Commit*],
+    [publication\_decay\_014-10a4ab41b0],
+    [2026-09-03T21:53:26],
+    [EXPERIMENTAL],
+    [12],
+    [5b55a3a],
     [cross\_sectional\_ml\_long\_013-cf4d311858],
     [2026-09-03T21:22:59],
     [REJECTED],
@@ -554,11 +563,6 @@ Source : #raw("artifacts/experiments.jsonl"), non suivi par git, régénéré pa
     [2026-09-02T21:13:18],
     [REJECTED],
     [144],
-    [5b77898],
-    [008\_carry-f9c8c75b19],
-    [2026-09-02T21:10:53],
-    [REPLICATED],
-    [33],
     [5b77898],
 )
 

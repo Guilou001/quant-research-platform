@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import datetime as dt
 import io
+import os
 import zipfile
 from collections.abc import Mapping, Sequence
 from email.utils import parsedate_to_datetime
@@ -1124,7 +1125,11 @@ def test_le_manifeste_refuse_un_tableau_vide(tmp_path) -> None:
 # --------------------------------------------------------------------------- #
 def _client_reseau() -> HttpClient:
     """Un client identifié par un courriel, comme le socle l'exige."""
-    return HttpClient(settings=Settings(user_agent="quantlab research (vaudescal.guillaumepro@gmail.com)"))
+    return HttpClient(
+        settings=Settings(
+            user_agent=os.environ.get("QUANTLAB_USER_AGENT", "quantlab research (exemple@exemple.ca)")
+        )
+    )
 
 
 @pytest.mark.network

@@ -39,6 +39,8 @@ règle du journal qui ne se rattrape pas après coup.
 | [2026-09-03](2026-09-03-phase-10-tableau-de-bord.md) | tableau de bord et rapport engendrés depuis les fichiers | phase 10 close, `quant report` en une commande |
 | [2026-09-03](2026-09-03-dettes-avril-2020-et-series-nettes.md) | un mois de taux manquant, et le portefeuille sur séries nettes | chiffres de 008 et 009 relus, étude 012 `REJECTED`, la diversification ne paie pas net |
 | [2026-09-03](2026-09-03-quarante-ans-de-survivants.md) | arbres contre régression sur quarante ans de survivants | `REJECTED` ; le biais de survie fabrique deux renversements, mesuré contre Kenneth French |
+| [2026-09-03](2026-09-03-phase-9-lean.md) | le même momentum dans deux moteurs | phase 9 close, LEAN retrouve le laboratoire à 4e-6 par mois, une séance de retard coûte 71 pb/an |
+| [2026-09-03](2026-09-03-phase-11-publication.md) | ce que la publication laisse, huit stratégies ensemble | `EXPERIMENTAL` ; 67 à 73 % de baisse après publication contre 58 % publié, rien avant |
 
 ## Les idées rejetées
 

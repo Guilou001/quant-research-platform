@@ -24,3 +24,4 @@ Une décision sans option écartée n'est pas une décision, c'est une habitude.
 | [ADR-012](adr-012-capacite-par-forme-fermee.md) | La capacité se mesure en rejouant les poids à plusieurs tailles, et une forme fermée contrôle le moteur | Acceptée | 2026-09-02 |
 | [ADR-013](adr-013-scikit-learn-derriere-les-modeles.md) | scikit-learn est le moteur d'apprentissage, derrière le protocole AlphaModel | Acceptée | 2026-09-02 |
 | [ADR-014](adr-014-tableau-de-bord-engendre.md) | Le tableau de bord et le rapport se génèrent depuis les fichiers, jamais à la main | Acceptée | 2026-09-03 |
+| [ADR-015](adr-015-lean-dans-docker-sans-lean-cli.md) | LEAN tourne dans son image publique, sans lean-cli, sur des barres exportées par le laboratoire | Acceptée | 2026-09-03 |

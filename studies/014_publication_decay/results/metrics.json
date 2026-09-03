@@ -1,0 +1,72 @@
+{
+  "published": {
+    "post_sample_decline": 0.26,
+    "post_publication_decline": 0.58,
+    "n_predictors": 97
+  },
+  "pooled": {
+    "post_sample": {
+      "n_strategies": 6,
+      "mean_return_ratio": 0.9721204803610325,
+      "median_return_ratio": 1.1866206326387547,
+      "mean_return_decline": 0.02787951963896751,
+      "decline_ci95_low": -0.445413892020764,
+      "decline_ci95_high": 0.5903594210423431,
+      "n_strategies_declining": 2,
+      "n_strategies_negative": 1,
+      "mean_sharpe_ratio_ratio": 1.4192612227118788,
+      "sharpe_decline_ci95_low": -1.391149425253745,
+      "sharpe_decline_ci95_high": 0.5489736090572133
+    },
+    "post_publication": {
+      "n_strategies": 8,
+      "mean_return_ratio": 0.27301969813057725,
+      "median_return_ratio": 0.29951214876279597,
+      "mean_return_decline": 0.7269803018694228,
+      "decline_ci95_low": 0.5411844424370664,
+      "decline_ci95_high": 0.9387262493150793,
+      "n_strategies_declining": 8,
+      "n_strategies_negative": 2,
+      "mean_sharpe_ratio_ratio": 0.37426788692286694,
+      "sharpe_decline_ci95_low": 0.3929379518799998,
+      "sharpe_decline_ci95_high": 0.8673671433546934
+    },
+    "regression": {
+      "post_sample_decline": 0.04390053072815614,
+      "post_sample_se": 0.3503333874319988,
+      "post_sample_t": -0.12531072487824876,
+      "post_publication_decline": 0.6674549310061415,
+      "post_publication_se": 0.3785271874417123,
+      "post_publication_t": -1.7632945615271554,
+      "n_observations": 6003,
+      "n_month_clusters": 1194
+    }
+  },
+  "heterogeneity": {
+    "spearman_t_in_sample_vs_decline": -0.04761904761904763,
+    "permutation_p_value": 0.9349,
+    "n_strategies": 8
+  },
+  "leave_one_out": {
+    "min_mean_return_decline": 0.6477299658926255,
+    "max_mean_return_decline": 0.7747998737000164,
+    "min_regression_decline": 0.6133013105389032,
+    "max_regression_decline": 0.7675040739504626
+  },
+  "verdict": "EXPERIMENTAL",
+  "verdict_reasons": [
+    "RÉUSSI | hypothèse économique : signe attendu retrouvé, le signe décide du rejet",
+    "RÉUSSI | signe du Sharpe hors échantillon : non mesuré, rejet à 0,000 ou moins",
+    "ÉCHOUÉ | réplication de « baisse_apres_publication_regression » : 0,667 contre 0,580 publié, écart relatif 0,151, tolérance 0,100 (relative)",
+    "ÉCHOUÉ | réplication de « baisse_apres_echantillon_regression » : 0,044 contre 0,260 publié, écart relatif 0,831, tolérance 0,100 (relative)",
+    "ÉCHOUÉ | réplication : 0 contrôle(s) sur 2 dans la tolérance, tous exigés",
+    "ÉCHOUÉ | Sharpe hors échantillon : non mesuré, minimum 0,500",
+    "ÉCHOUÉ | t après correction pour essais multiples : non mesuré, minimum 3,000",
+    "ÉCHOUÉ | Sharpe dégonflé : non mesuré, minimum 0,950",
+    "ÉCHOUÉ | probabilité de surapprentissage : non mesuré, maximum 0,500",
+    "ÉCHOUÉ | part de sous-périodes positives : non mesuré, minimum 0,600",
+    "ÉCHOUÉ | multiple de coûts survécu : non mesuré, minimum 2,000",
+    "ÉCHOUÉ | corrélation absolue avec le portefeuille existant : non mesuré, maximum 0,600",
+    "VERDICT | EXPERIMENTAL"
+  ]
+}

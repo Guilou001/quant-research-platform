@@ -80,7 +80,9 @@ nav:
       - Limites des données gratuites: data/free_data_limitations.md
       - Actions de société: data/corporate_actions.md
   - Analytique: analytics/index.md
-  - Validation: validation/index.md
+  - Validation:
+      - Le moteur de validation: validation/index.md
+      - La réconciliation avec LEAN: validation/reconciliation_lean.md
   - Littérature: literature/index.md
   - Journal de recherche: research_journal/index.md
   - Glossaire: glossary/quant_glossary.md

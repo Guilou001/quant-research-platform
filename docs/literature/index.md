@@ -40,7 +40,7 @@ défaillant alors qu'il aura raison.
 | Portage et volatilité | Koijen et coauteurs, Moreira-Muir |
 | Arbitrage statistique | Gatev-Goetzmann-Rouwenhorst, Avellaneda-Lee |
 | Apprentissage et exécution | Gu-Kelly-Xiu, Almgren-Chriss |
-| Surapprentissage | ratio de Sharpe dégonflé, PBO, Harvey-Liu-Zhu |
+| Surapprentissage | ratio de Sharpe dégonflé, PBO, Harvey-Liu-Zhu, McLean-Pontiff |
 
 Les fiches vivent dans ce répertoire, une par article, et l'index de navigation
 du site les liste sous cette page.
