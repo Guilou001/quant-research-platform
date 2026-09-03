@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Le tableau de bord du laboratoire
+    url: https://guilou001.github.io/quant-research-platform/dashboard/
+    about: Les verdicts, les séries et les comparaisons, engendrés depuis les fichiers du dépôt.
