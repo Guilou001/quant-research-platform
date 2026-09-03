@@ -36,7 +36,7 @@ jobs:
           uv run ruff check .
 
       - name: Tests unitaires, propriétés et anti-biais
-        run: uv run pytest -m "not network" --cov --cov-report=term-missing --cov-fail-under=70
+        run: uv run pytest -m "not network" --cov --cov-report=term-missing --cov-fail-under=85
 
       - name: Tests d'intégration légers
         run: uv run pytest tests/integration -m "not network"
