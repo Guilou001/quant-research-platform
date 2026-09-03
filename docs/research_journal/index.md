@@ -36,6 +36,7 @@ règle du journal qui ne se rattrape pas après coup.
 | [2026-09-02](2026-09-02-phases-5-7.md) | huit stratégies rejetées, combinées | la diversification travaille, la référence déclarée tient |
 | [2026-09-02](2026-09-02-phase-6-capacite.md) | la capacité des deux stratégies chiffrables, et dix fonds fermés | phase 6 close, capacité bornée par la participation ou nulle |
 | [2026-09-02](2026-09-02-phase-8-apprentissage.md) | arbres contre régression, après coûts | phase 8 close, le linéaire est gardé |
+| [2026-09-03](2026-09-03-phase-10-tableau-de-bord.md) | tableau de bord et rapport engendrés depuis les fichiers | phase 10 close, `quant report` en une commande |
 
 ## Les idées rejetées
 

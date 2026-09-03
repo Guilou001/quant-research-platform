@@ -35,6 +35,8 @@ study_app = typer.Typer(help="Les études de réplication.", no_args_is_help=Tru
 app.add_typer(data_app, name="data")
 app.add_typer(exp_app, name="experiments")
 app.add_typer(study_app, name="study")
+dashboard_app = typer.Typer(help="Le tableau de bord et le rapport institutionnel.", no_args_is_help=True)
+app.add_typer(dashboard_app, name="dashboard")
 
 _log = get_logger(__name__)
 
@@ -50,16 +52,6 @@ def _echo_table(rows: list[tuple[str, str]], title: str | None = None) -> None:
     width = max(len(k) for k, _ in rows)
     for key, value in rows:
         typer.echo(f"  {key:<{width}}  {value}")
-
-
-def _not_implemented(phase: int, what: str) -> None:
-    """Signale honnêtement qu'une commande attend sa phase."""
-    typer.secho(
-        f"« {what} » n'est pas implémenté. C'est la phase {phase} de la feuille de route.",
-        fg=typer.colors.YELLOW,
-    )
-    typer.echo("Voir docs/index.md pour l'état d'avancement.")
-    raise typer.Exit(code=2)
 
 
 @app.callback()
@@ -280,21 +272,128 @@ def _resolve_study(name: str) -> Path:
 
 
 @app.command("backtest")
-def backtest(config: str) -> None:
-    """Fait tourner un backtest depuis une configuration."""
-    _not_implemented(4, f"quant backtest {config}")
+def backtest(
+    weights: Annotated[str, typer.Argument(help="CSV de poids cibles, dates en lignes, actifs en colonnes.")],
+    returns: Annotated[str, typer.Argument(help="CSV de rendements de période, mêmes actifs.")],
+    frequency: Annotated[str, typer.Option(help="daily, weekly, monthly.")] = "monthly",
+    spread_bps: Annotated[
+        float, typer.Option(help="Coût proportionnel par unité négociée, en points de base.")
+    ] = 0.0,
+    execution_lag: Annotated[int, typer.Option(help="Décalage d'exécution en périodes, jamais zéro.")] = 1,
+    out: Annotated[
+        str | None, typer.Option(help="Fichier JSON du résumé ; sinon la sortie standard.")
+    ] = None,
+) -> None:
+    """Rejoue des poids sur des rendements et rend le résumé brut et net."""
+    import pandas as pd
+
+    from quantlab.backtest.engine import run_backtest
+    from quantlab.core.errors import InsufficientDataError
+    from quantlab.core.types import Frequency
+    from quantlab.execution.costs import LinearCostModel
+
+    w = pd.read_csv(weights, index_col=0, parse_dates=True)
+    r = pd.read_csv(returns, index_col=0, parse_dates=True)
+    model = LinearCostModel(spread_bps=spread_bps) if spread_bps > 0 else None
+    result = run_backtest(
+        weights=w, returns=r, cost_model=model, execution_lag=execution_lag, frequency=Frequency(frequency)
+    )
+    try:
+        raw = result.summary()
+    except InsufficientDataError as exc:
+        raw = {
+            "n_periods": len(result.net_returns),
+            "gross_mean": float(result.gross_returns.mean()),
+            "net_mean": float(result.net_returns.mean()),
+            "cost_total": float(result.costs.sum()),
+            "note": f"résumé complet indisponible : {exc}",
+        }
+    summary = {k: (str(v) if not isinstance(v, int | float) else v) for k, v in raw.items()}
+    text = json.dumps(summary, ensure_ascii=False, indent=2, default=str)
+    if out:
+        Path(out).write_text(text, encoding="utf-8")
+        typer.echo(f"résumé écrit : {out}")
+    else:
+        typer.echo(text)
 
 
 @app.command("portfolio")
-def portfolio(config: str) -> None:
-    """Construit un portefeuille depuis une configuration."""
-    _not_implemented(5, f"quant portfolio {config}")
+def portfolio(
+    returns: Annotated[str, typer.Argument(help="CSV de rendements, dates en lignes, actifs en colonnes.")],
+    method: Annotated[
+        str, typer.Option(help="equal_weight, inverse_volatility, minimum_variance, risk_parity, hrp.")
+    ] = "risk_parity",
+    covariance: Annotated[str, typer.Option(help="sample, ewma, ledoit_wolf.")] = "ledoit_wolf",
+    out: Annotated[str | None, typer.Option(help="Fichier CSV des poids ; sinon la sortie standard.")] = None,
+) -> None:
+    """Construit des poids depuis une matrice de rendements, par un optimiseur de la phase 5."""
+    import pandas as pd
+
+    from quantlab.portfolio import covariance as cov_module
+    from quantlab.portfolio import optimizers
+
+    estimators = {
+        "sample": cov_module.SampleCovariance,
+        "ewma": cov_module.EWMACovariance,
+        "ledoit_wolf": cov_module.LedoitWolfCovariance,
+    }
+    methods = {
+        "equal_weight": optimizers.EqualWeight,
+        "inverse_volatility": optimizers.InverseVolatility,
+        "minimum_variance": optimizers.MinimumVariance,
+        "risk_parity": optimizers.RiskParity,
+        "hrp": optimizers.HierarchicalRiskParity,
+    }
+    if covariance not in estimators or method not in methods:
+        typer.secho(
+            f"covariance parmi {sorted(estimators)}, méthode parmi {sorted(methods)}.", fg=typer.colors.RED
+        )
+        raise typer.Exit(code=2)
+    r = pd.read_csv(returns, index_col=0, parse_dates=True)
+    sigma = estimators[covariance]().covariance(r)
+    weights = pd.Series(methods[method]().optimize(covariance=sigma)).rename("weight")
+    if out:
+        weights.to_csv(out)
+        typer.echo(f"poids écrits : {out}")
+    else:
+        typer.echo(weights.to_csv())
+
+
+@dashboard_app.command("build")
+def dashboard_build(
+    date: Annotated[str | None, typer.Option(help="Date affichée, aujourd'hui par défaut.")] = None,
+) -> None:
+    """Engendre docs/dashboard/index.md et ses figures depuis les fichiers du dépôt."""
+    from quantlab.reporting.dashboard import build_dashboard
+
+    built = build_dashboard(project_root(), date=date)
+    typer.echo(f"tableau écrit : {built.index_path}")
+    typer.echo(f"{len(built.studies)} études, {len(built.risk)} séries, {len(built.figure_paths)} figures")
+    for note in built.notes:
+        typer.secho(note, fg=typer.colors.YELLOW)
+
+
+@dashboard_app.command("report")
+def dashboard_report(
+    date: Annotated[str | None, typer.Option(help="Date affichée, aujourd'hui par défaut.")] = None,
+) -> None:
+    """Compile le tableau de bord en rapport/rapport.pdf."""
+    from quantlab.reporting.dashboard import build_report
+
+    path = build_report(project_root(), date=date)
+    typer.echo(f"rapport écrit : {path}")
 
 
 @app.command("report")
-def report(experiment_id: str) -> None:
-    """Engendre le rapport d'une expérience."""
-    _not_implemented(10, f"quant report {experiment_id}")
+def report(
+    date: Annotated[str | None, typer.Option(help="Date affichée, aujourd'hui par défaut.")] = None,
+) -> None:
+    """Engendre le tableau de bord puis le rapport institutionnel, en une commande."""
+    from quantlab.reporting.dashboard import build_dashboard, build_report
+
+    built = build_dashboard(project_root(), date=date)
+    path = build_report(project_root(), date=date)
+    typer.echo(f"tableau : {built.index_path}\nrapport : {path}")
 
 
 if __name__ == "__main__":  # pragma: no cover

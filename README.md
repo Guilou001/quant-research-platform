@@ -194,6 +194,10 @@ laboratoire ne connaît pas de seuil de Sharpe qui suffirait seul.
 
 ## Ce qui est fait, et ce qui ne l'est pas
 
+Le [tableau de bord](docs/dashboard/index.md) et le [rapport PDF](rapport/rapport.pdf)
+sont engendrés depuis les fichiers du dépôt par `quant report`, jamais écrits à la
+main (ADR-014).
+
 | Phase | Contenu | État |
 |---|---|---|
 | 0 | architecture, configuration, journal, intégration continue, documentation | **fait** |
@@ -206,7 +210,7 @@ laboratoire ne connaît pas de seuil de Sharpe qui suffirait seul.
 | 7 | portefeuille multi-stratégies | **fait**, étude 009 |
 | 8 | apprentissage automatique transversal | **fait**, panneau point-in-time, six méthodes, étude 011 |
 | 9 | validation indépendante sous LEAN | non commencé |
-| 10 | tableau de bord et rapport institutionnel | non commencé |
+| 10 | tableau de bord et rapport institutionnel | **fait**, `quant dashboard build` et `quant report` |
 | 11 | recherche propre | non commencé |
 
 ## Ce que les huit réplications ont trouvé
@@ -359,7 +363,7 @@ fausse précisément le test qui sert à détecter le surapprentissage.
 
 | Limite | Statut |
 |---|---|
-| Aucune stratégie testée à ce jour | reconnu, c'est l'objet des phases suivantes |
+| Aucune stratégie n'atteint `ROBUST` sur onze études | mesuré, c'est le résultat des phases 4 à 8 |
 | Pas d'univers sans biais de survie sur actions individuelles | mesuré, les sources gratuites ne le donnent pas |
 | Pas de carnet d'ordres, donc écart acheteur-vendeur supposé | reconnu, hypothèse déclarée dans chaque étude |
 | Impact de marché modélisé en racine carrée, sans microstructure | modélisé, marqué comme tel partout |

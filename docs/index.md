@@ -49,7 +49,7 @@ indépendant.
 | 7 | portefeuille multi-stratégies | **fait**, étude 009 |
 | 8 | apprentissage automatique transversal | **fait**, panneau point-in-time, six méthodes, étude 011 |
 | 9 | validation indépendante sous LEAN | non commencé |
-| 10 | tableau de bord et rapport institutionnel | non commencé |
+| 10 | tableau de bord et rapport institutionnel | **fait**, `quant dashboard build` et `quant report` |
 | 11 | recherche propre | non commencé |
 
 ## Avertissement

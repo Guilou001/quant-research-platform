@@ -1,0 +1,39 @@
+# Le tableau de bord : ce qu'il montre, et d'où il le tire. Tout vient des
+# fichiers du dépôt ; rien n'est retapé. La commande `quant dashboard build`
+# écrit docs/dashboard/index.md et ses figures, `quant report` en fait le PDF.
+
+title: "Tableau de bord du laboratoire"
+
+# Une série de tête par étude de réplication, celle que l'étude 009 combine ou
+# la plus proche d'une position négociable. Nette quand une version nette existe.
+head_series:
+  - {study: 001_time_series_momentum, series: tsmom_etf_net, label: "Momentum temporel, fonds cotés, net"}
+  - {study: 002_cross_sectional_momentum, series: xsmom_survivors_net, label: "Momentum transversal, survivants, net"}
+  - {study: 003_value_and_momentum, series: value_momentum_blend_net, label: "Valeur et momentum, mélange, net"}
+  - {study: 004_quality_minus_junk, series: qmj_ours_gross, label: "Qualité, notre construction, brut"}
+  - {study: 005_betting_against_beta, series: bab_kf_deciles_net, label: "Bêta défensif, déciles, net"}
+  - {study: 006_volatility_managed, series: hedged_spread_real_time_gross, label: "Gestion de volatilité, temps réel, brut"}
+  - {study: 007_statistical_arbitrage, series: statarb_net, label: "Arbitrage statistique, net"}
+  - {study: 008_carry, series: fx_carry_net, label: "Portage de change, net"}
+
+# Les portefeuilles et modèles construits sur ces séries.
+portfolios:
+  - {study: 009_multi_strategy, series: portfolio_risk_parity_net, label: "Portefeuille 009, parité de risque, net"}
+  - {study: 009_multi_strategy, series: portfolio_hrp_net, label: "Portefeuille 009, parité hiérarchique, net, vue après coup"}
+  - {study: 011_cross_sectional_ml, series: ml_gbrt_decile_net, label: "Étude 011, arbres, décile long moins court, net"}
+  - {study: 011_cross_sectional_ml, series: ml_ridge_decile_net, label: "Étude 011, régression, décile long moins court, net"}
+
+# La fenêtre commune des figures de richesse cumulée.
+common_window_start: "2010-01-31"
+
+# Les comparaisons déjà mesurées, reprises telles quelles.
+benchmarks:
+  - file: benchmarks/results/facteurs_publies_contre_fonds_reels_2026-09-02.csv
+    title: "Facteurs publiés contre fonds cotés, mensuel"
+    columns: [strategy, fund, n_periods, correlation, beta, r_squared, drawdown_overlap, reading]
+  - file: benchmarks/results/fonds_fermes_contre_portefeuille_009_2026-09-02.csv
+    title: "Portefeuille 009 contre grands fonds fermés, annuel"
+    columns: [fund_label, n_years, correlation, corr_lo, corr_hi, mean_fund, mean_strategy, mean_strategy_at_10pct_vol, reading]
+benchmark_figures:
+  - benchmarks/results/figures/fonds_fermes_rendements_annuels.png
+  - benchmarks/results/figures/fonds_fermes_correlations.png

@@ -62,6 +62,7 @@ extra_javascript:
 
 nav:
   - Accueil: index.md
+  - Tableau de bord: dashboard/index.md
   - Démarrer:
       - Installation: getting_started/installation.md
       - Première étude: getting_started/premiere_etude.md
