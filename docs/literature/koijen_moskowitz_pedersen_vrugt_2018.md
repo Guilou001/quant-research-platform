@@ -401,7 +401,7 @@ une asymétrie de -0,666 contre -0,68.
 
 Après la fin de l'échantillon, le coefficient tombe à 0,303 avec un t de 0,294
 sur 1 782 couples : la prédiction s'éteint. Le portefeuille rend un Sharpe net
-de 0,144 sur 164 mois, intervalle par blocs [-1,17 % ; +2,80 %] par an.
+de 0,132 sur 164 mois, intervalle par blocs [-1,17 % ; +2,80 %] par an.
 
 Les matières premières exigent une structure par terme, les indices actions un
 dividende attendu, les options une base payante : non trouvé au 2026-09-02,

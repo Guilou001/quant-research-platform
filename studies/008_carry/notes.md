@@ -177,7 +177,7 @@ dollar n'y est pas classable. Notre panel lui donnait une colonne de portage nul
 qui lui valait un rang et un poids. Trois conséquences mesurées et publiées dans
 `results/tables/numeraire_variant.csv`. L'asymétrie de l'échantillon complet passe
 de -0,570 à **+0,253** quand la colonne sort, donc elle change de SIGNE pour un
-ratio de Sharpe inchangé, 0,528 contre 0,532. Le coefficient de panel de la
+ratio de Sharpe inchangé, 0,525 contre 0,532. Le coefficient de panel de la
 fenêtre de l'article tombe de 1,084 à 0,897 et son t de 2,159 à 1,700, donc la
 parité non couverte n'y est plus rejetée à 5 %. Et la série perd 35 mois, le
 dollar comptant dans le plancher de quatre actifs. Trois tests neufs gardent la
@@ -187,7 +187,7 @@ propriété, tous validés en retirant le numéraire du classement.
 spécifications de panel étaient enregistrées avec leur statistique t là où le
 registre attend un ratio de Sharpe. La variance des essais valait donc 0,7347 au
 lieu de 0,0118, soit 62 fois trop, et le ratio de Sharpe dégonflé sortait à
-6,8e-91 au lieu de **0,149**. Aucun test de forme ne pouvait le voir, les deux
+6,8e-91 au lieu de **0,121**. Aucun test de forme ne pouvait le voir, les deux
 grandeurs étant des flottants finis. Le registre est désormais dédoublé, l'un
 pour le compte, l'autre pour la variance.
 
@@ -213,12 +213,15 @@ un fait extérieur, le yen valant 0,006251 dollar et la livre 1,3555 dollar au
 2026-08-31. Deux exécutions consécutives rendent des tableaux identiques au
 fichier près.
 
-## Défaut trouvé le 2026-09-02, non corrigé
+## Défaut trouvé le 2026-09-02, corrigé le 2026-09-03
 
 La série `fx_carry_gross` n'a pas d'avril 2020. Cause mesurée : le taux
 interbancaire américain à trois mois de la FRED, `IR3TIB01USM156N`, est
 manquant pour 2020-04, et le portage de chaque devise se calcule contre ce
-taux de base, donc les onze signaux sont manquants ce mois-là. La correction
-naturelle est de reporter le taux du mois précédent sur un trou d'un seul
-mois, en le déclarant ; elle changerait les chiffres publiés de cette étude et
-de l'étude 009, qui consomme la série. Reportée.
+taux de base, donc les onze signaux sont manquants ce mois-là. Corrigé le
+2026-09-03 : un trou d'au plus un mois est comblé par le taux du mois
+précédent, `max_gap_fill_months: 1` dans la configuration, chaque report étant
+publié. Deux reports en tout, avril 2020 et le rendement obligataire
+néo-zélandais de septembre 1979. Vingt métriques ont bougé à la deuxième ou
+troisième décimale, le ratio de Sharpe net hors échantillon passant de 0,144 à
+0,132 et le Sharpe dégonflé de 0,149 à 0,121 ; le verdict est inchangé.

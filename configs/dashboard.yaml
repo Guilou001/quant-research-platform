@@ -20,8 +20,10 @@ head_series:
 portfolios:
   - {study: 009_multi_strategy, series: portfolio_risk_parity_net, label: "Portefeuille 009, parité de risque, net"}
   - {study: 009_multi_strategy, series: portfolio_hrp_net, label: "Portefeuille 009, parité hiérarchique, net, vue après coup"}
+  - {study: 012_multi_strategy_net, series: portfolio_risk_parity_net, label: "Portefeuille 012, parité de risque sur séries nettes"}
   - {study: 011_cross_sectional_ml, series: ml_gbrt_decile_net, label: "Étude 011, arbres, décile long moins court, net"}
   - {study: 011_cross_sectional_ml, series: ml_ridge_decile_net, label: "Étude 011, régression, décile long moins court, net"}
+  - {study: 013_cross_sectional_ml_long, series: ml_gbrt_decile_net, label: "Étude 013, arbres sur survivants, décile net, biais de survie"}
 
 # La fenêtre commune des figures de richesse cumulée.
 common_window_start: "2010-01-31"

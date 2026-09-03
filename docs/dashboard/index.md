@@ -1,14 +1,14 @@
 # Tableau de bord du laboratoire
 
-Engendré le 2026-09-03 par `quant dashboard build`, commit `a85ff62`. Chaque chiffre
+Engendré le 2026-09-03 par `quant dashboard build`, commit `c6c9b46`. Chaque chiffre
 vient d'un fichier du dépôt, nommé sous chaque tableau. Rien ici n'est un conseil en
 investissement.
 
 ## L'état en quatre nombres
 
-- **11 études** menées, verdicts : 4 `EXPERIMENTAL`, 6 `REJECTED`, 1 `REPLICATED`.
-- **760 essais déclarés** dans les configurations, qui entrent dans le ratio de Sharpe dégonflé.
-- **128 expériences** au registre, 760 essais sur les dernières exécutions.
+- **13 études** menées, verdicts : 4 `EXPERIMENTAL`, 8 `REJECTED`, 1 `REPLICATED`.
+- **797 essais déclarés** dans les configurations, qui entrent dans le ratio de Sharpe dégonflé.
+- **134 expériences** au registre, 797 essais sur les dernières exécutions.
 - **2413 fonctions de test**, dont les gardiens d'architecture et de style.
 
 ## Les verdicts
@@ -26,9 +26,11 @@ de `studies/README.md`.
 | 006 Portefeuilles gérés en volatilité | 89 | `REJECTED` | L'alpha se réplique sur huit contrôles sur huit, et la version négociable rapporte -1,30 %/an net avec un Sharpe hors échantillon de -0,362. |
 | 007 Arbitrage statistique | 49 | `REJECTED` | Le Sharpe brut se réplique, 1,460 contre 1,44, et le coût de seuil de rentabilité vaut 3,92 points de base contre les 5 que l'article lui-même suppose. |
 | 008 Portage | 33 | `REPLICATED` | Le coefficient du test central se retrouve à 0,5 % près, 1,084 contre 1,09, et il tombe à 0,303 avec un t de 0,294 après la fin de l'échantillon. |
-| 009 Huit sources d'alpha, un portefeuille | 20 | `REJECTED` | Huit stratégies valent 5,4 paris indépendants. Quatre allocations sur six battent la meilleure stratégie seule, mais pas la parité de risque désignée à l'avance, et la parité hiérarchique qui domine tout ne peut pas être retenue après coup. |
+| 009 Huit sources d'alpha, un portefeuille | 20 | `REJECTED` | Huit stratégies valent 5,4 paris indépendants. Trois allocations sur six battent la meilleure stratégie seule, mais pas la parité de risque désignée à l'avance, et la parité hiérarchique qui domine tout ne peut pas être retenue après coup. |
 | 010 La capacité des deux stratégies chiffrables | 8 | `REJECTED` | Le momentum sur fonds cotés est borné par la participation avant de l'être par l'impact : à un million de dollars, un rééquilibrage sur quatre demande plus de dix pour cent du volume d'un fonds de devises. L'arbitrage statistique a une capacité nulle, son brut ne couvrant pas les cinq points de base de l'article sur 1996-2026. Statut modélisé. |
 | 011 Arbres contre régression, après coûts | 17 | `REJECTED` | Six méthodes sur 1 526 grandes capitalisations et onze ans : R² mensuel hors échantillon de 0,35 % à 0,48 %, dans la plage de l'article, mais corrélation de rang négative pour les six. Les arbres amplifiés rendent un décile net à 0,663 contre 0,277 pour la régression, sans la battre au test de Diebold et Mariano, p 0,65 ; le linéaire est gardé. |
+| 012 Le portefeuille 009 sur séries nettes | 20 | `REJECTED` | Le portefeuille de l'étude 009 sur les séries nettes de chaque stratégie rend -0,128 de Sharpe contre 0,535 pour la meilleure jambe seule. Les corrélations n'ont pas bougé, les signes si : l'arbitrage statistique net, à -0,932, retire 0,379 de Sharpe là où sa version brute en apportait 0,250. |
+| 013 Arbres contre régression sur quarante ans de survivants | 17 | `REJECTED` | Sur 502 survivants du S&P 500 rejoués depuis 1986, tout est positif, R² de 1,6 % et déciles nets de 0,60 à 0,85, et c'est le signe du biais de survie plutôt qu'un mérite : les arbres ne battent toujours pas la régression au test de Diebold et Mariano, p 0,58, et un titre encore dans l'indice a remonté par construction. |
 
 ## Les séries, et ce qu'elles valent
 
@@ -47,11 +49,13 @@ courte d'entre elles.
 | Bêta défensif, déciles, net | 1966-07-31 | 2026-06-30 | 60,0 | 0,37 | 11,06 | 0,090 | -49,1 |
 | Gestion de volatilité, temps réel, brut | 1946-08-31 | 2026-06-30 | 79,9 | -1,63 | 16,27 | -0,020 | -91,7 |
 | Arbitrage statistique, net | 1996-01-31 | 2026-06-30 | 30,5 | -4,36 | 11,70 | -0,323 | -90,0 |
-| Portage de change, net | 1971-02-28 | 2026-06-30 | 55,3 | 3,57 | 7,33 | 0,516 | -27,9 |
-| Portefeuille 009, parité de risque, net | 2009-12-31 | 2026-06-30 | 16,5 | 2,34 | 3,65 | 0,652 | -7,3 |
-| Portefeuille 009, parité hiérarchique, net, vue après coup | 2009-12-31 | 2026-06-30 | 16,5 | 2,68 | 2,99 | 0,900 | -4,3 |
+| Portage de change, net | 1971-02-28 | 2026-06-30 | 55,4 | 3,54 | 7,32 | 0,513 | -27,9 |
+| Portefeuille 009, parité de risque, net | 2009-12-31 | 2026-06-30 | 16,6 | 2,28 | 3,59 | 0,646 | -7,7 |
+| Portefeuille 009, parité hiérarchique, net, vue après coup | 2009-12-31 | 2026-06-30 | 16,6 | 2,70 | 2,96 | 0,916 | -4,3 |
+| Portefeuille 012, parité de risque sur séries nettes | 2009-12-31 | 2026-06-30 | 16,6 | -0,49 | 3,37 | -0,128 | -18,7 |
 | Étude 011, arbres, décile long moins court, net | 2020-07-31 | 2026-06-30 | 6,0 | 10,23 | 16,83 | 0,663 | -18,4 |
 | Étude 011, régression, décile long moins court, net | 2020-07-31 | 2026-06-30 | 6,0 | 3,69 | 20,48 | 0,277 | -27,7 |
+| Étude 013, arbres sur survivants, décile net, biais de survie | 1996-02-29 | 2026-06-30 | 30,4 | 20,54 | 25,87 | 0,849 | -48,8 |
 
 ## Les trajectoires
 
@@ -92,17 +96,17 @@ Source : `benchmarks/results/fonds_fermes_contre_portefeuille_009_2026-09-02.csv
 
 | fund_label | n_years | correlation | corr_lo | corr_hi | mean_fund | mean_strategy | mean_strategy_at_10pct_vol | reading |
 |---|---|---:|---:|---:|---:|---:|---:|---|
-| Medallion (Renaissance Technologies) | 9 | 0,381 | -0,379 | 0,834 | 0,376 | 0,035 | 0,098 | aucun co-mouvement établi |
-| Wellington (Citadel) | 7 | 0,792 | 0,096 | 0,968 | 0,190 | 0,013 | 0,034 | co-mouvement établi |
-| Composite (D.E. Shaw) | 6 | 0,757 | -0,142 | 0,972 | 0,167 | 0,012 | 0,031 | aucun co-mouvement établi |
-| Oculus (D.E. Shaw) | 3 | n.d. | n.d. | n.d. | 0,253 | 0,001 | -0,000 | trop peu d'années communes (3) |
-| Millennium International (Millennium Management) | 4 | n.d. | n.d. | n.d. | 0,119 | 0,009 | 0,024 | trop peu d'années communes (4) |
-| Pure Alpha (Bridgewater Associates) | 5 | 0,244 | -0,813 | 0,927 | 0,106 | -0,002 | -0,010 | aucun co-mouvement établi |
-| Apex (AQR Capital Management) | 2 | n.d. | n.d. | n.d. | 0,173 | -0,005 | -0,016 | trop peu d'années communes (2) |
-| TCI Master Fund (TCI Fund Management) | 6 | -0,623 | -0,953 | 0,381 | 0,212 | 0,018 | 0,050 | aucun co-mouvement établi |
-| Elliott Associates (Elliott Investment Management) | 2 | n.d. | n.d. | n.d. | 0,053 | 0,023 | 0,064 | trop peu d'années communes (2) |
-| Point72 (Point72 Asset Management) | 4 | n.d. | n.d. | n.d. | 0,141 | -0,005 | -0,018 | trop peu d'années communes (4) |
-| Atlas Enhanced (Balyasny Asset Management) | 4 | n.d. | n.d. | n.d. | 0,107 | 0,009 | 0,024 | trop peu d'années communes (4) |
+| Medallion (Renaissance Technologies) | 9 | 0,381 | -0,379 | 0,834 | 0,376 | 0,035 | 0,100 | aucun co-mouvement établi |
+| Wellington (Citadel) | 8 | 0,514 | -0,299 | 0,895 | 0,197 | 0,005 | 0,015 | aucun co-mouvement établi |
+| Composite (D.E. Shaw) | 7 | 0,457 | -0,451 | 0,900 | 0,171 | 0,003 | 0,009 | aucun co-mouvement établi |
+| Oculus (D.E. Shaw) | 4 | n.d. | n.d. | n.d. | 0,254 | -0,013 | -0,037 | trop peu d'années communes (4) |
+| Millennium International (Millennium Management) | 4 | n.d. | n.d. | n.d. | 0,119 | 0,010 | 0,029 | trop peu d'années communes (4) |
+| Pure Alpha (Bridgewater Associates) | 5 | 0,146 | -0,845 | 0,911 | 0,106 | -0,001 | -0,005 | aucun co-mouvement établi |
+| Apex (AQR Capital Management) | 2 | n.d. | n.d. | n.d. | 0,173 | -0,006 | -0,018 | trop peu d'années communes (2) |
+| TCI Master Fund (TCI Fund Management) | 7 | -0,415 | -0,890 | 0,492 | 0,201 | 0,009 | 0,026 | aucun co-mouvement établi |
+| Elliott Associates (Elliott Investment Management) | 2 | n.d. | n.d. | n.d. | 0,053 | 0,027 | 0,076 | trop peu d'années communes (2) |
+| Point72 (Point72 Asset Management) | 5 | -0,293 | -0,934 | 0,795 | 0,145 | -0,013 | -0,038 | aucun co-mouvement établi |
+| Atlas Enhanced (Balyasny Asset Management) | 4 | n.d. | n.d. | n.d. | 0,107 | 0,010 | 0,029 | trop peu d'années communes (4) |
 
 
 ## Les dernières expériences du registre
@@ -111,18 +115,18 @@ Source : `artifacts/experiments.jsonl`, non suivi par git, régénéré par chaq
 
 | Expérience | Terminée | Verdict | Essais | Commit |
 |---|---|---|---:|---|
+| cross_sectional_ml_long_013-cf4d311858 | 2026-09-03T21:22:59 | REJECTED | 17 | c6c9b46 |
+| cross_sectional_ml_long_013-9aabc77879 | 2026-09-03T21:14:07 | REJECTED | 17 | c6c9b46 |
+| cross_sectional_ml_long_013-d9f8ad1bda | 2026-09-03T21:10:27 | REJECTED | 17 | c6c9b46 |
+| multi_strategy_net_012-f7a6df688d | 2026-09-03T21:08:53 | REJECTED | 20 | c6c9b46 |
+| multi_strategy_009-297cc27b86 | 2026-09-03T21:08:52 | REJECTED | 20 | c6c9b46 |
+| 008_carry-7745ddda52 | 2026-09-03T21:07:20 | REPLICATED | 33 | c6c9b46 |
 | cross_sectional_ml_011-2528fedf66 | 2026-09-02T23:23:31 | REJECTED | 17 | 54c17e0 |
 | capacity_010-bec3cf46ac | 2026-09-02T22:38:43 | REJECTED | 8 | f2c4e60 |
 | multi_strategy_009-2f1046ec7f | 2026-09-02T21:15:17 | REJECTED | 20 | 5b77898 |
 | multi_strategy_009-df2c355fdf | 2026-09-02T21:14:31 | REJECTED | 15 | 5b77898 |
 | 005_betting_against_beta-b21f54089f | 2026-09-02T21:13:18 | REJECTED | 144 | 5b77898 |
 | 008_carry-f9c8c75b19 | 2026-09-02T21:10:53 | REPLICATED | 33 | 5b77898 |
-| 007_statistical_arbitrage-413ede5568 | 2026-09-02T21:10:49 | REJECTED | 49 | 5b77898 |
-| 005_betting_against_beta-0a707f3062 | 2026-09-02T21:10:39 | REJECTED | 144 | 5b77898 |
-| 008_carry-452800285a | 2026-09-02T21:07:03 | REPLICATED | 33 | 5b77898 |
-| 002_cross_sectional_momentum-48b737b531 | 2026-09-02T21:06:29 | EXPERIMENTAL | 53 | 5b77898 |
-| 006_volatility_managed-6084d59b46 | 2026-09-02T20:54:45 | REJECTED | 89 | 5b77898 |
-| 005_betting_against_beta-fd8db8b3be | 2026-09-02T20:54:32 | REJECTED | 144 | 5b77898 |
 
 ## Comment lire ce tableau
 

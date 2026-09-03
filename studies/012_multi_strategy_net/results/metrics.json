@@ -1,0 +1,86 @@
+{
+  "n_trials": 20,
+  "common_window": {
+    "start": "2007-01-31",
+    "end": "2026-06-30",
+    "n_months": 234
+  },
+  "correlation": {
+    "mean_pairwise": 0.09312706586532259,
+    "min_pair": {
+      "pair": "vol_managed / fx_carry",
+      "value": -0.4922473286653199
+    },
+    "max_pair": {
+      "pair": "quality / bab",
+      "value": 0.5853111816517096
+    },
+    "effective_breadth": 5.475369413172324,
+    "n_strategies": 8
+  },
+  "best_alone": {
+    "strategy": "value_mom",
+    "sharpe": 0.5345204586748212
+  },
+  "marginal": {
+    "tsmom": 0.07492567220661145,
+    "xsmom": -0.024695534604576713,
+    "value_mom": 0.14056451940636555,
+    "quality": 0.11346310141471502,
+    "bab": 0.07257928404054872,
+    "vol_managed": -0.13445950200960094,
+    "statarb": -0.3786980588998608,
+    "fx_carry": 0.074803587875902
+  },
+  "surviving_cost_multiple": 0.0,
+  "benchmark_fund": {
+    "strategy": "risk_parity",
+    "fund": "QSPIX",
+    "start": "2013-10-31",
+    "end": "2026-06-30",
+    "n_periods": 153,
+    "correlation": 0.35960163189063055,
+    "beta": 1.2636699051379348,
+    "beta_tstat": 4.51800131529104,
+    "alpha_annual": 0.08764210510353562,
+    "alpha_tstat": 2.54666514868725,
+    "r_squared": 0.12931333365840458,
+    "tracking_error_annual": 0.11567205649245024,
+    "sharpe_strategy": -0.16145401840855664,
+    "sharpe_fund": 0.6489341591475712,
+    "wealth_strategy": 0.9226227884186946,
+    "wealth_fund": 2.5292070076364657,
+    "max_drawdown_strategy": -0.18687498451761642,
+    "max_drawdown_fund": -0.395921315920689,
+    "drawdown_overlap": 0.3979591836734694,
+    "rolling_correlation_min": 0.006153578240498928,
+    "rolling_correlation_median": 0.38506752128379373,
+    "reading": "distinct"
+  },
+  "validation": {
+    "reference": "risk_parity",
+    "sharpe_before_holdout": 0.1001109355142545,
+    "sharpe_holdout": -0.39573343912820025,
+    "sharpe_holdout_se_lo": 0.4094010035278694,
+    "tstat_holdout": -0.9666157037186188,
+    "pbo": 0.1,
+    "deflated_sharpe": 0.03442153901059025,
+    "positive_subperiod_share": 0.25,
+    "n_holdout_months": 78
+  },
+  "verdict": "REJECTED",
+  "verdict_reasons": [
+    "ÉCHOUÉ | hypothèse économique : signe attendu NON retrouvé, le signe décide du rejet",
+    "ÉCHOUÉ | signe du Sharpe hors échantillon : -0,396 mesuré, rejet à 0,000 ou moins",
+    "ÉCHOUÉ | réplication de « sharpe_du_melange_contre_meilleure_jambe_seule » : -0,128 contre 0,535 publié, écart relatif 1,240, tolérance 0,000 (absolute), soit 0,000 en relatif",
+    "ÉCHOUÉ | réplication : 0 contrôle(s) sur 1 dans la tolérance, tous exigés",
+    "ÉCHOUÉ | Sharpe hors échantillon : -0,396 mesuré, minimum 0,500",
+    "ÉCHOUÉ | t après correction pour essais multiples : -0,967 mesuré, minimum 3,000",
+    "ÉCHOUÉ | Sharpe dégonflé : 0,034 mesuré, minimum 0,950",
+    "RÉUSSI | probabilité de surapprentissage : 0,100 mesuré, maximum 0,500",
+    "ÉCHOUÉ | part de sous-périodes positives : 0,250 mesuré, minimum 0,600",
+    "ÉCHOUÉ | multiple de coûts survécu : 0,000 mesuré, minimum 2,000",
+    "ÉCHOUÉ | corrélation absolue avec le portefeuille existant : non mesuré, maximum 0,600",
+    "VERDICT | REJECTED"
+  ]
+}

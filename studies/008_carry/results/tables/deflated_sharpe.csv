@@ -1,2 +1,2 @@
 observed_sharpe_oos_net,observed_tstat,n_observations,n_trials,n_sharpe_valued_trials,variance_of_trial_sharpes,expected_maximum_sharpe_under_null,deflated_sharpe,required_tstat_bonferroni,adjusted_tstat,haircut_status
-0.1442836429269622,0.6152411999426319,164,33,29,0.01181196314584491,0.2295817982965428,0.14919810234160208,3.1717657833516224,0.0,calculé
+0.13192956999171054,0.557086507523894,165,33,29,0.011570723830298026,0.2272252948887072,0.12107632741878704,3.1717657833516224,0.0,calculé

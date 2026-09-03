@@ -62,7 +62,7 @@ par an, modélisé, contre 37,6 % net pour Medallion sur 2010-2018, rapporté.
 
 La phase 6 est close. Le module de capacité reste tel quel, avec sa forme
 fermée et son contrôle. Deux défauts de données sont déclarés et non corrigés
-aujourd'hui. La série de portage de change de l'étude 008 n'a pas d'avril
+aujourd'hui ; le premier l'a été le 2026-09-03, voir l'entrée de ce jour. La série de portage de change de l'étude 008 n'a pas d'avril
 2020. Cause mesurée le 2026-09-02 : le taux interbancaire américain à trois
 mois de la FRED, `IR3TIB01USM156N`, manque ce mois-là, et le taux de base
 absent annule les onze portages. Cela retire un mois à l'étude 009 et une

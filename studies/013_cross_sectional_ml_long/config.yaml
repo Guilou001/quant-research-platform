@@ -1,0 +1,80 @@
+# Étude 013, apprentissage transversal sur trente ans de survivants. Même
+# protocole que l'étude 011 ; seul le panneau change. Tout est écrit AVANT le
+# premier résultat.
+
+name: cross_sectional_ml_long_013
+hypothesis: >-
+  Sur quarante ans de grandes capitalisations survivantes, avec les seules six
+  caractéristiques de prix, un ensemble d'arbres ordonne les rendements du mois
+  suivant mieux qu'une régression pénalisée, et l'écart survit aux coûts hors
+  échantillon. Si l'étude 011 a échoué faute d'historique, celle-ci doit réussir ;
+  si elle échoue aussi, c'est le signal qui manque, pas le temps.
+paper: >-
+  Gu, S., Kelly, B. et Xiu, D. (2020). Empirical Asset Pricing via Machine
+  Learning. Review of Financial Studies 33(5), 2223-2273.
+seed: 20260903
+
+data:
+  # Le panneau quotidien de survivants de l'étude 002 : 503 titres du S&P 500
+  # d'aujourd'hui, prix ajustés Yahoo, 1985-01 à 2026-08, couche bronze du lac.
+  # Biais de survie déclaré : l'univers est celui d'aujourd'hui, rejoué dans le passé.
+  dataset_id: study002_sp500_daily
+  start: "1986-01-31"
+  end: "2026-06-30"
+  risk_free_start: "1985-01-01"
+  min_names_per_date: 100
+
+walk_forward:
+  train_months: 120           # dix ans avant la première prévision
+  test_months: 12
+  purge_months: 1
+  validation_months: 24
+
+models:
+  reference: ridge
+  challenger: gbrt
+  grids:
+    ols: [{}]
+    ridge: [{alpha: 0.1}, {alpha: 1.0}, {alpha: 10.0}]
+    lasso: [{alpha: 0.0001}, {alpha: 0.001}]
+    elastic_net: [{alpha: 0.001, l1_ratio: 0.5}, {alpha: 0.01, l1_ratio: 0.5}]
+    gbrt:
+      - {max_depth: 2, max_iter: 200, learning_rate: 0.05, min_samples_leaf: 100}
+      - {max_depth: 3, max_iter: 200, learning_rate: 0.05, min_samples_leaf: 100}
+      - {max_depth: 3, max_iter: 500, learning_rate: 0.02, min_samples_leaf: 100}
+    random_forest:
+      # Cent arbres au lieu de deux cents dans l'étude 011 : trente plis au lieu
+      # de six, et la forêt est la méthode la plus lente.
+      - {max_depth: 4, n_estimators: 100, min_samples_leaf: 50, max_features: 0.5, n_jobs: 4}
+      - {max_depth: 6, n_estimators: 100, min_samples_leaf: 50, max_features: 0.5, n_jobs: 4}
+
+portfolio:
+  n_quantiles: 10
+  target_gross: 2.0
+  spread_bps: 10.0
+  cost_multiples: [1.0, 2.0, 5.0, 10.0]
+  subperiods: 5
+
+importance:
+  n_repeats: 5
+
+# Compte des essais : treize configurations, quatre multiples de coûts.
+n_trials: 17
+
+# La cible de réplication, identique à l'étude 011 : forêt aléatoire, mille
+# plus grandes capitalisations, 0,63 % de R² mensuel. La règle du laboratoire,
+# 10 % en relatif, décide.
+replication:
+  target_r2_pct: 0.63
+  tolerance_pct_points: 0.50
+
+verdict:
+  replication_tolerance: 0.10
+  min_oos_sharpe: 0.50
+  min_tstat: 3.00
+  min_dsr: 0.95
+  max_pbo: 0.50
+  min_positive_subperiod_share: 0.60
+  min_cost_multiple: 2.0
+  max_portfolio_correlation: 0.60
+  dm_pvalue_max: 0.05

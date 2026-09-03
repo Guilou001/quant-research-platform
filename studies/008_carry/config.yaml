@@ -83,6 +83,13 @@ params:
     NZD: {series: DEXUSNZ, quote: usd_per_unit}
     SEK: {series: DEXSDUS, quote: unit_per_usd}
 
+  # Un mois de taux manquant à l'intérieur d'une série est comblé par le taux du
+  # mois précédent, jusqu'à ce nombre de mois. Mesuré le 2026-09-02 : le taux
+  # américain IR3TIB01USM156N manque pour 2020-04, et sans report les onze
+  # portages de ce mois sont manquants. Chaque report est publié dans
+  # results/tables/rate_gaps_filled.csv.
+  max_gap_fill_months: 1
+
   # Le taux interbancaire à trois mois, même famille OCDE pour les onze zones.
   rate_series:
     AUD: IR3TIB01AUM156N

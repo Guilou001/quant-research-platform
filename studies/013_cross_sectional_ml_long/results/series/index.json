@@ -1,0 +1,134 @@
+{
+  "ml_elastic_net_decile_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 365,
+    "notes": "",
+    "sample": "OOS",
+    "start": "1996-02-29",
+    "universe": "502 survivants du S&P 500 d'aujourd'hui, prix Yahoo depuis 1985, biais de survie déclaré, déciles long moins court"
+  },
+  "ml_elastic_net_decile_net": {
+    "basis": "net",
+    "cost_assumptions": "10.0 pb par unité négociée",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 365,
+    "notes": "",
+    "sample": "OOS",
+    "start": "1996-02-29",
+    "universe": "502 survivants du S&P 500 d'aujourd'hui, prix Yahoo depuis 1985, biais de survie déclaré, déciles long moins court"
+  },
+  "ml_gbrt_decile_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 365,
+    "notes": "",
+    "sample": "OOS",
+    "start": "1996-02-29",
+    "universe": "502 survivants du S&P 500 d'aujourd'hui, prix Yahoo depuis 1985, biais de survie déclaré, déciles long moins court"
+  },
+  "ml_gbrt_decile_net": {
+    "basis": "net",
+    "cost_assumptions": "10.0 pb par unité négociée",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 365,
+    "notes": "",
+    "sample": "OOS",
+    "start": "1996-02-29",
+    "universe": "502 survivants du S&P 500 d'aujourd'hui, prix Yahoo depuis 1985, biais de survie déclaré, déciles long moins court"
+  },
+  "ml_lasso_decile_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 365,
+    "notes": "",
+    "sample": "OOS",
+    "start": "1996-02-29",
+    "universe": "502 survivants du S&P 500 d'aujourd'hui, prix Yahoo depuis 1985, biais de survie déclaré, déciles long moins court"
+  },
+  "ml_lasso_decile_net": {
+    "basis": "net",
+    "cost_assumptions": "10.0 pb par unité négociée",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 365,
+    "notes": "",
+    "sample": "OOS",
+    "start": "1996-02-29",
+    "universe": "502 survivants du S&P 500 d'aujourd'hui, prix Yahoo depuis 1985, biais de survie déclaré, déciles long moins court"
+  },
+  "ml_ols_decile_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 365,
+    "notes": "",
+    "sample": "OOS",
+    "start": "1996-02-29",
+    "universe": "502 survivants du S&P 500 d'aujourd'hui, prix Yahoo depuis 1985, biais de survie déclaré, déciles long moins court"
+  },
+  "ml_ols_decile_net": {
+    "basis": "net",
+    "cost_assumptions": "10.0 pb par unité négociée",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 365,
+    "notes": "",
+    "sample": "OOS",
+    "start": "1996-02-29",
+    "universe": "502 survivants du S&P 500 d'aujourd'hui, prix Yahoo depuis 1985, biais de survie déclaré, déciles long moins court"
+  },
+  "ml_random_forest_decile_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 365,
+    "notes": "",
+    "sample": "OOS",
+    "start": "1996-02-29",
+    "universe": "502 survivants du S&P 500 d'aujourd'hui, prix Yahoo depuis 1985, biais de survie déclaré, déciles long moins court"
+  },
+  "ml_random_forest_decile_net": {
+    "basis": "net",
+    "cost_assumptions": "10.0 pb par unité négociée",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 365,
+    "notes": "",
+    "sample": "OOS",
+    "start": "1996-02-29",
+    "universe": "502 survivants du S&P 500 d'aujourd'hui, prix Yahoo depuis 1985, biais de survie déclaré, déciles long moins court"
+  },
+  "ml_ridge_decile_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 365,
+    "notes": "",
+    "sample": "OOS",
+    "start": "1996-02-29",
+    "universe": "502 survivants du S&P 500 d'aujourd'hui, prix Yahoo depuis 1985, biais de survie déclaré, déciles long moins court"
+  },
+  "ml_ridge_decile_net": {
+    "basis": "net",
+    "cost_assumptions": "10.0 pb par unité négociée",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 365,
+    "notes": "",
+    "sample": "OOS",
+    "start": "1996-02-29",
+    "universe": "502 survivants du S&P 500 d'aujourd'hui, prix Yahoo depuis 1985, biais de survie déclaré, déciles long moins court"
+  }
+}

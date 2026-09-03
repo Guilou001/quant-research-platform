@@ -19,6 +19,8 @@ Sharpe du paquet partagé plutôt que le sien.
 | 009 | [Huit sources d'alpha, un portefeuille](009_multi_strategy/) | Grinold (1989), DeMiguel et coauteurs (2009) | 20 | `REJECTED` |
 | 010 | [La capacité des deux stratégies chiffrables](010_capacity/) | Almgren et coauteurs (2005), Gatheral (2010) | 8 | `REJECTED` |
 | 011 | [Arbres contre régression, après coûts](011_cross_sectional_ml/) | Gu, Kelly et Xiu (2020) | 17 | `REJECTED` |
+| 012 | [Le portefeuille 009 sur séries nettes](012_multi_strategy_net/) | Grinold (1989), DeMiguel et coauteurs (2009) | 20 | `REJECTED` |
+| 013 | [Arbres contre régression sur quarante ans de survivants](013_cross_sectional_ml_long/) | Gu, Kelly et Xiu (2020) | 17 | `REJECTED` |
 
 Comment lire ce tableau, en quatre constats. Le premier est qu'**aucune étude
 n'atteint `ROBUST` ni `PORTFOLIO_CANDIDATE`**, donc aucune ne mérite du capital
@@ -62,7 +64,7 @@ rentabilité vaut 3,92 points de base contre les 5 que l'article lui-même suppo
 **008.** Le coefficient du test central se retrouve à 0,5 % près, 1,084 contre
 1,09, et il tombe à 0,303 avec un t de 0,294 après la fin de l'échantillon.
 
-**009.** Huit stratégies valent 5,4 paris indépendants. Quatre allocations sur
+**009.** Huit stratégies valent 5,4 paris indépendants. Trois allocations sur
 six battent la meilleure stratégie seule, mais pas la parité de risque désignée
 à l'avance, et la parité hiérarchique qui domine tout ne peut pas être retenue
 après coup.
@@ -78,6 +80,17 @@ mensuel hors échantillon de 0,35 % à 0,48 %, dans la plage de l'article, mais
 corrélation de rang négative pour les six. Les arbres amplifiés rendent un
 décile net à 0,663 contre 0,277 pour la régression, sans la battre au test de
 Diebold et Mariano, p 0,65 ; le linéaire est gardé.
+
+**012.** Le portefeuille de l'étude 009 sur les séries nettes de chaque
+stratégie rend -0,128 de Sharpe contre 0,535 pour la meilleure jambe seule.
+Les corrélations n'ont pas bougé, les signes si : l'arbitrage statistique net,
+à -0,932, retire 0,379 de Sharpe là où sa version brute en apportait 0,250.
+
+**013.** Sur 502 survivants du S&P 500 rejoués depuis 1986, tout est positif,
+R² de 1,6 % et déciles nets de 0,60 à 0,85, et c'est le signe du biais de
+survie plutôt qu'un mérite : les arbres ne battent toujours pas la régression
+au test de Diebold et Mariano, p 0,58, et un titre encore dans l'indice a
+remonté par construction.
 
 ## L'arborescence d'une étude
 

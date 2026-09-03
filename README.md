@@ -228,7 +228,9 @@ main (ADR-014).
 | 006 Gestion de la volatilité | Moreira et Muir (2017) | 89 | `REJECTED` | version négociable à -1,30 %/an net |
 | 007 Arbitrage statistique | Avellaneda et Lee (2010) | 49 | `REJECTED` | seuil de rentabilité à 3,92 points de base |
 | 008 Portage | Koijen, Moskowitz, Pedersen et Vrugt (2018) | 33 | `REPLICATED` | coefficient 1,084 contre 1,09, puis 0,303 hors échantillon |
-| 009 Huit sources, un portefeuille | Grinold (1989), DeMiguel et coauteurs (2009) | 20 | `REJECTED` | 5,4 paris indépendants ; la référence déclarée rend 0,652 contre 0,693 seule |
+| 009 Huit sources, un portefeuille | Grinold (1989), DeMiguel et coauteurs (2009) | 20 | `REJECTED` | 5,4 paris indépendants ; la référence déclarée rend 0,646 contre 0,721 seule |
+| 012 Le même portefeuille sur séries nettes | Grinold (1989), DeMiguel et coauteurs (2009) | 20 | `REJECTED` | parité de risque à -0,128 net contre 0,535 pour la meilleure jambe ; l'arbitrage statistique net retire 0,379 |
+| 013 Arbres contre régression sur quarante ans de survivants | Gu, Kelly et Xiu (2020) | 17 | `REJECTED` | R² 1,6 %, quatre fois l'article, déciles nets 0,60 à 0,85 : le biais de survie, pas un mérite ; les arbres ne battent pas la régression, p 0,58 |
 | 010 Capacité des deux stratégies chiffrables | Almgren et coauteurs (2005), Gatheral (2010) | 8 | `REJECTED` | momentum borné par la participation à 84 940 $, arbitrage statistique à capacité nulle, son brut ne couvrant pas 5 pb |
 | 011 Apprentissage transversal, six méthodes | Gu, Kelly et Xiu (2020) | 17 | `REJECTED` | R² mensuel 0,35 à 0,48 % dans la plage publiée, mais corrélation de rang négative ; les arbres ne battent pas la régression au test de Diebold et Mariano, p 0,65 |
 
@@ -262,7 +264,7 @@ colonne lue.
 Les trois rejets sont documentés un par un dans
 [`docs/research_journal/rejected_ideas.md`](docs/research_journal/rejected_ideas.md),
 avec leur hypothèse économique, ce qui a été mesuré, et pourquoi cela ne suffit
-pas. **760 essais** ont été menés au total, et aucun n'a produit une stratégie
+pas. **797 essais** ont été menés au total, et aucun n'a produit une stratégie
 retenue.
 
 ## Ce que porte le dépôt, mesuré le 2026-09-01

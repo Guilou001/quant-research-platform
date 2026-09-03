@@ -1,0 +1,61 @@
+# Étude 012, portefeuille multi-stratégies sur séries NETTES. Même protocole que
+# l'étude 009, seules les séries changent. Tout seuil est écrit AVANT le premier résultat.
+
+name: multi_strategy_net_012
+hypothesis: >-
+  Huit sources d'alpha faiblement corrélées, prises NETTES de leurs coûts de
+  transaction propres quand une version nette existe, portent encore, combinées
+  par un budget de risque estimé sur le seul passé, un ratio de Sharpe hors
+  échantillon supérieur à celui de la meilleure d'entre elles prise seule.
+paper: "Grinold (1989) pour la loi fondamentale ; DeMiguel, Garlappi et Uppal (2009) pour le repère 1/N ; Asness, Moskowitz et Pedersen (2013) pour la corrélation valeur-momentum"
+seed: 20260902
+
+# Les huit séries de tête, NETTES quand l'étude source en enregistre une. Les
+# deux qui n'existent qu'en brut, la qualité et la gestion de volatilité, sont
+# déclarées telles quelles ; le momentum transversal passe des déciles de Ken
+# French, sans coût, à la version sur survivants qui porte ses coûts.
+series:
+  tsmom:       {study: 001_time_series_momentum,     name: tsmom_etf_net}
+  xsmom:       {study: 002_cross_sectional_momentum, name: xsmom_survivors_net}
+  value_mom:   {study: 003_value_and_momentum,       name: value_momentum_blend_net}
+  quality:     {study: 004_quality_minus_junk,       name: qmj_published_usa_gross}
+  bab:         {study: 005_betting_against_beta,     name: bab_kf_deciles_net}
+  vol_managed: {study: 006_volatility_managed,       name: hedged_spread_real_time_gross}
+  statarb:     {study: 007_statistical_arbitrage,    name: statarb_net}
+  fx_carry:    {study: 008_carry,                    name: fx_carry_net}
+
+# La fenêtre commune est l'intersection des huit séries ; ce qui suit la borne
+# est le holdout final, jamais consulté avant la fin.
+final_holdout_start: "2020-01-31"
+
+walk_forward:
+  min_train_months: 36          # trois ans avant la première allocation
+  refit_every_months: 12        # réestimation annuelle, poids tenus entre deux
+  covariance: ledoit_wolf       # rétrécissement vers l'identité, ADR-011
+
+optimizers: [equal_weight, inverse_volatility, risk_parity, minimum_variance, hrp, mean_variance]
+mean_variance:
+  risk_aversion: 10.0
+  long_only: true
+  max_weight: 0.5
+
+costs:
+  # Les séries portent déjà leurs coûts propres ; la rotation du rééquilibrage
+  # annuel entre stratégies est facturée à ce taux, en plus.
+  spread_bps: 5.0
+
+benchmark_fund: QSPIX          # AQR Style Premia Alternative, multi-stratégies, coté depuis 2013-10
+
+# Compte des essais : six optimiseurs, huit retraits un à un, cinq multiples
+# de coûts, un repère.
+n_trials: 20
+
+verdict:
+  replication_tolerance: 0.10
+  min_oos_sharpe: 0.50
+  min_tstat: 3.00
+  min_dsr: 0.95
+  max_pbo: 0.50
+  min_positive_subperiod_share: 0.60
+  min_cost_multiple: 2.0
+  max_portfolio_correlation: 0.60

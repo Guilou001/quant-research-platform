@@ -8,15 +8,15 @@ premier chargement. Vingt essais sont déclarés.
 
 ## Ce qui a surpris
 
-La parité hiérarchique domine tout, Sharpe 0,900 contre 0,652 pour la
-référence, repli de -4,3 % contre -7,3 %, holdout 0,583 contre 0,239. La
+La parité hiérarchique domine tout, Sharpe 0,916 contre 0,646 pour la
+référence, repli de -4,3 % contre -7,7 %, holdout 0,611 contre 0,214. La
 tentation de la retenir est forte, et c'est précisément le geste interdit : six
 allocations ont été essayées, et prendre la meilleure après coup revient à
-sélectionner sur le résultat. Le Sharpe dégonflé à vingt essais, 0,474, dit ce
+sélectionner sur le résultat. Le Sharpe dégonflé à vingt essais, 0,410, dit ce
 que vaut cette sélection.
 
 Deux stratégies retirent du Sharpe au portefeuille, la gestion de volatilité
-pour -0,151 et le bêta défensif pour -0,069. Les deux sont `REJECTED` dans leur
+pour -0,175 et le bêta défensif pour -0,060. Les deux sont `REJECTED` dans leur
 propre étude, et le portefeuille le confirme par un autre chemin.
 
 ## Les essais ratés
@@ -37,3 +37,13 @@ Refaire l'étude avec les séries NETTES de chaque stratégie, ce qui exige que
 les huit études enregistrent une version nette comparable. Et refaire la
 comparaison à QSPIX avec la parité hiérarchique, non pour changer la référence,
 mais pour savoir si le fonds d'AQR lui ressemble davantage.
+
+## Relance du 2026-09-03
+
+La série de portage de change de l'étude 008 a retrouvé son avril 2020, et
+l'étude a été relancée sans autre changement : 234 mois communs au lieu de
+233, 199 mois hors échantillon au lieu de 198. Trente-six métriques sur
+quarante-deux ont bougé, dont la meilleure jambe seule, 0,721 au lieu de
+0,693, et la référence, 0,646 au lieu de 0,652. Trois allocations sur six
+battent désormais la meilleure jambe au lieu de quatre, et le verdict est
+inchangé. Les chiffres du README sont ceux de cette relance.

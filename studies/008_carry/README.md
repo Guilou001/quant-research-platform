@@ -10,12 +10,12 @@ presque exactement : le coefficient de panel vaut **1,084** contre 1,09 publié,
 **-0,666** contre -0,68. Le ratio de Sharpe vaut 0,602 contre 0,68, et les cinq contrôles chiffrés
 passent, donc le verdict déduit est `REPLICATED`. Après septembre 2012, fin de l'échantillon de
 l'article, le même coefficient tombe à **0,303** avec une statistique t de 0,29, et le ratio de
-Sharpe net à **0,144**. Le portage de change reste donc une prime mesurable et cesse d'être un
+Sharpe net à **0,132**. Le portage de change reste donc une prime mesurable et cesse d'être un
 prédicteur significatif sur les treize années suivantes.
 
 **Une réserve pèse sur ces deux quasi-égalités, et elle vient de nous.** Notre classement compte le
 dollar comme un actif, ce que l'article ne fait pas. Retirer cette colonne laisse le ratio de Sharpe
-complet intact, 0,532 contre 0,528, et fait passer l'asymétrie complète de **-0,570 à +0,253**. Sur
+complet intact, 0,532 contre 0,525, et fait passer l'asymétrie complète de **-0,570 à +0,253**. Sur
 la fenêtre de l'article, le coefficient tombe de 1,084 à **0,897** et sa statistique t de 2,159 à
 **1,700**. Le tableau `results/tables/numeraire_variant.csv` chiffre l'écart, et la section
 « La robustesse » le lit.
@@ -116,6 +116,12 @@ Source : `results/tables/data_sources.csv` et `results/tables/asset_classes_not_
 | Matières premières | 24 contrats à terme, structure par terme | **non trouvé au 2026-09-02** |
 | Indices actions | 13 contrats à terme, dividendes attendus | **non trouvé au 2026-09-02** |
 | Options d'achat et de vente | OptionMetrics, 10 indices | **non trouvé au 2026-09-02** |
+
+Deux mois de taux sont reportés depuis le mois précédent, et publiés dans
+`results/tables/rate_gaps_filled.csv` : le taux interbancaire américain d'avril 2020, absent de la
+FRED, et le rendement obligataire néo-zélandais de septembre 1979. Sans le premier, les onze
+portages d'avril 2020 manquaient, mesuré le 2026-09-02 et corrigé le 2026-09-03 ; les chiffres de
+cette page sont ceux de l'exécution corrigée.
 
 **Comment lire ce tableau, en trois constats.** Un, la partie devises est la plus reproductible
 parce que la parité couverte des taux ramène le portage à un écart de taux, et que les taux courts
@@ -306,7 +312,7 @@ Source : `results/tables/panel_regression.csv`. Écarts types groupés par date.
 | Actif seulement | article | 1,566 | 0,531 | 2,951 | 1,067 | 3 177 | 0,012 |
 | Date seulement | article | 1,086 | 0,377 | 2,880 | 0,229 | 3 177 | 0,009 |
 | Aucun | article | 1,451 | 0,405 | 3,585 | 1,115 | 3 177 | 0,018 |
-| Actif et date | complète | 1,188 | 0,371 | **3,201** | 0,507 | 5 785 | 0,006 |
+| Actif et date | complète | 1,186 | 0,371 | **3,197** | 0,507 | 5 785 | 0,006 |
 | Actif et date | après 2012-09 | **0,303** | 1,031 | **0,294** | -0,676 | 1 782 | 0,000 |
 
 **Comment lire ce tableau, en quatre constats.** Un, la spécification de l'article rend 1,084 contre
@@ -351,15 +357,15 @@ Daniel, Hodrick et Lu (2017).
 
 | Jambe | %/an | Écart type %/an | Sharpe | Asymétrie | Perte espérée à 5 % | Pire repli % |
 |---|---:|---:|---:|---:|---:|---:|
-| Portage complet | 3,87 | 7,33 | 0,528 | **-0,570** | 4,94 | -27,87 |
-| Neutre au dollar | 3,15 | 6,52 | 0,483 | -0,205 | 4,30 | -25,69 |
-| Pari sur le dollar | 0,72 | 2,40 | 0,299 | -0,306 | 1,67 | -15,78 |
+| Portage complet | 3,87 | 7,33 | 0,525 | **-0,570** | 4,94 | -27,87 |
+| Neutre au dollar | 3,15 | 6,52 | 0,481 | -0,207 | 4,30 | -25,69 |
+| Pari sur le dollar | 0,72 | 2,40 | 0,298 | -0,305 | 1,67 | -15,78 |
 
 **Comment lire ce tableau, en trois constats.** Un, l'identité tient à 1,4e-17, colonne
 `identity_max_error`, donc la somme des deux jambes est bien le rendement total. Deux, l'exposition
 nette aux devises étrangères vaut 0,136 en moyenne sur deux dollars d'exposition brute, soit 6,8 %.
 Le tri par rang n'est donc pas aussi neutre au dollar qu'il en a l'air. Trois, et c'est le résultat
-inattendu, AUCUNE des deux jambes n'est aussi asymétrique que leur somme, -0,205 et -0,306 contre
+inattendu, AUCUNE des deux jambes n'est aussi asymétrique que leur somme, -0,207 et -0,305 contre
 -0,570. L'asymétrie naît de la façon dont les deux jambes se combinent, et non d'une des deux.
 
 Ce constat ne reproduit pas celui de Daniel, Hodrick et Lu, chez qui la partie neutre au dollar porte
@@ -427,13 +433,13 @@ de tête, et elle vient de notre propre implémentation plutôt que de la litté
 
 | Univers | Mois | Exposition nette | Sharpe article | Asymétrie article | Sharpe complet | Asymétrie complète | c article | t article |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Onze actifs, le dollar classé | 664 | **0,136** | **0,602** | **-0,666** | 0,528 | **-0,570** | **1,084** | **2,159** |
+| Onze actifs, le dollar classé | 664 | **0,136** | **0,602** | **-0,666** | 0,525 | **-0,570** | **1,084** | **2,159** |
 | Dix actifs, le dollar numéraire | 629 | 0,000 | **0,488** | **-0,522** | 0,532 | **+0,253** | **0,897** | **1,700** |
 
 **Comment lire ce tableau, en quatre constats.** Un, l'asymétrie de la fenêtre de l'article passe de
 -0,666 à -0,522 quand le dollar sort du classement, donc notre contrôle le plus serré doit
 l'essentiel de sa précision à un écart avec l'article. Deux, sur l'échantillon complet l'asymétrie
-CHANGE DE SIGNE, de -0,570 à +0,253, alors que le ratio de Sharpe ne bouge pas, 0,528 contre 0,532.
+CHANGE DE SIGNE, de -0,570 à +0,253, alors que le ratio de Sharpe ne bouge pas, 0,525 contre 0,532.
 L'asymétrie négative du portefeuille complet vient donc du pari sur le dollar et non du tri par
 portage. Trois, le coefficient de panel de la fenêtre de l'article tombe de 1,084 à 0,897 et sa
 statistique t de 2,159 à 1,700. La parité non couverte des taux n'est donc plus rejetée à 5 % sur
@@ -453,15 +459,15 @@ univers, et elle est chiffrée plutôt qu'écartée.
 
 | Source de taux | Premier portage du yen | Premier portage du franc | Sharpe | Asymétrie | c |
 |---|---|---|---:|---:|---:|
-| Interbancaire à trois mois seul | 2002-04 | 1999-07 | **0,528** | **-0,570** | 1,188 |
+| Interbancaire à trois mois seul | 2002-04 | 1999-07 | **0,525** | **-0,570** | 1,186 |
 | Rallongé par d'autres instruments | 1979-05 | 1972-01 | **0,424** | **-0,894** | 1,062 |
 
 **Comment lire ce tableau, en trois constats.** Un, le yen et le franc suisse sont les deux monnaies
 de financement classiques, et notre cas de référence ne les voit qu'à partir de 2002 et de 1999. Deux,
-les faire entrer plus tôt fait TOMBER le ratio de Sharpe de 0,528 à 0,424, et rend l'asymétrie
+les faire entrer plus tôt fait TOMBER le ratio de Sharpe de 0,525 à 0,424, et rend l'asymétrie
 nettement plus négative, de -0,570 à -0,894. Les deux séries de remplacement sont les certificats de
 dépôt au Japon et l'argent au jour le jour en Suisse. Trois, le coefficient de panel bouge peu, de
-1,188 à 1,062, donc le test central ne dépend pas de ce choix.
+1,186 à 1,062, donc le test central ne dépend pas de ce choix.
 
 Cette variante mélange trois instruments de taux différents, ce qui est une substitution déclarée. Le
 cas de référence garde une seule famille d'instruments, et la variante montre dans quel sens il se
@@ -474,7 +480,7 @@ Source : `results/tables/execution_delay.csv`. Portage brut de frais, échantill
 
 | Délai | N | Rendement %/an | Sharpe |
 |---|---:|---:|---:|
-| 1 mois, cas de référence | 664 | 3,87 | 0,528 |
+| 1 mois, cas de référence | 664 | 3,87 | 0,525 |
 | 2 mois | 663 | 3,54 | 0,495 |
 | 3 mois | 662 | 3,04 | 0,426 |
 
@@ -492,7 +498,7 @@ Source : `results/tables/subperiods.csv`, portage net de deux points de base.
 | 1971-02 à 1985-11 | 178 | 0,536 | 1,71 |
 | 1985-12 à 1999-11 | 168 | **0,744** | 2,52 |
 | 1999-12 à 2012-08 | 153 | 0,530 | 1,42 |
-| 2012-09 à 2026-06 | 165 | **0,149** | 0,64 |
+| 2012-09 à 2026-06 | 165 | **0,121** | 0,64 |
 
 **Comment lire ce tableau, en trois constats.** Un, les quatre sont positives, ce qui donne la part
 de 1,00 comparée au seuil de 0,60 dans le verdict. Deux, une seule atteint une statistique t
@@ -512,12 +518,12 @@ espérée si.
 
 | Série | %/an | Sharpe | Asymétrie | Aplatissement | Perte espérée à 5 % | Pire mois % | Pire repli % |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Portage | 3,87 | **0,528** | **-0,570** | 3,28 | 4,94 | **-11,17** | -27,87 |
-| Momentum à volatilité égale | 1,07 | 0,146 | -0,250 | 2,85 | **5,02** | -10,23 | **-31,63** |
+| Portage | 3,87 | **0,525** | **-0,570** | 3,28 | 4,94 | **-11,17** | -27,87 |
+| Momentum à volatilité égale | 1,07 | 0,146 | -0,232 | 2,85 | **5,02** | -10,23 | **-31,63** |
 | Passif équipondéré | 0,68 | 0,092 | -0,092 | 0,85 | 4,69 | -9,04 | -44,08 |
 
 **Comment lire ce tableau, en trois constats.** Un, le contraste annoncé par l'article existe sur
-l'asymétrie, -0,570 contre -0,250, et le portage rapporte 3,6 fois plus pour la même volatilité.
+l'asymétrie, -0,570 contre -0,232, et le portage rapporte 3,6 fois plus pour la même volatilité.
 Deux, il n'existe PAS sur la perte espérée au-delà de la valeur à risque, 4,94 pour le portage contre
 5,02 pour le momentum, ni sur le pire repli, -27,87 contre -31,63. Le rapport de la perte espérée à
 la volatilité, qui ne dépend d'aucune mise à l'échelle, dit la même chose, 2,333 contre 2,373. Les
@@ -537,13 +543,13 @@ La stratégie change de rang lentement, donc les coûts ne décident pas. Source
 
 | Coût unitaire | Rotation par an | Brut %/an | Net %/an | Sharpe net | Coût qui annule |
 |---|---:|---:|---:|---:|---:|
-| 0 point de base | 4,28 | 3,87 | 3,87 | 0,528 | **90,3 pb** |
-| 1 point de base | 4,28 | 3,87 | 3,82 | 0,522 | 90,3 pb |
-| 2 points de base, cas de référence | 4,28 | 3,87 | 3,78 | **0,516** | 90,3 pb |
-| 5 points de base | 4,28 | 3,87 | 3,65 | 0,498 | 90,3 pb |
-| 10 points de base | 4,28 | 3,87 | 3,44 | 0,469 | 90,3 pb |
+| 0 point de base | 4,28 | 3,87 | 3,87 | 0,525 | **89,7 pb** |
+| 1 point de base | 4,28 | 3,87 | 3,82 | 0,522 | 89,7 pb |
+| 2 points de base, cas de référence | 4,28 | 3,87 | 3,78 | **0,516** | 89,7 pb |
+| 5 points de base | 4,28 | 3,87 | 3,65 | 0,498 | 89,7 pb |
+| 10 points de base | 4,28 | 3,87 | 3,44 | 0,469 | 89,7 pb |
 
-**Comment lire ce tableau, en trois constats.** Un, il faudrait un demi-écart de 90,3 points de base
+**Comment lire ce tableau, en trois constats.** Un, il faudrait un demi-écart de 89,7 points de base
 pour annuler le rendement brut, contre les 2 points retenus comme cas de référence, soit 45 fois
 plus. Deux, la rotation de 4,28 par an correspond à une durée de détention de 0,234 année, soit 2,8
 mois, ce que la colonne `holding_period_years` du même fichier donne. Trois, ce résultat est cohérent
@@ -572,7 +578,7 @@ coefficient nul, n'est plus rejetée. Le R² tombe de 0,005 à 0,0001.
 
 ### Le rendement se maintient, mais faiblement
 
-Le portefeuille net de deux points de base rend un ratio de Sharpe de **0,144** sur 164 mois,
+Le portefeuille net de deux points de base rend un ratio de Sharpe de **0,132** sur 164 mois,
 échantillon `FINAL_HOLDOUT` (`results/metrics.json`). Le rendement annualisé vaut **0,82 %**
 (`results/tables/bootstrap.csv`).
 
@@ -590,12 +596,12 @@ tronqués à la fin de l'échantillon donnaient au premier mois 8,3 % du poids d
 | Nombre d'essais comptés | 33 | `trials.csv` |
 | Essais dont la mesure est un ratio de Sharpe | 29 | `deflated_sharpe.csv` |
 | Variance des ratios de Sharpe essayés | 0,0118 | `deflated_sharpe.csv` |
-| Probabilité de surapprentissage | **0,100** | `metrics.json` |
-| Sharpe moyen des 7 chemins de validation croisée | **0,448** | `cpcv_distribution.csv` |
+| Probabilité de surapprentissage | **0,114** | `metrics.json` |
+| Sharpe moyen des 7 chemins de validation croisée | **0,446** | `cpcv_distribution.csv` |
 | Chemins de validation croisée réellement distincts | **3 sur 7** | `cpcv_distribution.csv` |
 | Part de chemins négatifs | 0,000 | `cpcv_distribution.csv` |
 | Maximum attendu sous l'hypothèse nulle | 0,230 | `deflated_sharpe.csv` |
-| Ratio de Sharpe dégonflé | **0,149** | `deflated_sharpe.csv` |
+| Ratio de Sharpe dégonflé | **0,121** | `deflated_sharpe.csv` |
 | t exigé par Bonferroni sur 33 essais | 3,17 | `deflated_sharpe.csv` |
 | t observé hors échantillon | 0,615 | `deflated_sharpe.csv` |
 | t après rabais de Harvey et Liu | 0,000 | `deflated_sharpe.csv` |
@@ -607,9 +613,9 @@ positifs, entre 0,434 et 0,506, donc choisir la meilleure configuration sur le p
 détruit le résultat. Deux, ces sept chemins ne portent que TROIS valeurs distinctes, parce que le
 tri par rang sur signal brut est retenu dans presque tous les blocs. L'écart type de 0,025 se lit
 donc comme une dispersion de trois chemins, pas de sept. Trois, la probabilité de surapprentissage
-vaut 0,100, sous le seuil de 0,50, ce qui dit la même chose autrement. Quatre, le ratio de Sharpe
-dégonflé vaut 0,149 parce que le maximum attendu sous l'hypothèse nulle, 0,230, dépasse le Sharpe
-observé de 0,144 sur les 164 mois postérieurs à l'article.
+vaut 0,114, sous le seuil de 0,50, ce qui dit la même chose autrement. Quatre, le ratio de Sharpe
+dégonflé vaut 0,121 parce que le maximum attendu sous l'hypothèse nulle, 0,230, dépasse le Sharpe
+observé de 0,132 sur les 164 mois postérieurs à l'article.
 
 **La correction pour tests multiples ne laisse survivre que deux configurations sur neuf.** Source :
 `results/tables/multiple_testing.csv`, correction de Holm sur les neuf statistiques t du balayage,
@@ -640,17 +646,17 @@ marchés.
 
 | Grandeur | Mesurée | Publiée |
 |---|---:|---:|
-| Ratio de Sharpe | **0,336** | 1,03 |
+| Ratio de Sharpe | **0,333** | 1,03 |
 | Asymétrie | **+1,740** | 0,33 |
 | Aplatissement en excès | 25,65 | 4,92 |
-| Coefficient c | 1,353 | 0,81 |
+| Coefficient c | 1,352 | 0,81 |
 | Statistique t de c | 3,120 | 4,91 |
 
 **Comment lire ce tableau, en trois constats.** Un, le portage est ici la seule PENTE, et la descente
 de courbe de l'équation (13) est omise faute d'une courbe zéro-coupon gratuite pour dix marchés. Deux,
 le ratio de Sharpe manque le tiers du chiffre publié, et l'asymétrie change de signe et d'ordre de
 grandeur, donc cette ligne n'est PAS une réplication et ne compte dans aucun contrôle du verdict.
-Trois, ce que la substitution conserve est le coefficient de panel, 1,353 avec un t de 3,120, donc la
+Trois, ce que la substitution conserve est le coefficient de panel, 1,352 avec un t de 3,120, donc la
 pente prédit bien le rendement obligataire même mal mesurée.
 
 L'écart d'asymétrie a une cause identifiable et non vérifiée ici. Notre rendement obligataire est
@@ -692,7 +698,7 @@ diluer la redondance.
 
 **Le demi-écart de deux points de base est un PRÉCEPTE, pas une mesure.** Aucune série publique ne
 donne les fourchettes acheteur-vendeur du change au comptant sur cinquante-cinq ans. Le seuil de
-rentabilité de 90,3 points de base rend cette hypothèse peu déterminante.
+rentabilité de 89,7 points de base rend cette hypothèse peu déterminante.
 
 **Le compte de 33 essais couvre les évaluations de performance et les quatre spécifications de
 panel.** Deux essais restent hors du compte et sont nommés ici. La comparaison des trois séries dans
@@ -735,21 +741,21 @@ face du seuil.
 | Critère | Mesuré | Seuil | Résultat |
 |---|---:|---:|---|
 | Signe économique attendu | c positif et Sharpe positif | positif | RÉUSSI |
-| Signe du Sharpe hors échantillon | 0,144 | rejet à 0 ou moins | RÉUSSI |
+| Signe du Sharpe hors échantillon | 0,132 | rejet à 0 ou moins | RÉUSSI |
 | Réplication, 5 contrôles chiffrés | 5 sur 5 dans la tolérance | tous exigés | RÉUSSI |
-| Sharpe hors échantillon | **0,144** | minimum 0,50 | **ÉCHOUÉ** |
+| Sharpe hors échantillon | **0,132** | minimum 0,50 | **ÉCHOUÉ** |
 | t après correction pour essais multiples | **0,000** | minimum 3,00 | **ÉCHOUÉ** |
-| Ratio de Sharpe dégonflé | **0,149** | minimum 0,95 | **ÉCHOUÉ** |
-| Probabilité de surapprentissage | 0,100 | maximum 0,50 | RÉUSSI |
+| Ratio de Sharpe dégonflé | **0,121** | minimum 0,95 | **ÉCHOUÉ** |
+| Probabilité de surapprentissage | 0,114 | maximum 0,50 | RÉUSSI |
 | Part de sous-périodes positives | 1,000 | minimum 0,60 | RÉUSSI |
 | Multiple de coûts survécu | 10,000 | minimum 2,00 | RÉUSSI |
-| Corrélation absolue avec le portefeuille détenu | 0,370 | maximum 0,60 | RÉUSSI |
+| Corrélation absolue avec le portefeuille détenu | 0,368 | maximum 0,60 | RÉUSSI |
 
 **Comment lire ce tableau, en trois constats.** Un, le verdict s'arrête à `REPLICATED` et n'atteint
 pas `ROBUST` parce que trois des six contrôles de robustesse échouent, et les trois portent sur la
 même chose : ce que la stratégie a fait APRÈS la fin de l'échantillon de l'article. Deux, les cinq
 contrôles de réplication passent, donc le rejet ne porte pas sur la fidélité de notre implémentation.
-Trois, la corrélation avec le passif équipondéré vaut 0,370, sous le seuil, donc le portage apporterait
+Trois, la corrélation avec le passif équipondéré vaut 0,368, sous le seuil, donc le portage apporterait
 bien de la diversification si sa performance hors échantillon se tenait.
 
 **Un seul seuil est plus large que celui du laboratoire, et il est déclaré.** La tolérance de

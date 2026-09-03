@@ -37,6 +37,8 @@ règle du journal qui ne se rattrape pas après coup.
 | [2026-09-02](2026-09-02-phase-6-capacite.md) | la capacité des deux stratégies chiffrables, et dix fonds fermés | phase 6 close, capacité bornée par la participation ou nulle |
 | [2026-09-02](2026-09-02-phase-8-apprentissage.md) | arbres contre régression, après coûts | phase 8 close, le linéaire est gardé |
 | [2026-09-03](2026-09-03-phase-10-tableau-de-bord.md) | tableau de bord et rapport engendrés depuis les fichiers | phase 10 close, `quant report` en une commande |
+| [2026-09-03](2026-09-03-dettes-avril-2020-et-series-nettes.md) | un mois de taux manquant, et le portefeuille sur séries nettes | chiffres de 008 et 009 relus, étude 012 `REJECTED`, la diversification ne paie pas net |
+| [2026-09-03](2026-09-03-quarante-ans-de-survivants.md) | arbres contre régression sur quarante ans de survivants | `REJECTED` ; le biais de survie fabrique deux renversements, mesuré contre Kenneth French |
 
 ## Les idées rejetées
 

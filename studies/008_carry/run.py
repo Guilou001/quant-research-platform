@@ -185,17 +185,40 @@ def _save_figure(fig: Any, name: str) -> Path:
     return next(p for p in written if p.suffix == ".png")
 
 
-def _monthly_rate(provider: FredProvider, series_id: str) -> pd.Series:
+#: Les mois de taux reportés depuis le mois précédent, journalisés et publiés.
+RATE_GAPS: list[dict[str, Any]] = []
+
+
+def _monthly_rate(provider: FredProvider, series_id: str, max_gap_fill_months: int = 0) -> pd.Series:
     """Rend un taux FRED mensuel en décimales, daté à la fin du mois.
 
     Les séries de l'OCDE portent la date du PREMIER jour du mois qu'elles
     décrivent. Le taux du mois est une moyenne des jours de ce mois, donc il est
     connu à sa fin, et c'est cette date que porte la série rendue.
+
+    Un trou d'au plus ``max_gap_fill_months`` mois à l'intérieur de la série
+    est comblé par le dernier taux connu, ce qui n'emploie que le passé. Chaque
+    mois comblé est journalisé et ajouté à :data:`RATE_GAPS`. Mesuré le
+    2026-09-02 : le taux interbancaire américain manque pour 2020-04, et sans
+    ce report les onze portages du mois sont manquants.
     """
     frame = provider.fetch(series_id)
     serie = frame.iloc[:, 0].dropna() / 100.0
     index = pd.DatetimeIndex(serie.index.to_period("M").to_timestamp(how="end").normalize(), name="date")
-    return pd.Series(serie.to_numpy(), index=index, name=series_id)
+    monthly = pd.Series(serie.to_numpy(), index=index, name=series_id)
+    if max_gap_fill_months <= 0 or len(monthly) < 2:
+        return monthly
+    full = pd.date_range(monthly.index.min(), monthly.index.max(), freq="ME")
+    complete = monthly.reindex(full)
+    filled = complete.ffill(limit=int(max_gap_fill_months))
+    for date in complete.index[complete.isna() & filled.notna()]:
+        RATE_GAPS.append(
+            {"series": series_id, "month": str(date.date()), "value_used": float(filled.loc[date])}
+        )
+        LOG.warning(
+            "taux reporté sur un mois manquant", extra={"series": series_id, "month": str(date.date())}
+        )
+    return filled.dropna().rename(series_id)
 
 
 def _turnover(raw_weights: pd.DataFrame, excess: pd.DataFrame, execution_lag: int) -> pd.Series:
@@ -421,7 +444,10 @@ def main() -> None:
         # ------------------------------------------------------------------ #
         with stage("chargement", experiment_id=experiment_id):
             provider = FredProvider()
-            rates = {code: _monthly_rate(provider, sid) for code, sid in params["rate_series"].items()}
+            gap_fill = int(params.get("max_gap_fill_months", 0))
+            rates = {
+                code: _monthly_rate(provider, sid, gap_fill) for code, sid in params["rate_series"].items()
+            }
             for sid in params["rate_series"].values():
                 manifests.append(provider.manifest(series_id=sid).model_dump(mode="json"))
             spots: dict[str, pd.Series] = {}
@@ -431,11 +457,17 @@ def main() -> None:
                 raw_spots[code] = quotidien
                 spots[code] = month_end_sample(to_usd_per_unit(quotidien, str(bloc["quote"])))
             alternates = {
-                code: _monthly_rate(provider, sid) for code, sid in params["extended_rate_series"].items()
+                code: _monthly_rate(provider, sid, gap_fill)
+                for code, sid in params["extended_rate_series"].items()
             }
             bond_yields = {
-                code: _monthly_rate(provider, sid) for code, sid in params["bond_yield_series"].items()
+                code: _monthly_rate(provider, sid, gap_fill)
+                for code, sid in params["bond_yield_series"].items()
             }
+            _write_table(
+                pd.DataFrame(RATE_GAPS or [{"series": "aucune", "month": "", "value_used": float("nan")}]),
+                "rate_gaps_filled",
+            )
 
         signal, excess = _build_panel(rates, spots, start, end)
         n_currencies = len(signal.columns)
