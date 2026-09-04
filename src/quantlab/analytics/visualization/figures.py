@@ -78,6 +78,7 @@ __all__ = [
     "RollingMetric",
     "correlation_heatmap",
     "cost_sensitivity",
+    "cumulative_return_pct",
     "equity_curve",
     "ic_timeseries",
     "monthly_returns_heatmap",
@@ -514,6 +515,10 @@ def equity_curve(
                 ax.plot(richesse.index, richesse[nom], label=nom)
         if log_scale:
             ax.set_yscale("log")
+            # Sur une échelle logarithmique, les graduations intermédiaires
+            # portent des puissances de dix par défaut, illisibles ; elles
+            # reçoivent le même formateur en nombres ordinaires.
+            ax.yaxis.set_minor_formatter(gvf_style.formateur(2))
         ax.yaxis.set_major_formatter(gvf_style.formateur(2))
         echelle = ", échelle logarithmique" if log_scale else ""
         mise = f"{gvf_style.fr(initial, 2)} {currency}"
@@ -530,6 +535,81 @@ def equity_curve(
         )
         ax.legend(loc="best")
     return fig, richesse
+
+
+def cumulative_return_pct(
+    returns_by_name: Mapping[str, ReturnSeries],
+    *,
+    title: str | None = None,
+    figsize: tuple[float, float] = DEFAULT_FIGSIZE,
+) -> tuple[Figure, pd.DataFrame]:
+    r"""Trace le rendement cumulé de plusieurs séries en pourcentage depuis leur date de base.
+
+    **Le problème.** Une richesse cumulée sur échelle logarithmique est exacte
+    et se lit mal : un lecteur qui n'est pas du métier ne sait pas ce que vaut
+    « 0,6 dollar ». Le même chemin exprimé en pourcentage gagné ou perdu depuis
+    le départ se lit sans apprentissage, au prix d'une échelle linéaire qui
+    écrase les petites variations quand une série a beaucoup gagné.
+
+    **La formule.** Pour une série de rendements simples :math:`r_1, \ldots, r_T`,
+
+    .. math::
+
+        C_t = 100 \left( \prod_{s \le t} (1 + r_s) - 1 \right)
+
+    **Les variables.** :math:`C_t` le rendement cumulé au temps :math:`t`, en
+    pourcentage, et :math:`r_s` le rendement simple de la période :math:`s`.
+
+    **Les hypothèses.** Chaque série est basée à sa première date observée,
+    comme :func:`equity_curve`. Les données restent des fractions ; seul l'axe
+    multiplie par cent.
+
+    **Les limites.** L'échelle linéaire n'est pas symétrique : gagner 100 %
+    puis perdre 50 % revient au point de départ, et la figure le montre sans le
+    dire. Pour comparer des taux de croissance, l'échelle logarithmique de
+    :func:`equity_curve` reste la bonne.
+
+    **Comment vérifier.** Une série qui rend +10 % puis -10 % finit à -1 %,
+    et c'est ce que la colonne rendue porte.
+
+    Args:
+        returns_by_name: les séries de rendements simples, par nom.
+        title: le titre ; sinon il est déduit des données.
+        figsize: la taille de la figure en pouces.
+
+    Returns:
+        La figure et le tableau des rendements cumulés tracés, en pourcentage.
+
+    Raises:
+        ConfigError: si aucune série n'est fournie.
+    """
+    if not returns_by_name:
+        raise ConfigError("aucune série à tracer")
+    colonnes = {}
+    for nom, serie in returns_by_name.items():
+        colonnes[nom] = (cumulative_wealth(_serie_propre(serie, nom=nom)) - 1.0) * 100.0
+    cumul = pd.concat(colonnes, axis=1).sort_index()
+    debut, fin = _bornes_de_dates(cumul.index)
+    premieres = {nom: cumul[nom].first_valid_index() for nom in cumul.columns}
+    bases_communes = len(set(premieres.values())) == 1
+    with portfolio_style():
+        fig, ax = _nouvelle_figure(figsize)
+        for nom in cumul.columns:
+            ax.plot(cumul.index, cumul[nom], label=nom)
+        ax.axhline(0.0, color=gvf_style.GRIS, linewidth=0.8)
+        ax.yaxis.set_major_formatter(gvf_style.formateur(0, " %"))
+        base = f"base 0 % au {debut}" if bases_communes else "base 0 % au départ de chaque courbe"
+        ax.set_ylabel(f"Rendement cumulé depuis la date de base, en %\n{base}")
+        ax.set_xlabel("Date de fin de période")
+        finales = cumul.ffill().iloc[-1]
+        meilleure = str(finales.idxmax())
+        ax.set_title(
+            title
+            or f"Rendement cumulé du {debut} au {fin}, {meilleure} finit à "
+            f"{gvf_style.fr(float(finales.max()), 0)} %"
+        )
+        ax.legend(loc="best")
+    return fig, cumul
 
 
 def underwater(

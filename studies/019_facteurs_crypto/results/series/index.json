@@ -1,0 +1,46 @@
+{
+  "crypto_market_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-05-24",
+    "frequency": "weekly",
+    "n_periods": 555,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2015-08-16",
+    "universe": "cryptomonnaies de Coin Metrics à plus d'un million de dollars, actifs disparus compris"
+  },
+  "crypto_momentum_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-05-24",
+    "frequency": "weekly",
+    "n_periods": 555,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2015-08-16",
+    "universe": "cryptomonnaies de Coin Metrics à plus d'un million de dollars, actifs disparus compris"
+  },
+  "crypto_momentum_net": {
+    "basis": "net",
+    "cost_assumptions": "50.0 pb par unité négociée",
+    "end": "2026-05-24",
+    "frequency": "weekly",
+    "n_periods": 555,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2015-08-16",
+    "universe": "cryptomonnaies de Coin Metrics à plus d'un million de dollars"
+  },
+  "crypto_size_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-05-24",
+    "frequency": "weekly",
+    "n_periods": 555,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2015-08-16",
+    "universe": "cryptomonnaies de Coin Metrics à plus d'un million de dollars, actifs disparus compris"
+  }
+}

@@ -39,8 +39,9 @@ défaillant alors qu'il aura raison.
 | Qualité et défensif | Quality Minus Junk, Betting Against Beta |
 | Portage et volatilité | Koijen et coauteurs, Moreira-Muir |
 | Arbitrage statistique | Gatev-Goetzmann-Rouwenhorst, Avellaneda-Lee |
-| Apprentissage et exécution | Gu-Kelly-Xiu, Almgren-Chriss |
-| Surapprentissage | ratio de Sharpe dégonflé, PBO, Harvey-Liu-Zhu, McLean-Pontiff |
+| Apprentissage et exécution | Gu-Kelly-Xiu, Almgren-Chriss, Gârleanu-Pedersen, Lou-Polk-Skouras |
+| Surapprentissage | ratio de Sharpe dégonflé, PBO, Harvey-Liu-Zhu, McLean-Pontiff, Chen-Zimmermann |
+| Données datées de la SEC | Cohen-Polk-Silli |
 
 Les fiches vivent dans ce répertoire, une par article, et l'index de navigation
 du site les liste sous cette page.

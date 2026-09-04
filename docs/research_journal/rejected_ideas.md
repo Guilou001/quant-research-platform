@@ -111,6 +111,69 @@ retenue parce qu'elle a été vue gagner parmi six essais.
 **Ce que cela apprend.** La diversification travaille, et la discipline de la
 référence déclarée empêche de le transformer en résultat.
 
+### 2026-09-04, ce que le forfait gratuit de Polygon donne
+
+**Idée.** Bâtir un univers d'actions américaines sans biais de survie depuis le
+référentiel et les prix gratuits de Polygon, étude 015.
+
+**Résultat.** Le référentiel est entier, 6 425 radiations datées depuis 2004, et
+la moitié des actions ordinaires de 2014 ont disparu ; les prix s'arrêtent à
+deux ans, réponse 403 au-delà, mesuré le 2026-09-04.
+
+**Pourquoi c'est rejeté.** Deux ans de prix ne font pas un backtest.
+
+**Ce que cela apprend.** Le biais de survie se compte gratuitement, il ne se
+corrige pas gratuitement.
+
+### 2026-09-04, viser devant la cible, forme simple
+
+**Idée.** Le rapprochement partiel de Gârleanu et Pedersen (2013), à taux fixe,
+sur le momentum de série temporelle, étude 017.
+
+**Résultat.** La rotation est divisée par 1,6 et le Sharpe net passe de 0,176
+à 0,162.
+
+**Pourquoi c'est rejeté.** Moins de rotation ne rend pas plus net ; le signal
+est le levier, pas la rotation.
+
+**Ce que cela apprend.** Une règle d'exécution ne crée pas de rendement là où le
+signal n'en porte pas.
+
+### 2026-09-04, marché, taille et momentum sur les cryptomonnaies
+
+**Idée.** Les trois facteurs de Liu, Tsyvinski et Wu (2022) sur les 139 actifs
+à prix daté de Coin Metrics, disparus compris, étude 019.
+
+**Résultat.** Les trois se retrouvent dans la fenêtre de l'article, momentum à
+2,65 % par semaine, t 2,6 ; après publication, 0,44 % brut et -0,64 % net de
+cinquante points de base, Sharpe -0,60, avec une rotation de 204 % du capital
+par semaine.
+
+**Pourquoi c'est rejeté.** Rien de négociable ne survit à la publication.
+
+**Ce que cela apprend.** Un marché jeune fait comme le marché ancien, en plus
+vite : les cinq sixièmes du rendement perdus en quatre ans.
+
+### 2026-09-04, les meilleures idées des gestionnaires concentrés
+
+**Idée.** La plus grosse position de chaque gestionnaire 13F concentré, connue
+à sa date de dépôt et tenue un trimestre, contre SPY, étude 020.
+
+**Hypothèse économique.** La position où la conviction l'emporte sur la
+diversification porte l'information privée du gestionnaire, s'il en a.
+
+**Résultat.** +0,27 % par an sur le marché, t 0,26, -0,05 % net de dix points
+de base ; alpha -0,69 % par an, bêta 1,08, R² 0,86 ; 28,9 % des idées sans
+prix, 50 % en 2013.
+
+**Pourquoi c'est rejeté.** Le portefeuille est l'indice des survivants, et la
+source gratuite ne voit pas les idées disparues.
+
+**Ce que cela apprend.** La valeur des jeux 13F est en milliers de dollars
+jusqu'en 2022 et le reste chez 6 à 20 % des déclarants après ; lue en dollars,
+elle ne gardait que cinq déclarations par trimestre avant 2023. Et 29,4 % des
+« meilleures idées » sont un fonds indiciel.
+
 ## Le décompte des essais
 
 | Famille de stratégies | Essais menés | Retenus | Rejetés |
@@ -129,7 +192,13 @@ référence déclarée empêche de le transformer en résultat.
 | Portefeuille multi-stratégies, séries nettes | 20 | 0 | 1 |
 | Apprentissage transversal, quarante ans de survivants | 17 | 0 | 1 |
 | Ce que la publication laisse, huit stratégies ensemble | 12 | 0 | 0 |
-| **Total** | **809** | **0** | **8** |
+| Ce que le forfait gratuit de Polygon donne | 3 | 0 | 1 |
+| Ce que la publication laisse, 212 portefeuilles | 9 | 0 | 0 |
+| Viser devant la cible, forme simple | 10 | 0 | 1 |
+| La nuit contre la journée | 6 | 0 | 0 |
+| Marché, taille et momentum sur les cryptomonnaies | 10 | 0 | 1 |
+| Les meilleures idées des gestionnaires concentrés | 6 | 0 | 1 |
+| **Total** | **853** | **0** | **12** |
 
 Ce tableau alimente directement `quantlab.validation.dsr`. Il se met à jour à
 chaque expérience, y compris celles qui ne mènent nulle part.

@@ -1,0 +1,54 @@
+# Étude 020 : les plus grosses positions des gestionnaires concentrés, lues
+# dans les jeux 13F de la SEC à leur date de dépôt, tenues d'un trimestre au
+# suivant. Tout seuil écrit AVANT le premier chiffre.
+
+name: meilleures_idees_13f_020
+hypothesis: >-
+  La plus grosse position de chaque gestionnaire concentré, connue à sa date
+  de dépôt 13F et tenue jusqu'au dépôt suivant, forme un portefeuille dont le
+  rendement dépasse celui du marché, comme Cohen, Polk et Silli (2010) le
+  rapportent pour les meilleures idées des gérants de fonds, et l'excédent
+  survit au décompte des positions dont le prix manque.
+paper: >-
+  Cohen, R., Polk, C. et Silli, B. (2010). Best Ideas. Document de travail,
+  rapporté par la littérature sur les clones 13F ; non lu. Données : SEC, Form
+  13F data sets, 2013 à 2026.
+seed: 20260904
+
+filings:
+  submission_type: "13F-HR"
+  # Un gestionnaire concentré déclare entre dix et cinquante positions, pour
+  # au moins cent millions de dollars, et sa plus grosse position n'est ni
+  # une option ni une position partagée.
+  min_positions: 10
+  max_positions: 50
+  min_total_value_usd: 100000000
+  min_top_weight: 0.05
+  # La valeur déclarée est en milliers de dollars jusqu'en 2022 et en dollars
+  # depuis 2023 ; le fournisseur la ramène en dollars déclaration par
+  # déclaration, et la part des déclarations lues en milliers est publiée ;
+  # une déclaration dont la valeur par titre dépasse cinq mille dollars est
+  # suspecte et écartée, comptée.
+  # Un fonds coté ou fermé n'est pas une idée : la position est écartée après
+  # la correspondance OpenFIGI, et le compte des écartées est publié.
+  exclude_security_types: ["ETP", "Closed-End Fund"]
+  # Les positions déclarées sont connaissables à la date de dépôt ; le
+  # portefeuille se forme le quarante-sixième jour après la fin du trimestre,
+  # sur les dépôts reçus à cette date, et se tient jusqu'à la formation suivante.
+  formation_lag_days: 46
+
+prices:
+  benchmark: SPY
+  start: "2013-01-01"
+  end: "2026-08-31"
+
+costs:
+  # Un demi-écart de dix points de base par unité négociée, à l'achat comme à
+  # la vente ; le renouvellement des idées d'une formation à la suivante est
+  # mesuré, pas supposé.
+  spread_bps: 10.0
+
+# Compte des essais : deux pondérations, une comparaison, une sous-période, et
+# la première lecture, valeurs en dollars et fonds cotés compris, qui a été
+# vue avant d'être corrigée : elle compte pour deux.
+n_trials: 6

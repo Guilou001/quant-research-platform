@@ -41,7 +41,11 @@ règle du journal qui ne se rattrape pas après coup.
 | [2026-09-03](2026-09-03-quarante-ans-de-survivants.md) | arbres contre régression sur quarante ans de survivants | `REJECTED` ; le biais de survie fabrique deux renversements, mesuré contre Kenneth French |
 | [2026-09-03](2026-09-03-phase-9-lean.md) | le même momentum dans deux moteurs | phase 9 close, LEAN retrouve le laboratoire à 4e-6 par mois, une séance de retard coûte 71 pb/an |
 | [2026-09-03](2026-09-03-phase-11-publication.md) | ce que la publication laisse, huit stratégies ensemble | `EXPERIMENTAL` ; 67 à 73 % de baisse après publication contre 58 % publié, rien avant |
-| [2026-09-03](2026-09-03-audit-des-phases-9-et-11.md) | l'audit des phases 9 et 11 | 29 constats corrigés, l'ouverture réelle coûte 25 pb/an, ADR-016 |
+| [2026-09-03](2026-09-03-audit-des-phases-9-et-11.md) | l'audit des phases 9 et 11 | 33 constats corrigés, l'ouverture réelle coûte 25 pb/an, ADR-016 |
+| [2026-09-04](2026-09-04-chantier-1-polygon.md) | la porte de Polygon, ouverte sur le référentiel, fermée sur les prix | 015 `REJECTED` ; deux ans de prix, 6 425 radiations datées, la moitié des actions de 2014 disparues |
+| [2026-09-04](2026-09-04-chantiers-2-3-4.md) | la largeur, la rotation et la nuit | 016 `EXPERIMENTAL`, 017 `REJECTED`, 018 `EXPERIMENTAL` ; le momentum gagne la nuit, la publication laisse la moitié à tous |
+| [2026-09-04](2026-09-04-chantier-6-crypto.md) | les facteurs des cryptomonnaies, quatre ans après leur article | 019 `REJECTED` ; les cinq sixièmes du rendement disparus, le momentum tourne 204 % par semaine |
+| [2026-09-04](2026-09-04-chantier-5-13f.md) | les meilleures idées des gestionnaires, lues à leur date de dépôt | 020 `REJECTED` ; +0,27 %/an sur le marché, t 0,26, bêta 1,08 ; 28,9 % des idées sans prix, la valeur 13F en milliers jusqu'en 2022 |
 
 ## Les idées rejetées
 

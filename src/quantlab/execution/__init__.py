@@ -35,6 +35,7 @@ from quantlab.execution.costs import (
     from_config,
     signed_trades,
 )
+from quantlab.execution.rebalancing import partial_rebalance
 
 __all__ = [
     "BaseCostModel",
@@ -52,6 +53,7 @@ __all__ = [
     "capacity_curve",
     "from_config",
     "interpolate_crossing",
+    "partial_rebalance",
     "realized_daily_volatility",
     "signed_trades",
 ]

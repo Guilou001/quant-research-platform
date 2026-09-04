@@ -32,11 +32,18 @@ import yaml
 from pydantic import Field
 
 from quantlab import REPOSITORY_URL
+from quantlab.analytics.comparison import annual_returns
 from quantlab.analytics.drawdown import max_drawdown
 from quantlab.analytics.ratios import sharpe_ratio
 from quantlab.analytics.returns import cagr, resample_returns
 from quantlab.analytics.risk import volatility
-from quantlab.analytics.visualization.figures import correlation_heatmap, equity_curve, save_figure
+from quantlab.analytics.visualization.figures import (
+    annual_returns_heatmap,
+    correlation_heatmap,
+    cumulative_return_pct,
+    equity_curve,
+    save_figure,
+)
 from quantlab.core.config import StrictModel
 from quantlab.core.errors import ConfigError, InsufficientDataError
 from quantlab.core.logging import get_logger
@@ -392,6 +399,26 @@ def build_dashboard(
             title=f"Richesse cumulée des {len(aligned)} séries de tête, {common_start.year}-{stamp[:4]}",
         )
         figure_paths += save_figure(fig, figures_dir / "richesse_cumulee_tetes.png")
+        fig, _ = cumulative_return_pct(
+            aligned,
+            title=(
+                f"Rendement cumulé des {len(aligned)} séries de tête, en %, {common_start.year}-{stamp[:4]}"
+            ),
+        )
+        figure_paths += save_figure(fig, figures_dir / "rendement_cumule_tetes.png")
+        annuels = pd.DataFrame(
+            {k: annual_returns(v, require_complete=True) for k, v in aligned.items()}
+        ).dropna(how="all")
+        if len(annuels) >= 2:
+            fig, _ = annual_returns_heatmap(
+                annuels,
+                highlight=next(iter(aligned)),
+                title=(
+                    f"Rendements annuels des séries de tête, en %, "
+                    f"{annuels.index.min()}-{annuels.index.max()}"
+                ),
+            )
+            figure_paths += save_figure(fig, figures_dir / "rendements_annuels_tetes.png")
         frame = pd.DataFrame(aligned).dropna()
         if frame.shape[1] >= 2 and len(frame) > 12:
             span = f"{frame.index.min().year}-{frame.index.max().year}"

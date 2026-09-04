@@ -1,0 +1,186 @@
+{
+  "data": {
+    "n_assets_repository": 2258,
+    "n_assets_with_prices": 139,
+    "first_week": "2014-01-05",
+    "last_week": "2026-05-24",
+    "manifest_last": {
+      "dataset_id": "coinmetrics-asset-zrx",
+      "source": "Coin Metrics, données communautaires, dépôt public GitHub",
+      "provider": "quantlab.data.providers.coinmetrics",
+      "url": "https://raw.githubusercontent.com/coinmetrics/data/master/csv/zrx.csv",
+      "download_timestamp": "2026-09-04T22:39:38.419961Z",
+      "data_start": "2017-08-11",
+      "data_end": "2026-05-24",
+      "frequency": "daily",
+      "timezone": "UTC",
+      "exchange": null,
+      "currency": "USD",
+      "adjusted": false,
+      "point_in_time": false,
+      "survivorship_free": true,
+      "corporate_actions": "sans objet ; les actifs disparus gardent leur fichier",
+      "revision_policy": "le dépôt est réécrit à chaque publication ; le cache brut garde la lecture",
+      "license": "Creative Commons Attribution NonCommercial 4.0 International, LICENSE du dépôt lu le 2026-09-04",
+      "license_url": "https://github.com/coinmetrics/data/blob/master/LICENSE",
+      "checksum_sha256": "ce7a9081ebc2be921be973ee9f3c6f82ca7bacbe23bd954fb2206fc5a299b48a",
+      "n_rows": 3209,
+      "n_columns": 4,
+      "columns": [
+        "date",
+        "asset",
+        "price_usd",
+        "market_cap_usd"
+      ],
+      "processing_version": "1.0.0",
+      "layer": "raw",
+      "parent_datasets": [],
+      "notes": "retard de publication de quelques mois, mesuré le 2026-09-04 : BTC s'arrête au 2026-05-24",
+      "manifest_version": "1"
+    }
+  },
+  "universe": {
+    "n_assets_mean": 83.22342342342343,
+    "n_assets_min": 10,
+    "n_assets_max": 117,
+    "n_weeks": 555
+  },
+  "gross": {
+    "in_sample": {
+      "market": {
+        "n_weeks": 251,
+        "mean_weekly_pct": 2.059473475351926,
+        "sharpe": 1.2544495902889479,
+        "t_stat": 2.5010639543391426,
+        "annual_return_pct": 104.12142737910735
+      },
+      "size": {
+        "n_weeks": 251,
+        "mean_weekly_pct": 1.764958574591647,
+        "sharpe": 0.9779625923304139,
+        "t_stat": 2.1581613481772055,
+        "annual_return_pct": 73.42374922780222
+      },
+      "momentum": {
+        "n_weeks": 251,
+        "mean_weekly_pct": 2.6507826986276743,
+        "sharpe": 1.1479462798797175,
+        "t_stat": 2.6231224439580325,
+        "annual_return_pct": 52.20002722641186
+      }
+    },
+    "post_sample": {
+      "market": {
+        "n_weeks": 91,
+        "mean_weekly_pct": 1.9485162933326212,
+        "sharpe": 1.4494295532752832,
+        "t_stat": 1.8248649977283482,
+        "annual_return_pct": 113.75163466330784
+      },
+      "size": {
+        "n_weeks": 91,
+        "mean_weekly_pct": 0.7566421650002626,
+        "sharpe": 0.8024217711095043,
+        "t_stat": 0.9436691555732045,
+        "annual_return_pct": 31.956495878762993
+      },
+      "momentum": {
+        "n_weeks": 91,
+        "mean_weekly_pct": 1.842803897962744,
+        "sharpe": 0.9504849710775444,
+        "t_stat": 1.794166491396488,
+        "annual_return_pct": 65.37742473693153
+      }
+    },
+    "post_publication": {
+      "market": {
+        "n_weeks": 213,
+        "mean_weekly_pct": 0.29521722818023693,
+        "sharpe": 0.37072496604282784,
+        "t_stat": 0.6638900126373599,
+        "annual_return_pct": 7.026939541145505
+      },
+      "size": {
+        "n_weeks": 213,
+        "mean_weekly_pct": -0.2736598975970147,
+        "sharpe": -0.4733670583663303,
+        "t_stat": -0.9577722330587266,
+        "annual_return_pct": -17.04339779296735
+      },
+      "momentum": {
+        "n_weeks": 213,
+        "mean_weekly_pct": 0.44221415502261496,
+        "sharpe": 0.4130108597179018,
+        "t_stat": 0.778286104668259,
+        "annual_return_pct": 7.821095174995696
+      }
+    }
+  },
+  "net_at_base": {
+    "size": {
+      "in_sample": {
+        "n_weeks": 251,
+        "mean_weekly_pct": 1.5776749084318265,
+        "sharpe": 0.8759090682003826,
+        "t_stat": 1.9085511589738218,
+        "annual_return_pct": 57.52403263900423
+      },
+      "post_sample": {
+        "n_weeks": 91,
+        "mean_weekly_pct": 0.6144040711933028,
+        "sharpe": 0.6523963615655127,
+        "t_stat": 0.765622965341104,
+        "annual_return_pct": 22.610107292117544
+      },
+      "post_publication": {
+        "n_weeks": 213,
+        "mean_weekly_pct": -0.37156277506048163,
+        "sharpe": -0.6437325398133745,
+        "t_stat": -1.2844618101263894,
+        "annual_return_pct": -21.16962915124444
+      }
+    },
+    "momentum": {
+      "in_sample": {
+        "n_weeks": 251,
+        "mean_weekly_pct": 1.6890051470796097,
+        "sharpe": 0.7314907234933722,
+        "t_stat": 1.71786784523329,
+        "annual_return_pct": -8.287582640095149
+      },
+      "post_sample": {
+        "n_weeks": 91,
+        "mean_weekly_pct": 0.8156141734856296,
+        "sharpe": 0.422574105477057,
+        "t_stat": 0.7351707711044871,
+        "annual_return_pct": -2.8546219514272275
+      },
+      "post_publication": {
+        "n_weeks": 213,
+        "mean_weekly_pct": -0.6446317248009926,
+        "sharpe": -0.6004648730380338,
+        "t_stat": -1.073892797058317,
+        "annual_return_pct": -39.025811439343194
+      }
+    }
+  },
+  "turnover_weekly_mean": {
+    "market": 0.046438162474089495,
+    "size": 0.2911898365487089,
+    "momentum": 2.0410039739402164
+  },
+  "verdict": "REJECTED",
+  "verdict_reasons": [
+    "RÉUSSI | hypothèse économique : signe attendu retrouvé, le signe décide du rejet",
+    "ÉCHOUÉ | signe du Sharpe hors échantillon : -0,600 mesuré, rejet à 0,000 ou moins",
+    "ÉCHOUÉ | réplication : aucun contrôle chiffré fourni, tolérance déclarée 0,100",
+    "ÉCHOUÉ | Sharpe hors échantillon : -0,600 mesuré, minimum 0,500",
+    "ÉCHOUÉ | t après correction pour essais multiples : non mesuré, minimum 3,000",
+    "ÉCHOUÉ | Sharpe dégonflé : non mesuré, minimum 0,950",
+    "ÉCHOUÉ | probabilité de surapprentissage : non mesuré, maximum 0,500",
+    "ÉCHOUÉ | part de sous-périodes positives : non mesuré, minimum 0,600",
+    "ÉCHOUÉ | multiple de coûts survécu : non mesuré, minimum 2,000",
+    "ÉCHOUÉ | corrélation absolue avec le portefeuille existant : non mesuré, maximum 0,600",
+    "VERDICT | REJECTED"
+  ]
+}

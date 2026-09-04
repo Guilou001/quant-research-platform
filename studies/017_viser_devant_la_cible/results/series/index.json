@@ -1,0 +1,24 @@
+{
+  "tsmom_full_net": {
+    "basis": "net",
+    "cost_assumptions": "coûts de l'étude 001, rééquilibrage complet",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 234,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2007-01-31",
+    "universe": "28 fonds cotés de l'étude 001"
+  },
+  "tsmom_partial_net": {
+    "basis": "net",
+    "cost_assumptions": "coûts de l'étude 001, taux de rapprochement 0.5",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 234,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2007-01-31",
+    "universe": "28 fonds cotés de l'étude 001"
+  }
+}

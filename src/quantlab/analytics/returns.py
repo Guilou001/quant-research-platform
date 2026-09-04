@@ -124,6 +124,7 @@ __all__ = [
     "excess_returns",
     "geometric_mean_return",
     "log_to_simple",
+    "overnight_intraday_split",
     "resample_returns",
     "simple_to_log",
     "to_prices",
@@ -1129,3 +1130,78 @@ def align_returns(*series: pd.Series | pd.DataFrame) -> tuple[pd.Series | pd.Dat
         extra={"n_series": len(series), "n_common": len(common)},
     )
     return tuple(obj.loc[common] for obj in series)
+
+
+def overnight_intraday_split(
+    open_: pd.DataFrame, close: pd.DataFrame, adj_close: pd.DataFrame
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    r"""Décompose le rendement de clôture à clôture en sa part de nuit et sa part de journée.
+
+    **Le problème.** Une stratégie qui gagne « en moyenne » peut gagner la nuit
+    et perdre le jour, ou l'inverse, et la différence décide où placer
+    l'exécution. Lou, Polk et Skouras (2019) mesurent que le momentum gagne la
+    nuit et la valeur le jour ; le laboratoire doit pouvoir le refaire sur ses
+    propres séries.
+
+    **L'intuition.** L'ouverture brute n'est pas ajustée des dividendes et des
+    divisions alors que la clôture ajustée l'est. On ajuste l'ouverture par le
+    même facteur que la clôture, puis on coupe le chemin de la veille à
+    aujourd'hui en deux morceaux qui se composent.
+
+    **La formule.**
+
+    .. math::
+
+        \tilde O_t = O_t \frac{\tilde C_t}{C_t}, \qquad
+        r^{\text{nuit}}_t = \frac{\tilde O_t}{\tilde C_{t-1}} - 1, \qquad
+        r^{\text{jour}}_t = \frac{\tilde C_t}{\tilde O_t} - 1,
+        \qquad (1 + r^{\text{nuit}}_t)(1 + r^{\text{jour}}_t) = \frac{\tilde C_t}{\tilde C_{t-1}}
+
+    **Les variables.** :math:`O_t` et :math:`C_t` l'ouverture et la clôture
+    brutes, :math:`\tilde C_t` la clôture ajustée, :math:`\tilde O_t`
+    l'ouverture ajustée.
+
+    **Les hypothèses.** Le facteur d'ajustement d'une séance s'applique à son
+    ouverture comme à sa clôture. C'est exact pour une division, et une
+    approximation pour un dividende détaché entre la clôture de la veille et
+    l'ouverture. Une séance sans ouverture, ou sans clôture de veille, rend une
+    valeur absente pour ses deux parts.
+
+    **La provenance.** Lou, D., Polk, C. et Skouras, S. (2019). A Tug of War:
+    Overnight versus Intraday Expected Returns. Journal of Financial Economics,
+    134(1), 192-213. Rapportée, résumé lu le 2026-09-03.
+
+    **Les limites.** La nuit contient tout ce qui se passe hors séance, y
+    compris les enchères d'ouverture ; la décomposition est celle des prix
+    officiels, pas des heures de négociation.
+
+    **Les alternatives écartées.** Additionner les deux parts, ce qui casse
+    l'identité ; utiliser l'ouverture brute, ce qui invente un rendement à
+    chaque dividende.
+
+    **Comment vérifier.** Sur trois jours écrits à la main, la composition des
+    deux parts redonne le rendement de clôture à clôture à 1e-12, ce que le
+    test de ce module vérifie.
+
+    Args:
+        open_: les ouvertures brutes, une colonne par titre.
+        close: les clôtures brutes, mêmes colonnes et dates.
+        adj_close: les clôtures ajustées, mêmes colonnes et dates.
+
+    Returns:
+        Le couple ``(nuit, jour)`` de tableaux de rendements simples, mêmes
+        dates et colonnes, la première séance absente.
+
+    Raises:
+        DataQualityError: les trois tableaux n'ont pas les mêmes dates et
+            colonnes, ou un prix n'est pas strictement positif.
+    """
+    for nom, tableau in (("open", open_), ("close", close), ("adj_close", adj_close)):
+        if not tableau.index.equals(adj_close.index) or not tableau.columns.equals(adj_close.columns):
+            raise DataQualityError(f"« {nom} » n'a pas les dates et colonnes de « adj_close ».")
+        if (tableau <= 0).any().any():
+            raise DataQualityError(f"« {nom} » porte un prix nul ou négatif.")
+    ouverture_ajustee = open_ * adj_close / close
+    nuit = ouverture_ajustee / adj_close.shift(1) - 1.0
+    jour = adj_close / ouverture_ajustee - 1.0
+    return nuit, jour

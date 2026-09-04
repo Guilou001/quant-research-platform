@@ -1,0 +1,152 @@
+{
+  "units": {
+    "n_suspect_dropped": 6,
+    "n_in_thousands": 20825,
+    "share_in_thousands_by_year": {
+      "2013": 0.9714,
+      "2014": 0.9756,
+      "2015": 0.9708,
+      "2016": 0.9737,
+      "2017": 0.9794,
+      "2018": 0.981,
+      "2019": 0.9774,
+      "2020": 0.9689,
+      "2021": 0.9607,
+      "2022": 0.8063,
+      "2023": 0.1878,
+      "2024": 0.1352,
+      "2025": 0.0793,
+      "2026": 0.0609
+    }
+  },
+  "filings": {
+    "n_quarter_files": 53,
+    "n_best_ideas": 29591,
+    "n_distinct_cusips": 3285,
+    "n_managers": 2861,
+    "first_period": "2013-03-31",
+    "last_period": "2026-03-31"
+  },
+  "mapping": {
+    "n_cusips": 3285,
+    "n_found": 2442,
+    "share_found": 0.7433789954337899,
+    "security_types": {
+      "Common Stock": 1629,
+      "ETP": 489,
+      "ADR": 130,
+      "REIT": 84,
+      "PUBLIC": 24,
+      "MLP": 23,
+      "US DOMESTIC": 21,
+      "Closed-End Fund": 11
+    },
+    "n_ideas_excluded_by_type": 8711,
+    "share_ideas_excluded_by_type": 0.2943800479875638
+  },
+  "prices": {
+    "n_tickers_requested": 1877,
+    "n_tickers_with_prices": 1357,
+    "share_ideas_with_prices": 0.7107758620689655
+  },
+  "portfolio": {
+    "equal_weight": {
+      "n_months": 157,
+      "annual_return_pct": 14.28718560185045,
+      "sharpe": 0.8832698361340826,
+      "t_stat": 3.2360898459304717
+    },
+    "vote_weight": {
+      "n_months": 157,
+      "annual_return_pct": 15.252319401233416,
+      "sharpe": 0.946756562157735,
+      "t_stat": 3.4659761326400447
+    },
+    "market": {
+      "n_months": 157,
+      "annual_return_pct": 14.181884051157546,
+      "sharpe": 0.9975735351492456,
+      "t_stat": 3.84061296318427
+    },
+    "equal_weight_net": {
+      "n_months": 157,
+      "annual_return_pct": 13.933013492282464,
+      "sharpe": 0.8646172594706699,
+      "t_stat": 3.180100724120981
+    },
+    "vote_weight_net": {
+      "n_months": 157,
+      "annual_return_pct": 14.895425791934791,
+      "sharpe": 0.9277801092415653,
+      "t_stat": 3.4091867645291005
+    }
+  },
+  "excess_over_market": {
+    "equal_weight": {
+      "n_months": 157,
+      "annual_return_pct": 0.26850524516628393,
+      "sharpe": 0.07385779705674994,
+      "t_stat": 0.2560749665493885
+    },
+    "vote_weight": {
+      "n_months": 157,
+      "annual_return_pct": 1.1621149436661815,
+      "sharpe": 0.2650785503959493,
+      "t_stat": 0.8724446939474714
+    },
+    "equal_weight_net": {
+      "n_months": 157,
+      "annual_return_pct": -0.04530597109361212,
+      "sharpe": 0.025154155206509425,
+      "t_stat": 0.08725625317448545
+    }
+  },
+  "capm": {
+    "alpha_annual": -0.006861613648107916,
+    "alpha_t": -0.36688636323465335,
+    "beta": 1.0808431523666835,
+    "r_squared": 0.858126225862305
+  },
+  "since_2020": {
+    "equal_weight": {
+      "n_months": 80,
+      "annual_return_pct": 15.080732670392383,
+      "sharpe": 0.8001926181823346,
+      "t_stat": 2.03311766669747
+    },
+    "vote_weight": {
+      "n_months": 80,
+      "annual_return_pct": 16.075960296687963,
+      "sharpe": 0.8587740312203553,
+      "t_stat": 2.208153964194641
+    },
+    "market": {
+      "n_months": 80,
+      "annual_return_pct": 15.507086035109907,
+      "sharpe": 0.939762333139453,
+      "t_stat": 2.478536176473834
+    }
+  },
+  "coverage": {
+    "ideas_total": 18954,
+    "ideas_without_price": 5485,
+    "share_without_price": 0.2893848264218635,
+    "mean_distinct_ideas_per_quarter": 153.9245283018868,
+    "mean_share_renewed": 0.39179529246339173,
+    "monthly_cost": 0.0002611968616422612
+  },
+  "verdict": "REJECTED",
+  "verdict_reasons": [
+    "ÉCHOUÉ | hypothèse économique : signe attendu NON retrouvé, le signe décide du rejet",
+    "RÉUSSI | signe du Sharpe hors échantillon : 0,865 mesuré, rejet à 0,000 ou moins",
+    "ÉCHOUÉ | réplication : aucun contrôle chiffré fourni, tolérance déclarée 0,100",
+    "RÉUSSI | Sharpe hors échantillon : 0,865 mesuré, minimum 0,500",
+    "ÉCHOUÉ | t après correction pour essais multiples : non mesuré, minimum 3,000",
+    "ÉCHOUÉ | Sharpe dégonflé : non mesuré, minimum 0,950",
+    "ÉCHOUÉ | probabilité de surapprentissage : non mesuré, maximum 0,500",
+    "ÉCHOUÉ | part de sous-périodes positives : non mesuré, minimum 0,600",
+    "ÉCHOUÉ | multiple de coûts survécu : non mesuré, minimum 2,000",
+    "ÉCHOUÉ | corrélation absolue avec le portefeuille existant : non mesuré, maximum 0,600",
+    "VERDICT | REJECTED"
+  ]
+}

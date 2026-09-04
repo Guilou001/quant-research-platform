@@ -24,6 +24,7 @@ portfolios:
   - {study: 011_cross_sectional_ml, series: ml_gbrt_decile_net, label: "Étude 011, arbres, décile long moins court, net"}
   - {study: 011_cross_sectional_ml, series: ml_ridge_decile_net, label: "Étude 011, régression, décile long moins court, net"}
   - {study: 013_cross_sectional_ml_long, series: ml_gbrt_decile_net, label: "Étude 013, arbres sur survivants, décile net, biais de survie"}
+  - {study: 017_viser_devant_la_cible, series: tsmom_partial_net, label: "Étude 017, momentum temporel à rapprochement partiel, net"}
 
 # La fenêtre commune des figures de richesse cumulée.
 common_window_start: "2010-01-31"

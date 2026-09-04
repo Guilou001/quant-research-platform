@@ -1,4 +1,10 @@
-# quant-research-platform
+# Une plateforme pour vérifier les stratégies quantitatives
+
+Une stratégie de placement peut sembler rentable lorsqu'on la teste sur les données qui ont servi à la construire. Toutefois, ce résultat peut disparaître lorsqu'on change de période, que l'on tient compte des coûts ou que l'on corrige les biais présents dans les données. Le présent projet construit une plateforme de recherche afin de soumettre chaque stratégie aux mêmes vérifications.
+
+Le résultat général est négatif. Le tableau de bord intègre actuellement vingt études et compte 853 essais dans les dernières exécutions enregistrées. Aucune des huit stratégies principales n'atteint le statut nécessaire pour recevoir du capital. En effet, les résultats diminuent lorsque l'on quitte la période de l'article, puis les coûts de transaction réduisent encore ce qui subsiste. Parmi 212 portefeuilles sans biais de survie, la comparaison est calculable pour 208. Ceux-ci conservent 42 % de leur rendement en médiane après publication, soit une baisse de 58 %.
+
+Afin d'expliquer ce constat, nous procéderons en quatre étapes. Dans un premier temps, nous présenterons les données et la façon dont nous conservons l'information disponible à chaque date. Dans un deuxième temps, nous expliquerons les vérifications imposées à chaque stratégie et la manière dont les 853 essais sont comptés. Ensuite, nous comparerons les résultats publiés à ceux mesurés après publication et après les coûts. Enfin, nous présenterons les limites qui empêchent actuellement une stratégie d'être retenue, ainsi que les études qui restent expérimentales.
 
 [![CI](https://github.com/Guilou001/quant-research-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/Guilou001/quant-research-platform/actions/workflows/ci.yml)
 [![Documentation](https://github.com/Guilou001/quant-research-platform/actions/workflows/docs.yml/badge.svg)](https://guilou001.github.io/quant-research-platform/)
@@ -6,41 +12,33 @@
 [![Licence MIT](https://img.shields.io/badge/code-MIT-green.svg)](LICENSE)
 [![Rapport PDF](https://img.shields.io/badge/rapport-PDF-orange.svg)](rapport/rapport.pdf)
 
-Un laboratoire de recherche quantitative en source ouverte, construit autour
-d'une seule idée : **un backtest flatteur ne prouve rien, et le travail
-intéressant consiste à savoir lequel ne prouve rien**. Un backtest, c'est le
-rejeu d'une règle de placement sur les prix du passé, pour voir ce qu'elle
-aurait rapporté.
-
-**Le résultat, en une phrase**. Quatorze études, 809 essais comptés, huit
-articles répliqués dans leur propre fenêtre, et **aucune stratégie qui mérite
-du capital**. Après leur publication, les huit stratégies gardent en moyenne un
-quart à un tiers du rendement que leur article annonçait, mesuré de la
-publication de chaque article, de 1993 à 2019 selon l'article, jusqu'en 2026.
-Les coûts de transaction emportent le reste.
+<details>
+<summary>Résumé en anglais</summary>
 
 > **English summary.** An open source quantitative research platform. It
 > replicates documented academic strategies, measures what survives out of
-> sample after costs, and rejects what does not. Fourteen studies, 809 counted
-> trials, eight papers replicated within their own window, and no strategy
-> that earns capital. After publication the eight strategies keep on average a
-> quarter to a third of the return their paper reported, and transaction costs
-> take the rest. The foundation carries a provenance tracked data lake,
+> sample after costs, and rejects what does not. Twenty studies, 853 counted
+> trials in the latest registered runs, and no core strategy that earns
+> capital. In a survivorship-bias-free set of 212 portfolios, the comparison is
+> available for 208. They retain 42% of their return at the median after
+> publication, a 58% decline before transaction costs. The foundation carries a provenance tracked data lake,
 > point-in-time fundamentals, a tested analytics engine, and a validation
 > engine that handles backtest overfitting explicitly. An independent
 > re-implementation under LEAN matches the lab engine to 4e-6 per month.
 > Documentation is in French; code, APIs and identifiers are in English.
 
-![Richesse cumulée des huit séries de tête, 2015-2026](docs/dashboard/figures/richesse_cumulee_tetes.png)
+</details>
 
-Comment lire cette figure : chaque courbe est ce que devient un dollar placé
-le 30 juin 2015 dans la série de tête d'une étude, sur une échelle
-logarithmique. La série est nette de coûts quand une version nette existe.
-Deux séries sur huit finissent au-dessus de leur point de départ, la valeur et
-le momentum en vert et le portage de change en noir. L'arbitrage statistique,
-en jaune, perd quatre cinquièmes de sa mise. La figure vient du [tableau de
-bord](docs/dashboard/index.md), engendré depuis les fichiers du dépôt.
+![Rendement cumulé des huit séries de tête, en pourcentage, 2015-2026](docs/dashboard/figures/rendement_cumule_tetes.png)
 
+Comment lire cette figure : chaque courbe est ce qu'a gagné ou perdu, en
+pourcentage, un dollar placé le 30 juin 2015 dans la série de tête d'une
+étude. La série est nette de coûts quand une version nette existe. La ligne grise
+est le point de départ. Quatre séries sur huit finissent au-dessus, dont le
+portage de change en noir et la valeur et le momentum en vert. L'arbitrage statistique, en jaune, perd quatre cinquièmes de sa mise. La figure vient du
+[tableau de bord](docs/dashboard/index.md), engendré depuis les fichiers du
+dépôt, qui porte aussi la même trajectoire en richesse sur échelle
+logarithmique et les rendements annuels de chaque série en pourcentage.
 ## Par où commencer, en trente secondes
 
 | Vous voulez | Allez à |
@@ -48,7 +46,7 @@ bord](docs/dashboard/index.md), engendré depuis les fichiers du dépôt.
 | voir d'un seul écran ce que le laboratoire a établi | le [tableau de bord](docs/dashboard/index.md), ou le même en [PDF](rapport/rapport.pdf) |
 | lire une étude complète, de l'hypothèse au verdict | [l'étude 013](studies/013_cross_sectional_ml_long/), où un panneau de survivants fait passer tous les contrôles à une stratégie qui n'existait pas |
 | voir comment un moteur se contrôle par un autre | [la réconciliation avec LEAN](lean/README.md), 234 mois retrouvés à 4e-6 près |
-| lire la recherche propre | [l'étude 014](studies/014_publication_decay/), ce que la publication laisse aux huit stratégies |
+| lire la recherche propre | [l'étude 016](studies/016_publication_decay_212/), ce que la publication laisse à 212 portefeuilles sans biais de survie |
 | suivre les décisions dans l'ordre où elles ont été prises | le [journal de recherche](docs/research_journal/index.md) et les [quinze décisions d'architecture](docs/architecture/adr/index.md) |
 | savoir ce qui manque, et dans quel ordre le construire | la [feuille de route](docs/roadmap.md), six chantiers sourcés, et la [spécification](docs/specs/001-univers-sans-biais-de-survie.md) du premier |
 | faire tourner le tout | la section [Reproduire](#reproduire), trois commandes |
@@ -92,7 +90,7 @@ Ce dépôt part de ce constat plutôt que de l'ignorer. Il apporte cinq choses.
   l'empreinte SHA-256 et la lignée jusqu'au fichier brut. La question « quelle
   donnée exacte a produit ce résultat ? » a une réponse ou le résultat n'est pas
   publié.
-- **Des fondamentaux point-in-time**, c'est-à-dire lus tels qu'ils étaient
+- **Des données financières datées**, c'est-à-dire lues telles qu'elles étaient
   connus à chaque date. Un rapport financier accepté par la SEC le 15 mai 2015
   n'est pas connaissable le 31 mars 2015, quelle que soit la période qu'il
   décrit. La règle est structurelle, pas affaire de vigilance : une violation
@@ -141,13 +139,13 @@ indépendants.
 ```mermaid
 flowchart LR
     S[Sources gratuites] --> L[(Lac 4 étages<br/>raw, bronze, silver, gold)]
-    L --> P[Point-in-time]
+    L --> P[Historique daté]
     P --> F[Caractéristiques]
     F --> A[Alpha]
     A --> O[Optimiseur]
     R[Modèle de risque] --> O
     C[Modèle de coût] --> O
-    O --> B[Backtest]
+    O --> B[Test sur le passé]
     B --> M[Analytique]
     M --> V{Validation}
     V --> D[Verdict]
@@ -171,7 +169,7 @@ quinze décisions structurantes sont écrites une par une dans
 Toutes les vérifications ci-dessous sont **mesurées le 2026-09-01**, avec un
 en-tête d'identification HTTP.
 
-| Source | Ce qu'elle donne | État | Point-in-time |
+| Source | Ce qu'elle donne | État | Historique daté |
 |---|---|---|---|
 | Yahoo (`yfinance` 1.7.0) | OHLCV quotidien, fonds négociés en bourse | disponible | non |
 | SEC EDGAR | dépôts, XBRL, dates d'acceptation | 200 | **oui** |
@@ -182,13 +180,13 @@ en-tête d'identification HTTP.
 | Open Source Asset Pricing | plusieurs centaines de caractéristiques | accessible | variable |
 
 Comment lire ce tableau, en trois constats. Le premier est que deux sources
-seulement sont point-in-time, ALFRED et la SEC, et qu'elles sont donc les seules
-qui autorisent un backtest fondamental ou macroéconomique propre. Le deuxième
+seules conservent les publications historiques, ALFRED et la SEC, et qu'elles sont donc les seules
+qui autorisent un test historique fondamental ou macroéconomique sans information future. Le deuxième
 concerne la SEC. Elle répondait 403 « Request Rate Threshold Exceeded » depuis
 cet environnement le 2026-08-29, sur sept relances en vingt minutes, et 200 le
 2026-09-01. Le blocage était un débit, pas une politique. Le troisième est
 qu'aucune de ces sources ne donne les titres radiés, ce qui plafonne la qualité
-de tout backtest sur actions individuelles, et l'étude 013 mesure ce que ce
+de toute évaluation historique sur des actions individuelles, et l'étude 013 mesure ce que ce
 plafond coûte.
 
 Les limites sont écrites une par une dans
@@ -208,7 +206,7 @@ contrôles.
 Hypothèse économique → Littérature → Réplication indépendante → Contrôles de bon sens
 → Coûts → Robustesse des paramètres → Walk-forward → Purge et embargo → CPCV
 → Tests multiples → DSR et PBO → Sous-périodes → Régimes → Attribution factorielle
-→ Risque de queue → Tension → Capacité → Backtest indépendant
+→ Risque de queue → Tension → Capacité → Contrôle indépendant
 → Bénéfice marginal au portefeuille → ACCEPTÉ ou REJETÉ
 ```
 
@@ -248,19 +246,19 @@ main (ADR-014).
 | Phase | Contenu | État |
 |---|---|---|
 | 0 | architecture, configuration, journal, intégration continue, documentation | **fait** |
-| 1 | fournisseurs, lac, provenance, point-in-time, qualité | **fait** |
+| 1 | fournisseurs, lac, provenance, historique daté, qualité | **fait** |
 | 2 | analytique : rendements, risque, ratios, régression, IC, rotation, contributions | **fait** |
 | 3 | validation : découpages, purge, embargo, CPCV, bootstrap, DSR, PBO, tests multiples | **fait** |
 | 4 | réplications académiques, de TSMOM à l'arbitrage statistique | **fait**, huit études |
 | 5 | moteur de portefeuille et de risque | **fait**, six estimateurs de covariance, sept optimiseurs |
 | 6 | moteur de coûts et de capacité | **fait**, impact à l'échelle du capital, étude 010 |
 | 7 | portefeuille multi-stratégies | **fait**, études 009 et 012 |
-| 8 | apprentissage automatique transversal | **fait**, panneau point-in-time, six méthodes, études 011 et 013 |
+| 8 | apprentissage automatique transversal | **fait**, panneau daté sans information future, six méthodes, études 011 et 013 |
 | 9 | validation indépendante sous LEAN | **fait**, l'étude 001 retrouvée à 5e-6 par mois ; l'ouverture réelle coûte 25 pb/an, une séance de retard 71 |
 | 10 | tableau de bord et rapport institutionnel | **fait**, `quant dashboard build` et `quant report` |
-| 11 | recherche propre | **ouverte**, étude 014 : la publication laisse un quart à un tiers du rendement |
+| 11 | recherche propre | **ouverte**, études 014 à 020 : la publication laisse la moitié du rendement, le momentum gagne la nuit, les facteurs des cryptomonnaies ont perdu les cinq sixièmes, les meilleures idées des gestionnaires 13F sont l'indice |
 
-## Ce que les quatorze études ont trouvé
+## Ce que les vingt études ont trouvé
 
 **Aucune des huit stratégies ne mérite du capital en l'état.** Aucune n'atteint
 `ROBUST` ni `PORTFOLIO_CANDIDATE`, et c'est le résultat des phases 4 à 8.
@@ -280,7 +278,13 @@ main (ADR-014).
 | 011 Apprentissage transversal, six méthodes | Gu, Kelly et Xiu (2020) | 17 | `REJECTED` | R² dans la plage publiée, corrélation de rang négative ; les arbres ne battent pas la régression, p 0,65 |
 | 012 Le même portefeuille sur séries nettes | Grinold (1989), DeMiguel et coauteurs (2009) | 20 | `REJECTED` | parité de risque à -0,128 net contre 0,535 pour la meilleure jambe |
 | 013 Arbres contre régression sur quarante ans de survivants | Gu, Kelly et Xiu (2020) | 17 | `REJECTED` | R² quatre fois l'article, déciles nets 0,60 à 0,85 : le biais de survie, pas un mérite |
-| 014 Ce que la publication laisse, huit stratégies ensemble | McLean et Pontiff (2016) | 12 | `EXPERIMENTAL` | 67 à 73 % de baisse après publication contre 58 % publié, et rien avant |
+| 014 Ce que la publication laisse, huit stratégies ensemble | McLean et Pontiff (2016) | 12 | `EXPERIMENTAL` | 67 à 73 % de baisse après publication contre 58 % publié, et presque rien avant |
+| 015 Ce que le forfait gratuit de Polygon donne | spécification 001 | 3 | `REJECTED` | deux ans de prix et 403 sur 2008 ; le référentiel chiffre le biais : la moitié des actions de 2014 ont disparu |
+| 016 Ce que la publication laisse, 212 portefeuilles sans biais de survie | McLean et Pontiff (2016), Chen et Zimmermann (2022) | 9 | `EXPERIMENTAL` | médiane 58 % de baisse, 83 % des prédicteurs baissent, la part perdue ne dépend pas de la force ; 94 % pour les publiés depuis 2010 |
+| 017 Viser devant la cible, forme simple | Gârleanu et Pedersen (2013) | 10 | `REJECTED` | rotation divisée par 1,6, Sharpe net 0,162 contre 0,176 : le signal est le levier, pas la rotation |
+| 018 La nuit contre la journée | Lou, Polk et Skouras (2019) | 6 | `EXPERIMENTAL` | le momentum temporel gagne 10,2 %/an la nuit, t 3,8, et perd 3,0 % le jour ; MTUM à 99 % la nuit |
+| 019 Marché, taille et momentum sur les cryptomonnaies | Liu, Tsyvinski et Wu (2022) | 10 | `REJECTED` | les trois facteurs se retrouvent avant 2020 et perdent les cinq sixièmes après ; le momentum tourne deux fois le capital par semaine |
+| 020 Les meilleures idées des gestionnaires concentrés, à leur date de dépôt | Cohen, Polk et Silli (2010) | 6 | `REJECTED` | +0,27 %/an sur SPY, t 0,26, bêta 1,08 : l'indice des survivants ; 28,9 % des idées sans prix, 50 % en 2013 |
 
 Comment lire ce tableau, en trois constats. Le premier est que sept articles sur
 huit se répliquent correctement dans leur propre fenêtre : ce n'est pas la
@@ -316,13 +320,13 @@ colonne lue.
 
 Exécuter à l'ouverture réelle du lendemain plutôt qu'à la clôture de décision
 coûte **25 points de base par an** au momentum de série temporelle, et une
-séance entière de retard en coûte 71, deux mesures que seul le moteur
-événementiel de la phase 9 pouvait faire.
+séance entière de retard en coûte 71. Seul le moteur événementiel de la phase
+9 pouvait faire ces deux mesures.
 
 Les rejets sont documentés un par un dans
 [`docs/research_journal/rejected_ideas.md`](docs/research_journal/rejected_ideas.md),
 avec leur hypothèse économique, ce qui a été mesuré, et pourquoi cela ne suffit
-pas. **809 essais** ont été menés au total, et aucun n'a produit une stratégie
+pas. **853 essais** ont été menés au total, et aucun n'a produit une stratégie
 retenue.
 
 ## Se comparer aux fonds réels
@@ -402,7 +406,7 @@ La règle qui rend ce travail possible est écrite dans le `CLAUDE.md` : **aucun
 valeur attendue d'un test ne vient de la sortie du code**. Elle vient d'un calcul
 à la main écrit en commentaire, d'une identité mathématique, d'une valeur
 publiée et citée, ou d'une bibliothèque indépendante. Le second moteur de la
-phase 9 est la même règle appliquée au moteur de backtest entier.
+phase 9 est la même règle appliquée au moteur complet d'évaluation historique.
 
 ## Reproduire
 
@@ -452,7 +456,7 @@ fausse précisément le test qui sert à détecter le surapprentissage.
 
 | Limite | Statut |
 |---|---|
-| Aucune stratégie n'atteint `ROBUST` sur quatorze études | mesuré, c'est le résultat des phases 4 à 11 |
+| Aucune stratégie n'atteint `ROBUST` sur vingt études | mesuré, c'est le résultat des phases 4 à 11 |
 | Pas d'univers sans biais de survie sur actions individuelles | mesuré, les sources gratuites ne le donnent pas, et l'étude 013 chiffre ce que cela fabrique |
 | Pas de carnet d'ordres, donc écart acheteur-vendeur supposé | reconnu, hypothèse déclarée dans chaque étude |
 | Impact de marché modélisé en racine carrée, sans microstructure | modélisé, marqué comme tel partout |

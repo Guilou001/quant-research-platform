@@ -1,0 +1,141 @@
+{
+  "source_study": "001_time_series_momentum",
+  "grid": {
+    "0.1": {
+      "sharpe_net_selection": 0.19579395640606104,
+      "sharpe_gross_selection": 0.2542481202666401,
+      "sharpe_net_holdout": 0.24516601603908994,
+      "sharpe_gross_holdout": 0.36745852990766564,
+      "turnover_annual": 2.0010625827008397,
+      "cost_annual_pct": 1.0880393965163295,
+      "gross_exposure_mean": 2.8496372568127137,
+      "n_months_selection": 65,
+      "n_months_holdout": 169
+    },
+    "0.2": {
+      "sharpe_net_selection": 0.27967875188906105,
+      "sharpe_gross_selection": 0.35390440490952135,
+      "sharpe_net_holdout": 0.21375132927265317,
+      "sharpe_gross_holdout": 0.34659921807539357,
+      "turnover_annual": 3.2318888805272357,
+      "cost_annual_pct": 1.5185951463614573,
+      "gross_exposure_mean": 3.5158145675650525,
+      "n_months_selection": 65,
+      "n_months_holdout": 169
+    },
+    "0.3": {
+      "sharpe_net_selection": 0.329642682896026,
+      "sharpe_gross_selection": 0.4115780778316143,
+      "sharpe_net_holdout": 0.19448748412689928,
+      "sharpe_gross_holdout": 0.3326155569790872,
+      "turnover_annual": 4.177033510346339,
+      "cost_annual_pct": 1.7765041756864246,
+      "gross_exposure_mean": 3.8804094854439306,
+      "n_months_selection": 65,
+      "n_months_holdout": 169
+    },
+    "0.4": {
+      "sharpe_net_selection": 0.3477656040293963,
+      "sharpe_gross_selection": 0.43545895580146493,
+      "sharpe_net_holdout": 0.17484035185637148,
+      "sharpe_gross_holdout": 0.31822715865371953,
+      "turnover_annual": 5.005481792831657,
+      "cost_annual_pct": 1.9631478079527351,
+      "gross_exposure_mean": 4.121145024778901,
+      "n_months_selection": 65,
+      "n_months_holdout": 169
+    },
+    "0.5": {
+      "sharpe_net_selection": 0.35169202690631896,
+      "sharpe_gross_selection": 0.4441514962869005,
+      "sharpe_net_holdout": 0.16244555985395195,
+      "sharpe_gross_holdout": 0.310835337200381,
+      "turnover_annual": 5.7538050387037,
+      "cost_annual_pct": 2.108664073755646,
+      "gross_exposure_mean": 4.292445837045196,
+      "n_months_selection": 65,
+      "n_months_holdout": 169
+    },
+    "0.6": {
+      "sharpe_net_selection": 0.3478880743787487,
+      "sharpe_gross_selection": 0.4451044473537383,
+      "sharpe_net_holdout": 0.15618617866629647,
+      "sharpe_gross_holdout": 0.3112569388724628,
+      "turnover_annual": 6.441722265601804,
+      "cost_annual_pct": 2.25712347062836,
+      "gross_exposure_mean": 4.479297874486925,
+      "n_months_selection": 65,
+      "n_months_holdout": 169
+    },
+    "0.7": {
+      "sharpe_net_selection": 0.3406337133034878,
+      "sharpe_gross_selection": 0.4421406928912136,
+      "sharpe_net_holdout": 0.1562408682238056,
+      "sharpe_gross_holdout": 0.3178567475163791,
+      "turnover_annual": 7.0797810233014875,
+      "cost_annual_pct": 2.3953725960472942,
+      "gross_exposure_mean": 4.653706724092847,
+      "n_months_selection": 65,
+      "n_months_holdout": 169
+    },
+    "0.8": {
+      "sharpe_net_selection": 0.332728083999827,
+      "sharpe_gross_selection": 0.43798921275417874,
+      "sharpe_net_holdout": 0.16096746351312483,
+      "sharpe_gross_holdout": 0.32839795204722266,
+      "turnover_annual": 7.704451390486239,
+      "cost_annual_pct": 2.520541707694046,
+      "gross_exposure_mean": 4.804097688636791,
+      "n_months_selection": 65,
+      "n_months_holdout": 169
+    },
+    "0.9": {
+      "sharpe_net_selection": 0.3258869676911492,
+      "sharpe_gross_selection": 0.43474778556359067,
+      "sharpe_net_holdout": 0.16809696756310968,
+      "sharpe_gross_holdout": 0.34086138844757513,
+      "turnover_annual": 8.362353036853778,
+      "cost_annual_pct": 2.6396335887792173,
+      "gross_exposure_mean": 4.937017187388326,
+      "n_months_selection": 65,
+      "n_months_holdout": 169
+    },
+    "1.0": {
+      "sharpe_net_selection": 0.3212547495992982,
+      "sharpe_gross_selection": 0.4339345054511419,
+      "sharpe_net_holdout": 0.17554620206450686,
+      "sharpe_gross_holdout": 0.35372099376068944,
+      "turnover_annual": 9.149479171648291,
+      "cost_annual_pct": 2.762468786033899,
+      "gross_exposure_mean": 5.056747400330564,
+      "n_months_selection": 65,
+      "n_months_holdout": 169
+    }
+  },
+  "selected_rate": 0.5,
+  "holdout": {
+    "sharpe_net_selected": 0.16244555985395195,
+    "sharpe_net_full_rebalance": 0.17554620206450686,
+    "sharpe_gross_selected": 0.310835337200381,
+    "sharpe_gross_full_rebalance": 0.35372099376068944,
+    "turnover_selected": 5.7538050387037,
+    "turnover_full_rebalance": 9.149479171648291,
+    "cost_annual_pct_selected": 2.108664073755646,
+    "cost_annual_pct_full_rebalance": 2.762468786033899
+  },
+  "holdout_best_rate_after_the_fact": 0.1,
+  "verdict": "REJECTED",
+  "verdict_reasons": [
+    "ÉCHOUÉ | hypothèse économique : signe attendu NON retrouvé, le signe décide du rejet",
+    "RÉUSSI | signe du Sharpe hors échantillon : 0,162 mesuré, rejet à 0,000 ou moins",
+    "ÉCHOUÉ | réplication : aucun contrôle chiffré fourni, tolérance déclarée 0,100",
+    "ÉCHOUÉ | Sharpe hors échantillon : 0,162 mesuré, minimum 0,500",
+    "ÉCHOUÉ | t après correction pour essais multiples : non mesuré, minimum 3,000",
+    "ÉCHOUÉ | Sharpe dégonflé : non mesuré, minimum 0,950",
+    "ÉCHOUÉ | probabilité de surapprentissage : non mesuré, maximum 0,500",
+    "ÉCHOUÉ | part de sous-périodes positives : non mesuré, minimum 0,600",
+    "ÉCHOUÉ | multiple de coûts survécu : non mesuré, minimum 2,000",
+    "ÉCHOUÉ | corrélation absolue avec le portefeuille existant : non mesuré, maximum 0,600",
+    "VERDICT | REJECTED"
+  ]
+}

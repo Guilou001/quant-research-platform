@@ -116,7 +116,9 @@ que si elle compte au moins vingt-quatre mois.
 
 Étude 014, verdict `EXPERIMENTAL`. Les huit stratégies perdent après
 publication, 73 % du rendement mensuel moyen par la moyenne des rapports et
-67 % par la régression, contre 58 % dans l'article. La baisse entre la fin de
+67 % par la régression, contre 58 % dans l'article. Étude 016, sur 208 portefeuilles de Chen et Zimmermann : 47 % en moyenne,
+58 % en médiane. La part perdue ne dépend pas de la force du prédicteur,
+alors que le niveau perdu en dépend, corrélation de rang 0,54. La baisse entre la fin de
 l'échantillon et la publication vaut 3 % à 8 %, contre 26 % dans l'article.
 
 ## Notre contrôle de robustesse

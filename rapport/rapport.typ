@@ -32,21 +32,21 @@
   #block(width: 100%)[
     #text(size: 18pt, weight: "bold")[Tableau de bord du laboratoire]
     #v(0.6em)
-    #text(size: 10pt, fill: luma(70))[Guillaume Vaudescal · 2026-09-03 · #link("https://github.com/Guilou001/quant-research-platform")[github.com/Guilou001/quant-research-platform]]
+    #text(size: 10pt, fill: luma(70))[Guillaume Vaudescal · 2026-09-04 · #link("https://github.com/Guilou001/quant-research-platform")[github.com/Guilou001/quant-research-platform]]
   ]
 ]
 #v(1.2em)
 #line(length: 100%, stroke: 0.6pt + luma(190))
 #v(0.8em)
 
-Engendré le 2026-09-03 par #raw("quant dashboard build"), commit #raw("55a4f96"). Chaque chiffre vient d'un fichier du dépôt, nommé sous chaque tableau. Rien ici n'est un conseil en investissement.
+Engendré le 2026-09-04 par #raw("quant dashboard build"), commit #raw("3e0ad4d"). Chaque chiffre vient d'un fichier du dépôt, nommé sous chaque tableau. Rien ici n'est un conseil en investissement.
 
 == L'état en quatre nombres
 
-- *14 études* menées, verdicts : 5 #raw("EXPERIMENTAL"), 8 #raw("REJECTED"), 1 #raw("REPLICATED").
-- *809 essais déclarés* dans les configurations, qui entrent dans le ratio de Sharpe dégonflé.
-- *136 expériences* au registre, 809 essais sur les dernières exécutions.
-- *2440 fonctions de test*, dont les gardiens d'architecture et de style.
+- *20 études* menées, verdicts : 7 #raw("EXPERIMENTAL"), 12 #raw("REJECTED"), 1 #raw("REPLICATED").
+- *853 essais déclarés* dans les configurations, qui entrent dans le ratio de Sharpe dégonflé.
+- *146 expériences* au registre, 853 essais sur les dernières exécutions.
+- *2474 fonctions de test*, dont les gardiens d'architecture et de style.
 
 == Les verdicts
 
@@ -117,6 +117,30 @@ Source : #raw("studies/*/config.yaml") et #raw("studies/*/results/metrics.json")
     [12],
     [#raw("EXPERIMENTAL")],
     [Les huit stratégies perdent après la publication de leur article, 73 % du rendement mensuel moyen par la moyenne des rapports et 67 % par la régression, contre 58 % chez McLean et Pontiff. Entre la fin de l'échantillon et la publication, elles ne perdent presque rien contre 26 %, parce que ce sont celles que leurs années suivantes n'ont pas démenties.],
+    [015 Ce que le forfait gratuit de Polygon donne pour un univers sans biais de survie],
+    [3],
+    [#raw("REJECTED")],
+    [Le forfait gratuit de Polygon rend deux ans de prix et refuse 2008, mais son référentiel des radiations est entier depuis 2004 : des actions ordinaires cotées en 2014, la moitié ont disparu, mesuré sur 6 425 radiations datées.],
+    [016 Ce que la publication laisse, 212 portefeuilles sans biais de survie],
+    [9],
+    [#raw("EXPERIMENTAL")],
+    [Sur 208 portefeuilles de Chen et Zimmermann, construits sur CRSP donc sans biais de survie, le rendement après publication vaut en moyenne 53 % de celui de la fenêtre de l'article et 42 % en médiane, 83 % des prédicteurs baissent, et la part perdue ne dépend pas de la force du prédicteur ; ceux publiés depuis 2010 ont perdu 94 % de leur rendement.],
+    [017 Viser devant la cible, forme simple],
+    [10],
+    [#raw("REJECTED")],
+    [Ne parcourir que la moitié du chemin vers la cible, taux choisi avant publication, réduit la rotation du momentum de série temporelle de 9,15 à 5,75 fois le capital par an et rend pourtant un Sharpe net de 0,162 contre 0,176 au rééquilibrage complet ; la rotation n'est pas le levier, le signal l'est.],
+    [018 La nuit contre la journée],
+    [6],
+    [#raw("EXPERIMENTAL")],
+    [Le momentum de série temporelle gagne tout son rendement la nuit, 10,2 % par an de la clôture à l'ouverture avec un t de 3,8, et perd 3,0 % par an le jour ; MTUM gagne 99 % de son rendement la nuit, USMV 34 %, et le marché lui-même 62 %.],
+    [019 Marché, taille et momentum sur les cryptomonnaies],
+    [10],
+    [#raw("REJECTED")],
+    [Les trois facteurs des cryptomonnaies se retrouvent dans la fenêtre de l'article, momentum à 2,65 % par semaine, et perdent les cinq sixièmes de leur rendement après sa parution ; le momentum négocie deux fois le capital par semaine et rend -0,60 de Sharpe net de cinquante points de base.],
+    [020 Les meilleures idées des gestionnaires concentrés, lues à leur date de dépôt],
+    [6],
+    [#raw("REJECTED")],
+    [La plus grosse position de chaque gestionnaire 13F concentré, formée le quarante-sixième jour après le trimestre, rapporte 14,29 % par an contre 14,18 % pour SPY, écart +0,27 %, t 0,26, bêta 1,08 : c'est l'indice des survivants, et 28,9 % des idées n'ont aucun prix, 50 % en 2013. La valeur des jeux 13F est en milliers de dollars jusqu'en 2022, lue déclaration par déclaration.],
 )
 
 == Les séries, et ce qu'elles valent
@@ -248,11 +272,23 @@ Une série de tête par étude, nette de coûts quand une version nette existe, 
     [25,87],
     [0,849],
     [-48,8],
+    [Étude 017, momentum temporel à rapprochement partiel, net],
+    [2007-01-31],
+    [2026-06-30],
+    [19,5],
+    [2,19],
+    [15,86],
+    [0,216],
+    [-32,1],
 )
 
 == Les trajectoires
 
 #figure(image("../docs/dashboard/figures/richesse_cumulee_tetes.png", width: 100%), caption: [richesse\_cumulee\_tetes])
+
+#figure(image("../docs/dashboard/figures/rendement_cumule_tetes.png", width: 100%), caption: [rendement\_cumule\_tetes])
+
+#figure(image("../docs/dashboard/figures/rendements_annuels_tetes.png", width: 100%), caption: [rendements\_annuels\_tetes])
 
 #figure(image("../docs/dashboard/figures/correlations_tetes.png", width: 100%), caption: [correlations\_tetes])
 
@@ -504,6 +540,56 @@ Source : #raw("artifacts/experiments.jsonl"), non suivi par git, régénéré pa
     [*Verdict*],
     [*Essais*],
     [*Commit*],
+    [meilleures\_idees\_13f\_020-deb95ed444],
+    [2026-09-04T23:26:22],
+    [REJECTED],
+    [6],
+    [3e0ad4d],
+    [meilleures\_idees\_13f\_020-c4a4e54440],
+    [2026-09-04T23:17:48],
+    [REJECTED],
+    [6],
+    [3e0ad4d],
+    [meilleures\_idees\_13f\_020-2414d79a75],
+    [2026-09-04T22:55:08],
+    [EXPERIMENTAL],
+    [4],
+    [3e0ad4d],
+    [facteurs\_crypto\_019-47e871b885],
+    [2026-09-04T22:40:01],
+    [REJECTED],
+    [10],
+    [3e0ad4d],
+    [univers\_polygon\_015-da2a56dc17],
+    [2026-09-04T22:27:50],
+    [REJECTED],
+    [3],
+    [3e0ad4d],
+    [viser\_devant\_la\_cible\_017-4fc5bcdc6c],
+    [2026-09-04T22:19:51],
+    [REJECTED],
+    [10],
+    [3e0ad4d],
+    [nuit\_contre\_journee\_018-3a2bb7dc89],
+    [2026-09-04T22:19:20],
+    [EXPERIMENTAL],
+    [6],
+    [3e0ad4d],
+    [publication\_decay\_212\_016-2634c31f9b],
+    [2026-09-04T22:13:34],
+    [EXPERIMENTAL],
+    [9],
+    [3e0ad4d],
+    [publication\_decay\_212\_016-74bf31ebcf],
+    [2026-09-04T22:10:53],
+    [EXPERIMENTAL],
+    [9],
+    [3e0ad4d],
+    [publication\_decay\_212\_016-59dc622642],
+    [2026-09-04T22:09:35],
+    [EXPERIMENTAL],
+    [9],
+    [3e0ad4d],
     [publication\_decay\_014-fe640c3d59],
     [2026-09-04T02:43:16],
     [EXPERIMENTAL],
@@ -514,56 +600,6 @@ Source : #raw("artifacts/experiments.jsonl"), non suivi par git, régénéré pa
     [EXPERIMENTAL],
     [12],
     [5b55a3a],
-    [cross\_sectional\_ml\_long\_013-cf4d311858],
-    [2026-09-03T21:22:59],
-    [REJECTED],
-    [17],
-    [c6c9b46],
-    [cross\_sectional\_ml\_long\_013-9aabc77879],
-    [2026-09-03T21:14:07],
-    [REJECTED],
-    [17],
-    [c6c9b46],
-    [cross\_sectional\_ml\_long\_013-d9f8ad1bda],
-    [2026-09-03T21:10:27],
-    [REJECTED],
-    [17],
-    [c6c9b46],
-    [multi\_strategy\_net\_012-f7a6df688d],
-    [2026-09-03T21:08:53],
-    [REJECTED],
-    [20],
-    [c6c9b46],
-    [multi\_strategy\_009-297cc27b86],
-    [2026-09-03T21:08:52],
-    [REJECTED],
-    [20],
-    [c6c9b46],
-    [008\_carry-7745ddda52],
-    [2026-09-03T21:07:20],
-    [REPLICATED],
-    [33],
-    [c6c9b46],
-    [cross\_sectional\_ml\_011-2528fedf66],
-    [2026-09-02T23:23:31],
-    [REJECTED],
-    [17],
-    [54c17e0],
-    [capacity\_010-bec3cf46ac],
-    [2026-09-02T22:38:43],
-    [REJECTED],
-    [8],
-    [f2c4e60],
-    [multi\_strategy\_009-2f1046ec7f],
-    [2026-09-02T21:15:17],
-    [REJECTED],
-    [20],
-    [5b77898],
-    [multi\_strategy\_009-df2c355fdf],
-    [2026-09-02T21:14:31],
-    [REJECTED],
-    [15],
-    [5b77898],
 )
 
 == Comment lire ce tableau

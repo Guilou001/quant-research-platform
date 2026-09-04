@@ -50,7 +50,7 @@ indépendant.
 | 8 | apprentissage automatique transversal | **fait**, panneau point-in-time, six méthodes, étude 011 |
 | 9 | validation indépendante sous LEAN | **fait**, l'étude 001 retrouvée à 5e-6 par mois, l'ouverture réelle coûte 25 pb/an, `lean/` |
 | 10 | tableau de bord et rapport institutionnel | **fait**, `quant dashboard build` et `quant report` |
-| 11 | recherche propre | **ouverte**, étude 014 sur ce que la publication laisse |
+| 11 | recherche propre | **ouverte**, études 014 à 020 : publication, univers sans biais de survie, rotation, nuit contre journée, cryptomonnaies, meilleures idées 13F |
 
 ## Avertissement
 

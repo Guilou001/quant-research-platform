@@ -1,0 +1,108 @@
+{
+  "source_study": "001_time_series_momentum",
+  "identity_max_abs_gap": 2.220446049250313e-16,
+  "strategy": {
+    "total_excess": {
+      "n_periods": 234,
+      "mean_annual_pct": 6.4907477171659025,
+      "sharpe": 0.37696092197130415,
+      "t_stat": 1.8732702426039565
+    },
+    "overnight": {
+      "n_periods": 234,
+      "mean_annual_pct": 10.205562018334014,
+      "sharpe": 0.8262117280304938,
+      "t_stat": 3.8326585940527407
+    },
+    "intraday": {
+      "n_periods": 234,
+      "mean_annual_pct": -2.9692715404005483,
+      "sharpe": -0.25571227793873974,
+      "t_stat": -1.3280215387394374
+    },
+    "residual_mean_annual_pct": -0.7455427607675597,
+    "overnight_share_of_total": 1.572324555358028,
+    "difference_overnight_minus_intraday": {
+      "n_periods": 234,
+      "mean_annual_pct": 13.174833558734566,
+      "sharpe": 0.8054519859334031,
+      "t_stat": 3.9922162752978636
+    }
+  },
+  "factor_funds": {
+    "MTUM": {
+      "factor": "momentum",
+      "first_date": "2013-08-01",
+      "n_days": 3247,
+      "overnight_mean_annual_pct": 17.349923036401066,
+      "intraday_mean_annual_pct": 0.13450506255405864,
+      "overnight_sharpe": 1.4017744292410887,
+      "intraday_sharpe": 0.00835891725381722,
+      "overnight_t": 4.208788296477385,
+      "intraday_t": 0.034303378700120284,
+      "overnight_share_of_total": 0.9923071511522817
+    },
+    "VLUE": {
+      "factor": "valeur",
+      "first_date": "2013-08-01",
+      "n_days": 3247,
+      "overnight_mean_annual_pct": 9.674019011511021,
+      "intraday_mean_annual_pct": 4.510259640424445,
+      "overnight_sharpe": 0.7978704644539979,
+      "intraday_sharpe": 0.3274264756066003,
+      "overnight_t": 2.69530298432568,
+      "intraday_t": 1.2769123673449323,
+      "overnight_share_of_total": 0.6820240386486618
+    },
+    "QUAL": {
+      "factor": "qualité",
+      "first_date": "2013-08-01",
+      "n_days": 3247,
+      "overnight_mean_annual_pct": 16.70079779404737,
+      "intraday_mean_annual_pct": -2.313385940067988,
+      "overnight_sharpe": 1.5379302097286809,
+      "intraday_sharpe": -0.17136284118035483,
+      "overnight_t": 4.535206170509932,
+      "intraday_t": -0.6827054401593097,
+      "overnight_share_of_total": 1.1607923623475151
+    },
+    "USMV": {
+      "factor": "faible volatilité",
+      "first_date": "2013-08-01",
+      "n_days": 3247,
+      "overnight_mean_annual_pct": 3.7162151522579614,
+      "intraday_mean_annual_pct": 7.268084486011767,
+      "overnight_sharpe": 0.43727556045148364,
+      "intraday_sharpe": 0.6632192791826284,
+      "overnight_t": 1.2854155562911522,
+      "intraday_t": 2.71830818252132,
+      "overnight_share_of_total": 0.33832062804537155
+    },
+    "SPY": {
+      "factor": "marché",
+      "first_date": "2013-08-01",
+      "n_days": 3247,
+      "overnight_mean_annual_pct": 9.141194120944274,
+      "intraday_mean_annual_pct": 5.54792316445262,
+      "overnight_sharpe": 0.8339179759405817,
+      "intraday_sharpe": 0.428964581868027,
+      "overnight_t": 2.642399087505539,
+      "intraday_t": 1.7605806615022639,
+      "overnight_share_of_total": 0.6223106496693264
+    }
+  },
+  "verdict": "EXPERIMENTAL",
+  "verdict_reasons": [
+    "RÉUSSI | hypothèse économique : signe attendu retrouvé, le signe décide du rejet",
+    "RÉUSSI | signe du Sharpe hors échantillon : 0,377 mesuré, rejet à 0,000 ou moins",
+    "ÉCHOUÉ | réplication : aucun contrôle chiffré fourni, tolérance déclarée 0,100",
+    "ÉCHOUÉ | Sharpe hors échantillon : 0,377 mesuré, minimum 0,500",
+    "ÉCHOUÉ | t après correction pour essais multiples : non mesuré, minimum 3,000",
+    "ÉCHOUÉ | Sharpe dégonflé : non mesuré, minimum 0,950",
+    "ÉCHOUÉ | probabilité de surapprentissage : non mesuré, maximum 0,500",
+    "ÉCHOUÉ | part de sous-périodes positives : non mesuré, minimum 0,600",
+    "ÉCHOUÉ | multiple de coûts survécu : non mesuré, minimum 2,000",
+    "ÉCHOUÉ | corrélation absolue avec le portefeuille existant : non mesuré, maximum 0,600",
+    "VERDICT | EXPERIMENTAL"
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "probes": {
+    "depth": {
+      "ticker": "AAPL",
+      "status": 200,
+      "n_bars": 500,
+      "first_date": "2024-09-04",
+      "last_date": "2026-09-01",
+      "message": ""
+    },
+    "delisted": {
+      "ticker": "LEH",
+      "status": 403,
+      "n_bars": 0,
+      "first_date": null,
+      "last_date": null,
+      "message": "api.polygon.io répond 403. Trois causes possibles, que le code ne distingue pas : un User-Agent sans courriel, un courriel dont le domaine est refusé, ou un débit jugé trop élevé. Mesuré le 2026-09-01"
+    }
+  },
+  "reference": {
+    "n_tickers_delisted_all_types": 23469,
+    "n_tickers_active_all_types": 13154,
+    "n_common_stocks_delisted": 6626,
+    "n_common_stocks_delisted_dated": 6425,
+    "n_common_stocks_active": 5318,
+    "first_delisting_year": 2004,
+    "share_surviving_from_first_year": 0.4528655369156093,
+    "delistings_2023": 704,
+    "manifest": {
+      "dataset_id": "polygon-reference-true-14",
+      "source": "Polygon, interface REST, forfait mesuré à l'appel",
+      "provider": "quantlab.data.providers.polygon",
+      "url": "https://api.polygon.io/v3/reference/tickers?cursor=YWN0aXZlPXRydWUmYXA9MTMwMDAmYXM9JmxpbWl0PTEwMDAmbWFya2V0PXN0b2NrcyZzb3J0PXRpY2tlcg",
+      "download_timestamp": "2026-09-04T22:27:37.408814Z",
+      "data_start": "2026-09-04",
+      "data_end": "2026-09-04",
+      "frequency": "daily",
+      "timezone": "America/New_York",
+      "exchange": null,
+      "currency": "USD",
+      "adjusted": true,
+      "point_in_time": true,
+      "survivorship_free": true,
+      "corporate_actions": "ajustées par la source quand adjusted=true ; référentiel avec date de radiation",
+      "revision_policy": "la source réécrit ses barres à chaque ajustement ; le cache brut garde la lecture",
+      "license": "Conditions d'utilisation de Polygon selon le forfait ; usage personnel de recherche",
+      "license_url": "https://polygon.io/terms",
+      "checksum_sha256": "3bba09d5151b5228972a3f69aae2103d351e3a53eab63e295952142d6418854d",
+      "n_rows": 13154,
+      "n_columns": 8,
+      "columns": [
+        "ticker",
+        "name",
+        "type",
+        "primary_exchange",
+        "active",
+        "delisted_utc",
+        "cik",
+        "composite_figi"
+      ],
+      "processing_version": "1.0.0",
+      "layer": "raw",
+      "parent_datasets": [],
+      "notes": "profondeur d'historique selon le forfait : deux ans mesurés le 2026-09-04 sur le forfait gratuit",
+      "manifest_version": "1"
+    }
+  },
+  "verdict": "REJECTED",
+  "verdict_reasons": [
+    "ÉCHOUÉ | profondeur d'historique : première barre 2024-09-04, exigé au plus tard 1996-01-01",
+    "ÉCHOUÉ | prix d'un titre radié : LEH en 2008 répond 403, 0 barres",
+    "RÉUSSI | référentiel : 6425 actions ordinaires radiées datées depuis 2004",
+    "VERDICT | REJECTED"
+  ]
+}

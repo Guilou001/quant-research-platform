@@ -1,0 +1,30 @@
+# Étude 015 : ce que le forfait gratuit de Polygon donne pour un univers sans
+# biais de survie, mesuré et non promis. Tout est écrit AVANT le premier chiffre.
+
+name: univers_polygon_015
+hypothesis: >-
+  Le forfait gratuit de Polygon donne au laboratoire un univers quotidien
+  d'actions américaines qui garde les sociétés radiées depuis 1996, avec leurs
+  prix jusqu'à la radiation, ce qui rendrait concluante l'étude 013.
+paper: >-
+  Spécification 001 du laboratoire ; documentation de Polygon sur les titres
+  radiés, page produit, rapportée le 2026-09-03.
+seed: 20260904
+
+probes:
+  # Le titre le plus liquide, pour mesurer la profondeur d'historique du forfait.
+  depth_ticker: AAPL
+  depth_start: "1990-01-01"
+  depth_end: "2026-09-01"
+  # Un titre radié dont on connaît l'histoire : Lehman Brothers, 2008.
+  delisted_ticker: LEH
+  delisted_start: "2008-01-01"
+  delisted_end: "2008-12-31"
+  required_first_date: "1996-01-01"
+
+reference:
+  security_type: CS
+  first_year: 2004
+
+# Compte des essais : deux sondes de prix et un référentiel.
+n_trials: 3

@@ -36,3 +36,6 @@ studies/**/reports/
 
 # Phase 9 : les entrées et sorties de LEAN se reconstruisent par script.
 lean/data/
+
+# Le journal d'exécution d'une étude n'est pas un résultat ; les tables et metrics.json le sont.
+studies/*/results/run.log

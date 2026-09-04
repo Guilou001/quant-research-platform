@@ -1,0 +1,29 @@
+# Étude 018 : où le momentum de série temporelle gagne-t-il, la nuit ou le
+# jour ? Tout seuil écrit AVANT le premier chiffre.
+
+name: nuit_contre_journee_018
+hypothesis: >-
+  Le momentum de série temporelle de l'étude 001, rejoué sur ses vingt-huit
+  fonds cotés, gagne l'essentiel de son rendement entre la clôture et
+  l'ouverture suivante, comme Lou, Polk et Skouras (2019) le rapportent pour
+  le momentum sur actions individuelles, et sa part de journée est nulle ou
+  négative.
+paper: >-
+  Lou, D., Polk, C. et Skouras, S. (2019). A Tug of War: Overnight versus
+  Intraday Expected Returns. Journal of Financial Economics, 134(1), 192-213.
+seed: 20260904
+
+source_study: 001_time_series_momentum
+
+# Les fonds de facteurs cotés du registre de comparaison, pour la lecture de
+# l'article : le momentum gagne la nuit, la valeur le jour.
+factor_funds:
+  MTUM: "momentum"
+  VLUE: "valeur"
+  QUAL: "qualité"
+  USMV: "faible volatilité"
+  SPY: "marché"
+factor_funds_start: "2013-07-31"
+
+# Compte des essais : la stratégie, et cinq fonds.
+n_trials: 6

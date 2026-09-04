@@ -1,0 +1,59 @@
+# Étude 019 : les trois facteurs des cryptomonnaies de Liu, Tsyvinski et Wu
+# (2022), rejoués sur les données communautaires de Coin Metrics, actifs
+# disparus compris. Tout seuil écrit AVANT le premier chiffre.
+
+name: facteurs_crypto_019
+hypothesis: >-
+  Sur l'ensemble des cryptomonnaies dont la capitalisation dépasse un million
+  de dollars, les trois facteurs de l'article, le marché, la taille et le
+  momentum, ont un rendement hebdomadaire moyen positif dans la fenêtre de
+  l'article, 2014 à 2020, et le momentum le garde après publication, 2022 à
+  2026, une fois payés des coûts de transaction de cinquante points de base
+  par unité négociée.
+paper: >-
+  Liu, Y., Tsyvinski, A. et Wu, X. (2022). Common Risk Factors in
+  Cryptocurrency. The Journal of Finance, 77(2), 1133-1177. Résumé lu le
+  2026-09-03 ; l'article n'a pas été lu en entier.
+seed: 20260904
+paper_sample_end: "2020-07-31"
+publication_date: "2022-04-30"
+
+data:
+  provider: coinmetrics
+  start: "2014-01-01"
+  frequency: weekly
+  week_anchor: "W-SUN"
+  min_market_cap_usd: 1000000.0
+  min_price_usd: 0.0
+  # Un actif compte dans une semaine s'il a un prix et une capitalisation en
+  # fin de semaine et un prix la semaine précédente.
+
+factors:
+  market: "capitalisation pondérée de tous les actifs de l'univers"
+  size:
+    breakpoints: [0.3, 0.7]      # petits : 30 % du bas, grands : 30 % du haut, par capitalisation
+    long: bottom
+  momentum:
+    formation_weeks: 3
+    breakpoints: [0.3, 0.7]
+    long: top
+  weighting: value
+
+costs:
+  # Statut modélisé : un demi-écart de cinquante points de base par unité
+  # négociée, sensibilité à 25, 100 et 200.
+  spread_bps: 50.0
+  spread_grid_bps: [0.0, 25.0, 50.0, 100.0, 200.0]
+
+# Compte des essais : trois facteurs, cinq niveaux de coûts, deux fenêtres.
+n_trials: 10
+
+verdict:
+  replication_tolerance: 0.10
+  min_oos_sharpe: 0.50
+  min_tstat: 3.00
+  min_dsr: 0.95
+  max_pbo: 0.50
+  min_positive_subperiod_share: 0.60
+  min_cost_multiple: 2.0
+  max_portfolio_correlation: 0.60

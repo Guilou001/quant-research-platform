@@ -22,6 +22,12 @@ Sharpe du paquet partagé plutôt que le sien.
 | 012 | [Le portefeuille 009 sur séries nettes](012_multi_strategy_net/) | Grinold (1989), DeMiguel et coauteurs (2009) | 20 | `REJECTED` |
 | 013 | [Arbres contre régression sur quarante ans de survivants](013_cross_sectional_ml_long/) | Gu, Kelly et Xiu (2020) | 17 | `REJECTED` |
 | 014 | [Ce que la publication laisse, huit stratégies ensemble](014_publication_decay/) | McLean et Pontiff (2016) | 12 | `EXPERIMENTAL` |
+| 015 | [Ce que le forfait gratuit de Polygon donne pour un univers sans biais de survie](015_univers_polygon/) | spécification 001, documentation de Polygon | 3 | `REJECTED` |
+| 016 | [Ce que la publication laisse, 212 portefeuilles sans biais de survie](016_publication_decay_212/) | McLean et Pontiff (2016), Chen et Zimmermann (2022) | 9 | `EXPERIMENTAL` |
+| 017 | [Viser devant la cible, forme simple](017_viser_devant_la_cible/) | Gârleanu et Pedersen (2013) | 10 | `REJECTED` |
+| 018 | [La nuit contre la journée](018_nuit_contre_journee/) | Lou, Polk et Skouras (2019) | 6 | `EXPERIMENTAL` |
+| 019 | [Marché, taille et momentum sur les cryptomonnaies](019_facteurs_crypto/) | Liu, Tsyvinski et Wu (2022) | 10 | `REJECTED` |
+| 020 | [Les meilleures idées des gestionnaires concentrés, lues à leur date de dépôt](020_meilleures_idees_13f/) | Cohen, Polk et Silli (2010) | 6 | `REJECTED` |
 
 Comment lire ce tableau, en quatre constats. Le premier est qu'**aucune étude
 n'atteint `ROBUST` ni `PORTFOLIO_CANDIDATE`**, donc aucune ne mérite du capital
@@ -98,6 +104,37 @@ rendement mensuel moyen par la moyenne des rapports et 67 % par la régression,
 contre 58 % chez McLean et Pontiff. Entre la fin de l'échantillon et la
 publication, elles ne perdent presque rien contre 26 %, parce que ce sont celles
 que leurs années suivantes n'ont pas démenties.
+
+**015.** Le forfait gratuit de Polygon rend deux ans de prix et refuse 2008, mais son
+référentiel des radiations est entier depuis 2004 : des actions ordinaires cotées
+en 2014, la moitié ont disparu, mesuré sur 6 425 radiations datées.
+
+**016.** Sur 208 portefeuilles de Chen et Zimmermann, construits sur CRSP donc sans
+biais de survie, le rendement après publication vaut en moyenne 53 % de celui de
+la fenêtre de l'article et 42 % en médiane, 83 % des prédicteurs baissent, et la
+part perdue ne dépend pas de la force du prédicteur ; ceux publiés depuis 2010
+ont perdu 94 % de leur rendement.
+
+**017.** Ne parcourir que la moitié du chemin vers la cible, taux choisi avant
+publication, réduit la rotation du momentum de série temporelle de 9,15 à 5,75
+fois le capital par an et rend pourtant un Sharpe net de 0,162 contre 0,176 au
+rééquilibrage complet ; la rotation n'est pas le levier, le signal l'est.
+
+**018.** Le momentum de série temporelle gagne tout son rendement la nuit, 10,2 %
+par an de la clôture à l'ouverture avec un t de 3,8, et perd 3,0 % par an le
+jour ; MTUM gagne 99 % de son rendement la nuit, USMV 34 %, et le marché lui-même
+62 %.
+
+**019.** Les trois facteurs des cryptomonnaies se retrouvent dans la fenêtre de
+l'article, momentum à 2,65 % par semaine, et perdent les cinq sixièmes de leur
+rendement après sa parution ; le momentum négocie deux fois le capital par
+semaine et rend -0,60 de Sharpe net de cinquante points de base.
+
+**020.** La plus grosse position de chaque gestionnaire 13F concentré, formée le
+quarante-sixième jour après le trimestre, rapporte 14,29 % par an contre 14,18 %
+pour SPY, écart +0,27 %, t 0,26, bêta 1,08 : c'est l'indice des survivants, et
+28,9 % des idées n'ont aucun prix, 50 % en 2013. La valeur des jeux 13F est en
+milliers de dollars jusqu'en 2022, lue déclaration par déclaration.
 
 ## L'arborescence d'une étude
 

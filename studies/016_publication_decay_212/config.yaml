@@ -1,0 +1,46 @@
+# Étude 016, recherche propre : la question de l'étude 014 sur les 212
+# portefeuilles d'Open Source Asset Pricing. Tout seuil est écrit AVANT le
+# premier résultat.
+
+name: publication_decay_212_016
+hypothesis: >-
+  Sur les 212 portefeuilles long moins court de Chen et Zimmermann, construits
+  sur CRSP donc sans biais de survie, le rendement mensuel moyen perd 58 % après
+  la publication de l'article d'origine et 26 % dès la fin de son échantillon,
+  comme McLean et Pontiff (2016) le mesurent sur 97 caractéristiques ; et la
+  baisse est plus forte pour les prédicteurs au t élevé dans l'échantillon.
+paper: >-
+  McLean, R. D. et Pontiff, J. (2016). Does Academic Research Destroy Stock
+  Return Predictability? The Journal of Finance, 71(1), 5-32 ; données de
+  Chen, A. Y. et Zimmermann, T. (2022). Open Source Cross-Sectional Asset
+  Pricing. Critical Finance Review, 11(2), 207-264.
+seed: 20260904
+
+published:
+  post_sample_decline: 0.26
+  post_publication_decline: 0.58
+  n_predictors: 97
+
+# La fiche des signaux donne des ANNÉES, pas des mois : la fin d'échantillon
+# est le 31 décembre de l'année de fin, la publication le 31 décembre de
+# l'année de publication. Déclaré : les mois de l'année de publication qui
+# suivent la parution vont dans la fenêtre d'après échantillon, ce qui pousse
+# sa baisse vers celle de la fenêtre suivante.
+dates:
+  sample_end_month: 12
+  publication_month: 12
+
+pooling:
+  bootstrap_resamples: 10000
+  min_months_per_window: 24
+  # Un prédicteur dont le rendement moyen dans la fenêtre de l'article n'est
+  # pas positif n'a pas de rapport définissable ; il est compté et écarté.
+  require_positive_in_sample_mean: true
+  publication_decades: [1980, 1990, 2000, 2010]
+
+# Compte des essais : trois mesures mises en commun, deux tests
+# d'hétérogénéité, quatre groupes par décennie de publication.
+n_trials: 9
+
+verdict:
+  replication_tolerance: 0.10

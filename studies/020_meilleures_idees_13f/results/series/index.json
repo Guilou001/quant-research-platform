@@ -1,0 +1,24 @@
+{
+  "best_ideas_equal_weight_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-08-31",
+    "frequency": "monthly",
+    "n_periods": 157,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2013-08-31",
+    "universe": "plus grosses positions des gestionnaires 13F concentrés, prix Yahoo des survivants"
+  },
+  "best_ideas_vote_weight_gross": {
+    "basis": "gross",
+    "cost_assumptions": "aucune",
+    "end": "2026-08-31",
+    "frequency": "monthly",
+    "n_periods": 157,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2013-08-31",
+    "universe": "plus grosses positions des gestionnaires 13F concentrés, prix Yahoo des survivants"
+  }
+}
