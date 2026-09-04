@@ -15,6 +15,14 @@ hypothèses, sa provenance académique, ses limites et la façon de vérifier qu
 l'implémentation est correcte.
 """
 
-__version__ = "1.0.0"
+from importlib.metadata import PackageNotFoundError, version
 
-__all__ = ["__version__"]
+try:
+    __version__ = version("quantlab")
+except PackageNotFoundError:  # pragma: no cover - exécution sans installation
+    __version__ = "0.0.0"
+
+#: L'adresse publique du dépôt, écrite une fois ; CITATION.cff et le rapport la reprennent.
+REPOSITORY_URL = "https://github.com/Guilou001/quant-research-platform"
+
+__all__ = ["REPOSITORY_URL", "__version__"]

@@ -13,21 +13,25 @@ laboratoire ne dépend d'aucun compte tiers pour se reproduire.
 
 ## Décision
 
-LEAN tourne directement dans l'image publique `quantconnect/lean`, lancée par
-un script shell qui monte trois dossiers : l'algorithme, les données, les
-résultats. Les deux bases de référence du moteur, les heures de marché et les
+LEAN tourne directement dans l'image publique `quantconnect/lean`, épinglée
+par son empreinte, lancée par un script shell qui monte trois dossiers :
+l'algorithme, les données, les résultats. Les deux bases de référence du moteur, les heures de marché et les
 propriétés des symboles, sont copiées depuis l'image elle-même.
 
 Les données de LEAN sont écrites par le laboratoire depuis les mêmes prix que
 ceux qu'il utilise, par `quantlab.backtest.lean_bridge`. Trois conventions
-sont fixées et testées. L'ouverture du jour est la clôture de la veille, pour
-que l'exécution à l'ouverture suivante de LEAN désigne le prix que le moteur
-du laboratoire suppose. Les prix sont déjà ajustés et LEAN les lit en mode
+sont fixées et testées. Dans le premier jeu de données, l'ouverture du jour est
+la clôture de la veille, pour que l'exécution à l'ouverture suivante de LEAN
+désigne le prix que le moteur du laboratoire suppose. C'est ce qui vérifie
+l'arithmétique. Un second jeu porte l'ouverture réelle de Yahoo, ajustée par
+le facteur de la clôture, pour mesurer ce que cette convention vaut. Les prix sont déjà ajustés et LEAN les lit en mode
 `Raw`, sans fichier de correspondance ni de facteurs. Le taux sans risque est
 fourni en CSV, et l'algorithme n'en lit jamais une valeur future.
 
-L'algorithme de contrôle n'importe rien de `quantlab`. Un test le vérifie sur
-le texte du fichier.
+L'algorithme de contrôle n'importe rien de `quantlab`, et un test le vérifie
+sur le texte du fichier. Il ne recopie pas non plus l'univers ni les
+paramètres : l'export les écrit dans `custom/params.json` depuis la
+configuration de l'étude, et l'algorithme les lit là.
 
 La réconciliation compare trois choses, et chacune est une table publiée. Les
 rendements mensuels après retrait du financement, les poids à chaque date de
@@ -37,9 +41,12 @@ première lecture.
 
 ## Conséquences
 
-Le moteur du laboratoire est contrôlé sur l'étude 001 à 4e-6 par mois, et le
-coût d'une séance de retard, que le moteur mensuel ne peut pas voir, est
-mesuré. Le prix est une image de 19,4 Go et Docker en marche. Le passage à une
+Le moteur du laboratoire est contrôlé sur l'étude 001 à 5e-6 par mois. Deux
+coûts que le moteur mensuel ne peut pas voir sont mesurés : l'ouverture
+réelle du lendemain, 25 points de base par an, et une séance de retard, 71.
+L'audit du 2026-09-03 a demandé le second jeu de données, l'épinglage de
+l'image et la lecture des paramètres, tous trois absents de la première
+version. Le prix est une image de 19,4 Go et Docker en marche. Le passage à une
 stratégie retenue, si une l'est un jour, ne demande qu'un nouvel algorithme
 dans `lean/algorithm/` et un nouvel export.
 

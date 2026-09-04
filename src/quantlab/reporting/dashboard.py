@@ -31,6 +31,7 @@ import pandas as pd
 import yaml
 from pydantic import Field
 
+from quantlab import REPOSITORY_URL
 from quantlab.analytics.drawdown import max_drawdown
 from quantlab.analytics.ratios import sharpe_ratio
 from quantlab.analytics.returns import cagr, resample_returns
@@ -570,8 +571,8 @@ def build_report(
         titre_affiche=gvf_markdown.ligne(document.titre),
         pied=gvf_markdown.ligne(root.name),
         date=date or dt.date.today().isoformat(),
-        depot="https://github.com/Guilou001/quant-research-platform",
-        depot_court="github.com/Guilou001/quant-research-platform",
+        depot=REPOSITORY_URL,
+        depot_court=REPOSITORY_URL.removeprefix("https://"),
         corps=document.corps,
     )
     destination.parent.mkdir(parents=True, exist_ok=True)

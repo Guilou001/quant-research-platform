@@ -61,12 +61,36 @@ def test_l_archive_porte_le_csv_du_symbole_en_minuscules(tmp_path: Path) -> None
 
 
 def test_un_prix_manquant_apres_le_premier_est_refuse() -> None:
+    """Un trou intérieur serait lu en un jour par LEAN et en deux valeurs absentes par le laboratoire."""
     serie = _prix()
     serie.iloc[2] = np.nan
+    with pytest.raises(DataQualityError, match="2020-02-03"):
+        lean_daily_bars(serie)
+
+
+def test_les_valeurs_manquantes_avant_le_premier_prix_sont_ignorees() -> None:
+    serie = pd.concat([pd.Series([np.nan], index=pd.to_datetime(["2020-01-29"])), _prix()])
     barres = lean_daily_bars(serie)
-    # Le prix manquant est ignoré : trois barres, et l'ouverture saute le trou.
-    assert len(barres) == 3
-    assert barres["open"].tolist() == [100.0, 100.0, 102.0]
+    assert len(barres) == 4
+    assert barres["open"].iloc[0] == 100.0
+
+
+def test_une_ouverture_reelle_remplace_la_convention() -> None:
+    """Avec des ouvertures fournies, la barre du 31 janvier ouvre à 101 et non à 100."""
+    serie = _prix()
+    ouvertures = pd.Series([99.0, 101.0, 102.5, 100.5], index=serie.index)
+    barres = lean_daily_bars(serie, opens=ouvertures)
+    assert barres["open"].tolist() == [99.0, 101.0, 102.5, 100.5]
+    # Le 3 février ouvre à 102,5 et clôt à 101 : le haut est l'ouverture, le bas la clôture.
+    assert barres.loc["2020-02-03", "high"] == 102.5
+    assert barres.loc["2020-02-03", "low"] == 101.0
+
+
+def test_une_ouverture_reelle_manquante_est_refusee() -> None:
+    serie = _prix()
+    ouvertures = pd.Series([99.0, np.nan, 102.5, 100.5], index=serie.index)
+    with pytest.raises(DataQualityError):
+        lean_daily_bars(serie, opens=ouvertures)
 
 
 def test_un_prix_negatif_est_refuse() -> None:
@@ -101,6 +125,16 @@ def test_les_rendements_mensuels_prennent_la_derniere_valeur_du_mois() -> None:
     mensuel = monthly_returns_from_values(valeurs)
     assert mensuel.index.tolist() == list(pd.to_datetime(["2020-02-29", "2020-03-31"]))
     assert mensuel.tolist() == pytest.approx([0.10, -0.10])
+
+
+def test_un_financement_absent_sur_un_mois_commun_est_refuse() -> None:
+    """Un financement manquant absorbé à zéro passerait pour un écart de moteur de r_f x somme des poids."""
+    index = pd.to_datetime(["2020-02-29", "2020-03-31"])
+    lab = pd.Series([0.009, -0.020], index=index)
+    lean = pd.Series([0.015, -0.019], index=index)
+    financement = pd.Series([0.005], index=index[:1])
+    with pytest.raises(DataQualityError, match="2020-03-31"):
+        reconcile_monthly(lab, lean, financement)
 
 
 def test_la_reconciliation_retranche_le_financement() -> None:

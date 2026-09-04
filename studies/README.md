@@ -95,8 +95,8 @@ remonté par construction.
 
 **014.** Les huit stratégies perdent après la publication de leur article, 73 % du
 rendement mensuel moyen par la moyenne des rapports et 67 % par la régression,
-contre 58 % chez McLean et Pontiff ; entre la fin de l'échantillon et la
-publication, elles ne perdent que 3 à 4 % contre 26 %, parce que ce sont celles
+contre 58 % chez McLean et Pontiff. Entre la fin de l'échantillon et la
+publication, elles ne perdent presque rien contre 26 %, parce que ce sont celles
 que leurs années suivantes n'ont pas démenties.
 
 ## L'arborescence d'une étude

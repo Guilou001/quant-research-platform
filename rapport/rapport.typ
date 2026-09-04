@@ -39,14 +39,14 @@
 #line(length: 100%, stroke: 0.6pt + luma(190))
 #v(0.8em)
 
-Engendré le 2026-09-03 par #raw("quant dashboard build"), commit #raw("5b55a3a"). Chaque chiffre vient d'un fichier du dépôt, nommé sous chaque tableau. Rien ici n'est un conseil en investissement.
+Engendré le 2026-09-03 par #raw("quant dashboard build"), commit #raw("55a4f96"). Chaque chiffre vient d'un fichier du dépôt, nommé sous chaque tableau. Rien ici n'est un conseil en investissement.
 
 == L'état en quatre nombres
 
 - *14 études* menées, verdicts : 5 #raw("EXPERIMENTAL"), 8 #raw("REJECTED"), 1 #raw("REPLICATED").
 - *809 essais déclarés* dans les configurations, qui entrent dans le ratio de Sharpe dégonflé.
-- *135 expériences* au registre, 809 essais sur les dernières exécutions.
-- *2424 fonctions de test*, dont les gardiens d'architecture et de style.
+- *136 expériences* au registre, 809 essais sur les dernières exécutions.
+- *2440 fonctions de test*, dont les gardiens d'architecture et de style.
 
 == Les verdicts
 
@@ -116,7 +116,7 @@ Source : #raw("studies/*/config.yaml") et #raw("studies/*/results/metrics.json")
     [014 Ce que la publication laisse, huit stratégies ensemble],
     [12],
     [#raw("EXPERIMENTAL")],
-    [Les huit stratégies perdent après la publication de leur article, 73 % du rendement mensuel moyen par la moyenne des rapports et 67 % par la régression, contre 58 % chez McLean et Pontiff ; entre la fin de l'échantillon et la publication, elles ne perdent que 3 à 4 % contre 26 %, parce que ce sont celles que leurs années suivantes n'ont pas démenties.],
+    [Les huit stratégies perdent après la publication de leur article, 73 % du rendement mensuel moyen par la moyenne des rapports et 67 % par la régression, contre 58 % chez McLean et Pontiff. Entre la fin de l'échantillon et la publication, elles ne perdent presque rien contre 26 %, parce que ce sont celles que leurs années suivantes n'ont pas démenties.],
 )
 
 == Les séries, et ce qu'elles valent
@@ -504,6 +504,11 @@ Source : #raw("artifacts/experiments.jsonl"), non suivi par git, régénéré pa
     [*Verdict*],
     [*Essais*],
     [*Commit*],
+    [publication\_decay\_014-fe640c3d59],
+    [2026-09-04T02:43:16],
+    [EXPERIMENTAL],
+    [12],
+    [55a4f96],
     [publication\_decay\_014-10a4ab41b0],
     [2026-09-03T21:53:26],
     [EXPERIMENTAL],
@@ -558,11 +563,6 @@ Source : #raw("artifacts/experiments.jsonl"), non suivi par git, régénéré pa
     [2026-09-02T21:14:31],
     [REJECTED],
     [15],
-    [5b77898],
-    [005\_betting\_against\_beta-b21f54089f],
-    [2026-09-02T21:13:18],
-    [REJECTED],
-    [144],
     [5b77898],
 )
 

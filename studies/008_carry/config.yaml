@@ -17,6 +17,13 @@ paper: >-
   dans le manuscrit accepté déposé au CBS Research Portal.
 seed: 20260902
 
+# Les deux dates que l'étude 014 lit : la fin de l'échantillon de l'article et
+# le dernier jour du mois de son numéro de revue (Journal of Financial Economics 127(2), février 2018), tels que la fiche
+# de littérature les donne. Les coupures de validation ci-dessous sont un autre
+# objet, celui de l'étude elle-même.
+paper_sample_end: "2012-09-30"
+publication_date: "2018-02-28"
+
 data:
   provider: fred
   universe:

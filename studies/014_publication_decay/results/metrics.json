@@ -4,6 +4,7 @@
     "post_publication_decline": 0.58,
     "n_predictors": 97
   },
+  "excluded_months_below_threshold": 45,
   "pooled": {
     "post_sample": {
       "n_strategies": 6,
@@ -24,7 +25,7 @@
       "median_return_ratio": 0.29951214876279597,
       "mean_return_decline": 0.7269803018694228,
       "decline_ci95_low": 0.5411844424370664,
-      "decline_ci95_high": 0.9387262493150793,
+      "decline_ci95_high": 0.9387262493150792,
       "n_strategies_declining": 8,
       "n_strategies_negative": 2,
       "mean_sharpe_ratio_ratio": 0.37426788692286694,
@@ -32,33 +33,33 @@
       "sharpe_decline_ci95_high": 0.8673671433546934
     },
     "regression": {
-      "post_sample_decline": 0.04390053072815614,
-      "post_sample_se": 0.3503333874319988,
-      "post_sample_t": -0.12531072487824876,
-      "post_publication_decline": 0.6674549310061415,
-      "post_publication_se": 0.3785271874417123,
-      "post_publication_t": -1.7632945615271554,
-      "n_observations": 6003,
+      "post_sample_decline": 0.08315235764631124,
+      "post_sample_se": 0.26865399683713104,
+      "post_sample_t": -0.30951468664254256,
+      "post_publication_decline": 0.6683186223876161,
+      "post_publication_se": 0.3786211669563431,
+      "post_publication_t": -1.7651380343050829,
+      "n_observations": 5958,
       "n_month_clusters": 1194
     }
   },
   "heterogeneity": {
-    "spearman_t_in_sample_vs_decline": -0.04761904761904763,
-    "permutation_p_value": 0.9349,
+    "spearman_t_in_sample_vs_decline": 0.11904761904761905,
+    "permutation_p_value": 0.779,
     "n_strategies": 8
   },
   "leave_one_out": {
     "min_mean_return_decline": 0.6477299658926255,
     "max_mean_return_decline": 0.7747998737000164,
-    "min_regression_decline": 0.6133013105389032,
-    "max_regression_decline": 0.7675040739504626
+    "min_regression_decline": 0.6134078741618518,
+    "max_regression_decline": 0.7683777170270406
   },
   "verdict": "EXPERIMENTAL",
   "verdict_reasons": [
     "RÉUSSI | hypothèse économique : signe attendu retrouvé, le signe décide du rejet",
     "RÉUSSI | signe du Sharpe hors échantillon : non mesuré, rejet à 0,000 ou moins",
-    "ÉCHOUÉ | réplication de « baisse_apres_publication_regression » : 0,667 contre 0,580 publié, écart relatif 0,151, tolérance 0,100 (relative)",
-    "ÉCHOUÉ | réplication de « baisse_apres_echantillon_regression » : 0,044 contre 0,260 publié, écart relatif 0,831, tolérance 0,100 (relative)",
+    "ÉCHOUÉ | réplication de « baisse_apres_publication_regression » : 0,668 contre 0,580 publié, écart relatif 0,152, tolérance 0,100 (relative)",
+    "ÉCHOUÉ | réplication de « baisse_apres_echantillon_regression » : 0,083 contre 0,260 publié, écart relatif 0,680, tolérance 0,100 (relative)",
     "ÉCHOUÉ | réplication : 0 contrôle(s) sur 2 dans la tolérance, tous exigés",
     "ÉCHOUÉ | Sharpe hors échantillon : non mesuré, minimum 0,500",
     "ÉCHOUÉ | t après correction pour essais multiples : non mesuré, minimum 3,000",

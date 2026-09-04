@@ -38,34 +38,58 @@ LEAN_PRICE_SCALE: float = 10_000.0
 PORTFOLIO_VALUE_TAG: str = "PV"
 
 
-def lean_daily_bars(prices: pd.Series, volume: pd.Series | None = None) -> pd.DataFrame:
-    """Construit des barres quotidiennes dont l'ouverture est la clôture de la veille.
+def lean_daily_bars(
+    prices: pd.Series, volume: pd.Series | None = None, opens: pd.Series | None = None
+) -> pd.DataFrame:
+    """Construit des barres quotidiennes, à ouverture synthétique ou réelle.
 
-    La première barre n'a pas de veille : son ouverture est sa propre clôture.
-    Le plus haut et le plus bas encadrent l'ouverture et la clôture, si bien que
-    la barre reste cohérente pour tout modèle d'exécution.
+    Sans ``opens``, l'ouverture du jour est la clôture de la veille, et la
+    première barre ouvre sur sa propre clôture. C'est la convention qui fait
+    coïncider l'exécution à l'ouverture suivante de LEAN et l'exécution à la
+    clôture de décision du laboratoire. Avec ``opens``, l'ouverture est celle
+    fournie, déjà ajustée comme la clôture, et LEAN exécute à un prix qui n'est
+    pas celui de la décision. Le plus haut et le plus bas encadrent l'ouverture
+    et la clôture, si bien que la barre reste cohérente pour tout modèle
+    d'exécution.
 
     Args:
-        prices: les prix de clôture ajustés, indexés par date, sans valeur
-            manquante après le premier prix.
+        prices: les prix de clôture ajustés, indexés par date. Les valeurs
+            manquantes avant le premier prix sont ignorées ; après lui, elles
+            sont refusées, parce que les deux moteurs ne traiteraient pas le
+            trou de la même façon.
         volume: les volumes aux mêmes dates ; absents, ils valent zéro.
+        opens: les ouvertures ajustées aux mêmes dates ; absentes, la
+            convention synthétique s'applique.
 
     Returns:
         Un tableau ``open``, ``high``, ``low``, ``close``, ``volume`` indexé par
         date croissante.
 
     Raises:
-        DataQualityError: un prix manque, n'est pas fini ou n'est pas positif,
-            ou l'index n'est pas croissant.
+        DataQualityError: un prix manque après le premier, n'est pas fini ou
+            n'est pas positif, l'index n'est pas croissant, ou une ouverture
+            fournie manque à une date de clôture.
     """
-    serie = prices.dropna().astype(float)
-    if serie.empty:
+    premier = prices.first_valid_index()
+    if premier is None:
         raise DataQualityError("aucun prix à convertir en barres LEAN.")
+    serie = prices.loc[premier:].astype(float)
+    if serie.isna().any():
+        dates = serie.index[serie.isna()]
+        raise DataQualityError(
+            f"{len(dates)} prix manquant(s) après le premier, le premier au {dates[0].date()} ; "
+            "le trou serait lu différemment par les deux moteurs."
+        )
     if not serie.index.is_monotonic_increasing:
         raise DataQualityError("les prix doivent être triés par date croissante.")
     if not np.isfinite(serie.to_numpy()).all() or (serie <= 0).any():
         raise DataQualityError("un prix n'est pas fini ou n'est pas strictement positif.")
-    ouverture = serie.shift(1).fillna(serie.iloc[0])
+    if opens is None:
+        ouverture = serie.shift(1).fillna(serie.iloc[0])
+    else:
+        ouverture = opens.reindex(serie.index).astype(float)
+        if ouverture.isna().any() or (ouverture <= 0).any():
+            raise DataQualityError("une ouverture fournie manque ou n'est pas positive.")
     barres = pd.DataFrame(
         {
             "open": ouverture,
@@ -93,18 +117,27 @@ def format_lean_daily(bars: pd.DataFrame) -> str:
     Returns:
         Le contenu du fichier CSV, une ligne par barre, sans en-tête.
     """
-    colonnes = ("open", "high", "low", "close")
+    colonnes = ["open", "high", "low", "close"]
     manquantes = [c for c in (*colonnes, "volume") if c not in bars.columns]
     if manquantes:
         raise ConfigError(f"colonnes manquantes pour l'encodage LEAN : {manquantes}.")
-    lignes = []
-    for date, ligne in bars.iterrows():
-        prix = ",".join(str(round(float(ligne[c]) * LEAN_PRICE_SCALE)) for c in colonnes)
-        lignes.append(f"{pd.Timestamp(date).strftime('%Y%m%d')} 00:00,{prix},{int(ligne['volume'])}")
+    prix = (bars[colonnes].to_numpy(dtype=float) * LEAN_PRICE_SCALE).round().astype("int64")
+    volumes = bars["volume"].to_numpy(dtype=float).round().astype("int64")
+    dates = pd.DatetimeIndex(bars.index).strftime("%Y%m%d")
+    lignes = [
+        f"{date} 00:00,{o},{h},{lo},{c},{v}"
+        for date, (o, h, lo, c), v in zip(dates, prix.tolist(), volumes.tolist(), strict=True)
+    ]
     return "\n".join(lignes) + "\n"
 
 
-def write_lean_daily_zip(root: Path, ticker: str, prices: pd.Series, volume: pd.Series | None = None) -> Path:
+def write_lean_daily_zip(
+    root: Path,
+    ticker: str,
+    prices: pd.Series,
+    volume: pd.Series | None = None,
+    opens: pd.Series | None = None,
+) -> Path:
     """Écrit ``<root>/equity/usa/daily/<ticker>.zip`` au format de LEAN.
 
     Args:
@@ -112,6 +145,8 @@ def write_lean_daily_zip(root: Path, ticker: str, prices: pd.Series, volume: pd.
         ticker: le symbole, mis en minuscules dans le nom de fichier.
         prices: les prix de clôture ajustés.
         volume: les volumes, facultatifs.
+        opens: les ouvertures ajustées, facultatives ; sans elles, l'ouverture
+            est la clôture de la veille.
 
     Returns:
         Le chemin de l'archive écrite.
@@ -120,7 +155,7 @@ def write_lean_daily_zip(root: Path, ticker: str, prices: pd.Series, volume: pd.
     dossier.mkdir(parents=True, exist_ok=True)
     nom = ticker.lower()
     chemin = dossier / f"{nom}.zip"
-    contenu = format_lean_daily(lean_daily_bars(prices, volume))
+    contenu = format_lean_daily(lean_daily_bars(prices, volume, opens))
     tampon = io.BytesIO()
     with zipfile.ZipFile(tampon, "w", compression=zipfile.ZIP_DEFLATED) as archive:
         archive.writestr(f"{nom}.csv", contenu)
@@ -128,15 +163,14 @@ def write_lean_daily_zip(root: Path, ticker: str, prices: pd.Series, volume: pd.
     return chemin
 
 
-def parse_portfolio_value_log(text: str, *, tag: str = PORTFOLIO_VALUE_TAG) -> pd.Series:
+def parse_portfolio_value_log(text: str) -> pd.Series:
     """Relit la valeur liquidative que l'algorithme LEAN journalise chaque jour.
 
-    Chaque ligne utile contient ``<tag>,AAAA-MM-JJ,valeur`` ; LEAN préfixe ses
+    Chaque ligne utile contient ``PV,AAAA-MM-JJ,valeur`` ; LEAN préfixe ses
     lignes de journal par un horodatage et le mot ``Trace``, ce qui est ignoré.
 
     Args:
         text: le contenu du fichier journal de LEAN.
-        tag: le préfixe qui distingue les lignes de valeur liquidative.
 
     Returns:
         La valeur liquidative indexée par date, triée, sans doublon.
@@ -145,7 +179,7 @@ def parse_portfolio_value_log(text: str, *, tag: str = PORTFOLIO_VALUE_TAG) -> p
         DataQualityError: aucune ligne ne porte le préfixe, ou une date se
             répète avec deux valeurs différentes.
     """
-    marqueur = f"{tag},"
+    marqueur = f"{PORTFOLIO_VALUE_TAG},"
     valeurs: dict[pd.Timestamp, float] = {}
     for ligne in text.splitlines():
         position = ligne.find(marqueur)
@@ -179,10 +213,7 @@ def monthly_returns_from_values(values: pd.Series) -> pd.Series:
     serie = values.dropna().sort_index()
     if serie.empty:
         raise DataQualityError("aucune valeur liquidative à convertir en rendements mensuels.")
-    fins = serie.groupby([serie.index.year, serie.index.month]).last()
-    dates = serie.index.to_series().groupby([serie.index.year, serie.index.month]).max()
-    mensuel = pd.Series(fins.to_numpy(), index=pd.DatetimeIndex(dates.to_numpy()))
-    mensuel.index = mensuel.index.to_period("M").to_timestamp("M")
+    mensuel = serie.resample("ME").last().dropna()
     return mensuel.pct_change().dropna().rename("monthly_return")
 
 
@@ -217,11 +248,17 @@ def reconcile_monthly(
     communs = lab_excess.index.intersection(lean_total.index)
     if len(communs) == 0:
         raise DataQualityError("aucun mois commun entre le laboratoire et LEAN.")
+    manquants = communs.difference(financing.dropna().index)
+    if len(manquants) > 0:
+        raise DataQualityError(
+            f"le financement manque sur {len(manquants)} mois commun(s), le premier au "
+            f"{manquants[0].date()} ; un terme absorbé à zéro passerait pour un écart de moteur."
+        )
     tableau = pd.DataFrame(
         {
             "lab": lab_excess.reindex(communs),
             "lean_total": lean_total.reindex(communs),
-            "financing": financing.reindex(communs).fillna(0.0),
+            "financing": financing.reindex(communs),
         }
     )
     tableau["lean_excess"] = tableau["lean_total"] - tableau["financing"]

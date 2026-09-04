@@ -92,11 +92,12 @@ from __future__ import annotations
 
 import math
 from collections.abc import Sequence
+from dataclasses import dataclass
 
 import numpy as np
 import pandas as pd
 
-from quantlab.core.errors import ConfigError, InsufficientDataError
+from quantlab.core.errors import ConfigError, DataQualityError, InsufficientDataError
 from quantlab.core.logging import get_logger
 from quantlab.features.transforms import time_series_momentum_signal
 
@@ -277,6 +278,123 @@ def ex_ante_volatility(
     mean_of_squares = lagged.pow(2).ewm(alpha=alpha, min_periods=min_periods, adjust=True).mean()
     variance = (mean_of_squares - mean.pow(2)).clip(lower=0.0)
     return variance.mul(annualization_days).pow(0.5)
+
+
+@dataclass(frozen=True)
+class MonthlyInputs:
+    """Les tableaux mensuels que la stratégie consomme, et les quotidiens dont ils viennent.
+
+    Attributes:
+        daily_returns: les rendements simples quotidiens, par instrument.
+        daily_excess: les mêmes, moins le taux sans risque quotidien.
+        daily_volatility: la volatilité ex ante annualisée, jour par jour.
+        last_sessions: la dernière séance de chaque mois civil.
+        monthly_sessions: le nombre de séances observées par mois et instrument.
+        monthly_excess: le rendement excédentaire mensuel, absent sous le
+            minimum de séances.
+        monthly_volatility: la volatilité ex ante à la dernière séance du mois.
+    """
+
+    daily_returns: pd.DataFrame
+    daily_excess: pd.DataFrame
+    daily_volatility: pd.DataFrame
+    last_sessions: pd.DatetimeIndex
+    monthly_sessions: pd.DataFrame
+    monthly_excess: pd.DataFrame
+    monthly_volatility: pd.DataFrame
+
+
+def monthly_inputs_from_prices(
+    prices: pd.DataFrame,
+    rf_daily: pd.Series,
+    rf_monthly: pd.Series,
+    *,
+    center_of_mass: float = DEFAULT_CENTER_OF_MASS_DAYS,
+    annualization_days: float = DEFAULT_ANNUALIZATION_DAYS,
+    min_periods: int = 252,
+    min_trading_days: int = 15,
+) -> MonthlyInputs:
+    r"""Passe des prix quotidiens aux rendements excédentaires mensuels et à la volatilité de décision.
+
+    **Le problème.** L'article travaille en mois, les prix arrivent en jours, et
+    le passage de l'un à l'autre porte trois décisions qui déplacent le
+    résultat. À quelle date du mois lire la volatilité, combien de séances
+    exigent un mois, et comment dater le mois pour qu'il s'apparie aux facteurs
+    publiés. Ce passage n'est écrit qu'ici, et l'étude 001 comme la
+    réconciliation LEAN l'appellent.
+
+    **La formule.** Le rendement brut mensuel compose les rendements
+    quotidiens du mois civil,
+
+    .. math::
+
+        R_m = \prod_{d \in m} (1 + r_d) - 1,
+        \qquad
+        r^{e}_m = R_m - r^{f}_m
+
+    et il est absent quand le mois compte moins de ``min_trading_days``
+    séances observées. La volatilité mensuelle est celle de
+    :func:`ex_ante_volatility` lue à la dernière séance du mois, donc calculée
+    sur les rendements jusqu'à l'avant-dernière.
+
+    **Les hypothèses.** Le taux quotidien couvre chaque séance, sinon la
+    fonction refuse plutôt que de retrancher une valeur absente. Le mois est
+    daté de sa fin civile, parce qu'un mois dont la dernière séance tombe le 30
+    ne s'apparierait ni à AQR ni à Kenneth French. L'étude 001 a mesuré que
+    trente pour cent des mois disparaissaient sans cela.
+
+    **Comment vérifier.** Sur deux instruments et trois mois de prix construits
+    à la main, le rendement mensuel vaut le rapport des prix de fin de mois
+    moins un moins le taux. Un mois à une seule séance est absent, et changer
+    le rendement de la dernière séance ne change pas la volatilité lue à cette
+    séance.
+
+    Args:
+        prices: les prix ajustés, une colonne par instrument, index quotidien.
+        rf_daily: le taux sans risque quotidien, en décimal.
+        rf_monthly: le taux sans risque mensuel, en décimal, daté en fin de
+            mois ou reporté sur elle.
+        center_of_mass: le centre de masse de la volatilité, en séances.
+        annualization_days: le facteur d'annualisation de la variance.
+        min_periods: le nombre de séances exigé avant une volatilité.
+        min_trading_days: le nombre de séances exigé pour qu'un mois compte.
+
+    Returns:
+        Les tableaux de :class:`MonthlyInputs`.
+
+    Raises:
+        DataQualityError: le taux quotidien ne couvre pas toutes les séances.
+        InsufficientDataError: aucun prix.
+    """
+    if prices.empty:
+        raise InsufficientDataError("aucun prix pour construire les entrées mensuelles.")
+    rendements = prices.pct_change()
+    taux = rf_daily.reindex(rendements.index).ffill()
+    if bool(taux.isna().any()):
+        raise DataQualityError("le taux sans risque quotidien ne couvre pas toutes les séances.")
+    exces = rendements.sub(taux, axis=0)
+    volatilite = ex_ante_volatility(
+        exces,
+        center_of_mass=center_of_mass,
+        annualization_days=annualization_days,
+        min_periods=min_periods,
+    )
+    cle = [rendements.index.year, rendements.index.month]
+    dernieres = pd.DatetimeIndex(sorted(rendements.index.to_series().groupby(cle).max().to_numpy()))
+    fins = pd.DatetimeIndex(dernieres.to_period("M").to_timestamp("M"))
+    seances = rendements.notna().groupby(cle).sum().set_axis(fins)
+    brut = ((1.0 + rendements).groupby(cle).prod() - 1.0).set_axis(fins)
+    brut = brut.where(seances >= int(min_trading_days))
+    taux_mensuel = rf_monthly.reindex(fins, method="ffill")
+    return MonthlyInputs(
+        daily_returns=rendements,
+        daily_excess=exces,
+        daily_volatility=volatilite,
+        last_sessions=dernieres,
+        monthly_sessions=seances,
+        monthly_excess=brut.sub(taux_mensuel, axis=0),
+        monthly_volatility=volatilite.reindex(dernieres).set_axis(fins),
+    )
 
 
 def formation_signal(

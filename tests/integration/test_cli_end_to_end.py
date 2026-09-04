@@ -50,7 +50,14 @@ def test_backtest_rend_le_rendement_moyen_calcule_a_la_main(tmp_path: Path) -> N
 
 
 def test_backtest_facture_le_cout_declare(tmp_path: Path) -> None:
-    """À 100 points de base par unité négociée, entrer 0,6 + 0,4 = 1,0 unité coûte 1 % en février."""
+    """À 100 points de base par unité négociée, le coût total vaut 1,0692 % sur les deux transactions.
+
+    Février : entrer 0,6 + 0,4 = 1,0 unité coûte 1 %. Mars : après +10 % sur A et
+    -5 % sur B, les poids ont dérivé à 0,66 / 1,04 = 0,634615 et 0,38 / 1,04 =
+    0,365385 ; revenir à 0,6 / 0,4 négocie 2 x 0,034615 = 0,069231 unité, soit
+    0,069231 %. Le coût est mesuré contre les poids dérivés, jamais contre la
+    cible précédente, et la somme vaut 0,010692308.
+    """
     poids, rendements = _ecrire_cas(tmp_path)
     sortie = tmp_path / "resume.json"
     resultat = runner.invoke(
@@ -58,10 +65,10 @@ def test_backtest_facture_le_cout_declare(tmp_path: Path) -> None:
     )
     assert resultat.exit_code == 0, resultat.output
     resume = json.loads(sortie.read_text())
-    assert resume["cost_total"] > 0.0
-    assert resume["net_mean"] < resume["gross_mean"]
-    # La première transaction, en février, négocie exactement une unité.
-    assert resume["cost_total"] >= 0.01 - 1e-12
+    derive_a, derive_b = 0.66 / 1.04, 0.38 / 1.04
+    cout_mars = (abs(0.6 - derive_a) + abs(0.4 - derive_b)) * 0.01
+    assert resume["cost_total"] == pytest.approx(0.01 + cout_mars, rel=1e-9)
+    assert resume["net_mean"] == pytest.approx(resume["gross_mean"] - resume["cost_total"] / 3, rel=1e-9)
 
 
 def test_portfolio_equipondere_rend_un_demi_par_actif(tmp_path: Path) -> None:

@@ -128,7 +128,8 @@ référence déclarée empêche de le transformer en résultat.
 | Apprentissage transversal, six méthodes | 17 | 0 | 1 |
 | Portefeuille multi-stratégies, séries nettes | 20 | 0 | 1 |
 | Apprentissage transversal, quarante ans de survivants | 17 | 0 | 1 |
-| **Total** | **797** | **0** | **8** |
+| Ce que la publication laisse, huit stratégies ensemble | 12 | 0 | 0 |
+| **Total** | **809** | **0** | **8** |
 
 Ce tableau alimente directement `quantlab.validation.dsr`. Il se met à jour à
 chaque expérience, y compris celles qui ne mènent nulle part.

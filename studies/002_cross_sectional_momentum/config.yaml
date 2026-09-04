@@ -15,6 +15,13 @@ paper: >-
   48(1), 65-91. doi:10.1111/j.1540-6261.1993.tb04702.x
 seed: 20260902
 
+# Les deux dates que l'étude 014 lit : la fin de l'échantillon de l'article et
+# le dernier jour du mois de son numéro de revue (The Journal of Finance 48(1), mars 1993), tels que la fiche
+# de littérature les donne. Les coupures de validation ci-dessous sont un autre
+# objet, celui de l'étude elle-même.
+paper_sample_end: "1989-12-31"
+publication_date: "1993-03-31"
+
 data:
   provider: yahoo
   start: "1985-01-01"

@@ -1,8 +1,8 @@
 reason
 "RÉUSSI | hypothèse économique : signe attendu retrouvé, le signe décide du rejet"
 "RÉUSSI | signe du Sharpe hors échantillon : non mesuré, rejet à 0,000 ou moins"
-"ÉCHOUÉ | réplication de « baisse_apres_publication_regression » : 0,667 contre 0,580 publié, écart relatif 0,151, tolérance 0,100 (relative)"
-"ÉCHOUÉ | réplication de « baisse_apres_echantillon_regression » : 0,044 contre 0,260 publié, écart relatif 0,831, tolérance 0,100 (relative)"
+"ÉCHOUÉ | réplication de « baisse_apres_publication_regression » : 0,668 contre 0,580 publié, écart relatif 0,152, tolérance 0,100 (relative)"
+"ÉCHOUÉ | réplication de « baisse_apres_echantillon_regression » : 0,083 contre 0,260 publié, écart relatif 0,680, tolérance 0,100 (relative)"
 "ÉCHOUÉ | réplication : 0 contrôle(s) sur 2 dans la tolérance, tous exigés"
 "ÉCHOUÉ | Sharpe hors échantillon : non mesuré, minimum 0,500"
 "ÉCHOUÉ | t après correction pour essais multiples : non mesuré, minimum 3,000"

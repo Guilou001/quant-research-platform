@@ -14,6 +14,13 @@ paper: >-
   fac-similé de l'article publié, fiche docs/literature/avellaneda_lee_2010.md.
 seed: 20260902
 
+# Les deux dates que l'étude 014 lit : la fin de l'échantillon de l'article et
+# le dernier jour du mois de son numéro de revue (Quantitative Finance 10(7), août-septembre 2010), tels que la fiche
+# de littérature les donne. Les coupures de validation ci-dessous sont un autre
+# objet, celui de l'étude elle-même.
+paper_sample_end: "2007-12-31"
+publication_date: "2010-08-31"
+
 data:
   provider: yahoo
   universe:

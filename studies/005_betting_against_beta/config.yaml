@@ -16,6 +16,13 @@ paper: >-
   cibles lus dans la version de travail du 2013-05-10, tableaux III, IV et V.
 seed: 20260902
 
+# Les deux dates que l'étude 014 lit : la fin de l'échantillon de l'article et
+# le dernier jour du mois de son numéro de revue (Journal of Financial Economics 111(1), janvier 2014), tels que la fiche
+# de littérature les donne. Les coupures de validation ci-dessous sont un autre
+# objet, celui de l'étude elle-même.
+paper_sample_end: "2012-03-31"
+publication_date: "2014-01-31"
+
 data:
   provider: yahoo
   start: "1998-01-01"

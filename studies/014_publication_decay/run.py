@@ -13,23 +13,27 @@ import warnings
 from pathlib import Path
 from typing import Any
 
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 import yaml
+from gvf.style import OKABE_ITO
+from matplotlib.figure import Figure
 from scipy import stats
 
-from quantlab.analytics.ratios import sharpe_ratio
+from quantlab.analytics.ratios import sharpe_ratio, sharpe_tstat
 from quantlab.analytics.returns import resample_returns
-from quantlab.analytics.visualization.figures import save_figure
+from quantlab.analytics.visualization.figures import portfolio_style, save_figure
+from quantlab.core.config import ExperimentConfig, load_config
 from quantlab.core.determinism import make_generator
+from quantlab.core.errors import ConfigError
 from quantlab.core.logging import configure_logging, get_logger, stage
 from quantlab.core.types import CostBasis, Frequency, ReturnKind, SampleTag
 from quantlab.data.providers.aqr import AqrProvider
 from quantlab.experiments import ExperimentRegistry
 from quantlab.reporting.series import load_series
 from quantlab.reporting.study import ReplicationCheck, VerdictCriteria, VerdictEvidence, decide_verdict
+from quantlab.validation.bootstrap import bootstrap_confidence_interval, bootstrap_statistic
 
 warnings.filterwarnings("ignore", category=FutureWarning, module="pandas")
 STUDY_DIR = Path(__file__).resolve().parent
@@ -47,6 +51,14 @@ def _write_table(frame: pd.DataFrame, name: str) -> None:
     frame.to_csv(TABLES / f"{name}.csv")
 
 
+def _paper_dates(spec: dict[str, Any]) -> tuple[pd.Timestamp, pd.Timestamp]:
+    """Lit la fin d'échantillon et le mois de publication dans la configuration de l'étude source."""
+    config = load_config(ROOT / "studies" / spec["study"] / "config.yaml", ExperimentConfig)
+    if config.paper_sample_end is None or config.publication_date is None:
+        raise ConfigError(f"{spec['study']} : paper_sample_end et publication_date doivent être déclarés.")
+    return pd.Timestamp(config.paper_sample_end), pd.Timestamp(config.publication_date)
+
+
 def _load_series(key: str, spec: dict[str, Any]) -> pd.Series:
     """Charge la série de tête d'une stratégie, en mensuel, datée en fin de mois civile."""
     if spec["series"] == "aqr_tsmom":
@@ -59,10 +71,8 @@ def _load_series(key: str, spec: dict[str, Any]) -> pd.Series:
     return s.dropna().rename(key)
 
 
-def _window_of(index: pd.DatetimeIndex, spec: dict[str, Any]) -> pd.Series:
+def _window_of(index: pd.DatetimeIndex, fin: pd.Timestamp, pub: pd.Timestamp) -> pd.Series:
     """Étiquette chaque mois : fenêtre de l'article, après échantillon, après publication."""
-    fin = pd.Timestamp(spec["sample_end"])
-    pub = pd.Timestamp(spec["publication"])
     etiquettes = np.where(
         index <= fin, "in_sample", np.where(index <= pub, "post_sample", "post_publication")
     )
@@ -70,13 +80,12 @@ def _window_of(index: pd.DatetimeIndex, spec: dict[str, Any]) -> pd.Series:
 
 
 def _describe_window(s: pd.Series) -> dict[str, float]:
+    """Le rendement moyen, son t au sens de Lo (2002), et le ratio de Sharpe d'une fenêtre."""
     n = len(s)
-    moyenne = float(s.mean())
-    ecart_type = float(s.std(ddof=1)) if n > 1 else float("nan")
     return {
         "n_months": n,
-        "mean_monthly_pct": moyenne * 100,
-        "t_stat": moyenne / (ecart_type / np.sqrt(n)) if n > 1 and ecart_type > 0 else float("nan"),
+        "mean_monthly_pct": float(s.mean()) * 100,
+        "t_stat": float(sharpe_tstat(s, frequency=MONTHLY)) if n > 1 else float("nan"),
         "sharpe": float(sharpe_ratio(s, frequency=MONTHLY)) if n > 1 else float("nan"),
     }
 
@@ -110,9 +119,20 @@ def _pooled_regression(stack: pd.DataFrame) -> dict[str, Any]:
 
 
 def _bootstrap_mean(values: np.ndarray, rng: np.random.Generator, n: int) -> tuple[float, float]:
-    """Intervalle à 95 % de la moyenne par rééchantillonnage des stratégies."""
-    tirages = rng.choice(values, size=(n, len(values)), replace=True).mean(axis=1)
-    return float(np.percentile(tirages, 2.5)), float(np.percentile(tirages, 97.5))
+    """Intervalle à 95 % de la moyenne par rééchantillonnage indépendant des stratégies."""
+    distribution = bootstrap_statistic(values, lambda x: float(np.mean(x)), "iid", n, rng)
+    intervalle = bootstrap_confidence_interval(distribution, 0.95, "percentile")
+    return float(intervalle.low), float(intervalle.high)
+
+
+def _spearman_permutations(x: np.ndarray, y: np.ndarray, rng: np.random.Generator, n: int) -> np.ndarray:
+    """Les corrélations de rang de ``n`` permutations de ``y``, en un produit matriciel."""
+    rx = stats.rankdata(x)
+    rx = (rx - rx.mean()) / rx.std()
+    ry = stats.rankdata(y)
+    ry = (ry - ry.mean()) / ry.std()
+    permutees = np.array([rng.permutation(ry) for _ in range(n)])
+    return permutees @ rx / len(rx)
 
 
 def main() -> None:
@@ -129,35 +149,47 @@ def main() -> None:
         piles: list[pd.DataFrame] = []
         for key, spec in config["strategies"].items():
             s = _load_series(key, spec)
-            fenetre = _window_of(s.index, spec)
+            fin, pub = _paper_dates(spec)
+            fenetre = _window_of(s.index, fin, pub)
             ligne: dict[str, Any] = {
                 "strategy": key,
                 "label": spec["label"],
                 "start": str(s.index.min().date()),
                 "end": str(s.index.max().date()),
-                "sample_end": spec["sample_end"],
-                "publication": spec["publication"],
+                "sample_end": str(fin.date()),
+                "publication": str(pub.date()),
             }
+            mesuree = pd.Series(True, index=s.index)
             for w in WINDOWS:
                 bloc = s[fenetre == w]
-                d = _describe_window(bloc) if len(bloc) >= minimum else {"n_months": len(bloc)}
+                assez = len(bloc) >= minimum
+                mesuree[fenetre == w] = assez
+                d = _describe_window(bloc) if assez else {"n_months": len(bloc)}
                 ligne.update({f"{w}_{k}": v for k, v in d.items()})
             mu = ligne["in_sample_mean_monthly_pct"] / 100
-            for w in ("post_sample", "post_publication"):
+            for w in WINDOWS[1:]:
                 if f"{w}_mean_monthly_pct" in ligne:
                     ligne[f"{w}_return_ratio"] = (ligne[f"{w}_mean_monthly_pct"] / 100) / mu
                     ligne[f"{w}_sharpe_ratio_ratio"] = ligne[f"{w}_sharpe"] / ligne["in_sample_sharpe"]
             lignes.append(ligne)
-            piles.append(pd.DataFrame({"strategy": key, "window": fenetre, "scaled": s / mu, "raw": s}))
+            piles.append(
+                pd.DataFrame(
+                    {"strategy": key, "window": fenetre, "scaled": s / mu, "raw": s, "measured": mesuree}
+                )
+            )
         fenetres = pd.DataFrame(lignes).set_index("strategy")
         _write_table(fenetres, "windows")
-        stack = pd.concat(piles)
-        _write_table(stack, "stacked_returns")
+        stack_total = pd.concat(piles)
+        _write_table(stack_total, "stacked_returns")
+        # La régression ne voit que les fenêtres mesurées : le seuil de vingt-quatre
+        # mois vaut pour les deux mesures, sinon elles ne se comparent pas.
+        stack = stack_total[stack_total["measured"]]
+        metrics["excluded_months_below_threshold"] = int((~stack_total["measured"]).sum())
 
     with stage("mise en commun"):
         n_boot = int(config["pooling"]["bootstrap_resamples"])
         pooled: dict[str, Any] = {}
-        for w in ("post_sample", "post_publication"):
+        for w in WINDOWS[1:]:
             ratios = fenetres[f"{w}_return_ratio"].dropna()
             sharpes = fenetres[f"{w}_sharpe_ratio_ratio"].dropna()
             lo, hi = _bootstrap_mean(ratios.to_numpy(), rng, n_boot)
@@ -183,9 +215,7 @@ def main() -> None:
         t_is = fenetres["in_sample_t_stat"]
         baisse = 1.0 - fenetres["post_publication_return_ratio"]
         rho, _ = stats.spearmanr(t_is, baisse)
-        permutations = np.array(
-            [stats.spearmanr(t_is, rng.permutation(baisse.to_numpy()))[0] for _ in range(n_boot)]
-        )
+        permutations = _spearman_permutations(t_is.to_numpy(), baisse.to_numpy(), rng, n_boot)
         metrics["heterogeneity"] = {
             "spearman_t_in_sample_vs_decline": float(rho),
             "permutation_p_value": float((np.abs(permutations) >= abs(rho)).mean()),
@@ -217,26 +247,31 @@ def main() -> None:
         ordre = list(fenetres.index)
         largeur = 0.27
         x = np.arange(len(ordre))
-        fig, ax = plt.subplots(figsize=(10, 4.6))
-        couleurs = {"in_sample": "#0072B2", "post_sample": "#E69F00", "post_publication": "#D55E00"}
+        couleurs = dict(zip(WINDOWS, (OKABE_ITO[0], OKABE_ITO[1], OKABE_ITO[3]), strict=True))
         libelles = {
             "in_sample": "fenêtre de l'article",
             "post_sample": "après l'échantillon, avant publication",
             "post_publication": "après publication",
         }
-        for i, w in enumerate(WINDOWS):
-            valeurs = [
-                fenetres.loc[k, f"{w}_sharpe"] if f"{w}_sharpe" in fenetres.columns else np.nan for k in ordre
-            ]
-            ax.bar(x + (i - 1) * largeur, valeurs, width=largeur, color=couleurs[w], label=libelles[w])
-        ax.axhline(0, color="black", linewidth=0.6)
-        ax.set_xticks(x, [config["strategies"][k]["label"] for k in ordre], rotation=25, ha="right")
-        ax.set_ylabel("Ratio de Sharpe annualisé, brut")
-        ax.set_title("Huit stratégies, trois fenêtres : ce que la publication laisse")
-        ax.legend(frameon=False, fontsize=9)
-        fig.tight_layout()
-        save_figure(fig, FIGURES / "sharpe_trois_fenetres")
-        plt.close(fig)
+        sharpes = fenetres[[f"{w}_sharpe" for w in WINDOWS]].loc[ordre]
+        with portfolio_style():
+            fig = Figure(figsize=(10, 4.6))
+            ax = fig.add_subplot(111)
+            for i, w in enumerate(WINDOWS):
+                ax.bar(
+                    x + (i - 1) * largeur,
+                    sharpes[f"{w}_sharpe"],
+                    width=largeur,
+                    color=couleurs[w],
+                    label=libelles[w],
+                )
+            ax.axhline(0, color="black", linewidth=0.6)
+            ax.set_xticks(x, [config["strategies"][k]["label"] for k in ordre], rotation=25, ha="right")
+            ax.set_ylabel("Ratio de Sharpe annualisé, brut")
+            ax.set_title(f"{len(ordre)} stratégies, trois fenêtres : ce que la publication laisse")
+            ax.legend(fontsize=9)
+            fig.tight_layout()
+            save_figure(fig, FIGURES / "sharpe_trois_fenetres")
 
     with stage("verdict"):
         crit = VerdictCriteria(**config["verdict"])
@@ -289,8 +324,8 @@ def main() -> None:
         config=config,
         seed=int(config["seed"]),
         universe=list(config["strategies"]),
-        date_start=str(stack.index.min().date()),
-        date_end=str(stack.index.max().date()),
+        date_start=str(stack_total.index.min().date()),
+        date_end=str(stack_total.index.max().date()),
         cost_basis=CostBasis.GROSS,
         cost_assumptions={},
         n_trials=int(config["n_trials"]),

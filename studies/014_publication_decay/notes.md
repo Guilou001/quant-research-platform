@@ -12,15 +12,24 @@ tolérance de 10 % du laboratoire contre 58 % et 26 %. Douze essais. La graine
 
 La fenêtre d'après échantillon. L'article y mesure 26 % de baisse, et la
 lecture la plus courante de ce chiffre est le surapprentissage des auteurs
-d'origine. Nos huit n'y perdent rien, 3 % par la moyenne et 4 % par la
-régression, et quatre des six fenêtres mesurées ont un ratio de Sharpe plus
-haut que dans l'article. La raison est la sélection, et elle a été écrite au
+d'origine. Nos huit n'y perdent presque rien, 3 % par la moyenne et 8 % par la
+régression, et trois des six fenêtres mesurées ont un ratio de Sharpe plus
+haut que dans l'article, quatre un rendement moyen plus haut. La raison est la sélection, et elle a été écrite au
 verdict plutôt qu'au tableau des limites, parce qu'elle change la lecture de
 tout le reste.
 
-Le t de la régression, -1,76 pour une baisse que huit stratégies sur huit
-montrent. Les erreurs types groupées par mois voient huit unités, pas 6 003
+Le t de la régression, -1,77 pour une baisse que huit stratégies sur huit
+montrent. Les erreurs types groupées par mois voient huit unités, pas 5 958
 observations, et c'est la bonne façon de compter.
+
+La revue de code du 2026-09-03 a trouvé que la régression voyait les deux
+fenêtres de moins de vingt-quatre mois que la moyenne des rapports excluait,
+que les dates étaient recopiées à la main, et que le t venait d'une formule
+naïve à côté du t de Lo du laboratoire. Les trois sont corrigés : la
+régression exclut 45 mois, les dates sont lues dans la configuration de
+chaque étude, et le t est celui de `quantlab.analytics.ratios`. La baisse
+d'après échantillon passe de 4 % à 8 %, la corrélation de rang de -0,05 à
+0,12, et rien d'autre ne bouge au-delà de la troisième décimale.
 
 ## Les essais ratés
 

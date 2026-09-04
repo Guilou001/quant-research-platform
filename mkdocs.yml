@@ -69,6 +69,10 @@ nav:
   - Architecture:
       - Vue d'ensemble: architecture/index.md
       - Décisions (ADR): architecture/adr/index.md
+      - Spécifications:
+          - Le gabarit: specs/TEMPLATE.md
+          - 001, un univers sans biais de survie: specs/001-univers-sans-biais-de-survie.md
+  - Feuille de route: roadmap.md
   - Méthodologie:
       - Ce qui sépare un résultat d'une coïncidence: methodology/index.md
       - Le parcours d'une stratégie: methodology/gauntlet.md

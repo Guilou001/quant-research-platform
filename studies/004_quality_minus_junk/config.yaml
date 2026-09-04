@@ -15,6 +15,13 @@ paper: >-
   version de travail du 19 juin 2014, l'article publié restant inaccessible.
 seed: 20260902
 
+# Les deux dates que l'étude 014 lit : la fin de l'échantillon de l'article et
+# le dernier jour du mois de son numéro de revue (Review of Accounting Studies 24(1), mars 2019), tels que la fiche
+# de littérature les donne. Les coupures de validation ci-dessous sont un autre
+# objet, celui de l'étude elle-même.
+paper_sample_end: "2012-12-31"
+publication_date: "2019-03-31"
+
 data:
   provider: aqr
   universe:

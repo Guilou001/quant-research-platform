@@ -60,6 +60,7 @@ from quantlab.strategies.base import AlphaMetadata, AlphaRegistry
 from quantlab.strategies.time_series_momentum import (
     ex_ante_volatility,
     grid_weights,
+    monthly_inputs_from_prices,
     tsmom_weights,
 )
 from quantlab.validation.cpcv import CombinatorialPurgedCV, cpcv_performance_distribution
@@ -188,37 +189,21 @@ def charger(config: ExperimentConfig) -> Donnees:
             on_missing="drop",
         )
         prix = to_wide(brut, config.data.price_field).reindex(columns=config.data.universe)
-        rendements = prix.pct_change()
 
         french = FrenchProvider()
         quotidiens = french.benchmark_factors(frequency=Frequency.DAILY, start=config.data.start)
         mensuels = french.benchmark_factors(frequency=Frequency.MONTHLY, start=p["aqr_start"])
-        taux_quotidien = quotidiens["RF"].reindex(rendements.index).ffill()
-        if bool(taux_quotidien.isna().any()):
-            raise ValueError("le taux sans risque quotidien ne couvre pas toutes les séances.")
-        exces_quotidiens = rendements.sub(taux_quotidien, axis=0)
-
-        volatilite = ex_ante_volatility(
-            exces_quotidiens,
+        # Le passage des prix aux tableaux mensuels n'est écrit qu'une fois, dans
+        # le module de la stratégie, et la réconciliation LEAN l'appelle aussi.
+        entrees = monthly_inputs_from_prices(
+            prix,
+            quotidiens["RF"],
+            mensuels["RF"],
             center_of_mass=float(p["volatility_center_of_mass_days"]),
             annualization_days=float(p["volatility_annualization_days"]),
             min_periods=int(p["volatility_min_periods_days"]),
+            min_trading_days=int(p["min_trading_days_per_month"]),
         )
-
-        cle = [rendements.index.year, rendements.index.month]
-        dernieres_seances = pd.DatetimeIndex(
-            sorted(rendements.index.to_series().groupby(cle).max().to_numpy())
-        )
-        # L'index mensuel est ramené à la FIN DE MOIS CIVILE. Sans cela, un mois
-        # dont la dernière séance tombe le 30 au lieu du 31 ne s'apparie ni au
-        # facteur d'AQR ni aux facteurs de Kenneth French, et trente pour cent
-        # des mois disparaissent en silence de chaque régression.
-        fins_de_mois = pd.DatetimeIndex(dernieres_seances.to_period("M").to_timestamp("M"))
-        seances = rendements.notna().groupby(cle).sum().set_axis(fins_de_mois)
-        mensuel_brut = ((1.0 + rendements).groupby(cle).prod() - 1.0).set_axis(fins_de_mois)
-        mensuel_brut = mensuel_brut.where(seances >= int(p["min_trading_days_per_month"]))
-        taux_mensuel = mensuels["RF"].reindex(fins_de_mois, method="ffill")
-        exces_mensuels = mensuel_brut.sub(taux_mensuel, axis=0)
 
         aqr = AqrProvider()
         tsmom = aqr.tsmom_factors(start=p["aqr_start"])
@@ -232,12 +217,12 @@ def charger(config: ExperimentConfig) -> Donnees:
 
     return Donnees(
         prix=prix,
-        rendements_quotidiens=rendements,
-        exces_quotidiens=exces_quotidiens,
-        volatilite_quotidienne=volatilite,
-        dernieres_seances=dernieres_seances,
-        exces_mensuels=exces_mensuels,
-        volatilite_mensuelle=volatilite.reindex(dernieres_seances).set_axis(fins_de_mois),
+        rendements_quotidiens=entrees.daily_returns,
+        exces_quotidiens=entrees.daily_excess,
+        volatilite_quotidienne=entrees.daily_volatility,
+        dernieres_seances=entrees.last_sessions,
+        exces_mensuels=entrees.monthly_excess,
+        volatilite_mensuelle=entrees.monthly_volatility,
         facteurs_mensuels=mensuels,
         tsmom_aqr=tsmom,
         manifestes=manifestes,

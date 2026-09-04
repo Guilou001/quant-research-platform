@@ -117,14 +117,14 @@ que si elle compte au moins vingt-quatre mois.
 Étude 014, verdict `EXPERIMENTAL`. Les huit stratégies perdent après
 publication, 73 % du rendement mensuel moyen par la moyenne des rapports et
 67 % par la régression, contre 58 % dans l'article. La baisse entre la fin de
-l'échantillon et la publication vaut 3 % à 4 %, contre 26 % dans l'article.
+l'échantillon et la publication vaut 3 % à 8 %, contre 26 % dans l'article.
 
 ## Notre contrôle de robustesse
 
 Retirer une stratégie à la fois laisse la baisse après publication entre 61 %
 et 77 %. L'hétérogénéité annoncée par l'article, une baisse plus forte quand
 le rendement de l'échantillon est plus élevé, ne se retrouve pas sur huit
-stratégies, corrélation de rang de -0,05. Le test n'a aucune puissance à cet
+stratégies, corrélation de rang de 0,12. Le test n'a aucune puissance à cet
 effectif.
 
 ## Références

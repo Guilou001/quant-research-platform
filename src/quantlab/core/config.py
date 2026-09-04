@@ -20,6 +20,7 @@ Deux niveaux se distinguent :
 
 from __future__ import annotations
 
+import datetime as dt
 from pathlib import Path
 from typing import Any
 
@@ -165,6 +166,12 @@ class ExperimentConfig(StrictModel):
     name: str
     hypothesis: str = Field(description="L'hypothèse économique, en une phrase falsifiable.")
     paper: str | None = Field(default=None, description="La référence académique répliquée.")
+    paper_sample_end: dt.date | None = Field(
+        default=None, description="Le dernier jour de l'échantillon de l'article répliqué."
+    )
+    publication_date: dt.date | None = Field(
+        default=None, description="Le dernier jour du mois du numéro de la revue qui publie l'article."
+    )
     seed: int = Field(default=20260901, description="Graine des tirages aléatoires.")
     data: DataConfig
     costs: CostConfig = CostConfig()

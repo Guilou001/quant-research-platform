@@ -41,6 +41,7 @@ règle du journal qui ne se rattrape pas après coup.
 | [2026-09-03](2026-09-03-quarante-ans-de-survivants.md) | arbres contre régression sur quarante ans de survivants | `REJECTED` ; le biais de survie fabrique deux renversements, mesuré contre Kenneth French |
 | [2026-09-03](2026-09-03-phase-9-lean.md) | le même momentum dans deux moteurs | phase 9 close, LEAN retrouve le laboratoire à 4e-6 par mois, une séance de retard coûte 71 pb/an |
 | [2026-09-03](2026-09-03-phase-11-publication.md) | ce que la publication laisse, huit stratégies ensemble | `EXPERIMENTAL` ; 67 à 73 % de baisse après publication contre 58 % publié, rien avant |
+| [2026-09-03](2026-09-03-audit-des-phases-9-et-11.md) | l'audit des phases 9 et 11 | 29 constats corrigés, l'ouverture réelle coûte 25 pb/an, ADR-016 |
 
 ## Les idées rejetées
 

@@ -15,8 +15,9 @@ aurait rapporté.
 **Le résultat, en une phrase**. Quatorze études, 809 essais comptés, huit
 articles répliqués dans leur propre fenêtre, et **aucune stratégie qui mérite
 du capital**. Après leur publication, les huit stratégies gardent en moyenne un
-quart à un tiers du rendement que leur article annonçait, mesuré sur 1996 à
-2026. Les coûts de transaction emportent le reste.
+quart à un tiers du rendement que leur article annonçait, mesuré de la
+publication de chaque article, de 1993 à 2019 selon l'article, jusqu'en 2026.
+Les coûts de transaction emportent le reste.
 
 > **English summary.** An open source quantitative research platform. It
 > replicates documented academic strategies, measures what survives out of
@@ -49,6 +50,7 @@ bord](docs/dashboard/index.md), engendré depuis les fichiers du dépôt.
 | voir comment un moteur se contrôle par un autre | [la réconciliation avec LEAN](lean/README.md), 234 mois retrouvés à 4e-6 près |
 | lire la recherche propre | [l'étude 014](studies/014_publication_decay/), ce que la publication laisse aux huit stratégies |
 | suivre les décisions dans l'ordre où elles ont été prises | le [journal de recherche](docs/research_journal/index.md) et les [quinze décisions d'architecture](docs/architecture/adr/index.md) |
+| savoir ce qui manque, et dans quel ordre le construire | la [feuille de route](docs/roadmap.md), six chantiers sourcés, et la [spécification](docs/specs/001-univers-sans-biais-de-survie.md) du premier |
 | faire tourner le tout | la section [Reproduire](#reproduire), trois commandes |
 
 ## La question posée
@@ -254,7 +256,7 @@ main (ADR-014).
 | 6 | moteur de coûts et de capacité | **fait**, impact à l'échelle du capital, étude 010 |
 | 7 | portefeuille multi-stratégies | **fait**, études 009 et 012 |
 | 8 | apprentissage automatique transversal | **fait**, panneau point-in-time, six méthodes, études 011 et 013 |
-| 9 | validation indépendante sous LEAN | **fait**, l'étude 001 retrouvée à 4e-6 par mois, une séance de retard coûte 71 pb/an |
+| 9 | validation indépendante sous LEAN | **fait**, l'étude 001 retrouvée à 5e-6 par mois ; l'ouverture réelle coûte 25 pb/an, une séance de retard 71 |
 | 10 | tableau de bord et rapport institutionnel | **fait**, `quant dashboard build` et `quant report` |
 | 11 | recherche propre | **ouverte**, étude 014 : la publication laisse un quart à un tiers du rendement |
 
@@ -312,9 +314,10 @@ alors que sa colonne agrégée court jusqu'au 2026-06-30, sans que le fichier le
 signale. Le ratio de Sharpe hors échantillon passe de 0,604 à 0,246 selon la
 colonne lue.
 
-Retarder l'exécution d'une seule séance coûte **71 points de base par an** au
-momentum de série temporelle, une mesure que seul le moteur événementiel de la
-phase 9 pouvait faire.
+Exécuter à l'ouverture réelle du lendemain plutôt qu'à la clôture de décision
+coûte **25 points de base par an** au momentum de série temporelle, et une
+séance entière de retard en coûte 71, deux mesures que seul le moteur
+événementiel de la phase 9 pouvait faire.
 
 Les rejets sont documentés un par un dans
 [`docs/research_journal/rejected_ideas.md`](docs/research_journal/rejected_ideas.md),
@@ -347,7 +350,7 @@ après publication ; ce n'est pas le même jeu.
 | | |
 |---|---:|
 | Modules de code | 81 fichiers, 57 912 lignes |
-| Tests | 53 fichiers, 38 625 lignes, **2 948 tests verts** hors réseau, en 31 secondes |
+| Tests | 56 fichiers, 38 886 lignes, **2 948 tests verts** hors réseau, en 31 secondes |
 | Tests réseau, contre les sources vivantes | 16, marqués `network`, appelés séparément |
 | Documentation | 75 pages, 13 191 lignes, construite en mode strict |
 | Fiches de littérature | 22, chaque chiffre sourcé ou marqué « non trouvé » |
@@ -455,6 +458,7 @@ fausse précisément le test qui sert à détecter le surapprentissage.
 | Impact de marché modélisé en racine carrée, sans microstructure | modélisé, marqué comme tel partout |
 | Coût d'emprunt de titre supposé, disponibilité supposée acquise | reconnu, hypothèse **optimiste**, testée à un, deux et cinq fois |
 | Une seule stratégie réconciliée sous LEAN, sans frais | mesuré, phase 9 ; le pont est en place pour toute stratégie retenue |
+| La logique des scripts d'étude et de `lean/` n'entre pas dans la couverture de la CI | mesuré, l'audit du 2026-09-03 ; les briques réutilisables ont été déplacées dans `quantlab`, le reste est déclaré |
 | Huit stratégies dans l'étude de la publication, choisies parce que célèbres | reconnu, l'objection la plus forte est traitée dans son README |
 | Plotly borné sous la version 7 | mesuré le 2026-09-01, cause et condition de levée dans ADR-006 |
 

@@ -8,7 +8,7 @@ rééchantillonnage des stratégies va de 54 % à 94 %, et il contient le chiffr
 publié. La tolérance du laboratoire, 10 % en relatif, ne le contient pas, et
 c'est ce qui borne le verdict. La différence avec l'article est
 ailleurs : entre la fin de l'échantillon et la publication, nos stratégies ne
-perdent que 3 % à 4 %, contre 26 % chez les auteurs. Sur ces huit, la perte
+perdent que 3 % à 8 %, contre 26 % chez les auteurs. Sur ces huit, la perte
 arrive avec la publication, pas avec la fin de l'échantillon.
 
 ## La question de recherche
@@ -43,8 +43,10 @@ publication mesure cet apprentissage. Chez les auteurs, 26 % puis 58 %, donc
 
 ## La définition mathématique
 
-Pour une stratégie *i*, trois fenêtres. Celle de l'article va de la première
-observation à la fin de son échantillon. Celle d'après échantillon va jusqu'au
+Pour une stratégie *i*, trois fenêtres, dont les deux bornes sont lues dans
+la configuration de l'étude source, champs `paper_sample_end` et
+`publication_date`, écrits une fois depuis la fiche de littérature. Celle de
+l'article va de la première observation à la fin de son échantillon. Celle d'après échantillon va jusqu'au
 mois du numéro de la revue, et celle d'après publication jusqu'à 2026. La
 mesure d'une fenêtre est le rapport de son rendement mensuel moyen au
 rendement mensuel moyen de la fenêtre de l'article, et la baisse est un moins
@@ -89,10 +91,13 @@ rendements entre elles. La forme exacte de la régression des auteurs n'a pas
 
 Le script `run.py` charge les huit séries par `quantlab.reporting.series`,
 mensualise la seule série quotidienne, étiquette chaque mois, calcule par
-fenêtre le rendement moyen, son t, le ratio de Sharpe, puis les rapports. La
+fenêtre le rendement moyen, son t au sens de Lo (2002) par
+`quantlab.analytics.ratios`, le ratio de Sharpe, puis les rapports. La
 régression est estimée par `statsmodels` avec des erreurs types groupées par
-mois. L'intervalle de la moyenne vient de 10 000 rééchantillonnages des
-stratégies, graine 20260903. Douze essais déclarés : trois mesures mises en
+mois, sur les seules fenêtres qui atteignent le seuil de vingt-quatre mois,
+le même seuil que pour les rapports. L'intervalle de la moyenne vient de
+10 000 rééchantillonnages des stratégies par `quantlab.validation.bootstrap`,
+graine 20260903. Douze essais déclarés : trois mesures mises en
 commun, un test d'hétérogénéité, huit retraits d'une stratégie.
 
 ## Nos écarts avec l'article
@@ -122,27 +127,27 @@ Comment lire ce tableau, en trois constats. Le premier est que la dernière
 colonne est partout sous un. Les huit stratégies rapportent moins après
 publication que dans la fenêtre de leur article, et deux, la qualité et le
 bêta, rapportent moins que zéro. Le deuxième est que la colonne d'après
-échantillon ne baisse pas : quatre des six fenêtres mesurées ont un Sharpe
-plus haut que celui de l'article, et la moyenne des rapports de rendement vaut
-0,97. Le troisième est que la baisse ne suit pas la force de l'article. Le
+échantillon ne baisse pas : trois des six fenêtres mesurées ont un Sharpe
+plus haut que celui de l'article, quatre un rendement moyen plus haut, et la
+moyenne des rapports de rendement vaut 0,97. Le troisième est que la baisse ne suit pas la force de l'article. Le
 momentum de série temporelle, à 1,41 de Sharpe, garde 26 % de son rendement, et
-la gestion de volatilité, à 0,45, en garde 61 %.
+la gestion de volatilité, à 0,45, en garde 60 %.
 
 | Mise en commun | Après échantillon | Après publication | Article |
 |---|---:|---:|---:|
 | Baisse du rendement moyen, moyenne des rapports | 3 %, 6 stratégies | 73 %, 8 stratégies | 26 % puis 58 % |
 | Intervalle à 95 %, rééchantillonnage des stratégies | -45 % à 59 % | 54 % à 94 % | |
-| Baisse par la régression, effet fixe et erreurs groupées par mois | 4 %, t -0,13 | 67 %, t -1,76 | |
+| Baisse par la régression, effet fixe et erreurs groupées par mois | 8 %, t -0,31 | 67 %, t -1,77 | |
 | Baisse du ratio de Sharpe, moyenne des rapports | -42 % | 63 % | |
 | Stratégies dont le rendement baisse | 2 sur 6 | 8 sur 8 | |
 
 Comment lire ce tableau, en trois constats. Le premier est que la baisse après
 publication est du même ordre que celle de l'article, 67 % à 73 % contre 58 %,
 et que l'intervalle contient 58 %. Le deuxième est que la baisse avant
-publication est nulle, 3 % à 4 %, là où l'article mesure 26 %. La part que les
+publication est presque nulle, 3 % à 8 %, là où l'article mesure 26 %. La part que les
 auteurs attribuent au surapprentissage de l'échantillon ne se voit pas sur ces
 huit. Le troisième est que huit stratégies ne font pas une estimation
-précise. L'erreur type de la régression vaut 0,38, et le t de -1,76 dit que la
+précise. L'erreur type de la régression vaut 0,38, et le t de -1,77 dit que la
 baisse après publication est à peine distinguable de zéro par ce seul test.
 Huit sur huit baissent pourtant.
 
@@ -152,7 +157,7 @@ Comment lire cette figure : trois barres par stratégie, le ratio de Sharpe
 annualisé brut dans la fenêtre de l'article, dans les mois entre l'échantillon
 et la publication, puis après publication. Une barre absente est une fenêtre
 de moins de vingt-quatre mois. La troisième barre est plus basse que la
-première pour les huit stratégies, et la deuxième ne l'est que pour deux.
+première pour les huit stratégies, et la deuxième ne l'est que pour trois.
 
 ## La robustesse
 
@@ -164,7 +169,7 @@ Source : `results/tables/leave_one_out.csv`.
 **L'hétérogénéité de l'article ne se retrouve pas.** Les auteurs trouvent une
 baisse plus forte pour les prédicteurs au rendement plus élevé dans
 l'échantillon. Sur nos huit, la corrélation de rang entre le t de la fenêtre
-de l'article et la baisse vaut -0,05, valeur p par permutation 0,93. À huit
+de l'article et la baisse vaut 0,12, valeur p par permutation 0,78. À huit
 observations, ce test ne peut rien détecter, et il est publié pour le dire.
 
 ## Les coûts
@@ -186,15 +191,15 @@ dates ont été écrites dans la configuration avant le premier chiffre.
 | Date de publication au numéro de la revue, documents de travail antérieurs | déclaré ; pousse la fenêtre d'après échantillon vers la suivante, or elle ne baisse pas |
 | Deux fenêtres d'après échantillon non mesurées, 22 et 23 mois | déclaré, seuil écrit avant le résultat |
 | Fenêtres après publication courtes pour la qualité et le portage, 87 et 100 mois | reconnu |
-| Régression à 6 003 observations et 1 194 grappes, mais huit unités | mesuré, t de -1,76 |
+| Régression à 5 958 observations et 1 194 grappes, mais huit unités | mesuré, t de -1,77 |
 | Article non lu en entier, forme exacte de sa régression non consultée | déclaré |
 
 ## Le verdict
 
 `EXPERIMENTAL`. L'hypothèse tient dans son signe, huit sur huit. La mise en
-commun rend 0,667 contre 0,58 publié, écart relatif 15 %, au-delà des 10 % du
-laboratoire, et la baisse d'après échantillon rend 0,044 contre 0,26, écart
-relatif 83 %. Aucun contrôle de robustesse de stratégie ne s'applique, puisque
+commun rend 0,668 contre 0,58 publié, écart relatif 15 %, au-delà des 10 % du
+laboratoire, et la baisse d'après échantillon rend 0,083 contre 0,26, écart
+relatif 68 %. Aucun contrôle de robustesse de stratégie ne s'applique, puisque
 rien n'est négocié.
 
 L'objection la plus forte est la sélection. Les huit stratégies sont celles

@@ -1,6 +1,6 @@
 # Tableau de bord du laboratoire
 
-Engendré le 2026-09-03 par `quant dashboard build`, commit `5b55a3a`. Chaque chiffre
+Engendré le 2026-09-03 par `quant dashboard build`, commit `55a4f96`. Chaque chiffre
 vient d'un fichier du dépôt, nommé sous chaque tableau. Rien ici n'est un conseil en
 investissement.
 
@@ -8,8 +8,8 @@ investissement.
 
 - **14 études** menées, verdicts : 5 `EXPERIMENTAL`, 8 `REJECTED`, 1 `REPLICATED`.
 - **809 essais déclarés** dans les configurations, qui entrent dans le ratio de Sharpe dégonflé.
-- **135 expériences** au registre, 809 essais sur les dernières exécutions.
-- **2424 fonctions de test**, dont les gardiens d'architecture et de style.
+- **136 expériences** au registre, 809 essais sur les dernières exécutions.
+- **2440 fonctions de test**, dont les gardiens d'architecture et de style.
 
 ## Les verdicts
 
@@ -31,7 +31,7 @@ de `studies/README.md`.
 | 011 Arbres contre régression, après coûts | 17 | `REJECTED` | Six méthodes sur 1 526 grandes capitalisations et onze ans : R² mensuel hors échantillon de 0,35 % à 0,48 %, dans la plage de l'article, mais corrélation de rang négative pour les six. Les arbres amplifiés rendent un décile net à 0,663 contre 0,277 pour la régression, sans la battre au test de Diebold et Mariano, p 0,65 ; le linéaire est gardé. |
 | 012 Le portefeuille 009 sur séries nettes | 20 | `REJECTED` | Le portefeuille de l'étude 009 sur les séries nettes de chaque stratégie rend -0,128 de Sharpe contre 0,535 pour la meilleure jambe seule. Les corrélations n'ont pas bougé, les signes si : l'arbitrage statistique net, à -0,932, retire 0,379 de Sharpe là où sa version brute en apportait 0,250. |
 | 013 Arbres contre régression sur quarante ans de survivants | 17 | `REJECTED` | Sur 502 survivants du S&P 500 rejoués depuis 1986, tout est positif, R² de 1,6 % et déciles nets de 0,60 à 0,85, et c'est le signe du biais de survie plutôt qu'un mérite : les arbres ne battent toujours pas la régression au test de Diebold et Mariano, p 0,58, et un titre encore dans l'indice a remonté par construction. |
-| 014 Ce que la publication laisse, huit stratégies ensemble | 12 | `EXPERIMENTAL` | Les huit stratégies perdent après la publication de leur article, 73 % du rendement mensuel moyen par la moyenne des rapports et 67 % par la régression, contre 58 % chez McLean et Pontiff ; entre la fin de l'échantillon et la publication, elles ne perdent que 3 à 4 % contre 26 %, parce que ce sont celles que leurs années suivantes n'ont pas démenties. |
+| 014 Ce que la publication laisse, huit stratégies ensemble | 12 | `EXPERIMENTAL` | Les huit stratégies perdent après la publication de leur article, 73 % du rendement mensuel moyen par la moyenne des rapports et 67 % par la régression, contre 58 % chez McLean et Pontiff. Entre la fin de l'échantillon et la publication, elles ne perdent presque rien contre 26 %, parce que ce sont celles que leurs années suivantes n'ont pas démenties. |
 
 ## Les séries, et ce qu'elles valent
 
@@ -116,6 +116,7 @@ Source : `artifacts/experiments.jsonl`, non suivi par git, régénéré par chaq
 
 | Expérience | Terminée | Verdict | Essais | Commit |
 |---|---|---|---:|---|
+| publication_decay_014-fe640c3d59 | 2026-09-04T02:43:16 | EXPERIMENTAL | 12 | 55a4f96 |
 | publication_decay_014-10a4ab41b0 | 2026-09-03T21:53:26 | EXPERIMENTAL | 12 | 5b55a3a |
 | cross_sectional_ml_long_013-cf4d311858 | 2026-09-03T21:22:59 | REJECTED | 17 | c6c9b46 |
 | cross_sectional_ml_long_013-9aabc77879 | 2026-09-03T21:14:07 | REJECTED | 17 | c6c9b46 |
@@ -127,7 +128,6 @@ Source : `artifacts/experiments.jsonl`, non suivi par git, régénéré par chaq
 | capacity_010-bec3cf46ac | 2026-09-02T22:38:43 | REJECTED | 8 | f2c4e60 |
 | multi_strategy_009-2f1046ec7f | 2026-09-02T21:15:17 | REJECTED | 20 | 5b77898 |
 | multi_strategy_009-df2c355fdf | 2026-09-02T21:14:31 | REJECTED | 15 | 5b77898 |
-| 005_betting_against_beta-b21f54089f | 2026-09-02T21:13:18 | REJECTED | 144 | 5b77898 |
 
 ## Comment lire ce tableau
 

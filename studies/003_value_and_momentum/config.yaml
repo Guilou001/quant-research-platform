@@ -20,6 +20,13 @@ paper: >-
   la version publiée, table I, colonne « facteur ».
 seed: 20260902
 
+# Les deux dates que l'étude 014 lit : la fin de l'échantillon de l'article et
+# le dernier jour du mois de son numéro de revue (The Journal of Finance 68(3), juin 2013), tels que la fiche
+# de littérature les donne. Les coupures de validation ci-dessous sont un autre
+# objet, celui de l'étude elle-même.
+paper_sample_end: "2011-07-31"
+publication_date: "2013-06-30"
+
 data:
   provider: aqr
   universe:

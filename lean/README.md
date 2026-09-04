@@ -1,17 +1,18 @@
 # Phase 9 : le même momentum dans deux moteurs, et chaque écart expliqué
 
 **Résultat : LEAN retrouve les 234 rendements mensuels du laboratoire à
-4,0e-6 près, et le ratio de Sharpe vaut 0,377 des deux côtés**. Aucun mois ne
+4,7e-6 près, et le ratio de Sharpe vaut 0,377 des deux côtés**. Aucun mois ne
 dépasse le seuil de 1e-4 déclaré avant la lecture. Les 6 447 ordres ont tous
 été remplis au prix que le moteur du laboratoire suppose, la clôture du jour de
 décision. Sur 234 dates de décision, les deux moteurs retiennent le même nombre
-d'instruments et le même signe partout. Le plus grand écart de poids, 0,0015
+d'instruments et le même signe partout. Le plus grand écart de poids, 0,0016
 sur le fonds SHY, vient de l'encodage des prix de LEAN en dix-millièmes de
-dollar. C'est vérifié en recalculant la volatilité du laboratoire sur les prix
-arrondis. Une mesure que le laboratoire seul ne pouvait pas faire : retarder
-les ordres d'une seule séance coûte **71 points de base par an** à cette
-stratégie. Le rendement passe de 5,13 % à 4,42 % par an, et le ratio de Sharpe
-de 0,377 à 0,336.
+dollar, vérifié en recalculant la volatilité du laboratoire sur les prix
+arrondis. Deux mesures que le laboratoire seul ne pouvait pas faire. Exécuter
+à l'ouverture réelle du lendemain plutôt qu'à la clôture de décision coûte
+**25 points de base par an**, 5,13 % contre 4,88 %, et c'est le prix de la
+convention du moteur mensuel. Retarder les ordres d'une séance entière coûte
+**71 points de base par an**, 5,13 % contre 4,42 %.
 
 ## La question posée
 
@@ -23,129 +24,155 @@ si le moteur du laboratoire invente du rendement par un décalage d'une
 période, toutes les études le portent. La question de cette phase est donc
 celle-ci. Un moteur événementiel, qui passe des ordres et les remplit à un prix
 de marché, retrouve-t-il les rendements que le moteur du laboratoire calcule
-depuis des poids et des rendements ?
+depuis des poids et des rendements ? Et que vaut, en rendement, la convention
+du laboratoire qui exécute à la clôture de la décision ?
 
 En mots simples : si l'on donne la même recette à deux cuisiniers qui ne se
-parlent pas, sortent-ils le même plat ?
+parlent pas, sortent-ils le même plat, et que change le fait de cuisiner le
+lendemain matin ?
 
 ## Ce qui a été fait, dans l'ordre
 
 1. **Les entrées communes.** `lean/export_inputs.py` télécharge une seule fois
    les prix ajustés des vingt-huit fonds cotés de l'étude 001 et le taux sans
-   risque de Kenneth French. Il les écrit sous deux formes : un Parquet que le
-   laboratoire relit, et les archives quotidiennes au format de LEAN. Les
-   deux moteurs voient exactement les mêmes nombres. Mesuré : 28 fonds, 8 411
-   séances du 1993-01-29 au 2026-06-30, aucun trou intérieur.
+   risque de Kenneth French. Il les écrit sous trois formes : un Parquet que
+   le laboratoire relit, les archives quotidiennes de LEAN à ouverture égale
+   à la clôture de la veille, et les mêmes archives à ouverture réelle,
+   ajustée par le facteur qui relie la clôture ajustée à la clôture brute. Il
+   écrit aussi `custom/params.json`, l'univers, les dates et les cinq
+   paramètres de la stratégie lus dans la configuration de l'étude 001.
+   Mesuré : 28 fonds, 8 411 séances du 1993-01-29 au 2026-06-30, aucun trou
+   intérieur, aucune ouverture réelle absente.
 2. **La série du laboratoire.** `lean/reference.py` rejoue la jambe B de
-   l'étude 001 avec les fonctions du laboratoire sur ces entrées. Elle diffère
-   de la série publiée par l'étude de 5,1e-6 au plus, sur 59 mois, ce qui est
-   la révision des prix par Yahoo entre les deux téléchargements.
+   l'étude 001 sur ces entrées, par la fonction
+   `monthly_inputs_from_prices` que l'étude appelle elle-même. Elle diffère
+   de la série publiée par l'étude de 5,1e-6 au plus, sur 68 mois, ce qui
+   est la révision des prix par Yahoo entre les deux téléchargements.
 3. **L'algorithme de contrôle.** `lean/algorithm/main.py` refait les quatre
    équations de Moskowitz, Ooi et Pedersen (2012) depuis leur énoncé, sans
-   importer le laboratoire, ce qu'un test vérifie mécaniquement. La volatilité
-   à pondération exponentielle y est une somme explicite, là où le laboratoire
-   appelle la moyenne exponentielle de pandas.
-4. **L'exécution.** `lean/run_lean.sh` lance l'image publique `quantconnect/lean`
-   dans Docker, sans inscription et sans `lean-cli`, dont l'initialisation
-   exige un identifiant et un jeton. Deux variantes : les ordres passés sur la
-   barre de fin de mois, puis retardés d'une séance. Mesuré : dix secondes de
-   moteur par variante, 1993 à 2026.
+   importer le laboratoire, ce qu'un test vérifie mécaniquement. Il lit ses
+   paramètres dans `params.json` et rien n'y est recopié à la main. La
+   volatilité à pondération exponentielle y est une somme explicite, là où le
+   laboratoire appelle la moyenne exponentielle de pandas.
+4. **L'exécution.** `lean/run_lean.sh` lance l'image publique de LEAN dans
+   Docker, épinglée par son empreinte, sans inscription et sans `lean-cli`,
+   dont l'initialisation exige un identifiant et un jeton. Trois variantes :
+   les ordres passés sur la barre de fin de mois et remplis à la clôture de
+   décision, les mêmes retardés d'une séance, et les mêmes remplis à
+   l'ouverture réelle du lendemain. Mesuré : dix secondes de moteur par
+   variante, 1993 à 2026.
 5. **La réconciliation.** `lean/reconcile.py` relit la valeur liquidative que
    l'algorithme journalise chaque jour, retranche le terme de financement, et
-   compare mois par mois, décision par décision, ordre par ordre.
+   compare mois par mois, décision par décision, ordre par ordre, pour chaque
+   variante trouvée sur le disque.
 
 ## Les trois conventions de passage, déclarées
 
-**L'ouverture est la clôture de la veille.** LEAN remplit un ordre au marché à
-l'ouverture de la barre qui suit la décision. Le laboratoire suppose
-l'exécution à la clôture de la barre de décision. L'export écrit donc, pour le
-jour d, une ouverture égale à la clôture du jour d moins un, si bien que les
-deux conventions désignent le même prix. C'est une convention d'export,
-mesurée sur les 6 447 exécutions : toutes tombent à la clôture de la veille, à
-1,5e-4 dollar près, et la première a lieu le 2007-02-01 à 16 h.
+**L'ouverture est la clôture de la veille, ou l'ouverture réelle.** LEAN
+remplit un ordre au marché à l'ouverture de la barre qui suit la décision. Le
+laboratoire suppose l'exécution à la clôture de la barre de décision. Le
+premier jeu de données écrit donc, pour le jour d, une ouverture égale à la
+clôture du jour d moins un, si bien que les deux conventions désignent le
+même prix : c'est ce qui permet de vérifier l'arithmétique des deux moteurs.
+Le troisième jeu écrit l'ouverture réelle : c'est ce qui mesure ce que la
+convention du laboratoire vaut. Mesuré sur les 6 447 exécutions de chaque
+variante, à 1,5e-4 dollar près : toutes tombent à la clôture de la veille
+dans les deux premières, toutes à l'ouverture réelle dans la troisième.
 
 **Le financement se retranche.** Le laboratoire travaille en rendements
 excédentaires, le taux sans risque déjà retiré. LEAN travaille en rendements
 totaux, sans rémunérer l'encaisse ni facturer l'emprunt. Sur un mois où les
 poids exécutés somment à Σw et où le taux vaut r, le rendement de LEAN vaut
 celui du laboratoire plus r × Σw. Ce terme vaut 0,63 % par an en moyenne sur
-2007-2026, et il est retranché avant comparaison. Le ratio de Sharpe total de
-LEAN, avant retrait, vaut 0,408.
+2007-2026, et il est retranché avant comparaison ; un mois où il manquerait
+est refusé plutôt qu'absorbé à zéro. Le ratio de Sharpe total de LEAN, avant
+retrait, vaut 0,408.
 
 **Le taux sans risque vient de deux fichiers.** L'algorithme lit le taux
 quotidien et le taux mensuel de Kenneth French dans deux CSV montés avec les
-données. Il n'en consulte jamais une valeur postérieure à la date courante.
+données, reporte le dernier connu quand une séance ou un mois manque, comme
+le laboratoire, et n'en consulte jamais une valeur postérieure à la date
+courante.
 
 ## Les résultats
 
 Tous les chiffres viennent de `results/metrics.json` et de
 `results/tables/`, statut mesuré.
 
-| Mesure, 234 mois de 2007-01 à 2026-06 | Laboratoire | LEAN, ordres à la fin de mois | LEAN, ordres retardés d'une séance |
-|---|---:|---:|---:|
-| Rendement annualisé, brut, excédentaire | 5,129 % | 5,129 % | 4,416 % |
-| Ratio de Sharpe | 0,3770 | 0,3770 | 0,3361 |
-| Richesse finale pour un dollar | 2,6521 | 2,6521 | 2,3225 |
-| Écart mensuel maximal au laboratoire | | 4,0e-6 | 0,0333 |
-| Écart quadratique moyen | | 1,3e-6 | 0,0066 |
-| Mois au-delà du seuil de 1e-4 | | 0 sur 234 | 226 sur 234 |
-| Corrélation des rendements mensuels | | 0,9999999997 | 0,9914 |
+| Mesure, 234 mois de 2007-01 à 2026-06 | Laboratoire | LEAN, clôture de décision | LEAN, ouverture réelle du lendemain | LEAN, une séance plus tard |
+|---|---:|---:|---:|---:|
+| Rendement annualisé, brut, excédentaire | 5,129 % | 5,129 % | 4,879 % | 4,416 % |
+| Ratio de Sharpe | 0,3770 | 0,3770 | 0,3634 | 0,3361 |
+| Richesse finale pour un dollar | 2,6521 | 2,6521 | 2,5319 | 2,3225 |
+| Écart mensuel maximal au laboratoire | | 4,7e-6 | 0,0218 | 0,0333 |
+| Écart quadratique moyen | | 1,5e-6 | 0,0042 | 0,0066 |
+| Mois au-delà du seuil de 1e-4 | | 0 sur 234 | 224 sur 234 | 226 sur 234 |
+| Corrélation des rendements mensuels | | 0,9999999996 | 0,9964 | 0,9914 |
+| Coût moyen contre la clôture de décision | | | 2,0 pb par mois | 5,5 pb par mois |
 
 Comment lire ce tableau, en trois constats. Le premier est que la deuxième
 colonne est la première : les deux moteurs rendent la même série au millionième.
-L'écart résiduel de 4,0e-6 est l'arrondi des quantités à l'action entière, sur
-un capital de cent millions. Le deuxième est que la troisième colonne est une
-autre stratégie. La même recette exécutée une séance plus tard rend 71 points
-de base de moins par an, et 226 mois sur 234 s'écartent au-delà du seuil. Le
-troisième est que cette perte n'est pas du bruit d'exécution, la corrélation
-restant à 0,991. C'est le prix d'une séance de momentum manquée à chaque
-rééquilibrage, 5,5 points de base par mois en moyenne.
+L'écart résiduel de 4,7e-6 est l'arrondi des quantités à l'action entière, sur
+un capital de cent millions. Le deuxième est que la troisième colonne mesure
+le prix de la convention du laboratoire. Décider à la clôture et exécuter à
+l'ouverture réelle du lendemain rend 25 points de base de moins par an, 2,0
+par mois, et fait passer le ratio de Sharpe de 0,377 à 0,363. Le troisième est
+que la quatrième colonne est une autre stratégie. Attendre une séance entière
+coûte 71 points de base par an, 5,5 par mois, à corrélation 0,991 : c'est le
+prix d'une séance de momentum manquée à chaque rééquilibrage, et l'écart
+d'ouverture du lendemain en porte à lui seul un peu plus du tiers.
 
 ![Le même momentum de série temporelle dans les deux moteurs](results/figures/richesse_deux_moteurs.png)
 
 Comment lire cette figure : les deux premières courbes sont confondues sur
-toute la fenêtre, et la troisième s'en détache lentement, sans jamais changer
-de forme. Un dollar placé en janvier 2007 vaut 2,65 dans les deux moteurs et
-2,32 avec une séance de retard.
+toute la fenêtre, et les deux autres s'en détachent lentement, sans jamais
+changer de forme. Un dollar placé en janvier 2007 vaut 2,65 dans les deux
+moteurs, 2,53 à l'ouverture réelle du lendemain, et 2,32 avec une séance de
+retard.
 
 ![Écart mensuel entre les deux moteurs](results/figures/ecart_mensuel.png)
 
 Comment lire cette figure : chaque barre est l'écart d'un mois entre LEAN et
-le laboratoire, en points de base, après retrait du financement. L'axe ne
-dépasse pas 0,04 point de base, et le seuil déclaré de 1 point de base est
-hors du cadre.
+le laboratoire, en points de base, après retrait du financement, pour la
+variante à la clôture de décision. L'axe ne dépasse pas 0,05 point de base, et
+le seuil déclaré de 1 point de base est hors du cadre.
 
 ## Les décisions, comparées une à une
 
 | Contrôle sur les 234 dates de décision | Mesure |
 |---|---:|
+| Dates de décision du laboratoire non réconciliées | 0 |
 | Dates où le nombre d'instruments diffère | 0 |
 | Désaccords de signe, sur 234 × 28 cases | 0 |
-| Écart absolu moyen sur les poids | 5,8e-6 |
-| Écart absolu maximal sur les poids | 0,0015, SHY, 2012-09 |
-| Cases au-delà de 1e-4 | 67, toutes sur SHY |
+| Écart absolu moyen sur les poids | 6,4e-6 |
+| Écart absolu maximal sur les poids | 0,0016, SHY, 2013-01 |
+| Dates portant une case au-delà de 1e-4 | 93, toutes sur SHY |
 
 **L'écart sur SHY est expliqué, et il vient de LEAN.** Ce fonds d'obligations
-du Trésor à un à trois ans porte une volatilité annualisée de 0,45 %. Son poids
-vaut donc 3,2 fois le capital, à 40 % de volatilité cible sur 28 instruments. LEAN
-encode les prix en dix-millièmes de dollar, alors que Yahoo publie des prix
-ajustés à six décimales, et le mouvement quotidien typique de SHY vaut 0,8 cent
-après ajustement des dividendes. Recalculer la volatilité du laboratoire sur les
-prix arrondis rend 0,0044575033, la valeur que LEAN a employée à quinze chiffres,
-contre 0,0044595888 sur les prix exacts. L'écart de 0,05 % sur la volatilité
-donne 0,0015 sur le poids, et 4e-6 au plus sur le rendement du mois. Aucun autre
+du Trésor à un à trois ans porte une volatilité annualisée de 0,39 % en
+janvier 2013. Son poids vaut donc 3,7 fois le capital, à 40 % de volatilité
+cible sur 28 instruments. LEAN encode les prix en dix-millièmes de dollar,
+alors que Yahoo publie des prix ajustés à six décimales, et le mouvement
+quotidien typique de SHY vaut 0,8 cent après ajustement des dividendes.
+Recalculer la volatilité du laboratoire sur les prix arrondis rend
+0,0038533664, la valeur que LEAN a employée à dix chiffres, contre
+0,0038550789 sur les prix exacts. L'écart de 0,04 % sur la volatilité donne
+0,0016 sur le poids, et 5e-6 au plus sur le rendement du mois. Aucun autre
 instrument n'a une volatilité assez basse pour que l'encodage se voie.
 
-## Ce que le retard d'une séance mesure
+## Ce que les deux autres variantes mesurent
 
-Le laboratoire ne peut pas mesurer ce coût seul, parce que son moteur travaille
-sur des rendements mensuels : il n'a pas de séance. LEAN en a. Sur 234 mois, le
-même signal exécuté à la clôture du premier jour du mois, plutôt qu'à celle du
-dernier jour du mois précédent, perd 5,5 points de base par mois en moyenne.
-Le ratio de Sharpe passe de 0,377 à 0,336. Statut mesuré, sur des ordres au
-marché sans frais ni glissement. Le sens est celui qu'on attend d'un signal de
-tendance : la première séance après la décision est en moyenne dans le sens de
-la position.
+Le laboratoire ne peut mesurer ni l'une ni l'autre seul, parce que son moteur
+travaille sur des rendements mensuels : il n'a ni séance ni ouverture. LEAN en
+a. Sur 234 mois, le même signal exécuté à l'ouverture réelle du premier jour du
+mois perd 2,0 points de base par mois contre la clôture de la veille, et le
+ratio de Sharpe passe de 0,377 à 0,363 : c'est ce que la convention
+`execution_lag=1` du moteur mensuel laisse hors du compte, et il s'ajoute
+aux coûts de l'étude 001 sans les remplacer. Exécuté à la clôture du premier
+jour, il perd 5,5 points de base par mois, et le ratio de Sharpe tombe à
+0,336. Statut mesuré, sur des ordres au marché sans frais ni glissement. Le
+sens est celui qu'on attend d'un signal de tendance : la première séance
+après la décision est en moyenne dans le sens de la position.
 
 ## Reproduire
 
@@ -154,37 +181,39 @@ la position.
 QUANTLAB_USER_AGENT="Prénom Nom (courriel)" uv run python lean/export_inputs.py
 # 2. La série du laboratoire sur ces entrées.
 uv run python lean/reference.py
-# 3. LEAN, dans Docker, image publique, aucune inscription. Dix secondes de moteur.
-sh lean/run_lean.sh 0
-sh lean/run_lean.sh 1
-# 4. La réconciliation, les tables et les figures.
+# 3. LEAN, dans Docker, image publique épinglée, aucune inscription. Dix secondes de moteur.
+sh lean/run_lean.sh 0 lean
+sh lean/run_lean.sh 1 lean
+sh lean/run_lean.sh 0 lean_realopen
+# 4. La réconciliation de chaque variante trouvée, les tables et les figures.
 uv run python lean/reconcile.py
 ```
 
-L'image `quantconnect/lean:latest` pèse 19,4 Go, mesuré le 2026-09-03. Les
-données de `lean/data/` ne sont pas suivies par git et se reconstruisent par
-la première commande.
+L'image `quantconnect/lean` est épinglée par l'empreinte
+`sha256:3168a688…`, mesurée le 2026-09-03, et pèse 19,4 Go. Les données de
+`lean/data/` ne sont pas suivies par git et se reconstruisent par la première
+commande.
 
 ## Limites, avec leur statut
 
 | Limite | Statut |
 |---|---|
 | Une seule stratégie réconciliée, celle de l'étude 001 | reconnu ; aucune n'a atteint `ROBUST`, le moteur est contrôlé, pas une candidate |
-| Barres à ouverture égale à la clôture de la veille, donc pas de prix d'ouverture réel | déclaré, convention d'export mesurée sur les 6 447 exécutions |
 | Aucun frais, aucun glissement, aucun coût d'emprunt dans LEAN | déclaré ; la comparaison porte sur le brut, les coûts sont le sujet de la phase 6 |
-| Prix encodés en dix-millièmes de dollar | mesuré, effet borné à 4e-6 par mois, visible sur SHY seulement |
+| Prix encodés en dix-millièmes de dollar | mesuré, effet borné à 5e-6 par mois, visible sur SHY seulement |
 | Ni fichiers de correspondance ni fichiers de facteurs, prix déjà ajustés | déclaré, mode `Raw` de LEAN |
-| Le retard d'une séance est mesuré sans écart acheteur-vendeur | déclaré, il s'ajoute aux coûts de l'étude 001, il ne les remplace pas |
+| L'ouverture réelle vient de Yahoo, ajustée par le facteur de la clôture | déclaré ; un écart entre l'ajustement de l'ouverture et celui de la clôture n'est pas mesurable sans source tierce |
+| Le coût de l'ouverture réelle est mesuré sans écart acheteur-vendeur | déclaré, il s'ajoute aux coûts de l'étude 001, il ne les remplace pas |
 
 ## Les fichiers
 
 | Fichier | Contenu |
 |---|---|
-| `export_inputs.py` | les entrées communes et les archives au format de LEAN |
+| `export_inputs.py` | les entrées communes, les trois jeux de données et `params.json` |
 | `reference.py` | la série du laboratoire sur ces entrées, ses poids et son financement |
-| `algorithm/main.py` | l'algorithme de contrôle, sans import du laboratoire |
-| `run_lean.sh` | le lancement de l'image Docker, avec le retard en argument |
-| `reconcile.py` | la comparaison mois par mois, décision par décision, ordre par ordre |
+| `algorithm/main.py` | l'algorithme de contrôle, sans import du laboratoire, paramètres lus dans `params.json` |
+| `run_lean.sh` | le lancement de l'image Docker épinglée, avec le retard et le jeu en arguments |
+| `reconcile.py` | la comparaison mois par mois, décision par décision, ordre par ordre, par variante |
 | `results/metrics.json` | tous les chiffres de cette page |
-| `results/tables/reconciliation_monthly_delay_0.csv` | les 234 mois, les deux moteurs, le financement, l'écart |
-| `results/tables/decisions_delay_0.csv` | les 234 décisions, nombre d'instruments et écart de poids |
+| `results/tables/reconciliation_monthly_<variante>.csv` | les 234 mois, les deux moteurs, le financement, l'écart |
+| `results/tables/decisions_<variante>.csv` | les 234 décisions, nombre d'instruments et écart de poids |

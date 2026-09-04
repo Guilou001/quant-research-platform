@@ -13,6 +13,13 @@ paper: >-
   Journal of Financial Economics, 104(2), 228-250. doi:10.1016/j.jfineco.2011.11.003
 seed: 20260902
 
+# Les deux dates que l'étude 014 lit : la fin de l'échantillon de l'article et
+# le dernier jour du mois de son numéro de revue (Journal of Financial Economics 104(2), mai 2012), tels que la fiche
+# de littérature les donne. Les coupures de validation ci-dessous sont un autre
+# objet, celui de l'étude elle-même.
+paper_sample_end: "2009-12-31"
+publication_date: "2012-05-31"
+
 data:
   provider: yahoo
   # Vingt-huit fonds négociés en bourse, substituts déclarés des 58 contrats à
