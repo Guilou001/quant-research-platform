@@ -13,8 +13,8 @@ une fois décompressée. La SEC exige un en-tête d'identification et limite le
 débit, ce que le client du socle applique.
 
 **Le piège des unités.** Jusqu'aux dépôts de 2022, la colonne ``VALUE`` est
-en milliers de dollars. Depuis janvier 2023, la SEC la demande en dollars,
-et certains déclarants ont changé avant ou après la date. Mesuré sur la
+en milliers de dollars. Depuis janvier 2023, la SEC la demande en dollars.
+Cependant, certains déclarants ont changé avant ou après la date. Mesuré sur la
 première version de l'étude 020 : lue en dollars, la borne de cent millions
 ne retenait que cinq déclarations par trimestre avant 2023, contre plus de
 cinq cents après. L'unité se détecte donc déclaration par déclaration, par
@@ -126,9 +126,9 @@ SUSPECT_THRESHOLD_USD_PER_SHARE: Final[float] = 5000.0
 def normalize_value_units(positions: pd.DataFrame) -> pd.DataFrame:
     """Ramène ``value_usd`` en dollars, déclaration par déclaration.
 
-    Une déclaration dont la médiane de la valeur par titre est sous un dollar
-    est lue en milliers. Aucun portefeuille de dix à cinquante actions n'a
-    une action médiane sous un dollar, mais toutes en ont une sous mille.
+    Une déclaration dont la médiane par titre est sous un dollar est lue en
+    milliers. En effet, aucun portefeuille de dix à cinquante actions n'a une
+    action médiane sous un dollar. En revanche, tous en ont une sous mille.
     Une médiane au-delà de cinq mille dollars n'est ni l'un ni l'autre, et la
     déclaration est marquée suspecte sans correction. Les lignes sans nombre
     de titres suivent le diagnostic de leur déclaration.
@@ -162,10 +162,11 @@ def parse_quarter(content: bytes) -> dict[str, pd.DataFrame]:
         content: le contenu du fichier compressé.
 
     Returns:
-        ``submissions`` (accession, date de dépôt, type, CIK, fin de période).
-        ``coverpages`` (accession, nom du gestionnaire, amendement, type de
-        rapport). ``holdings`` (accession, émetteur, CUSIP, FIGI, valeur
-        ramenée en dollars et unité lue, titres, option, discrétion).
+        Trois tables. ``submissions`` contient l'accession, la date de dépôt,
+        le type, le CIK et la fin de période. ``coverpages`` contient le nom du
+        gestionnaire, l'amendement et le type de rapport. Enfin, ``holdings``
+        contient l'émetteur, les identifiants, la valeur, l'unité, les titres,
+        l'option et la discrétion.
 
     Raises:
         LookAheadError: une déclaration est déposée avant la fin de sa période.
