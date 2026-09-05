@@ -174,6 +174,29 @@ jusqu'en 2022 et le reste chez 6 à 20 % des déclarants après ; lue en dollars
 elle ne gardait que cinq déclarations par trimestre avant 2023. Et 29,4 % des
 « meilleures idées » sont un fonds indiciel.
 
+### 2026-09-04, le portefeuille de primes pré-inscrit
+
+**Idée.** Trois primes séculaires, tendance, valeur et momentum, vente de puts,
+en inverse de volatilité et empilées à 1,5, déclarées avant tout calcul, étude
+021.
+
+**Hypothèse économique.** Leurs mauvais mois ne coïncident pas, et la loi
+fondamentale multiplie l'avantage par la racine du nombre de paris.
+
+**Résultat.** Sharpe net 0,629 sur 2010-2026, 0,88 en holdout, quatre
+sous-périodes positives, pire repli 16,0 %, survie à vingt fois les coûts,
+surapprentissage à 0,371 ; mais la vente de puts seule fait 0,696 et le t du
+holdout 2,30.
+
+**Pourquoi c'est rejeté.** Deux des seuils gelés ne passent pas, et la
+jambe qui coûte 0,25, la tendance sur fonds cotés, ne peut pas être retirée
+après avoir été vue.
+
+**Ce que cela apprend.** La construction des fonds à primes se tient
+gratuitement et égale presque le fonds Style Premia d'AQR. Le levier retire
+0,06 de Sharpe au lieu d'en ajouter. Et une jambe à 0,21 de Sharpe peut rendre
++14,3 % le mois du krach.
+
 ## Le décompte des essais
 
 | Famille de stratégies | Essais menés | Retenus | Rejetés |
@@ -198,7 +221,8 @@ elle ne gardait que cinq déclarations par trimestre avant 2023. Et 29,4 % des
 | La nuit contre la journée | 6 | 0 | 0 |
 | Marché, taille et momentum sur les cryptomonnaies | 10 | 0 | 1 |
 | Les meilleures idées des gestionnaires concentrés | 6 | 0 | 1 |
-| **Total** | **853** | **0** | **12** |
+| Le portefeuille de primes pré-inscrit | 13 | 0 | 1 |
+| **Total** | **866** | **0** | **13** |
 
 Ce tableau alimente directement `quantlab.validation.dsr`. Il se met à jour à
 chaque expérience, y compris celles qui ne mènent nulle part.

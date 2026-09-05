@@ -28,6 +28,7 @@ Sharpe du paquet partagé plutôt que le sien.
 | 018 | [La nuit contre la journée](018_nuit_contre_journee/) | Lou, Polk et Skouras (2019) | 6 | `EXPERIMENTAL` |
 | 019 | [Marché, taille et momentum sur les cryptomonnaies](019_facteurs_crypto/) | Liu, Tsyvinski et Wu (2022) | 10 | `REJECTED` |
 | 020 | [Les meilleures idées des gestionnaires concentrés, lues à leur date de dépôt](020_meilleures_idees_13f/) | Cohen, Polk et Silli (2010) | 6 | `REJECTED` |
+| 021 | [Le portefeuille de primes pré-inscrit](021_portefeuille_de_primes/) | Hurst, Ooi et Pedersen (2017) ; Asness, Moskowitz et Pedersen (2013) ; Cboe et Wilshire (2019) | 13 | `REJECTED` |
 
 Comment lire ce tableau, en quatre constats. Le premier est qu'**aucune étude
 n'atteint `ROBUST` ni `PORTFOLIO_CANDIDATE`**, donc aucune ne mérite du capital
@@ -135,6 +136,13 @@ quarante-sixième jour après le trimestre, rapporte 14,29 % par an contre 14,18
 pour SPY, écart +0,27 %, t 0,26, bêta 1,08 : c'est l'indice des survivants, et
 28,9 % des idées n'ont aucun prix, 50 % en 2013. La valeur des jeux 13F est en
 milliers de dollars jusqu'en 2022, lue déclaration par déclaration.
+
+**021.** Le portefeuille de primes déclaré avant tout calcul, tendance, valeur et
+momentum, vente de puts, en inverse de volatilité et empilé à 1,5, rend 0,629 de
+Sharpe net sur 2010-2026 et 0,88 en holdout, quatre sous-périodes positives ; il
+est rejeté parce que la vente de puts seule fait 0,696, que le t vaut 2,30 et que
+la tendance sur fonds cotés lui coûte 0,25, ce que la pré-inscription interdit de
+corriger après coup.
 
 ## L'arborescence d'une étude
 

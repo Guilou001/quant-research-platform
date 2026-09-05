@@ -77,6 +77,7 @@ nav:
           - 004, la nuit contre la journée: specs/004-la-nuit-contre-la-journee.md
           - 005, cryptomonnaies, Coin Metrics: specs/005-cryptomonnaies-coin-metrics.md
           - 006, jeux 13F de la SEC: specs/006-jeux-13f-de-la-sec.md
+          - 007, indices du Cboe et empilement: specs/007-indices-cboe-et-empilement.md
   - Feuille de route: roadmap.md
   - Méthodologie:
       - Ce qui sépare un résultat d'une coïncidence: methodology/index.md

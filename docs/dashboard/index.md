@@ -1,15 +1,15 @@
 # Tableau de bord du laboratoire
 
-Engendré le 2026-09-04 par `quant dashboard build`, commit `3e0ad4d`. Chaque chiffre
+Engendré le 2026-09-04 par `quant dashboard build`, commit `ad1f741`. Chaque chiffre
 vient d'un fichier du dépôt, nommé sous chaque tableau. Rien ici n'est un conseil en
 investissement.
 
 ## L'état en quatre nombres
 
-- **20 études** menées, verdicts : 7 `EXPERIMENTAL`, 12 `REJECTED`, 1 `REPLICATED`.
-- **853 essais déclarés** dans les configurations, qui entrent dans le ratio de Sharpe dégonflé.
-- **146 expériences** au registre, 853 essais sur les dernières exécutions.
-- **2474 fonctions de test**, dont les gardiens d'architecture et de style.
+- **21 études** menées, verdicts : 7 `EXPERIMENTAL`, 13 `REJECTED`, 1 `REPLICATED`.
+- **866 essais déclarés** dans les configurations, qui entrent dans le ratio de Sharpe dégonflé.
+- **149 expériences** au registre, 866 essais sur les dernières exécutions.
+- **2489 fonctions de test**, dont les gardiens d'architecture et de style.
 
 ## Les verdicts
 
@@ -38,6 +38,7 @@ de `studies/README.md`.
 | 018 La nuit contre la journée | 6 | `EXPERIMENTAL` | Le momentum de série temporelle gagne tout son rendement la nuit, 10,2 % par an de la clôture à l'ouverture avec un t de 3,8, et perd 3,0 % par an le jour ; MTUM gagne 99 % de son rendement la nuit, USMV 34 %, et le marché lui-même 62 %. |
 | 019 Marché, taille et momentum sur les cryptomonnaies | 10 | `REJECTED` | Les trois facteurs des cryptomonnaies se retrouvent dans la fenêtre de l'article, momentum à 2,65 % par semaine, et perdent les cinq sixièmes de leur rendement après sa parution ; le momentum négocie deux fois le capital par semaine et rend -0,60 de Sharpe net de cinquante points de base. |
 | 020 Les meilleures idées des gestionnaires concentrés, lues à leur date de dépôt | 6 | `REJECTED` | La plus grosse position de chaque gestionnaire 13F concentré, formée le quarante-sixième jour après le trimestre, rapporte 14,29 % par an contre 14,18 % pour SPY, écart +0,27 %, t 0,26, bêta 1,08 : c'est l'indice des survivants, et 28,9 % des idées n'ont aucun prix, 50 % en 2013. La valeur des jeux 13F est en milliers de dollars jusqu'en 2022, lue déclaration par déclaration. |
+| 021 Le portefeuille de primes pré-inscrit | 13 | `REJECTED` | Le portefeuille de primes déclaré avant tout calcul, tendance, valeur et momentum, vente de puts, en inverse de volatilité et empilé à 1,5, rend 0,629 de Sharpe net sur 2010-2026 et 0,88 en holdout, quatre sous-périodes positives ; il est rejeté parce que la vente de puts seule fait 0,696, que le t vaut 2,30 et que la tendance sur fonds cotés lui coûte 0,25, ce que la pré-inscription interdit de corriger après coup. |
 
 ## Les séries, et ce qu'elles valent
 
@@ -127,6 +128,9 @@ Source : `artifacts/experiments.jsonl`, non suivi par git, régénéré par chaq
 
 | Expérience | Terminée | Verdict | Essais | Commit |
 |---|---|---|---:|---|
+| portefeuille_de_primes_021-69102ec468 | 2026-09-05T00:38:23 | REJECTED | 13 | ad1f741 |
+| portefeuille_de_primes_021-647aed02d0 | 2026-09-05T00:35:34 | REJECTED | 12 | ad1f741 |
+| portefeuille_de_primes_021-697ff3c888 | 2026-09-05T00:26:36 | REJECTED | 12 | ad1f741 |
 | meilleures_idees_13f_020-deb95ed444 | 2026-09-04T23:26:22 | REJECTED | 6 | 3e0ad4d |
 | meilleures_idees_13f_020-c4a4e54440 | 2026-09-04T23:17:48 | REJECTED | 6 | 3e0ad4d |
 | meilleures_idees_13f_020-2414d79a75 | 2026-09-04T22:55:08 | EXPERIMENTAL | 4 | 3e0ad4d |
@@ -136,9 +140,6 @@ Source : `artifacts/experiments.jsonl`, non suivi par git, régénéré par chaq
 | nuit_contre_journee_018-3a2bb7dc89 | 2026-09-04T22:19:20 | EXPERIMENTAL | 6 | 3e0ad4d |
 | publication_decay_212_016-2634c31f9b | 2026-09-04T22:13:34 | EXPERIMENTAL | 9 | 3e0ad4d |
 | publication_decay_212_016-74bf31ebcf | 2026-09-04T22:10:53 | EXPERIMENTAL | 9 | 3e0ad4d |
-| publication_decay_212_016-59dc622642 | 2026-09-04T22:09:35 | EXPERIMENTAL | 9 | 3e0ad4d |
-| publication_decay_014-fe640c3d59 | 2026-09-04T02:43:16 | EXPERIMENTAL | 12 | 55a4f96 |
-| publication_decay_014-10a4ab41b0 | 2026-09-03T21:53:26 | EXPERIMENTAL | 12 | 5b55a3a |
 
 ## Comment lire ce tableau
 

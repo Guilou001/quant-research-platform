@@ -1,0 +1,46 @@
+{
+  "portfolio_equal_weight_cap1.0_net": {
+    "basis": "net",
+    "cost_assumptions": "5.0 pb de rotation, 4.0 pb par mois sur les puts, 50 pb/an de financement, 4 pb par unité d'exposition",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 187,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2010-12-31",
+    "universe": "trois primes, poids par règle réestimés chaque année, empilement à cible de volatilité"
+  },
+  "portfolio_equal_weight_cap1.5_net": {
+    "basis": "net",
+    "cost_assumptions": "5.0 pb de rotation, 4.0 pb par mois sur les puts, 50 pb/an de financement, 4 pb par unité d'exposition",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 187,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2010-12-31",
+    "universe": "trois primes, poids par règle réestimés chaque année, empilement à cible de volatilité"
+  },
+  "portfolio_inverse_volatility_cap1.0_net": {
+    "basis": "net",
+    "cost_assumptions": "5.0 pb de rotation, 4.0 pb par mois sur les puts, 50 pb/an de financement, 4 pb par unité d'exposition",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 187,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2010-12-31",
+    "universe": "trois primes, poids par règle réestimés chaque année, empilement à cible de volatilité"
+  },
+  "portfolio_inverse_volatility_cap1.5_net": {
+    "basis": "net",
+    "cost_assumptions": "5.0 pb de rotation, 4.0 pb par mois sur les puts, 50 pb/an de financement, 4 pb par unité d'exposition",
+    "end": "2026-06-30",
+    "frequency": "monthly",
+    "n_periods": 187,
+    "notes": "",
+    "sample": "OOS",
+    "start": "2010-12-31",
+    "universe": "trois primes, poids par règle réestimés chaque année, empilement à cible de volatilité"
+  }
+}

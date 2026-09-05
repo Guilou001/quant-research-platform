@@ -46,6 +46,7 @@ règle du journal qui ne se rattrape pas après coup.
 | [2026-09-04](2026-09-04-chantiers-2-3-4.md) | la largeur, la rotation et la nuit | 016 `EXPERIMENTAL`, 017 `REJECTED`, 018 `EXPERIMENTAL` ; le momentum gagne la nuit, la publication laisse la moitié à tous |
 | [2026-09-04](2026-09-04-chantier-6-crypto.md) | les facteurs des cryptomonnaies, quatre ans après leur article | 019 `REJECTED` ; les cinq sixièmes du rendement disparus, le momentum tourne 204 % par semaine |
 | [2026-09-04](2026-09-04-chantier-5-13f.md) | les meilleures idées des gestionnaires, lues à leur date de dépôt | 020 `REJECTED` ; +0,27 %/an sur le marché, t 0,26, bêta 1,08 ; 28,9 % des idées sans prix, la valeur 13F en milliers jusqu'en 2022 |
+| [2026-09-04](2026-09-04-etude-021-portefeuille-de-primes.md) | le portefeuille de primes, écrit avant d'être regardé | 021 `REJECTED` de justesse ; Sharpe net 0,629, holdout 0,88, quatre sous-périodes positives, mais la vente de puts seule fait 0,696 et la tendance coûte 0,25 |
 
 ## Les idées rejetées
 

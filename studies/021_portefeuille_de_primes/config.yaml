@@ -1,0 +1,86 @@
+# Étude 021, le portefeuille de primes pré-inscrit. Tout ce qui suit est écrit
+# AVANT le premier chiffre : les jambes, leur règle de poids, la cible de
+# volatilité, le plafond de levier, les coûts, le holdout et les seuils du
+# verdict. Rien ici n'a été choisi en regardant un résultat de cette étude.
+
+name: portefeuille_de_primes_021
+hypothesis: >-
+  Trois primes documentées sur des décennies avant leur réplication ici, la
+  tendance multi-actifs, le mélange de valeur et de momentum toutes classes,
+  et la vente de puts sur le S&P 500, combinées par une règle de poids en
+  inverse de volatilité et empilées à une cible de volatilité de 10 % sous un
+  plafond de 1,5, rendent un ratio de Sharpe net hors échantillon d'au moins
+  0,5 sur 2010-2026 et battent la meilleure des trois jambes prise seule,
+  parce que leurs mauvais mois ne coïncident pas.
+paper: >-
+  Hurst, Ooi et Pedersen (2017) pour la tendance sur 137 ans ; Asness,
+  Moskowitz et Pedersen (2013) pour la valeur et le momentum toutes classes ;
+  Cboe et Wilshire (2019) pour l'indice PUT depuis 1986 ; Moreira et Muir
+  (2017) pour la cible de volatilité ; DeMiguel, Garlappi et Uppal (2009)
+  pour la règle de poids sans estimation.
+seed: 20260904
+
+# Les trois jambes, en rendements EXCÉDENTAIRES du taux sans risque et NETS de
+# leurs propres coûts quand une version nette existe. Les deux premières sont
+# les séries de tête des études 001 et 003 ; la troisième vient du fournisseur
+# Cboe, spécification 007, moins le taux sans risque de Kenneth French.
+legs:
+  trend:      {study: 001_time_series_momentum, name: tsmom_etf_net}
+  value_mom:  {study: 003_value_and_momentum,   name: value_momentum_blend_net}
+  put_writing:
+    cboe_index: PUT
+    # L'indice roule une vente de put par mois ; le notionnel négocié vaut le
+    # capital, facturé à ce demi-écart chaque mois.
+    cost_bps_per_month: 4.0
+
+# La fenêtre commune est l'intersection des trois jambes, 2007 à 2026 par
+# construction ; ce qui suit la borne est le holdout final, jamais lu avant la
+# fin, la même borne que l'étude 009.
+final_holdout_start: "2020-01-31"
+
+# Les poids : inverse de volatilité, une règle sans estimation autre qu'un
+# écart type, réestimée chaque année sur le passé seul et tenue entre deux
+# estimations, comme dans l'étude 009. L'équipondération est la variante
+# déclarée, pas une référence de rechange.
+walk_forward:
+  min_train_months: 36
+  refit_every_months: 12
+  covariance: ledoit_wolf
+reference_allocation: inverse_volatility
+allocations: [inverse_volatility, equal_weight]
+
+# L'empilement : exposition égale à la cible sur la volatilité des douze
+# derniers mois du mélange, plafonnée, décidée un mois et appliquée le suivant,
+# financée au-delà d'un dollar au taux court plus l'écart.
+stacking:
+  target_vol: 0.10
+  vol_window_months: 12
+  max_leverage: 1.5
+  financing_spread_annual: 0.005
+  exposure_trade_cost_per_unit: 0.0004
+  leverage_caps_declared: [1.5, 1.0]
+
+costs:
+  # Rotation du rééquilibrage du mélange, facturée à ce demi-écart.
+  spread_bps: 5.0
+  multiples: [1.0, 2.0, 5.0, 10.0, 20.0]
+
+benchmark_fund: QSPIX
+
+# Compte des essais : deux règles de poids fois deux plafonds, trois retraits
+# d'une jambe, cinq multiples de coûts, et une lecture faite avant la
+# correction du fichier du Cboe, dont les sept points isolés d'avant 2007
+# donnaient +35 % en janvier 2007. Le verdict porte sur la SEULE configuration
+# de référence, inverse de volatilité et plafond 1,5 ; les autres sont de
+# l'information, et comptent comme essais.
+n_trials: 13
+
+verdict:
+  replication_tolerance: 0.10
+  min_oos_sharpe: 0.50
+  min_tstat: 3.00
+  min_dsr: 0.95
+  max_pbo: 0.50
+  min_positive_subperiod_share: 0.60
+  min_cost_multiple: 2.0
+  max_portfolio_correlation: 0.60

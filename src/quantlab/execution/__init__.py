@@ -35,6 +35,7 @@ from quantlab.execution.costs import (
     from_config,
     signed_trades,
 )
+from quantlab.execution.leverage import LeveredReturns, apply_leverage, volatility_target_exposure
 from quantlab.execution.rebalancing import partial_rebalance
 
 __all__ = [
@@ -45,8 +46,10 @@ __all__ = [
     "CostBreakdown",
     "FinancingCostModel",
     "ImpactAtScale",
+    "LeveredReturns",
     "LinearCostModel",
     "SqrtImpactModel",
+    "apply_leverage",
     "average_daily_dollar_volume",
     "breakeven_aum",
     "breakeven_cost_bps",
@@ -56,4 +59,5 @@ __all__ = [
     "partial_rebalance",
     "realized_daily_volatility",
     "signed_trades",
+    "volatility_target_exposure",
 ]

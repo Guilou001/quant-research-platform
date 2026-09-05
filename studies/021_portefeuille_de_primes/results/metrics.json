@@ -1,0 +1,107 @@
+{
+  "n_trials": 13,
+  "data": {
+    "put_index": "PUT",
+    "put_daily_start": "2007-01-03",
+    "put_daily_end": "2026-09-04",
+    "put_daily_rows": 4950,
+    "put_manifest_license": "Accord d'abonné du Cboe : usage personnel et non commercial, aucun produit bâti sur l'indice",
+    "common_window": {
+      "start": "2007-01-31",
+      "end": "2026-06-30",
+      "n_months": 234
+    }
+  },
+  "correlation": {
+    "mean_pairwise": 0.04370729993963868,
+    "min_pair": {
+      "pair": "value_mom / put_writing",
+      "value": -0.12040627751317462
+    },
+    "max_pair": {
+      "pair": "trend / value_mom",
+      "value": 0.36832954038015253
+    },
+    "effective_breadth": 2.704640816812924
+  },
+  "best_alone": {
+    "leg": "put_writing",
+    "sharpe": 0.6962182037240735
+  },
+  "reference": {
+    "name": "inverse_volatility_cap1.5",
+    "n_months": 187,
+    "start": "2010-12-31",
+    "end": "2026-06-30",
+    "return_annual_pct": 4.079726878647394,
+    "volatility_annual_pct": 6.726439557447083,
+    "sharpe": 0.6289971480871541,
+    "sharpe_se_lo": 0.2722700842572286,
+    "max_drawdown_pct": -15.996452310957231,
+    "skewness": -0.39762336121453973,
+    "allocation": "inverse_volatility",
+    "leverage_cap": 1.5,
+    "mean_exposure": 1.472714764404067,
+    "sharpe_unlevered_mix": 0.6881038137310223,
+    "sharpe_before_holdout": 0.4457327331698636,
+    "sharpe_holdout": 0.8836557849559156
+  },
+  "marginal": {
+    "trend": -0.24944886010859524,
+    "value_mom": 0.10064707048477195,
+    "put_writing": 0.2271625223060476
+  },
+  "surviving_cost_multiple": 20.0,
+  "benchmark_fund": {
+    "strategy": "inverse_volatility_cap1.5",
+    "fund": "QSPIX",
+    "start": "2013-10-31",
+    "end": "2026-06-30",
+    "n_periods": 153,
+    "correlation": 0.20642147694084254,
+    "beta": 0.405207798092712,
+    "beta_tstat": 3.337784195899478,
+    "alpha_annual": 0.06320907844693965,
+    "alpha_tstat": 1.8438168676076552,
+    "r_squared": 0.04260982614243902,
+    "tracking_error_annual": 0.12129474718652143,
+    "sharpe_strategy": 0.6735624546166061,
+    "sharpe_fund": 0.6489341591857439,
+    "wealth_strategy": 1.6757653637327066,
+    "wealth_fund": 2.5292070076364648,
+    "max_drawdown_strategy": -0.15996452310957177,
+    "max_drawdown_fund": -0.3959213159206886,
+    "drawdown_overlap": 0.7142857142857143,
+    "rolling_correlation_min": -0.056267994696875136,
+    "rolling_correlation_median": 0.21293568436526988,
+    "reading": "distinct"
+  },
+  "validation": {
+    "reference": "inverse_volatility_cap1.5",
+    "sharpe_before_holdout": 0.4457327331698636,
+    "sharpe_holdout": 0.8836557849559156,
+    "sharpe_holdout_se_lo": 0.38485941814071634,
+    "tstat_holdout": 2.29604822775267,
+    "pbo": 0.37142857142857144,
+    "deflated_sharpe": 0.9741352747703727,
+    "positive_subperiod_share": 1.0,
+    "n_holdout_months": 78,
+    "return_holdout_annual_pct": 5.883252094509062,
+    "max_drawdown_pct": -15.996452310957231
+  },
+  "verdict": "REJECTED",
+  "verdict_reasons": [
+    "ÉCHOUÉ | hypothèse économique : signe attendu NON retrouvé, le signe décide du rejet",
+    "RÉUSSI | signe du Sharpe hors échantillon : 0,884 mesuré, rejet à 0,000 ou moins",
+    "ÉCHOUÉ | réplication de « sharpe_du_portefeuille_contre_meilleure_jambe_seule » : 0,629 contre 0,696 publié, écart relatif 0,097, tolérance 0,000 (absolute), soit 0,000 en relatif",
+    "ÉCHOUÉ | réplication : 0 contrôle(s) sur 1 dans la tolérance, tous exigés",
+    "RÉUSSI | Sharpe hors échantillon : 0,884 mesuré, minimum 0,500",
+    "ÉCHOUÉ | t après correction pour essais multiples : 2,296 mesuré, minimum 3,000",
+    "RÉUSSI | Sharpe dégonflé : 0,974 mesuré, minimum 0,950",
+    "RÉUSSI | probabilité de surapprentissage : 0,371 mesuré, maximum 0,500",
+    "RÉUSSI | part de sous-périodes positives : 1,000 mesuré, minimum 0,600",
+    "RÉUSSI | multiple de coûts survécu : 20,000 mesuré, minimum 2,000",
+    "ÉCHOUÉ | corrélation absolue avec le portefeuille existant : non mesuré, maximum 0,600",
+    "VERDICT | REJECTED"
+  ]
+}

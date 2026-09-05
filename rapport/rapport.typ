@@ -39,14 +39,14 @@
 #line(length: 100%, stroke: 0.6pt + luma(190))
 #v(0.8em)
 
-Engendré le 2026-09-04 par #raw("quant dashboard build"), commit #raw("3e0ad4d"). Chaque chiffre vient d'un fichier du dépôt, nommé sous chaque tableau. Rien ici n'est un conseil en investissement.
+Engendré le 2026-09-04 par #raw("quant dashboard build"), commit #raw("ad1f741"). Chaque chiffre vient d'un fichier du dépôt, nommé sous chaque tableau. Rien ici n'est un conseil en investissement.
 
 == L'état en quatre nombres
 
-- *20 études* menées, verdicts : 7 #raw("EXPERIMENTAL"), 12 #raw("REJECTED"), 1 #raw("REPLICATED").
-- *853 essais déclarés* dans les configurations, qui entrent dans le ratio de Sharpe dégonflé.
-- *146 expériences* au registre, 853 essais sur les dernières exécutions.
-- *2474 fonctions de test*, dont les gardiens d'architecture et de style.
+- *21 études* menées, verdicts : 7 #raw("EXPERIMENTAL"), 13 #raw("REJECTED"), 1 #raw("REPLICATED").
+- *866 essais déclarés* dans les configurations, qui entrent dans le ratio de Sharpe dégonflé.
+- *149 expériences* au registre, 866 essais sur les dernières exécutions.
+- *2489 fonctions de test*, dont les gardiens d'architecture et de style.
 
 == Les verdicts
 
@@ -141,6 +141,10 @@ Source : #raw("studies/*/config.yaml") et #raw("studies/*/results/metrics.json")
     [6],
     [#raw("REJECTED")],
     [La plus grosse position de chaque gestionnaire 13F concentré, formée le quarante-sixième jour après le trimestre, rapporte 14,29 % par an contre 14,18 % pour SPY, écart +0,27 %, t 0,26, bêta 1,08 : c'est l'indice des survivants, et 28,9 % des idées n'ont aucun prix, 50 % en 2013. La valeur des jeux 13F est en milliers de dollars jusqu'en 2022, lue déclaration par déclaration.],
+    [021 Le portefeuille de primes pré-inscrit],
+    [13],
+    [#raw("REJECTED")],
+    [Le portefeuille de primes déclaré avant tout calcul, tendance, valeur et momentum, vente de puts, en inverse de volatilité et empilé à 1,5, rend 0,629 de Sharpe net sur 2010-2026 et 0,88 en holdout, quatre sous-périodes positives ; il est rejeté parce que la vente de puts seule fait 0,696, que le t vaut 2,30 et que la tendance sur fonds cotés lui coûte 0,25, ce que la pré-inscription interdit de corriger après coup.],
 )
 
 == Les séries, et ce qu'elles valent
@@ -540,6 +544,21 @@ Source : #raw("artifacts/experiments.jsonl"), non suivi par git, régénéré pa
     [*Verdict*],
     [*Essais*],
     [*Commit*],
+    [portefeuille\_de\_primes\_021-69102ec468],
+    [2026-09-05T00:38:23],
+    [REJECTED],
+    [13],
+    [ad1f741],
+    [portefeuille\_de\_primes\_021-647aed02d0],
+    [2026-09-05T00:35:34],
+    [REJECTED],
+    [12],
+    [ad1f741],
+    [portefeuille\_de\_primes\_021-697ff3c888],
+    [2026-09-05T00:26:36],
+    [REJECTED],
+    [12],
+    [ad1f741],
     [meilleures\_idees\_13f\_020-deb95ed444],
     [2026-09-04T23:26:22],
     [REJECTED],
@@ -585,21 +604,6 @@ Source : #raw("artifacts/experiments.jsonl"), non suivi par git, régénéré pa
     [EXPERIMENTAL],
     [9],
     [3e0ad4d],
-    [publication\_decay\_212\_016-59dc622642],
-    [2026-09-04T22:09:35],
-    [EXPERIMENTAL],
-    [9],
-    [3e0ad4d],
-    [publication\_decay\_014-fe640c3d59],
-    [2026-09-04T02:43:16],
-    [EXPERIMENTAL],
-    [12],
-    [55a4f96],
-    [publication\_decay\_014-10a4ab41b0],
-    [2026-09-03T21:53:26],
-    [EXPERIMENTAL],
-    [12],
-    [5b55a3a],
 )
 
 == Comment lire ce tableau

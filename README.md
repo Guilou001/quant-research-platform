@@ -2,9 +2,9 @@
 
 Une stratégie de placement peut sembler rentable lorsqu'on la teste sur les données qui ont servi à la construire. Toutefois, ce résultat peut disparaître lorsqu'on change de période, que l'on tient compte des coûts ou que l'on corrige les biais présents dans les données. Le présent projet construit une plateforme de recherche afin de soumettre chaque stratégie aux mêmes vérifications.
 
-Le résultat général est négatif. Le tableau de bord intègre actuellement vingt études et compte 853 essais dans les dernières exécutions enregistrées. Aucune des huit stratégies principales n'atteint le statut nécessaire pour recevoir du capital. En effet, les résultats diminuent lorsque l'on quitte la période de l'article, puis les coûts de transaction réduisent encore ce qui subsiste. Parmi 212 portefeuilles sans biais de survie, la comparaison est calculable pour 208. Ceux-ci conservent 42 % de leur rendement en médiane après publication, soit une baisse de 58 %.
+Le résultat général est négatif. Le tableau de bord intègre actuellement vingt et une études et compte 866 essais dans les dernières exécutions enregistrées. Aucune des huit stratégies principales n'atteint le statut nécessaire pour recevoir du capital. En effet, les résultats diminuent lorsque l'on quitte la période de l'article, puis les coûts de transaction réduisent encore ce qui subsiste. Parmi 212 portefeuilles sans biais de survie, la comparaison est calculable pour 208. Ceux-ci conservent 42 % de leur rendement en médiane après publication, soit une baisse de 58 %.
 
-Afin d'expliquer ce constat, nous procéderons en quatre étapes. Dans un premier temps, nous présenterons les données et la façon dont nous conservons l'information disponible à chaque date. Dans un deuxième temps, nous expliquerons les vérifications imposées à chaque stratégie et la manière dont les 853 essais sont comptés. Ensuite, nous comparerons les résultats publiés à ceux mesurés après publication et après les coûts. Enfin, nous présenterons les limites qui empêchent actuellement une stratégie d'être retenue, ainsi que les études qui restent expérimentales.
+Afin d'expliquer ce constat, nous procéderons en quatre étapes. Dans un premier temps, nous présenterons les données et la façon dont nous conservons l'information disponible à chaque date. Dans un deuxième temps, nous expliquerons les vérifications imposées à chaque stratégie et la manière dont les 866 essais sont comptés. Ensuite, nous comparerons les résultats publiés à ceux mesurés après publication et après les coûts. Enfin, nous présenterons les limites qui empêchent actuellement une stratégie d'être retenue, ainsi que les études qui restent expérimentales.
 
 [![CI](https://github.com/Guilou001/quant-research-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/Guilou001/quant-research-platform/actions/workflows/ci.yml)
 [![Documentation](https://github.com/Guilou001/quant-research-platform/actions/workflows/docs.yml/badge.svg)](https://guilou001.github.io/quant-research-platform/)
@@ -17,7 +17,7 @@ Afin d'expliquer ce constat, nous procéderons en quatre étapes. Dans un premie
 
 > **English summary.** An open source quantitative research platform. It
 > replicates documented academic strategies, measures what survives out of
-> sample after costs, and rejects what does not. Twenty studies, 853 counted
+> sample after costs, and rejects what does not. Twenty-one studies, 866 counted
 > trials in the latest registered runs, and no core strategy that earns
 > capital. In a survivorship-bias-free set of 212 portfolios, the comparison is
 > available for 208. They retain 42% of their return at the median after
@@ -256,9 +256,9 @@ main (ADR-014).
 | 8 | apprentissage automatique transversal | **fait**, panneau daté sans information future, six méthodes, études 011 et 013 |
 | 9 | validation indépendante sous LEAN | **fait**, l'étude 001 retrouvée à 5e-6 par mois ; l'ouverture réelle coûte 25 pb/an, une séance de retard 71 |
 | 10 | tableau de bord et rapport institutionnel | **fait**, `quant dashboard build` et `quant report` |
-| 11 | recherche propre | **ouverte**, études 014 à 020 : la publication laisse la moitié du rendement, le momentum gagne la nuit, les facteurs des cryptomonnaies ont perdu les cinq sixièmes, les meilleures idées des gestionnaires 13F sont l'indice |
+| 11 | recherche propre | **ouverte**, études 014 à 020 : la publication laisse la moitié du rendement, le momentum gagne la nuit, les facteurs des cryptomonnaies ont perdu les cinq sixièmes, les meilleures idées des gestionnaires 13F sont l'indice, le portefeuille de primes pré-inscrit tient à 0,629 et échoue de justesse |
 
-## Ce que les vingt études ont trouvé
+## Ce que les vingt et une études ont trouvé
 
 **Aucune des huit stratégies ne mérite du capital en l'état.** Aucune n'atteint
 `ROBUST` ni `PORTFOLIO_CANDIDATE`, et c'est le résultat des phases 4 à 8.
@@ -285,6 +285,7 @@ main (ADR-014).
 | 018 La nuit contre la journée | Lou, Polk et Skouras (2019) | 6 | `EXPERIMENTAL` | le momentum temporel gagne 10,2 %/an la nuit, t 3,8, et perd 3,0 % le jour ; MTUM à 99 % la nuit |
 | 019 Marché, taille et momentum sur les cryptomonnaies | Liu, Tsyvinski et Wu (2022) | 10 | `REJECTED` | les trois facteurs se retrouvent avant 2020 et perdent les cinq sixièmes après ; le momentum tourne deux fois le capital par semaine |
 | 020 Les meilleures idées des gestionnaires concentrés, à leur date de dépôt | Cohen, Polk et Silli (2010) | 6 | `REJECTED` | +0,27 %/an sur SPY, t 0,26, bêta 1,08 : l'indice des survivants ; 28,9 % des idées sans prix, 50 % en 2013 |
+| 021 Le portefeuille de primes pré-inscrit | Hurst, Ooi et Pedersen (2017) ; Asness, Moskowitz et Pedersen (2013) | 13 | `REJECTED` | Sharpe net 0,629, holdout 0,88, quatre sous-périodes positives ; la vente de puts seule fait 0,696 et la tendance coûte 0,25, gardée par pré-inscription |
 
 Comment lire ce tableau, en trois constats. Le premier est que sept articles sur
 huit se répliquent correctement dans leur propre fenêtre : ce n'est pas la
@@ -326,7 +327,7 @@ séance entière de retard en coûte 71. Seul le moteur événementiel de la pha
 Les rejets sont documentés un par un dans
 [`docs/research_journal/rejected_ideas.md`](docs/research_journal/rejected_ideas.md),
 avec leur hypothèse économique, ce qui a été mesuré, et pourquoi cela ne suffit
-pas. **853 essais** ont été menés au total, et aucun n'a produit une stratégie
+pas. **866 essais** ont été menés au total, et aucun n'a produit une stratégie
 retenue.
 
 ## Se comparer aux fonds réels
@@ -456,7 +457,7 @@ fausse précisément le test qui sert à détecter le surapprentissage.
 
 | Limite | Statut |
 |---|---|
-| Aucune stratégie n'atteint `ROBUST` sur vingt études | mesuré, c'est le résultat des phases 4 à 11 |
+| Aucune stratégie n'atteint `ROBUST` sur vingt et une études | mesuré, c'est le résultat des phases 4 à 11 |
 | Pas d'univers sans biais de survie sur actions individuelles | mesuré, les sources gratuites ne le donnent pas, et l'étude 013 chiffre ce que cela fabrique |
 | Pas de carnet d'ordres, donc écart acheteur-vendeur supposé | reconnu, hypothèse déclarée dans chaque étude |
 | Impact de marché modélisé en racine carrée, sans microstructure | modélisé, marqué comme tel partout |

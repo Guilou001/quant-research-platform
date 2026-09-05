@@ -1,0 +1,13 @@
+reason
+"ÉCHOUÉ | hypothèse économique : signe attendu NON retrouvé, le signe décide du rejet"
+"RÉUSSI | signe du Sharpe hors échantillon : 0,884 mesuré, rejet à 0,000 ou moins"
+"ÉCHOUÉ | réplication de « sharpe_du_portefeuille_contre_meilleure_jambe_seule » : 0,629 contre 0,696 publié, écart relatif 0,097, tolérance 0,000 (absolute), soit 0,000 en relatif"
+"ÉCHOUÉ | réplication : 0 contrôle(s) sur 1 dans la tolérance, tous exigés"
+"RÉUSSI | Sharpe hors échantillon : 0,884 mesuré, minimum 0,500"
+"ÉCHOUÉ | t après correction pour essais multiples : 2,296 mesuré, minimum 3,000"
+"RÉUSSI | Sharpe dégonflé : 0,974 mesuré, minimum 0,950"
+"RÉUSSI | probabilité de surapprentissage : 0,371 mesuré, maximum 0,500"
+"RÉUSSI | part de sous-périodes positives : 1,000 mesuré, minimum 0,600"
+"RÉUSSI | multiple de coûts survécu : 20,000 mesuré, minimum 2,000"
+"ÉCHOUÉ | corrélation absolue avec le portefeuille existant : non mesuré, maximum 0,600"
+VERDICT | REJECTED
