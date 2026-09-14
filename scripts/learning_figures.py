@@ -56,6 +56,9 @@ def draw_all(root: Path) -> None:
             destination = directory / f"{name}.{extension}"
             metadata = {"Date": None} if extension == "svg" else {}
             fig.savefig(destination, dpi=170, facecolor="white", metadata=metadata)
+            if extension == "svg":
+                normalized = "\n".join(line.rstrip() for line in destination.read_text().splitlines())
+                destination.write_text(normalized + "\n")
             outputs.append(destination)
         plt.close(fig)
 

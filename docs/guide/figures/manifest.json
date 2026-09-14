@@ -1,7 +1,7 @@
 {
   "sources": {
     "documentation/values.json": "cee0223582e1663ac6862b787943d600c490c2a16bf2dd6a6487f4f718df98bc",
-    "scripts/learning_figures.py": "09f8f0ad4d2d416fa6a57e5e63097977c6deb72ee607c044dec3c7b5b8108a1f",
+    "scripts/learning_figures.py": "6aef3af7c958fe54c6386b9801b0aa579cb54bb080efe36ae9069ec5a623d245",
     "src/quantlab/reporting/education.py": "6160d1a807fa43f5ae91c81788aafab34d1d9f3318b9479bb83e41cf14b5ab1b",
     "studies/001_time_series_momentum/results/metrics.json": "aaea0604237d34b8e0cf817cf10f74f91e1af4f91437cb8d0f9d40027e5623a5",
     "studies/002_cross_sectional_momentum/results/metrics.json": "856f1b05397e0fa4b046323239b47735ead49c9ce258b8c105e92f2d178049e7",
@@ -30,20 +30,20 @@
   },
   "outputs": {
     "docs/guide/figures/prevision_classement.png": "a659eb3eb0515d46eb1f533e1269132630a40d79cb6906e49e479447e49827d2",
-    "docs/guide/figures/prevision_classement.svg": "5bd92e54cbe04f660f15f778026b7146ae397dcecddf4601c430d2bf82caec15",
+    "docs/guide/figures/prevision_classement.svg": "f0a1bd4428be75f0acbfdecac50154abfde4061878b7195cadf06f9d531187a4",
     "docs/guide/figures/survie_exemple.png": "456b909c8ac870d78734a068f19fb9da23c99fe2daa8acee07b9e7eabc0e992f",
-    "docs/guide/figures/survie_exemple.svg": "1df8e26d83b0d4485a271ec31ed4d7114b8e723b848ed0a3432a2f6237e04d64",
+    "docs/guide/figures/survie_exemple.svg": "05e4945fa1cd59f7715421ade05ffac0e41465bf2a4371a905c5e2d895d603d6",
     "docs/guide/figures/calendrier.png": "ea8a0cccd02ec7dd50bdd823e5bcda66e71466cf10c9400e56ee35a8acc3519b",
-    "docs/guide/figures/calendrier.svg": "3439b810c70f5cfe696db6975069d744ca499a14638d3eb4d63ae1c2aaf8232d",
+    "docs/guide/figures/calendrier.svg": "e0f90bd2e4cb2f50e3fd785b7131ff0ddb821b9b18aff1fee8b10bbfc46fe865",
     "docs/guide/figures/selection_hasard.png": "1a54790f28445526b344472b94ef8a1b3d1f53b2a0734b4c33124b43eec41e02",
-    "docs/guide/figures/selection_hasard.svg": "967a6e23154f73a9ad8656d5c8cc4a15d24840625738e5172c438964cd4ef32a",
+    "docs/guide/figures/selection_hasard.svg": "f7dcba3223d6b7fafff3b6b9652dbde2b7199c31238e60b2908c0200e39301ae",
     "docs/guide/figures/bootstrap.png": "95a21ec3046617f076efb40dc0c34324263da1344eb3604a386f577f035c4d45",
-    "docs/guide/figures/bootstrap.svg": "46d33eb5f9faaa3245205d323ee76e0c270519b596947baabc818a103423af79",
+    "docs/guide/figures/bootstrap.svg": "467fcab9b8e03aadc758158d03a5707f3373b5db9c82d198535b5958f9368ca3",
     "docs/guide/figures/publication_distribution.png": "03b649dbd8628d3ad3b92e16a655716ec87b084eae530c01351f5aa1c5ff603a",
-    "docs/guide/figures/publication_distribution.svg": "804d4d4840f2bcc3a3410293c45f86604bf5036886cc42dc532623afbd56ec1b",
+    "docs/guide/figures/publication_distribution.svg": "0ae42628ec96dea5874cea9fd5dfd73c7d61479c9affc3e250d631019de39142",
     "docs/guide/figures/nuit_journee.png": "700c140327fc9c0b53f64b9884831c21685625d6dbabfbad6d859b00a51f38dc",
-    "docs/guide/figures/nuit_journee.svg": "46219456ad87fc76d93a1f6cac67fd62ab55d1c4d74401200198e0a6c6d4953a",
+    "docs/guide/figures/nuit_journee.svg": "edbcb7a5644fd58997810d35e9d3515487f9a17e4d66d40218b32d6aed2abdb6",
     "docs/guide/figures/verdict_portefeuille.png": "7758bc59e41f4b3eab88d88b5976a7c8beafc90922b7dd1a10751afb9faeace9",
-    "docs/guide/figures/verdict_portefeuille.svg": "efb52a5731be03f4f733422e5aa5177fb8cb009ddc30644cab786f0046311033"
+    "docs/guide/figures/verdict_portefeuille.svg": "9bc8f5ab6b5113bb0cc745876f123afeb2f43ab5f6cd23f5441e57147e52a0cc"
   }
 }
