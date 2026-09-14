@@ -1,0 +1,18 @@
+{
+  "sources": {
+    "docs/manuel.md": "6a3400b2eb6f12e2e5e54f33cba9deb89c9c2941659a9ba0f4474553475785c3",
+    "scripts/learning_pdf.py": "54274cbc94b5675cad0f11c3ecdde69440438944f9bc608d587c0e57cf64b550",
+    "docs/guide/figures/bootstrap.png": "95a21ec3046617f076efb40dc0c34324263da1344eb3604a386f577f035c4d45",
+    "docs/guide/figures/calendrier.png": "ea8a0cccd02ec7dd50bdd823e5bcda66e71466cf10c9400e56ee35a8acc3519b",
+    "docs/guide/figures/nuit_journee.png": "700c140327fc9c0b53f64b9884831c21685625d6dbabfbad6d859b00a51f38dc",
+    "docs/guide/figures/prevision_classement.png": "a659eb3eb0515d46eb1f533e1269132630a40d79cb6906e49e479447e49827d2",
+    "docs/guide/figures/publication_distribution.png": "03b649dbd8628d3ad3b92e16a655716ec87b084eae530c01351f5aa1c5ff603a",
+    "docs/guide/figures/selection_hasard.png": "1a54790f28445526b344472b94ef8a1b3d1f53b2a0734b4c33124b43eec41e02",
+    "docs/guide/figures/survie_exemple.png": "456b909c8ac870d78734a068f19fb9da23c99fe2daa8acee07b9e7eabc0e992f",
+    "docs/guide/figures/verdict_portefeuille.png": "7758bc59e41f4b3eab88d88b5976a7c8beafc90922b7dd1a10751afb9faeace9"
+  },
+  "outputs": {
+    "rapport/manuel.pdf": "603085c2087c73a6a87645a8268aa0f5c3188f6500899c21d97a5d007c50e3c6",
+    "rapport/manuel.typ": "87a778ec5a9afc96a6a0ae8cf585f2ad0ad7cfa530068735aa06e6496a0a0abd"
+  }
+}

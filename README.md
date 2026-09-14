@@ -10,13 +10,17 @@ Ce dépôt organise la recherche pour rendre ces pièges visibles. Chaque étude
 
 | Votre question | Où regarder |
 |---|---|
+| Comment comprendre les concepts sans prérequis ? | [Huit chapitres avec exemples](docs/guide/index.md) |
+| Quelle étude répond à ma question ? | [Catalogue des vingt et une études](docs/etudes/index.md) |
 | Que montrent les études terminées ? | [Tableau de bord des résultats](docs/dashboard/index.md) |
 | Que reste-t-il après la publication d'une stratégie ? | [Étude des 212 portefeuilles](studies/016_publication_decay_212/) |
 | Que change l'oubli des actions disparues ? | [Étude du biais de survie](studies/013_cross_sectional_ml_long/) |
 | Le même calcul fonctionne-t-il dans un autre moteur ? | [Comparaison avec LEAN](lean/README.md) |
 | Comment les données et les tests sont-ils organisés ? | [Architecture](docs/architecture/index.md) |
 
-Le [site de documentation](https://guilou001.github.io/quant-research-platform/) et le [rapport complet du tableau de bord](rapport/rapport.pdf) rassemblent les résultats détaillés.
+Le [site de documentation](https://guilou001.github.io/quant-research-platform/) propose un parcours progressif.
+Le [manuel pédagogique en PDF](rapport/manuel.pdf) réunit huit chapitres et les vingt et une études.
+Chaque étude donne un exemple simple, les résultats, les limites et une annexe technique.
 
 ## Un exemple de résultat qui perd de sa force
 
@@ -51,10 +55,20 @@ uv sync --locked --all-extras --dev
 uv run quant info
 make lint
 make test
+make learn-check
 make docs
 ```
 
 Ces commandes vérifient le socle et construisent la documentation. Les téléchargements et calculs propres à chaque étude ont leurs commandes séparées, indiquées dans son dossier. Le graphique de présentation se régénère hors réseau avec `uv run python scripts/figure_presentation.py`, depuis les tableaux publiés.
+
+## Apprendre en vérifiant
+
+Trois actions suffisent pour montrer qu'une bonne prévision peut produire un mauvais classement.
+L'[étude 011](studies/011_cross_sectional_ml/) déroule cet exemple, puis le compare aux résultats réels des modèles.
+
+Les [exemples exécutables](notebooks/01_comprendre_les_resultats.ipynb) fonctionnent hors réseau après installation.
+Les chiffres des nouvelles présentations sont reliés aux fichiers de résultats par un [registre vérifiable](documentation/publication_values.json).
+Le site, les présentations des études et le manuel partagent les mêmes textes sources.
 
 ## Pour aller plus loin
 

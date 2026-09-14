@@ -75,10 +75,10 @@ Elle rend une distribution de performance au lieu d'un point unique.
 
 ## D
 
-**Deflated Sharpe Ratio (ratio de Sharpe dégonflé).** Le ratio de Sharpe corrigé
-du nombre d'essais menés et de leur dispersion. Il répond à « ce résultat
-survit-il au fait que j'ai beaucoup cherché ? », et il exige de connaître le
-nombre d'essais, y compris les ratés.
+**Deflated Sharpe Ratio.** Diagnostic statistique comparant le Sharpe observé à un repère ajusté pour la sélection parmi plusieurs essais.
+Il tient compte de la longueur de série et de la distribution.
+Il ne donne ni un Sharpe réduit, ni une probabilité de profit futur.
+Le [chapitre sur le hasard](../guide/04_hasard.md) explique son rôle.
 
 **Drawdown.** La perte depuis le plus haut atteint,
 \((NAV_t - \max_{s\le t} NAV_s)/\max_{s\le t} NAV_s\). Son maximum croît

@@ -1,60 +1,40 @@
-# quant-research-platform
+# Comprendre ce qu'une stratégie a vraiment démontré
 
-Un laboratoire de recherche quantitative en source ouverte, dont le but n'est
-pas de trouver une stratégie qui gagne, mais de savoir laquelle ne gagne pas.
+Ce laboratoire compare des idées de placement à leurs données, leurs coûts et leurs limites.
+Il conserve aussi les expériences qui ne satisfont pas les critères de départ.
+L'objectif est de rendre chaque conclusion compréhensible et vérifiable.
 
-La question à laquelle toute cette infrastructure sert à répondre tient en une
-phrase :
+## Commencer par votre question
 
-> Cette anomalie semble fonctionner. Est-ce réellement de l'alpha robuste,
-> économiquement plausible, investissable, et suffisamment indépendant de nos
-> autres sources de rendement pour mériter du capital ?
-
-## Pourquoi ce projet existe
-
-Un backtest flatteur ne prouve rien. Prenez mille stratégies aléatoires, et
-testez-les sur trente ans de données. La meilleure affichera un ratio de Sharpe
-supérieur à 2 sans porter le moindre signal. Ce n'est pas une possibilité
-théorique, c'est la conséquence mécanique du maximum de mille tirages.
-
-Tout ce que porte ce dépôt sert à distinguer un rendement d'un tirage chanceux :
-données point-in-time, décompte des essais, ratio de Sharpe dégonflé,
-probabilité de surapprentissage, coûts explicites, second moteur de backtest
-indépendant.
-
-## Par où commencer
-
-| Vous voulez | Allez à |
+| Votre question | Lecture conseillée |
 |---|---|
-| installer et faire tourner | [Installation](getting_started/installation.md) |
-| comprendre l'architecture | [Architecture](architecture/index.md) |
-| comprendre la méthode | [Ce qui sépare un résultat d'une coïncidence](methodology/index.md) |
-| voir le parcours d'une stratégie | [Le parcours](methodology/gauntlet.md) |
-| lire les formules | [Formules de référence](methodology/formules.md) |
-| savoir ce que les données ne donnent pas | [Limites des données gratuites](data/free_data_limitations.md) |
-| lire les articles répliqués | [Littérature](literature/index.md) |
-| suivre les décisions | [ADR](architecture/adr/index.md) |
+| Je découvre la recherche quantitative | [Le parcours en huit chapitres](guide/index.md) |
+| Un modèle peut-il prévoir correctement et mal investir ? | [Prévoir et classer les actions](etudes/011_cross_sectional_ml.md) |
+| Oublier des entreprises change-t-il le résultat ? | [Les données de survivants](etudes/013_cross_sectional_ml_long.md) |
+| Une stratégie rapporte-t-elle encore après publication ? | [Les portefeuilles publiés](etudes/016_publication_decay_212.md) |
+| Pourquoi séparer la nuit de la séance ? | [La décomposition des rendements](etudes/018_nuit_contre_journee.md) |
+| Pourquoi refuser un portefeuille profitable ? | [Le portefeuille de primes](etudes/021_portefeuille_de_primes.md) |
 
-## L'état d'avancement
+Les [vingt et une études](etudes/index.md) possèdent une présentation accessible et une annexe détaillée.
+Le [manuel PDF](https://github.com/Guilou001/quant-research-platform/blob/main/rapport/manuel.pdf) rassemble leurs textes et les chapitres.
+Les [fiches de littérature](literature/index.md) indiquent les versions consultées et les différences avec nos expériences.
 
-| Phase | Contenu | État |
-|---|---|---|
-| 0 | architecture, configuration, journal, intégration continue, documentation | **fait** |
-| 1 | fournisseurs de données, lac, provenance, point-in-time, qualité | **fait** |
-| 2 | analytique : rendements, risque, ratios, régression, IC, rotation, contributions | **fait** |
-| 3 | validation : découpages, purge, embargo, CPCV, bootstrap, DSR, PBO, tests multiples | **fait** |
-| 4 | réplications académiques, de TSMOM à l'arbitrage statistique | **fait**, huit études |
-| 5 | moteur de portefeuille et de risque | **fait**, six estimateurs de covariance, sept optimiseurs |
-| 6 | moteur de coûts et de capacité | **fait**, impact à l'échelle du capital, étude 010 |
-| 7 | portefeuille multi-stratégies | **fait**, étude 009 |
-| 8 | apprentissage automatique transversal | **fait**, panneau point-in-time, six méthodes, étude 011 |
-| 9 | validation indépendante sous LEAN | **fait**, l'étude 001 retrouvée à 5e-6 par mois, l'ouverture réelle coûte 25 pb/an, `lean/` |
-| 10 | tableau de bord et rapport institutionnel | **fait**, `quant dashboard build` et `quant report` |
-| 11 | recherche propre | **ouverte**, études 014 à 020 : publication, univers sans biais de survie, rotation, nuit contre journée, cryptomonnaies, meilleures idées 13F |
+## Un résultat ne se lit pas seul
 
-## Avertissement
+Une performance dépend de la période, des entreprises retenues, des informations disponibles et des coûts.
+Essayer plusieurs variantes augmente aussi la chance de sélectionner un résultat flatteur.
+Le [chapitre sur le hasard](guide/04_hasard.md) le montre dans une simulation explicitement fictive.
 
-Rien ici n'est un conseil en investissement. Les résultats présentés sont des
-mesures faites sur des données historiques, avec des hypothèses déclarées, et un
-résultat historique ne dit rien de l'avenir. Les limites des données utilisées
-sont écrites et ne sont jamais contournées par une approximation.
+Les études n'ont pas toutes la même qualité de données.
+Le [tableau de bord](dashboard/index.md) fournit une vue d'ensemble, avec cette limite.
+Ses courbes ne sont pas un classement uniforme de placements accessibles.
+
+## Installer ou vérifier
+
+L'[installation](getting_started/installation.md) prépare l'environnement.
+L'[architecture](architecture/index.md) présente les modules et leur rôle.
+Le [journal de recherche](research_journal/index.md) garde les décisions et leurs corrections.
+
+Les textes du parcours sont générés depuis des sources communes.
+Le contrôle de fraîcheur vérifie leurs chiffres et les empreintes des figures, sans réestimer les modèles historiques.
+La [note de rédaction](research_journal/pedagogie-2026-09-13.md) décrit cette refonte.

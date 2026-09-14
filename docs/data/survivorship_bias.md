@@ -1,60 +1,50 @@
-# Le biais de survie
+# Les entreprises absentes changent la question étudiée
 
-Backtester une stratégie sur les membres actuels du S&P 500 utilise de
-l'information future, et l'ampleur de l'erreur n'est pas marginale.
+Utiliser aujourd'hui la liste des membres d'un indice pour simuler un portefeuille ancien sélectionne les entreprises avec une information postérieure.
+Certaines entreprises présentes à l'époque manquent.
+D'autres n'étaient pas encore admissibles à l'indice.
 
-## Le mécanisme
+## Comprendre le mécanisme
 
-Les entreprises qui composent l'indice aujourd'hui sont celles qui n'ont ni fait
-faillite, ni été radiées, ni été absorbées après une chute. Les sélectionner
-pour un test qui commence en 1990 revient à choisir les gagnants à l'avance.
+Une entreprise peut disparaître après une faillite, une fusion ou une acquisition.
+Une acquisition peut rémunérer favorablement ses anciens actionnaires.
+Il serait donc incorrect d'assimiler toutes les radiations à des pertes totales.
 
-Le biais frappe deux fois. Il gonfle le rendement moyen, parce que les pires
-sorties manquent. Il réduit le risque mesuré, parce que les pires trajectoires
-manquent aussi. Un ratio de Sharpe est donc surestimé à son numérateur et à son
-dénominateur en même temps.
+Le biais de survie modifie l'univers des positions.
+Son effet sur le rendement et le risque dépend de la stratégie, notamment des titres qu'elle achète et de ceux qu'elle vend.
+Il ne relève pas nécessairement le Sharpe de toute règle.
 
-Il frappe plus fort sur certaines stratégies que sur d'autres. Une stratégie de
-valeur achète les titres les moins chers, c'est-à-dire précisément la population
-où les faillites se concentrent. Le biais de survie lui retire ses pires
-positions.
+L'[exemple à cinq entreprises](../guide/02_donnees.md) montre un cas fictif où oublier deux pertes relève fortement le résultat.
+L'[étude 002](../etudes/002_cross_sectional_momentum.md) illustre pourquoi le sens de l'effet peut différer pour une stratégie acheteuse et vendeuse.
 
-## Ce que nous pouvons faire, et ce que nous ne pouvons pas
+## Deux qualités différentes des données
 
-Les données gratuites ne portent pas d'univers point-in-time complet. Yahoo ne
-rend pas les titres radiés ; l'appartenance historique aux indices n'est pas
-publiée librement sous une forme exploitable.
+Un univers historique peut inclure les entreprises disparues.
+Une base datée peut indiquer quand une information était accessible.
+L'une de ces qualités ne garantit pas l'autre.
 
-Trois réponses, dans l'ordre de préférence.
+Les facteurs de Kenneth French et d'Open Source Asset Pricing reposent sur des constructions incluant les titres radiés.
+Leurs versions récentes peuvent néanmoins contenir des révisions historiques.
+Il faut donc lire séparément les champs d'univers et de disponibilité temporelle.
 
-**Un univers point-in-time quand il existe.** Les portefeuilles triés de Ken
-French sont construits sur CRSP et incluent les titres radiés. Les facteurs de
-Ken French sont donc exempts de biais de survie, et leur manifeste porte
-`survivorship_free=True`.
+Les fonds négociés en bourse simplifient certaines reconstructions multi-actifs.
+Ils peuvent aussi fermer ou fusionner.
+Choisir seulement les fonds disponibles aujourd'hui conserve un risque de sélection.
 
-**Un univers de fonds négociés en bourse.** Un FNB existe ou n'existe pas ; il
-ne disparaît pas silencieusement de son propre historique. Les études
-multi-actifs du laboratoire partent de là.
+## Ce que le dépôt a effectivement vérifié
 
-**Un marquage explicite.** Quand aucune des deux réponses ne s'applique, le
-backtest porte le drapeau :
+L'[étude 013](../etudes/013_cross_sectional_ml_long.md) ne dispose pas d'un panel complet de titres historiques.
+L'[étude 015](../etudes/015_univers_polygon.md) a obtenu un référentiel de radiations, sans les prix anciens suffisants dans l'accès testé.
+Ces constats sont datés et doivent être remesurés si l'accès aux sources change.
 
-```
-SURVIVORSHIP_BIAS_RISK = True
-```
+Le champ du manifeste comporte trois valeurs.
 
-Les résultats concernés ne sont jamais présentés comme institutionnellement
-propres. Ils ne peuvent pas atteindre le verdict `ROBUST`.
-
-## Le champ à trois valeurs
-
-Le manifeste porte `survivorship_free` avec trois valeurs possibles et non deux.
-
-| Valeur | Ce qu'elle dit |
+| Valeur de survivorship_free | Sens déclaré |
 |---|---|
-| `True` | vérifié, l'univers inclut les titres disparus |
-| `False` | vérifié, l'univers ne les inclut pas |
-| `None` | **non vérifié** |
+| True | L'inclusion des titres disparus a été vérifiée dans le périmètre décrit |
+| False | Le périmètre vérifié omet des titres disparus |
+| None | Cette propriété n'a pas été vérifiée |
 
-`None` ne signifie pas « probablement bon ». Il signifie que personne n'a
-regardé, et c'est une information que le lecteur d'un résultat doit avoir.
+Le champ résume une vérification.
+Il ne certifie pas automatiquement toutes les autres propriétés du fournisseur.
+Les [limites des données gratuites](free_data_limitations.md) et les annexes donnent les détails nécessaires.

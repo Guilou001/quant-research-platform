@@ -1,93 +1,57 @@
-# Ce qui sépare un résultat d'une coïncidence
+# Ce qui sépare une observation d'une conclusion
 
-Un backtest flatteur ne prouve rien, et la raison est arithmétique. Prenez mille
-stratégies aléatoires, et testez-les sur trente ans de données. La meilleure
-affichera un ratio de Sharpe supérieur à 2 sans porter le moindre signal. Ce
-n'est pas une possibilité théorique : c'est la conséquence mécanique du maximum
-de mille tirages d'une loi centrée.
+Un bon résultat historique constitue une observation à expliquer.
+Sa force dépend du protocole, des données et du nombre de choix effectués.
+Le laboratoire conserve ces éléments pour que le lecteur puisse les vérifier.
 
-Le laboratoire est construit autour de cette phrase. Tout ce qui suit sert à
-distinguer un rendement d'un tirage chanceux.
+## Commencer par une explication testable
 
-## Le modèle mental
+Une règle peut rémunérer un risque, exploiter une erreur de prix ou répondre à une contrainte.
+Ces mécanismes sont des hypothèses.
+Une expérience doit préciser quelles observations les soutiendraient et lesquelles les affaibliraient.
 
-La performance d'un fonds systématique ne vient pas d'un indicateur secret. Elle
-se décompose :
+Le [premier chapitre](../guide/01_question.md) donne des exemples.
+Une comparaison avant et après publication peut décrire une évolution, sans isoler la publication comme cause.
 
-\[
-\text{Performance} \approx
-\text{Edge} \times
-\text{Breadth} \times
-\text{Diversification} \times
-\text{Execution} \times
-\text{RiskManagement}
-\]
+## Respecter la chronologie
 
-Chaque terme est un produit, donc un zéro sur un seul annule tout. Un signal
-excellent exécuté trop cher rend zéro. Mille paris parfaitement corrélés valent
-un pari.
+L'information doit être disponible avant la décision.
+Les périodes d'apprentissage, de choix des paramètres et d'évaluation ont des rôles distincts.
+Une séparation supplémentaire peut être nécessaire lorsque les rendements prévus chevauchent les frontières.
 
-L'objectif que le laboratoire cherche à maximiser est :
+Les [données datées](../data/point_in_time.md) et le [calendrier du test](../guide/03_calendrier.md) expliquent ces précautions.
+Un découpage correct ne répare pas un univers incomplet.
 
-\[
-\max \; \frac{\mathbb{E}[\text{Alpha net}]}{\text{Risque}}
-\quad\text{avec}\quad
-\text{Alpha net} = \text{Alpha brut} - C_{\text{transaction}} - C_{\text{impact}} - C_{\text{emprunt}} - C_{\text{financement}}
-\]
+## Compter les choix et mesurer l'incertitude
 
-sous contraintes de levier, de perte maximale, de concentration, de liquidité,
-de capacité, d'expositions factorielles, de risque de queue et de rotation.
+Le meilleur résultat parmi de nombreux essais bénéficie d'une sélection.
+Son niveau dépend du nombre d'essais, de leur dépendance, de la durée et de la distribution des rendements.
+Aucune règle générale ne garantit un Sharpe supérieur à deux pour mille stratégies aléatoires testées pendant trente ans.
 
-## L'ordre des questions
+Le [chapitre sur le hasard](../guide/04_hasard.md) propose une simulation aux hypothèses explicites.
+Le DSR et la PBO apportent des diagnostics complémentaires, avec leurs propres hypothèses.
+Le DSR n'est pas un Sharpe diminué ni une probabilité de profit futur.
 
-La première question posée à une stratégie n'est jamais « est-ce que ça marche
-dans les données ? ». Elle est :
+Une différence entre stratégies demande aussi une mesure d'incertitude.
+Le rééchantillonnage par blocs peut conserver une partie de la dépendance des mois voisins.
+Il doit employer les mêmes dates pour les stratégies comparées.
 
-> Pourquoi ce rendement devrait-il exister économiquement ?
+## Passer de la prévision à la décision
 
-Trois réponses seulement sont recevables, et chacune se teste.
+La précision des prévisions, la qualité du classement et le résultat du portefeuille ne sont pas interchangeables.
+L'[étude 011](../etudes/011_cross_sectional_ml.md) montre leur divergence.
 
-**Une prime de risque.** Le rendement paie l'acceptation d'un risque que
-d'autres refusent. Alors il doit être douloureux au mauvais moment, et le
-laboratoire vérifie que la stratégie perd effectivement dans les crises.
+La performance dépend ensuite des poids, des risques communs et des frais.
+Ces éléments ne forment pas une identité multiplicative universelle.
+On calcule les flux et les coûts selon les conventions déclarées, puis on les compare à un repère pertinent.
 
-**Un biais comportemental.** Le rendement vient d'une erreur systématique des
-autres participants. Alors il doit s'affaiblir à mesure qu'il est publié et
-exploité, et le laboratoire compare la période avant et après publication.
+## Formuler le verdict
 
-**Une contrainte institutionnelle.** Le rendement paie une friction : interdiction
-de levier, mandat de suivi d'indice, contrainte réglementaire. Alors il doit
-survivre tant que la contrainte survit, et disparaître avec elle.
+Le [parcours de validation](gauntlet.md) décrit les contrôles du logiciel.
+Le [chapitre de conclusion](../guide/08_conclusion.md) explique comment lire leurs résultats.
 
-Une stratégie sans mécanisme nommé n'entre pas dans le parcours de validation.
-Elle est intéressante et elle attend.
+Un contrôle non calculable indique une preuve manquante.
+Un contrôle calculé sous le seuil indique un critère non satisfait.
+Les deux situations restent distinctes, même si le moteur utilise une catégorie commune.
 
-## La progression, des épaules des géants vers la recherche propre
-
-```mermaid
-flowchart LR
-    L[Littérature] --> R[Réplication]
-    R --> C[Compréhension économique]
-    C --> I[Implémentation indépendante]
-    I --> RO[Tests de robustesse]
-    RO --> O[Validation hors échantillon]
-    O --> P[Intégration au portefeuille]
-    P --> E[Extensions]
-    E --> M[Ensembles et apprentissage]
-    M --> N[Recherche propre]
-```
-
-L'ordre compte. Répliquer d'abord donne une vérité connue contre laquelle
-mesurer notre code : quand nos chiffres diffèrent de ceux de l'article, l'écart
-est un fait à expliquer, et l'explication apprend toujours quelque chose. Partir
-d'une idée neuve prive de ce repère.
-
-## Ce qui est refusé
-
-Une stratégie trouvée en testant dix mille variantes jusqu'à trouver la
-meilleure n'est pas valide, quel que soit son ratio de Sharpe. Le laboratoire
-compte les essais, les publie, et dégonfle le ratio de Sharpe en conséquence.
-
-Un paramètre qui n'a de bonne valeur qu'en un point isolé n'est pas valide non
-plus. Une fenêtre de 179 jours mauvaise, 180 excellente et 181 mauvaise décrit
-le bruit de l'échantillon, pas un mécanisme. On cherche des plateaux.
+Les [formules](formules.md), la [validation](../validation/index.md) et les annexes donnent les détails techniques.

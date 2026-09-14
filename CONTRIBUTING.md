@@ -54,3 +54,14 @@ raisonnement ensuite.
 
 Ces règles ne sont pas des préférences : `tests/unit/test_architecture.py` les
 vérifie mécaniquement, et la CI échoue si elles sont violées.
+
+## Maintenir le cours et les résultats expliqués
+
+Modifiez les textes dans `documentation/chapters` ou `documentation/studies`.
+Un nombre de résultat doit avoir sa source dans `documentation/values.json`.
+Les résumés du catalogue vivent dans `documentation/summaries.json`.
+
+`make learn` régénère les pages, les README d'études, les figures et le manuel.
+`make learn-check` vérifie leurs valeurs et leurs empreintes hors réseau.
+Relisez les résultats avec leurs unités, leurs fenêtres et leurs coûts avant de publier.
+Les exemples fictifs doivent être signalés et vérifiés par une arithmétique indépendante.

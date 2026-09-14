@@ -431,10 +431,10 @@ contre 0,66. Après publication, 2013-01 à 2026-06, la prime tombe à 0,168 % p
 avec un t de 0,72, sans que la baisse soit significative, p = 0,286.
 
 Notre facteur, bâti sur 21 variables et quatre composantes depuis les
-fondamentaux point-in-time des jeux DERA de la SEC, corrèle 0,106 avec le
-facteur publié sur 132 mois. La cause est l'univers : restreint aux grandes
-capitalisations, il perd la charge de taille de -0,577 que porte le facteur
-publié. Les dix portefeuilles de qualité restent pourtant ordonnés, du Sharpe
+fondamentaux point-in-time des jeux DERA de la SEC, corrèle 0,098 avec le
+facteur publié sur 132 mois, de juin 2015 à mai 2026.
+L'univers et les variables disponibles diffèrent, sans permettre d'isoler une cause unique.
+Les dix portefeuilles de qualité restent pourtant ordonnés, du Sharpe
 0,151 au premier décile à 1,093 au dixième. Statut mesuré, source
 `studies/004_quality_minus_junk/results/`.
 

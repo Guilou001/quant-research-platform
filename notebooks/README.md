@@ -1,5 +1,9 @@
 # Les carnets
 
+[Comprendre les résultats avec des exemples fictifs](01_comprendre_les_resultats.ipynb) accompagne les huit chapitres du cours.
+Le carnet fonctionne hors réseau après installation et son exécution est vérifiée par les tests.
+
+
 Un carnet sert à trois choses : explorer, expliquer, montrer une figure. Il ne
 porte aucune logique réutilisable.
 

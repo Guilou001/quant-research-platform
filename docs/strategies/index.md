@@ -8,7 +8,7 @@ résultat de la phase 4, et il est plus instructif qu'une réussite.
 | 001 Momentum de série temporelle | Moskowitz, Ooi et Pedersen (2012) | `EXPERIMENTAL` | Sharpe 1,411 puis 0,337, z = 3,239 |
 | 002 Momentum transversal | Jegadeesh et Titman (1993) | `EXPERIMENTAL` | t de 5,12 puis 1,746 |
 | 003 Valeur et momentum | Asness, Moskowitz et Pedersen (2013) | `EXPERIMENTAL` | corrélation -0,577, mélange 1,096 |
-| 004 Qualité moins camelote | Asness, Frazzini et Pedersen (2019) | `EXPERIMENTAL` | notre construction corrèle 0,106 avec le facteur publié |
+| 004 Qualité moins camelote | Asness, Frazzini et Pedersen (2019) | `EXPERIMENTAL` | notre construction corrèle 0,098 avec le facteur publié |
 | 005 Parier contre le bêta | Frazzini et Pedersen (2014) | `REJECTED` | le rétrécissement de 0,6 fait passer le Sharpe de 0,394 à -0,001 |
 | 006 Portefeuilles gérés en volatilité | Moreira et Muir (2017) | `REJECTED` | version négociable à -1,30 %/an net |
 | 007 Arbitrage statistique | Avellaneda et Lee (2010) | `REJECTED` | seuil de rentabilité 3,92 points de base |

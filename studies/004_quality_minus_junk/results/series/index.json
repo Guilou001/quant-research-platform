@@ -5,7 +5,7 @@
     "end": "2026-05-31",
     "frequency": "monthly",
     "n_periods": 132,
-    "notes": "quatre composantes, 21 variables, point-in-time ; corrèle 0,106 avec le facteur publié",
+    "notes": "quatre composantes, 21 variables, point-in-time ; corrèle 0,098 avec le facteur publié sur juin 2015 à mai 2026, selon metrics.json",
     "sample": "VALIDATION",
     "start": "2015-06-30",
     "universe": "déposants DERA de la SEC, grandes capitalisations"

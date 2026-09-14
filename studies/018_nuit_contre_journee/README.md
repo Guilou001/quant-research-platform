@@ -1,154 +1,81 @@
-# Étude 018 : la nuit contre la journée, sur le momentum de série temporelle et cinq fonds de facteurs
+# 018 À quel moment de la journée les rendements apparaissent-ils ?
 
-**Verdict : `EXPERIMENTAL`. Le momentum de série temporelle de l'étude 001
-gagne tout son rendement la nuit : 10,2 % par an de la clôture à l'ouverture
-suivante, ratio de Sharpe 0,83 et t de 3,8, contre -3,0 % par an de
-l'ouverture à la clôture**, sur 234 mois et vingt-huit fonds cotés. La part de
-nuit vaut 157 % du total, et la différence entre les deux parts, 13,2 % par
-an, a un t de 4,0. Les cinq fonds de facteurs disent la même chose pour le
-momentum, MTUM à 99 % la nuit, et pour la qualité, et l'inverse pour la faible
-volatilité, USMV à 34 %. La valeur, VLUE, gagne aux deux tiers la nuit, là où
-l'article la place le jour.
+Dans cette décomposition historique, le momentum temporel gagne pendant la nuit et perd pendant la séance.
+Les calculs portent sur des rendements bruts et sur les positions de l'étude 001.
+Ils ne mesurent pas encore la performance nette d'une stratégie qui négocierait tous les soirs et tous les matins.
 
-## La question de recherche
+## Suivre le prix sur une seule séance
 
-Un rendement de clôture à clôture mélange deux moments : la nuit, quand le
-marché est fermé et que l'ouverture absorbe ce qui s'est passé, et la journée.
-Lou, Polk et Skouras (2019) rapportent que le momentum gagne la nuit et la
-valeur le jour. Où le momentum de série temporelle du laboratoire gagne-t-il,
-et les fonds de facteurs cotés suivent-ils l'article ?
+Prenons un exemple fictif, sans dividende ni division d'action.
+Le titre clôture à 100 dollars, ouvre le lendemain à 102 dollars, puis clôture à 101 dollars.
 
-En mots simples : gagne-t-on en dormant ou en travaillant ?
+| Moment | Prix | Calcul du rendement |
+|---|---:|---|
+| Clôture précédente | 100 $ | Point de départ |
+| Ouverture suivante | 102 $ | Nuit, `102 / 100 - 1 = 2 %` |
+| Nouvelle clôture | 101 $ | Séance, `101 / 102 - 1 = -0,9804 %` |
 
-## L'article
+Sur la période entière, le rendement vaut `101 / 100 - 1 = 1 %`.
+Additionner les deux pourcentages donne environ 1,0196 %, ce qui n'est pas le bon calcul.
+Il faut composer les facteurs de croissance, `1,02 × (101 / 102) = 1,01`.
+La différence vient du montant sur lequel le second rendement s'applique.
 
-Lou, D., Polk, C. et Skouras, S. (2019), *A Tug of War: Overnight versus
-Intraday Expected Returns*, Journal of Financial Economics 134(1), 192-213.
-Fiche : [docs/literature/lou_polk_skouras_2019.md](../../docs/literature/lou_polk_skouras_2019.md).
-Spécification : [docs/specs/004-la-nuit-contre-la-journee.md](../../docs/specs/004-la-nuit-contre-la-journee.md).
+## Ce que la littérature cherche à distinguer
 
-## L'intuition économique
+Lou, Polk et Skouras étudient séparément les rendements de nuit et de séance pour des stratégies sur actions.
+Des populations d'investisseurs et des contraintes différentes peuvent intervenir à ces moments.
+Le partage du rendement aide à décrire où se situe une régularité.
+Il ne permet pas, seul, de désigner les investisseurs responsables.
+La [fiche de l'article](../../docs/literature/lou_polk_skouras_2019.md) présente les stratégies et les limites de la transposition.
 
-Des investisseurs différents négocient à l'ouverture et pendant la séance.
-Si le momentum vient d'une demande qui s'exprime à l'ouverture, ses gains
-tombent la nuit ; si la valeur vient d'un rééquilibrage patient pendant la
-séance, ses gains tombent le jour.
+Le laboratoire applique cette question à une stratégie de momentum temporel et à cinq fonds cotés.
+Un **momentum temporel** choisit le sens d'une position selon le passé du même actif.
+Il diffère d'un classement des actions les unes contre les autres.
 
-## La définition mathématique
+## Comment la décomposition est construite
 
-L'ouverture ajustée est l'ouverture brute multipliée par le rapport de la
-clôture ajustée à la clôture brute. La nuit va de la clôture ajustée de la
-veille à l'ouverture ajustée, la journée de l'ouverture ajustée à la clôture
-ajustée, et les deux parts se composent en le rendement de clôture à clôture :
-identité mesurée à 2e-16 sur toutes les séances. Pour la stratégie, les parts
-quotidiennes de chaque fonds sont composées dans le mois, puis les poids de
-l'étude 001 leur sont appliqués avec le décalage d'un mois, par le moteur du
-laboratoire. Module `quantlab.analytics.returns.overnight_intraday_split`.
+Pour chaque fonds, le code sépare l'ouverture et la clôture quotidiennes.
+Il applique un ajustement des prix afin de tenir compte des événements sur les titres.
+Cet ajustement est exact pour une division, mais son emploi pour les dividendes reste une approximation déclarée.
 
-## Les données
+Les parts quotidiennes sont ensuite composées dans le mois.
+Les mêmes poids de portefeuille, décidés avec un décalage d'un mois, sont appliqués au total et aux deux parts.
+Le résultat concerne 234 mois, de janvier 2007 à juin 2026, sur 28 fonds.
 
-| Source | Contenu | Mesure |
-|---|---|---|
-| Yahoo | ouverture, clôture, clôture ajustée des 28 fonds de l'étude 001, 1993-2026 | 234 mois de stratégie, 2007-01 à 2026-06 |
-| Yahoo | les mêmes prix pour MTUM, VLUE, QUAL, USMV et SPY | 3 247 séances depuis 2013-08 |
-| Kenneth French | taux sans risque quotidien et mensuel | même fenêtre |
+## Lire le résultat sans oublier le terme de composition
 
-## La méthodologie originale
+| Composante de la stratégie | Rendement moyen annualisé |
+|---|---:|
+| Nuit | 10,21 % |
+| Séance | -2,97 % |
+| Résidu de la décomposition retenue | -0,75 % |
+| Total excédentaire | 6,49 % |
 
-Celle du résumé : quatorze stratégies sur actions, chacune mesurée sur chaque
-part.
+Ces nombres viennent de la section `strategy` des [résultats enregistrés](results/metrics.json).
+Le résidu conserve l'écart entre le total excédentaire et les deux composantes calculées.
+La composition et les conventions de soustraction du taux sans risque doivent rester cohérentes pour l'interpréter.
 
-## Notre implémentation
+![Décomposer le résultat de nuit et de séance](../../docs/guide/figures/nuit_journee.png)
 
-Le partage nuit et journée par fonds et par séance ; la stratégie de l'étude
-001 rejouée trois fois, sur le rendement total, sur la part de nuit et sur la
-part de journée, avec les mêmes poids ; les cinq fonds mesurés depuis leur
-première séance commune. Six essais.
+Les barres montrent les contributions mesurées selon les conventions de l'étude.
+Le résidu est visible au lieu d'être absorbé dans l'une des périodes.
+Le bleu positif et l'orange négatif indiquent où les gains et les pertes sont observés, avant frais.
 
-## Nos écarts avec l'article
+## Pourquoi cela ne donne pas directement une règle profitable
 
-Fonds cotés au lieu d'actions ; une stratégie de laboratoire et cinq fonds au
-lieu de quatorze stratégies ; parts composées dans le mois pour la stratégie.
+Détenir seulement la nuit demanderait une entrée et une sortie fréquentes.
+Dans un exemple fictif, un aller-retour coûtant 0,04 % répété 250 fois représente 10 % du capital initial en coûts additionnés.
+Ce calcul suppose un montant négocié constant. Il ne mesure pas le coût réel des positions variables du laboratoire.
 
-## Les résultats
+Il faut également tenir compte des prix d'exécution et des risques entre la clôture et l'ouverture.
+Le résultat brut ne prouve donc pas que la stratégie de nuit domine après frais.
+Inversement, on ne peut pas affirmer que les frais l'annulent sans calculer les montants réellement négociés.
 
-Source : `results/tables/strategy_parts_monthly.csv`,
-`results/tables/factor_funds_split.csv`, `results/metrics.json`. Bruts,
-statut mesuré.
+## Ce que l'étude laisse ouvert
 
-| Momentum de série temporelle, 234 mois | Rendement moyen annualisé | Ratio de Sharpe | t |
-|---|---:|---:|---:|
-| Total, excédentaire | 6,5 % | 0,377 | 1,9 |
-| La nuit, de la clôture à l'ouverture | 10,2 % | 0,826 | 3,8 |
-| La journée, de l'ouverture à la clôture | -3,0 % | -0,256 | -1,3 |
-| Nuit moins journée | 13,2 % | 0,805 | 4,0 |
+La même décomposition devrait être examinée sur plusieurs sous-périodes et avec des conventions de dividendes contrôlées.
+Une règle négociable de nuit demanderait son propre protocole, ses prix d'exécution et ses coûts.
+Ces expériences ne sont pas remplacées par le graphique de décomposition.
 
-Comment lire ce tableau, en trois constats. Le premier est que la stratégie
-entière gagne moins que sa seule part de nuit : la journée lui retire 3 % par
-an. Le deuxième est que la part de nuit est plus sûre que le total, ratio de
-Sharpe 0,83 contre 0,38, avec un t qui passe le seuil que le total ne passe
-pas. Le troisième est que la somme des deux parts ne redonne pas exactement le
-total, l'écart valant -0,75 % par an : c'est le terme croisé de la
-composition, publié dans la table.
-
-| Fonds, depuis 2013-08 | Facteur | La nuit, % par an | La journée, % par an | Part de nuit | Sharpe nuit | Sharpe journée |
-|---|---|---:|---:|---:|---:|---:|
-| MTUM | momentum | 17,4 | 0,1 | 99 % | 1,40 | 0,01 |
-| QUAL | qualité | 16,7 | -2,3 | 116 % | 1,54 | -0,17 |
-| VLUE | valeur | 9,7 | 4,5 | 68 % | 0,80 | 0,33 |
-| SPY | marché | 9,1 | 5,5 | 62 % | 0,83 | 0,43 |
-| USMV | faible volatilité | 3,7 | 7,3 | 34 % | 0,44 | 0,66 |
-
-Comment lire ce tableau, en trois constats. Le premier est que le momentum
-est le cas le plus net : MTUM gagne 17,4 % par an la nuit et rien le jour, ce
-que l'article rapporte pour le momentum sur actions. Le deuxième est que le
-marché lui-même gagne aux deux tiers la nuit, si bien qu'un fonds long
-seulement hérite de cette part avant tout facteur ; la lecture qui compte est
-l'écart au marché, et la valeur est à 68 % contre 62 %, donc à peine
-différente du marché, quand l'article la place le jour. Le troisième est que
-la faible volatilité est le seul fonds qui gagne le jour, ce que l'article ne
-rapporte pas et que cette étude ne peut qu'observer.
-
-![La nuit contre la journée](results/figures/nuit_contre_journee.png)
-
-Comment lire cette figure : deux barres par série, le rendement moyen
-annualisé de la nuit en bleu et de la journée en orange, en pourcentage. La
-stratégie et trois fonds sur cinq ont leur barre orange sous ou près de
-zéro.
-
-## La robustesse
-
-Les t de la part de nuit et de la différence sont ceux de Lo, 3,8 et 4,0 sur
-234 mois. Aucune sous-période n'a été lue, la question n'ayant pas été posée
-avant le premier chiffre.
-
-## Les coûts
-
-Aucun : la décomposition porte sur le brut. Exploiter la part de nuit seule
-exigerait d'acheter à la clôture et de vendre à l'ouverture chaque jour, dont
-le coût dépasse les 13 % par an de différence sur des fonds cotés à quelques
-points de base l'aller-retour, deux cent cinquante fois par an ; la phase 6
-donne les ordres de grandeur.
-
-## Le hors échantillon
-
-Aucun paramètre n'a été choisi ; les poids sont ceux de l'étude 001.
-
-## Les limites
-
-| Limite | Statut |
-|---|---|
-| Ouverture ajustée par le facteur de la clôture, exact pour une division, approché pour un dividende | déclaré |
-| Fonds cotés au lieu d'actions | déclaré |
-| Terme croisé de la composition, -0,75 % par an | mesuré et publié |
-| Cinq fonds depuis 2013 seulement | reconnu |
-| Aucune sous-période | déclaré |
-
-## Le verdict
-
-`EXPERIMENTAL` : l'hypothèse tient, le momentum de série temporelle gagne la
-nuit, et aucun chiffre publié sur ces fonds n'existe à répliquer. Ce que
-l'étude établit : sur vingt ans, tout le rendement de ce momentum tombe entre
-la clôture et l'ouverture suivante, et la journée lui coûte ; une exécution
-qui attend le lendemain, comme la phase 9 l'a mesuré, manque exactement le
-moment où il gagne.
+L'[annexe technique](ANNEXE_TECHNIQUE.md) conserve les cinq fonds et les contrôles d'identité.
+La [comparaison avec LEAN](../../lean/README.md) examine séparément ce que change un autre calendrier d'exécution.

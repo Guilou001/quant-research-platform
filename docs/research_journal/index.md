@@ -28,6 +28,8 @@ règle du journal qui ne se rattrape pas après coup.
 
 ## Les entrées
 
+[Relecture pédagogique du 13 septembre 2026](pedagogie-2026-09-13.md).
+
 | Date | Sujet | Décision |
 |---|---|---|
 | [2026-09-01](2026-09-01-fondations.md) | choix du socle technique et des sources | socle mesuré, SEC débloquée, Plotly borné |

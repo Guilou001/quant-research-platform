@@ -6,7 +6,7 @@
 | **Année** | 2020 (document de travail NBER n° 25398, décembre 2018) |
 | **Revue ou source** | The Review of Financial Studies, vol. 33, n° 5, p. 2223-2274 |
 | **Lien** | [PDF de l'auteur](https://dachxiu.chicagobooth.edu/download/ML.pdf), [page RFS](https://academic.oup.com/rfs/article/33/5/2223/5758276), [NBER w25398](https://www.nber.org/system/files/working_papers/w25398/w25398.pdf) |
-| **Statut de réplication** | non commencé |
+| **Statut de réplication** | Adaptations réalisées dans les études [011](../etudes/011_cross_sectional_ml.md) et [013](../etudes/013_cross_sectional_ml_long.md), sans réplication intégrale du panel original |
 
 Deux versions ont été consultées le 2026-09-01 et lues intégralement : le PDF de
 l'éditeur mis en ligne par Dacheng Xiu, et le document de travail NBER n° 25398.

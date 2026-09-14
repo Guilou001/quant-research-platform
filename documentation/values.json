@@ -1,0 +1,653 @@
+{
+  "s001_before": {
+    "source": "studies/001_time_series_momentum/results/metrics.json",
+    "path": [
+      "metrics",
+      "aqr_sharpe_echantillon_1985_2009"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s001_after": {
+    "source": "studies/001_time_series_momentum/results/metrics.json",
+    "path": [
+      "metrics",
+      "aqr_sharpe_apres_publication"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s002_before": {
+    "source": "studies/002_cross_sectional_momentum/results/metrics.json",
+    "path": [
+      "metrics",
+      "jambe_a_ecart_echantillon_article_pct_par_mois"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s002_after": {
+    "source": "studies/002_cross_sectional_momentum/results/metrics.json",
+    "path": [
+      "metrics",
+      "jambe_a_ecart_apres_publication_pct_par_mois"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s003_corr": {
+    "source": "studies/003_value_and_momentum/results/metrics.json",
+    "path": [
+      "metrics",
+      "correlation_toutes_classes"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s003_mix": {
+    "source": "studies/003_value_and_momentum/results/metrics.json",
+    "path": [
+      "metrics",
+      "sharpe_melange_parts_egales"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s003_single": {
+    "source": "studies/003_value_and_momentum/results/metrics.json",
+    "path": [
+      "metrics",
+      "sharpe_momentum_toutes_classes"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s004_corr": {
+    "source": "studies/004_quality_minus_junk/results/metrics.json",
+    "path": [
+      "metrics",
+      "correlation_avec_le_publie"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s004_ours": {
+    "source": "studies/004_quality_minus_junk/results/metrics.json",
+    "path": [
+      "metrics",
+      "notre_sharpe"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s005_raw": {
+    "source": "studies/005_betting_against_beta/results/metrics.json",
+    "path": [
+      "metrics",
+      "sharpe_titres_sans_retrecissement"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s005_shrink": {
+    "source": "studies/005_betting_against_beta/results/metrics.json",
+    "path": [
+      "metrics",
+      "sharpe_titres_reference"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s006_alpha": {
+    "source": "studies/006_volatility_managed/results/metrics.json",
+    "path": [
+      "metrics",
+      "alpha_marche_in_sample_pct"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s006_future": {
+    "source": "studies/006_volatility_managed/results/metrics.json",
+    "path": [
+      "metrics",
+      "alpha_marche_temps_reel_pct"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s007_cost": {
+    "source": "studies/007_statistical_arbitrage/results/metrics.json",
+    "path": [
+      "metrics",
+      "cout_de_rentabilite_bps"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s007_gross": {
+    "source": "studies/007_statistical_arbitrage/results/metrics.json",
+    "path": [
+      "metrics",
+      "sharpe_brut_fenetre_de_larticle"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s008_coefficient": {
+    "source": "studies/008_carry/results/metrics.json",
+    "path": [
+      "metrics",
+      "panel_c_fenetre_article"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s008_t": {
+    "source": "studies/008_carry/results/metrics.json",
+    "path": [
+      "metrics",
+      "panel_t_fenetre_article"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s009_before": {
+    "source": "studies/009_multi_strategy/results/metrics.json",
+    "path": [
+      "validation",
+      "sharpe_before_holdout"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s009_after": {
+    "source": "studies/009_multi_strategy/results/metrics.json",
+    "path": [
+      "validation",
+      "sharpe_holdout"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s010_cap": {
+    "source": "studies/010_capacity/results/metrics.json",
+    "path": [
+      "strategies",
+      "tsmom",
+      "capacity_aum"
+    ],
+    "digits": 0,
+    "scale": 1
+  },
+  "s012_after": {
+    "source": "studies/012_multi_strategy_net/results/metrics.json",
+    "path": [
+      "validation",
+      "sharpe_holdout"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s014_decline": {
+    "source": "studies/014_publication_decay/results/metrics.json",
+    "path": [
+      "pooled",
+      "post_publication",
+      "mean_return_decline"
+    ],
+    "digits": 1,
+    "scale": 100
+  },
+  "s015_delisted": {
+    "source": "studies/015_univers_polygon/results/metrics.json",
+    "path": [
+      "reference",
+      "n_common_stocks_delisted_dated"
+    ],
+    "digits": 0,
+    "scale": 1
+  },
+  "s016_n": {
+    "source": "studies/016_publication_decay_212/results/metrics.json",
+    "path": [
+      "pooled",
+      "post_publication",
+      "n_predictors"
+    ],
+    "digits": 0,
+    "scale": 1
+  },
+  "s016_median": {
+    "source": "studies/016_publication_decay_212/results/metrics.json",
+    "path": [
+      "pooled",
+      "post_publication",
+      "median_return_ratio"
+    ],
+    "digits": 1,
+    "scale": 100
+  },
+  "s016_mean": {
+    "source": "studies/016_publication_decay_212/results/metrics.json",
+    "path": [
+      "pooled",
+      "post_publication",
+      "mean_return_ratio"
+    ],
+    "digits": 1,
+    "scale": 100
+  },
+  "s016_declining": {
+    "source": "studies/016_publication_decay_212/results/metrics.json",
+    "path": [
+      "pooled",
+      "post_publication",
+      "share_declining"
+    ],
+    "digits": 1,
+    "scale": 100
+  },
+  "s016_regression_t": {
+    "source": "studies/016_publication_decay_212/results/metrics.json",
+    "path": [
+      "pooled",
+      "regression",
+      "post_publication_t"
+    ],
+    "digits": 2,
+    "scale": 1
+  },
+  "s016_regression": {
+    "source": "studies/016_publication_decay_212/results/metrics.json",
+    "path": [
+      "pooled",
+      "regression",
+      "post_publication_decline"
+    ],
+    "digits": 1,
+    "scale": 100
+  },
+  "s017_partial": {
+    "source": "studies/017_viser_devant_la_cible/results/metrics.json",
+    "path": [
+      "holdout",
+      "sharpe_net_selected"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s017_full": {
+    "source": "studies/017_viser_devant_la_cible/results/metrics.json",
+    "path": [
+      "holdout",
+      "sharpe_net_full_rebalance"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s017_turn_partial": {
+    "source": "studies/017_viser_devant_la_cible/results/metrics.json",
+    "path": [
+      "holdout",
+      "turnover_selected"
+    ],
+    "digits": 2,
+    "scale": 1
+  },
+  "s017_turn_full": {
+    "source": "studies/017_viser_devant_la_cible/results/metrics.json",
+    "path": [
+      "holdout",
+      "turnover_full_rebalance"
+    ],
+    "digits": 2,
+    "scale": 1
+  },
+  "s018_night": {
+    "source": "studies/018_nuit_contre_journee/results/metrics.json",
+    "path": [
+      "strategy",
+      "overnight",
+      "mean_annual_pct"
+    ],
+    "digits": 2,
+    "scale": 1
+  },
+  "s018_day": {
+    "source": "studies/018_nuit_contre_journee/results/metrics.json",
+    "path": [
+      "strategy",
+      "intraday",
+      "mean_annual_pct"
+    ],
+    "digits": 2,
+    "scale": 1
+  },
+  "s018_total": {
+    "source": "studies/018_nuit_contre_journee/results/metrics.json",
+    "path": [
+      "strategy",
+      "total_excess",
+      "mean_annual_pct"
+    ],
+    "digits": 2,
+    "scale": 1
+  },
+  "s018_residual": {
+    "source": "studies/018_nuit_contre_journee/results/metrics.json",
+    "path": [
+      "strategy",
+      "residual_mean_annual_pct"
+    ],
+    "digits": 2,
+    "scale": 1
+  },
+  "s019_sharpe": {
+    "source": "studies/019_facteurs_crypto/results/metrics.json",
+    "path": [
+      "net_at_base",
+      "momentum",
+      "post_publication",
+      "sharpe"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s019_turn": {
+    "source": "studies/019_facteurs_crypto/results/metrics.json",
+    "path": [
+      "turnover_weekly_mean",
+      "momentum"
+    ],
+    "digits": 2,
+    "scale": 1
+  },
+  "s020_gross": {
+    "source": "studies/020_meilleures_idees_13f/results/metrics.json",
+    "path": [
+      "excess_over_market",
+      "equal_weight",
+      "annual_return_pct"
+    ],
+    "digits": 2,
+    "scale": 1
+  },
+  "s020_net": {
+    "source": "studies/020_meilleures_idees_13f/results/metrics.json",
+    "path": [
+      "excess_over_market",
+      "equal_weight_net",
+      "annual_return_pct"
+    ],
+    "digits": 2,
+    "scale": 1
+  },
+  "s020_missing": {
+    "source": "studies/020_meilleures_idees_13f/results/metrics.json",
+    "path": [
+      "coverage",
+      "share_without_price"
+    ],
+    "digits": 1,
+    "scale": 100
+  },
+  "s021_sharpe": {
+    "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+    "path": [
+      "reference",
+      "sharpe"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s021_single": {
+    "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+    "path": [
+      "best_alone",
+      "sharpe"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s021_future": {
+    "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+    "path": [
+      "validation",
+      "sharpe_holdout"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s021_t": {
+    "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+    "path": [
+      "validation",
+      "tstat_holdout"
+    ],
+    "digits": 2,
+    "scale": 1
+  },
+  "s021_dd": {
+    "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+    "path": [
+      "reference",
+      "max_drawdown_pct"
+    ],
+    "digits": 1,
+    "scale": 1
+  },
+  "s021_n": {
+    "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+    "path": [
+      "reference",
+      "n_months"
+    ],
+    "digits": 0,
+    "scale": 1
+  },
+  "s021_future_n": {
+    "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+    "path": [
+      "validation",
+      "n_holdout_months"
+    ],
+    "digits": 0,
+    "scale": 1
+  },
+  "s021_dsr": {
+    "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+    "path": [
+      "validation",
+      "deflated_sharpe"
+    ],
+    "digits": 3,
+    "scale": 1
+  },
+  "s011_linear_r2": {
+    "source": "studies/011_cross_sectional_ml/results/tables/evaluation.csv",
+    "where": {
+      "model": "ridge"
+    },
+    "column": "r2_oos_pct",
+    "digits": 2,
+    "scale": 1
+  },
+  "s011_linear_rank": {
+    "source": "studies/011_cross_sectional_ml/results/tables/evaluation.csv",
+    "where": {
+      "model": "ridge"
+    },
+    "column": "ic_mean",
+    "digits": 3,
+    "scale": 1
+  },
+  "s011_linear_sharpe": {
+    "source": "studies/011_cross_sectional_ml/results/tables/portfolios.csv",
+    "where": {
+      "series": "ridge"
+    },
+    "column": "sharpe",
+    "digits": 3,
+    "scale": 1
+  },
+  "s011_tree_r2": {
+    "source": "studies/011_cross_sectional_ml/results/tables/evaluation.csv",
+    "where": {
+      "model": "gbrt"
+    },
+    "column": "r2_oos_pct",
+    "digits": 2,
+    "scale": 1
+  },
+  "s011_tree_rank": {
+    "source": "studies/011_cross_sectional_ml/results/tables/evaluation.csv",
+    "where": {
+      "model": "gbrt"
+    },
+    "column": "ic_mean",
+    "digits": 3,
+    "scale": 1
+  },
+  "s011_tree_sharpe": {
+    "source": "studies/011_cross_sectional_ml/results/tables/portfolios.csv",
+    "where": {
+      "series": "gbrt"
+    },
+    "column": "sharpe",
+    "digits": 3,
+    "scale": 1
+  },
+  "s011_forest_r2": {
+    "source": "studies/011_cross_sectional_ml/results/tables/evaluation.csv",
+    "where": {
+      "model": "random_forest"
+    },
+    "column": "r2_oos_pct",
+    "digits": 2,
+    "scale": 1
+  },
+  "s011_forest_rank": {
+    "source": "studies/011_cross_sectional_ml/results/tables/evaluation.csv",
+    "where": {
+      "model": "random_forest"
+    },
+    "column": "ic_mean",
+    "digits": 3,
+    "scale": 1
+  },
+  "s011_forest_sharpe": {
+    "source": "studies/011_cross_sectional_ml/results/tables/portfolios.csv",
+    "where": {
+      "series": "random_forest"
+    },
+    "column": "sharpe",
+    "digits": 3,
+    "scale": 1
+  },
+  "s013_linear_r2": {
+    "source": "studies/013_cross_sectional_ml_long/results/tables/evaluation.csv",
+    "where": {
+      "model": "ridge"
+    },
+    "column": "r2_oos_pct",
+    "digits": 2,
+    "scale": 1
+  },
+  "s013_linear_rank": {
+    "source": "studies/013_cross_sectional_ml_long/results/tables/evaluation.csv",
+    "where": {
+      "model": "ridge"
+    },
+    "column": "ic_mean",
+    "digits": 3,
+    "scale": 1
+  },
+  "s013_linear_sharpe": {
+    "source": "studies/013_cross_sectional_ml_long/results/tables/portfolios.csv",
+    "where": {
+      "series": "ridge"
+    },
+    "column": "sharpe",
+    "digits": 3,
+    "scale": 1
+  },
+  "s013_tree_r2": {
+    "source": "studies/013_cross_sectional_ml_long/results/tables/evaluation.csv",
+    "where": {
+      "model": "gbrt"
+    },
+    "column": "r2_oos_pct",
+    "digits": 2,
+    "scale": 1
+  },
+  "s013_tree_rank": {
+    "source": "studies/013_cross_sectional_ml_long/results/tables/evaluation.csv",
+    "where": {
+      "model": "gbrt"
+    },
+    "column": "ic_mean",
+    "digits": 3,
+    "scale": 1
+  },
+  "s013_tree_sharpe": {
+    "source": "studies/013_cross_sectional_ml_long/results/tables/portfolios.csv",
+    "where": {
+      "series": "gbrt"
+    },
+    "column": "sharpe",
+    "digits": 3,
+    "scale": 1
+  },
+  "s013_forest_r2": {
+    "source": "studies/013_cross_sectional_ml_long/results/tables/evaluation.csv",
+    "where": {
+      "model": "random_forest"
+    },
+    "column": "r2_oos_pct",
+    "digits": 2,
+    "scale": 1
+  },
+  "s013_forest_rank": {
+    "source": "studies/013_cross_sectional_ml_long/results/tables/evaluation.csv",
+    "where": {
+      "model": "random_forest"
+    },
+    "column": "ic_mean",
+    "digits": 3,
+    "scale": 1
+  },
+  "s013_forest_sharpe": {
+    "source": "studies/013_cross_sectional_ml_long/results/tables/portfolios.csv",
+    "where": {
+      "series": "random_forest"
+    },
+    "column": "sharpe",
+    "digits": 3,
+    "scale": 1
+  },
+  "example_r2": {
+    "source": "teaching_examples",
+    "key": "forecast_r2",
+    "digits": 1,
+    "scale": 100
+  },
+  "example_false_positive": {
+    "source": "teaching_examples",
+    "key": "false_positive_100",
+    "digits": 1,
+    "scale": 100
+  },
+  "example_search": {
+    "source": "teaching_examples",
+    "key": "winner_search_mean",
+    "digits": 3,
+    "scale": 100
+  },
+  "example_test": {
+    "source": "teaching_examples",
+    "key": "winner_test_mean",
+    "digits": 3,
+    "scale": 100
+  }
+}

@@ -89,17 +89,15 @@ noire.
 
 Deux mesures, complémentaires.
 
-**Le ratio de Sharpe dégonflé** (Bailey et López de Prado, 2014) répond à :
-compte tenu du nombre d'essais menés et de la dispersion de leurs résultats,
-quelle est la probabilité que ce ratio de Sharpe dépasse zéro pour une autre
-raison que la chance ? Il exige de connaître le nombre d'essais, ce qui est la
-raison pour laquelle le laboratoire les compte tous, y compris les ratés.
+**Le Deflated Sharpe Ratio**, abrégé DSR, compare le Sharpe observé à un repère tenant compte de la sélection parmi plusieurs essais.
+Son calcul utilise la longueur de la série, la dispersion entre essais et des caractéristiques de la distribution.
+Il n'est ni un Sharpe réduit, ni la probabilité de gagner de l'argent à l'avenir.
 
-**La probabilité de surapprentissage** (Bailey, Borwein, López de Prado et Zhu,
-2016) répond à : quelle est la probabilité que la configuration la meilleure
-dans l'échantillon soit sous la médiane hors échantillon ? Une probabilité
-élevée signifie que le processus de sélection lui-même est cassé, quel que soit
-le résultat obtenu.
+**La probabilité de surapprentissage**, abrégée PBO, mesure la fréquence à laquelle un choix performant dans l'échantillon se classe sous la médiane dans les périodes de validation.
+Cette mesure dépend des candidats et des découpages retenus.
+Elle ne certifie pas la qualité des données.
+
+Le [chapitre sur le hasard](../guide/04_hasard.md) développe les deux notions avec des exemples.
 
 ## La correction pour tests multiples
 

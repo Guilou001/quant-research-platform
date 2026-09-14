@@ -1,5 +1,5 @@
 site_name: quant-research-platform
-site_description: Laboratoire de recherche quantitative — répliquer, mesurer, refuser
+site_description: Comprendre et vérifier les résultats de vingt et une études en finance
 site_author: Guillaume Vaudescal
 repo_url: https://github.com/Guilou001/quant-research-platform
 edit_uri: ""
@@ -62,6 +62,23 @@ extra_javascript:
 
 nav:
   - Accueil: index.md
+  - Comprendre les concepts:
+      - Le parcours: guide/index.md
+      - 01 La question économique: guide/01_question.md
+      - 02 L'information disponible: guide/02_donnees.md
+      - 03 Le calendrier du test: guide/03_calendrier.md
+      - 04 Le hasard et l'incertitude: guide/04_hasard.md
+      - 05 Prévoir, classer, investir: guide/05_prevoir.md
+      - 06 Les coûts des positions: guide/06_couts.md
+      - 07 Le portefeuille: guide/07_portefeuille.md
+      - 08 Lire une conclusion: guide/08_conclusion.md
+  - Explorer les études:
+      - Les vingt et une études: etudes/index.md
+      - Prévoir et classer les actions: etudes/011_cross_sectional_ml.md
+      - Les entreprises oubliées: etudes/013_cross_sectional_ml_long.md
+      - Après la publication: etudes/016_publication_decay_212.md
+      - La nuit et la séance: etudes/018_nuit_contre_journee.md
+      - Le portefeuille de primes: etudes/021_portefeuille_de_primes.md
   - Tableau de bord: dashboard/index.md
   - Démarrer:
       - Installation: getting_started/installation.md

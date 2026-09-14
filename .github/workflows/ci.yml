@@ -38,6 +38,9 @@ jobs:
       - name: Tests unitaires, propriétés, anti-biais et intégration légère
         run: uv run pytest -m "not network" --cov --cov-report=term-missing --cov-fail-under=85
 
+      - name: Cohérence du cours, des chiffres, des figures et du manuel
+        run: uv run python scripts/build_learning.py --check
+
   documentation:
     name: Construction de la documentation
     runs-on: ubuntu-latest

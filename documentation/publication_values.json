@@ -1,0 +1,1085 @@
+{
+  "s001_before": {
+    "source": "studies/001_time_series_momentum/results/metrics.json",
+    "selector": {
+      "source": "studies/001_time_series_momentum/results/metrics.json",
+      "path": [
+        "metrics",
+        "aqr_sharpe_echantillon_1985_2009"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 1.411388235516799,
+    "rendered": "1,411",
+    "sha256": "aaea0604237d34b8e0cf817cf10f74f91e1af4f91437cb8d0f9d40027e5623a5"
+  },
+  "s001_after": {
+    "source": "studies/001_time_series_momentum/results/metrics.json",
+    "selector": {
+      "source": "studies/001_time_series_momentum/results/metrics.json",
+      "path": [
+        "metrics",
+        "aqr_sharpe_apres_publication"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.3366835352898008,
+    "rendered": "0,337",
+    "sha256": "aaea0604237d34b8e0cf817cf10f74f91e1af4f91437cb8d0f9d40027e5623a5"
+  },
+  "s002_before": {
+    "source": "studies/002_cross_sectional_momentum/results/metrics.json",
+    "selector": {
+      "source": "studies/002_cross_sectional_momentum/results/metrics.json",
+      "path": [
+        "metrics",
+        "jambe_a_ecart_echantillon_article_pct_par_mois"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 1.630333333333333,
+    "rendered": "1,630",
+    "sha256": "856f1b05397e0fa4b046323239b47735ead49c9ce258b8c105e92f2d178049e7"
+  },
+  "s002_after": {
+    "source": "studies/002_cross_sectional_momentum/results/metrics.json",
+    "selector": {
+      "source": "studies/002_cross_sectional_momentum/results/metrics.json",
+      "path": [
+        "metrics",
+        "jambe_a_ecart_apres_publication_pct_par_mois"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.7683333333333333,
+    "rendered": "0,768",
+    "sha256": "856f1b05397e0fa4b046323239b47735ead49c9ce258b8c105e92f2d178049e7"
+  },
+  "s003_corr": {
+    "source": "studies/003_value_and_momentum/results/metrics.json",
+    "selector": {
+      "source": "studies/003_value_and_momentum/results/metrics.json",
+      "path": [
+        "metrics",
+        "correlation_toutes_classes"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": -0.5773117067282201,
+    "rendered": "-0,577",
+    "sha256": "d2f878dac8f3961a53d0b7dcb9fac4fd919c0d276e8800d388b74b987a90308b"
+  },
+  "s003_mix": {
+    "source": "studies/003_value_and_momentum/results/metrics.json",
+    "selector": {
+      "source": "studies/003_value_and_momentum/results/metrics.json",
+      "path": [
+        "metrics",
+        "sharpe_melange_parts_egales"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 1.0958401883842104,
+    "rendered": "1,096",
+    "sha256": "d2f878dac8f3961a53d0b7dcb9fac4fd919c0d276e8800d388b74b987a90308b"
+  },
+  "s003_single": {
+    "source": "studies/003_value_and_momentum/results/metrics.json",
+    "selector": {
+      "source": "studies/003_value_and_momentum/results/metrics.json",
+      "path": [
+        "metrics",
+        "sharpe_momentum_toutes_classes"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.5928582618873379,
+    "rendered": "0,593",
+    "sha256": "d2f878dac8f3961a53d0b7dcb9fac4fd919c0d276e8800d388b74b987a90308b"
+  },
+  "s004_corr": {
+    "source": "studies/004_quality_minus_junk/results/metrics.json",
+    "selector": {
+      "source": "studies/004_quality_minus_junk/results/metrics.json",
+      "path": [
+        "metrics",
+        "correlation_avec_le_publie"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.098291671206275,
+    "rendered": "0,098",
+    "sha256": "78aab5999f8e979b7bccd494ce10e508846e858c175dfcafd5d956bd79777fcc"
+  },
+  "s004_ours": {
+    "source": "studies/004_quality_minus_junk/results/metrics.json",
+    "selector": {
+      "source": "studies/004_quality_minus_junk/results/metrics.json",
+      "path": [
+        "metrics",
+        "notre_sharpe"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.15204334969923933,
+    "rendered": "0,152",
+    "sha256": "78aab5999f8e979b7bccd494ce10e508846e858c175dfcafd5d956bd79777fcc"
+  },
+  "s005_raw": {
+    "source": "studies/005_betting_against_beta/results/metrics.json",
+    "selector": {
+      "source": "studies/005_betting_against_beta/results/metrics.json",
+      "path": [
+        "metrics",
+        "sharpe_titres_sans_retrecissement"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.3943822783198421,
+    "rendered": "0,394",
+    "sha256": "67f91b009eea2bf8af0c7f2d6f1392653ac1c51310fe463965950dd06ad9fd0d"
+  },
+  "s005_shrink": {
+    "source": "studies/005_betting_against_beta/results/metrics.json",
+    "selector": {
+      "source": "studies/005_betting_against_beta/results/metrics.json",
+      "path": [
+        "metrics",
+        "sharpe_titres_reference"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": -0.0010134601180331905,
+    "rendered": "-0,001",
+    "sha256": "67f91b009eea2bf8af0c7f2d6f1392653ac1c51310fe463965950dd06ad9fd0d"
+  },
+  "s006_alpha": {
+    "source": "studies/006_volatility_managed/results/metrics.json",
+    "selector": {
+      "source": "studies/006_volatility_managed/results/metrics.json",
+      "path": [
+        "metrics",
+        "alpha_marche_in_sample_pct"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 4.743380416606838,
+    "rendered": "4,743",
+    "sha256": "da4334ae04650fdee6d871986f5fd0d77a8cb2dbaca9e3b72b339b60fa9c9b87"
+  },
+  "s006_future": {
+    "source": "studies/006_volatility_managed/results/metrics.json",
+    "selector": {
+      "source": "studies/006_volatility_managed/results/metrics.json",
+      "path": [
+        "metrics",
+        "alpha_marche_temps_reel_pct"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 2.4382254582237946,
+    "rendered": "2,438",
+    "sha256": "da4334ae04650fdee6d871986f5fd0d77a8cb2dbaca9e3b72b339b60fa9c9b87"
+  },
+  "s007_cost": {
+    "source": "studies/007_statistical_arbitrage/results/metrics.json",
+    "selector": {
+      "source": "studies/007_statistical_arbitrage/results/metrics.json",
+      "path": [
+        "metrics",
+        "cout_de_rentabilite_bps"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 3.916384372488089,
+    "rendered": "3,916",
+    "sha256": "4ab37f68e20c2c0a7659ab130096f4492f61f35ace8a00918274e3324c16d279"
+  },
+  "s007_gross": {
+    "source": "studies/007_statistical_arbitrage/results/metrics.json",
+    "selector": {
+      "source": "studies/007_statistical_arbitrage/results/metrics.json",
+      "path": [
+        "metrics",
+        "sharpe_brut_fenetre_de_larticle"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 1.4612383685643497,
+    "rendered": "1,461",
+    "sha256": "4ab37f68e20c2c0a7659ab130096f4492f61f35ace8a00918274e3324c16d279"
+  },
+  "s008_coefficient": {
+    "source": "studies/008_carry/results/metrics.json",
+    "selector": {
+      "source": "studies/008_carry/results/metrics.json",
+      "path": [
+        "metrics",
+        "panel_c_fenetre_article"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 1.084345462525044,
+    "rendered": "1,084",
+    "sha256": "161824ec9e7ecc3a532f2182ed46b9c6f3e036780b93d839a4ca2bbb644ca712"
+  },
+  "s008_t": {
+    "source": "studies/008_carry/results/metrics.json",
+    "selector": {
+      "source": "studies/008_carry/results/metrics.json",
+      "path": [
+        "metrics",
+        "panel_t_fenetre_article"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 2.1590034273778977,
+    "rendered": "2,159",
+    "sha256": "161824ec9e7ecc3a532f2182ed46b9c6f3e036780b93d839a4ca2bbb644ca712"
+  },
+  "s009_before": {
+    "source": "studies/009_multi_strategy/results/metrics.json",
+    "selector": {
+      "source": "studies/009_multi_strategy/results/metrics.json",
+      "path": [
+        "validation",
+        "sharpe_before_holdout"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 1.0305666706609236,
+    "rendered": "1,031",
+    "sha256": "652965681645852cb03b165dfb7b541fca460cfe615f706a9b5c55262d540489"
+  },
+  "s009_after": {
+    "source": "studies/009_multi_strategy/results/metrics.json",
+    "selector": {
+      "source": "studies/009_multi_strategy/results/metrics.json",
+      "path": [
+        "validation",
+        "sharpe_holdout"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.21369192046007007,
+    "rendered": "0,214",
+    "sha256": "652965681645852cb03b165dfb7b541fca460cfe615f706a9b5c55262d540489"
+  },
+  "s010_cap": {
+    "source": "studies/010_capacity/results/metrics.json",
+    "selector": {
+      "source": "studies/010_capacity/results/metrics.json",
+      "path": [
+        "strategies",
+        "tsmom",
+        "capacity_aum"
+      ],
+      "digits": 0,
+      "scale": 1
+    },
+    "value": 84940.30969314897,
+    "rendered": "84 940",
+    "sha256": "e6ade54df5d1c66f24cf325930392460f1c625a2b9737ff3f4c71478ca5df07a"
+  },
+  "s012_after": {
+    "source": "studies/012_multi_strategy_net/results/metrics.json",
+    "selector": {
+      "source": "studies/012_multi_strategy_net/results/metrics.json",
+      "path": [
+        "validation",
+        "sharpe_holdout"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": -0.39573343912820025,
+    "rendered": "-0,396",
+    "sha256": "14afc912ec95686feef89d8303989d57b95f0b29c6a2510d789c9b46d9d6d262"
+  },
+  "s014_decline": {
+    "source": "studies/014_publication_decay/results/metrics.json",
+    "selector": {
+      "source": "studies/014_publication_decay/results/metrics.json",
+      "path": [
+        "pooled",
+        "post_publication",
+        "mean_return_decline"
+      ],
+      "digits": 1,
+      "scale": 100
+    },
+    "value": 0.7269803018694228,
+    "rendered": "72,7",
+    "sha256": "f9215fabc8970b3a4f0c64287ed5aad9c9fc7bb4d98e74c3e2f1019d7ce8b0d3"
+  },
+  "s015_delisted": {
+    "source": "studies/015_univers_polygon/results/metrics.json",
+    "selector": {
+      "source": "studies/015_univers_polygon/results/metrics.json",
+      "path": [
+        "reference",
+        "n_common_stocks_delisted_dated"
+      ],
+      "digits": 0,
+      "scale": 1
+    },
+    "value": 6425,
+    "rendered": "6 425",
+    "sha256": "444a8c6a3f246cb012b6827b71fcf530f9cb96920a1745cca6311ae73d8c6443"
+  },
+  "s016_n": {
+    "source": "studies/016_publication_decay_212/results/metrics.json",
+    "selector": {
+      "source": "studies/016_publication_decay_212/results/metrics.json",
+      "path": [
+        "pooled",
+        "post_publication",
+        "n_predictors"
+      ],
+      "digits": 0,
+      "scale": 1
+    },
+    "value": 208,
+    "rendered": "208",
+    "sha256": "6833685970af83e870f820d6cd681ce10f6aa70962257fb3cd5b75035e620732"
+  },
+  "s016_median": {
+    "source": "studies/016_publication_decay_212/results/metrics.json",
+    "selector": {
+      "source": "studies/016_publication_decay_212/results/metrics.json",
+      "path": [
+        "pooled",
+        "post_publication",
+        "median_return_ratio"
+      ],
+      "digits": 1,
+      "scale": 100
+    },
+    "value": 0.41902069106210593,
+    "rendered": "41,9",
+    "sha256": "6833685970af83e870f820d6cd681ce10f6aa70962257fb3cd5b75035e620732"
+  },
+  "s016_mean": {
+    "source": "studies/016_publication_decay_212/results/metrics.json",
+    "selector": {
+      "source": "studies/016_publication_decay_212/results/metrics.json",
+      "path": [
+        "pooled",
+        "post_publication",
+        "mean_return_ratio"
+      ],
+      "digits": 1,
+      "scale": 100
+    },
+    "value": 0.5299477644647106,
+    "rendered": "53,0",
+    "sha256": "6833685970af83e870f820d6cd681ce10f6aa70962257fb3cd5b75035e620732"
+  },
+  "s016_declining": {
+    "source": "studies/016_publication_decay_212/results/metrics.json",
+    "selector": {
+      "source": "studies/016_publication_decay_212/results/metrics.json",
+      "path": [
+        "pooled",
+        "post_publication",
+        "share_declining"
+      ],
+      "digits": 1,
+      "scale": 100
+    },
+    "value": 0.8269230769230769,
+    "rendered": "82,7",
+    "sha256": "6833685970af83e870f820d6cd681ce10f6aa70962257fb3cd5b75035e620732"
+  },
+  "s016_regression_t": {
+    "source": "studies/016_publication_decay_212/results/metrics.json",
+    "selector": {
+      "source": "studies/016_publication_decay_212/results/metrics.json",
+      "path": [
+        "pooled",
+        "regression",
+        "post_publication_t"
+      ],
+      "digits": 2,
+      "scale": 1
+    },
+    "value": -1.2047987855896976,
+    "rendered": "-1,20",
+    "sha256": "6833685970af83e870f820d6cd681ce10f6aa70962257fb3cd5b75035e620732"
+  },
+  "s016_regression": {
+    "source": "studies/016_publication_decay_212/results/metrics.json",
+    "selector": {
+      "source": "studies/016_publication_decay_212/results/metrics.json",
+      "path": [
+        "pooled",
+        "regression",
+        "post_publication_decline"
+      ],
+      "digits": 1,
+      "scale": 100
+    },
+    "value": 0.3643886804617044,
+    "rendered": "36,4",
+    "sha256": "6833685970af83e870f820d6cd681ce10f6aa70962257fb3cd5b75035e620732"
+  },
+  "s017_partial": {
+    "source": "studies/017_viser_devant_la_cible/results/metrics.json",
+    "selector": {
+      "source": "studies/017_viser_devant_la_cible/results/metrics.json",
+      "path": [
+        "holdout",
+        "sharpe_net_selected"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.16244555985395195,
+    "rendered": "0,162",
+    "sha256": "ad1c3b20ba8d68355ea4c7efd9c37b3435c7746c183d71d5371b8a4a75ebed8f"
+  },
+  "s017_full": {
+    "source": "studies/017_viser_devant_la_cible/results/metrics.json",
+    "selector": {
+      "source": "studies/017_viser_devant_la_cible/results/metrics.json",
+      "path": [
+        "holdout",
+        "sharpe_net_full_rebalance"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.17554620206450686,
+    "rendered": "0,176",
+    "sha256": "ad1c3b20ba8d68355ea4c7efd9c37b3435c7746c183d71d5371b8a4a75ebed8f"
+  },
+  "s017_turn_partial": {
+    "source": "studies/017_viser_devant_la_cible/results/metrics.json",
+    "selector": {
+      "source": "studies/017_viser_devant_la_cible/results/metrics.json",
+      "path": [
+        "holdout",
+        "turnover_selected"
+      ],
+      "digits": 2,
+      "scale": 1
+    },
+    "value": 5.7538050387037,
+    "rendered": "5,75",
+    "sha256": "ad1c3b20ba8d68355ea4c7efd9c37b3435c7746c183d71d5371b8a4a75ebed8f"
+  },
+  "s017_turn_full": {
+    "source": "studies/017_viser_devant_la_cible/results/metrics.json",
+    "selector": {
+      "source": "studies/017_viser_devant_la_cible/results/metrics.json",
+      "path": [
+        "holdout",
+        "turnover_full_rebalance"
+      ],
+      "digits": 2,
+      "scale": 1
+    },
+    "value": 9.149479171648291,
+    "rendered": "9,15",
+    "sha256": "ad1c3b20ba8d68355ea4c7efd9c37b3435c7746c183d71d5371b8a4a75ebed8f"
+  },
+  "s018_night": {
+    "source": "studies/018_nuit_contre_journee/results/metrics.json",
+    "selector": {
+      "source": "studies/018_nuit_contre_journee/results/metrics.json",
+      "path": [
+        "strategy",
+        "overnight",
+        "mean_annual_pct"
+      ],
+      "digits": 2,
+      "scale": 1
+    },
+    "value": 10.205562018334014,
+    "rendered": "10,21",
+    "sha256": "3f0b8b301a1bf349cf0b45483e16799f131cbaca72b4a16c0da9abb901991a5e"
+  },
+  "s018_day": {
+    "source": "studies/018_nuit_contre_journee/results/metrics.json",
+    "selector": {
+      "source": "studies/018_nuit_contre_journee/results/metrics.json",
+      "path": [
+        "strategy",
+        "intraday",
+        "mean_annual_pct"
+      ],
+      "digits": 2,
+      "scale": 1
+    },
+    "value": -2.9692715404005483,
+    "rendered": "-2,97",
+    "sha256": "3f0b8b301a1bf349cf0b45483e16799f131cbaca72b4a16c0da9abb901991a5e"
+  },
+  "s018_total": {
+    "source": "studies/018_nuit_contre_journee/results/metrics.json",
+    "selector": {
+      "source": "studies/018_nuit_contre_journee/results/metrics.json",
+      "path": [
+        "strategy",
+        "total_excess",
+        "mean_annual_pct"
+      ],
+      "digits": 2,
+      "scale": 1
+    },
+    "value": 6.4907477171659025,
+    "rendered": "6,49",
+    "sha256": "3f0b8b301a1bf349cf0b45483e16799f131cbaca72b4a16c0da9abb901991a5e"
+  },
+  "s018_residual": {
+    "source": "studies/018_nuit_contre_journee/results/metrics.json",
+    "selector": {
+      "source": "studies/018_nuit_contre_journee/results/metrics.json",
+      "path": [
+        "strategy",
+        "residual_mean_annual_pct"
+      ],
+      "digits": 2,
+      "scale": 1
+    },
+    "value": -0.7455427607675597,
+    "rendered": "-0,75",
+    "sha256": "3f0b8b301a1bf349cf0b45483e16799f131cbaca72b4a16c0da9abb901991a5e"
+  },
+  "s019_sharpe": {
+    "source": "studies/019_facteurs_crypto/results/metrics.json",
+    "selector": {
+      "source": "studies/019_facteurs_crypto/results/metrics.json",
+      "path": [
+        "net_at_base",
+        "momentum",
+        "post_publication",
+        "sharpe"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": -0.6004648730380338,
+    "rendered": "-0,600",
+    "sha256": "dd9ae13ccc0623113b78423b8ba0572a381287713be943c72c1b572432482d59"
+  },
+  "s019_turn": {
+    "source": "studies/019_facteurs_crypto/results/metrics.json",
+    "selector": {
+      "source": "studies/019_facteurs_crypto/results/metrics.json",
+      "path": [
+        "turnover_weekly_mean",
+        "momentum"
+      ],
+      "digits": 2,
+      "scale": 1
+    },
+    "value": 2.0410039739402164,
+    "rendered": "2,04",
+    "sha256": "dd9ae13ccc0623113b78423b8ba0572a381287713be943c72c1b572432482d59"
+  },
+  "s020_gross": {
+    "source": "studies/020_meilleures_idees_13f/results/metrics.json",
+    "selector": {
+      "source": "studies/020_meilleures_idees_13f/results/metrics.json",
+      "path": [
+        "excess_over_market",
+        "equal_weight",
+        "annual_return_pct"
+      ],
+      "digits": 2,
+      "scale": 1
+    },
+    "value": 0.26850524516628393,
+    "rendered": "0,27",
+    "sha256": "76594a713cd6a9326ae02d431f2268e2c8e16b44ed54c2638dea7e78a5b33b1a"
+  },
+  "s020_net": {
+    "source": "studies/020_meilleures_idees_13f/results/metrics.json",
+    "selector": {
+      "source": "studies/020_meilleures_idees_13f/results/metrics.json",
+      "path": [
+        "excess_over_market",
+        "equal_weight_net",
+        "annual_return_pct"
+      ],
+      "digits": 2,
+      "scale": 1
+    },
+    "value": -0.04530597109361212,
+    "rendered": "-0,05",
+    "sha256": "76594a713cd6a9326ae02d431f2268e2c8e16b44ed54c2638dea7e78a5b33b1a"
+  },
+  "s020_missing": {
+    "source": "studies/020_meilleures_idees_13f/results/metrics.json",
+    "selector": {
+      "source": "studies/020_meilleures_idees_13f/results/metrics.json",
+      "path": [
+        "coverage",
+        "share_without_price"
+      ],
+      "digits": 1,
+      "scale": 100
+    },
+    "value": 0.2893848264218635,
+    "rendered": "28,9",
+    "sha256": "76594a713cd6a9326ae02d431f2268e2c8e16b44ed54c2638dea7e78a5b33b1a"
+  },
+  "s021_sharpe": {
+    "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+    "selector": {
+      "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+      "path": [
+        "reference",
+        "sharpe"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.6289971480871541,
+    "rendered": "0,629",
+    "sha256": "de5017ce8badb25501a4b4ed4be3afb3d465fa6c7bbdad72926d166289513fcf"
+  },
+  "s021_single": {
+    "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+    "selector": {
+      "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+      "path": [
+        "best_alone",
+        "sharpe"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.6962182037240735,
+    "rendered": "0,696",
+    "sha256": "de5017ce8badb25501a4b4ed4be3afb3d465fa6c7bbdad72926d166289513fcf"
+  },
+  "s021_future": {
+    "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+    "selector": {
+      "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+      "path": [
+        "validation",
+        "sharpe_holdout"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.8836557849559156,
+    "rendered": "0,884",
+    "sha256": "de5017ce8badb25501a4b4ed4be3afb3d465fa6c7bbdad72926d166289513fcf"
+  },
+  "s021_t": {
+    "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+    "selector": {
+      "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+      "path": [
+        "validation",
+        "tstat_holdout"
+      ],
+      "digits": 2,
+      "scale": 1
+    },
+    "value": 2.29604822775267,
+    "rendered": "2,30",
+    "sha256": "de5017ce8badb25501a4b4ed4be3afb3d465fa6c7bbdad72926d166289513fcf"
+  },
+  "s021_dd": {
+    "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+    "selector": {
+      "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+      "path": [
+        "reference",
+        "max_drawdown_pct"
+      ],
+      "digits": 1,
+      "scale": 1
+    },
+    "value": -15.996452310957231,
+    "rendered": "-16,0",
+    "sha256": "de5017ce8badb25501a4b4ed4be3afb3d465fa6c7bbdad72926d166289513fcf"
+  },
+  "s021_n": {
+    "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+    "selector": {
+      "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+      "path": [
+        "reference",
+        "n_months"
+      ],
+      "digits": 0,
+      "scale": 1
+    },
+    "value": 187,
+    "rendered": "187",
+    "sha256": "de5017ce8badb25501a4b4ed4be3afb3d465fa6c7bbdad72926d166289513fcf"
+  },
+  "s021_future_n": {
+    "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+    "selector": {
+      "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+      "path": [
+        "validation",
+        "n_holdout_months"
+      ],
+      "digits": 0,
+      "scale": 1
+    },
+    "value": 78,
+    "rendered": "78",
+    "sha256": "de5017ce8badb25501a4b4ed4be3afb3d465fa6c7bbdad72926d166289513fcf"
+  },
+  "s021_dsr": {
+    "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+    "selector": {
+      "source": "studies/021_portefeuille_de_primes/results/metrics.json",
+      "path": [
+        "validation",
+        "deflated_sharpe"
+      ],
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.9741352747703727,
+    "rendered": "0,974",
+    "sha256": "de5017ce8badb25501a4b4ed4be3afb3d465fa6c7bbdad72926d166289513fcf"
+  },
+  "s011_linear_r2": {
+    "source": "studies/011_cross_sectional_ml/results/tables/evaluation.csv",
+    "selector": {
+      "source": "studies/011_cross_sectional_ml/results/tables/evaluation.csv",
+      "where": {
+        "model": "ridge"
+      },
+      "column": "r2_oos_pct",
+      "digits": 2,
+      "scale": 1
+    },
+    "value": 0.4107665814,
+    "rendered": "0,41",
+    "sha256": "ba5dcfb4854aa08b4cd59d83d42aa9955d6271807c2cbee5ccd981b7c97a6c67"
+  },
+  "s011_linear_rank": {
+    "source": "studies/011_cross_sectional_ml/results/tables/evaluation.csv",
+    "selector": {
+      "source": "studies/011_cross_sectional_ml/results/tables/evaluation.csv",
+      "where": {
+        "model": "ridge"
+      },
+      "column": "ic_mean",
+      "digits": 3,
+      "scale": 1
+    },
+    "value": -0.02201415258,
+    "rendered": "-0,022",
+    "sha256": "ba5dcfb4854aa08b4cd59d83d42aa9955d6271807c2cbee5ccd981b7c97a6c67"
+  },
+  "s011_linear_sharpe": {
+    "source": "studies/011_cross_sectional_ml/results/tables/portfolios.csv",
+    "selector": {
+      "source": "studies/011_cross_sectional_ml/results/tables/portfolios.csv",
+      "where": {
+        "series": "ridge"
+      },
+      "column": "sharpe",
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.276671028,
+    "rendered": "0,277",
+    "sha256": "701590ba6d69013ec1cd2e2ff7bc272d6db04418211b5a4199ae58d49895bdec"
+  },
+  "s011_tree_r2": {
+    "source": "studies/011_cross_sectional_ml/results/tables/evaluation.csv",
+    "selector": {
+      "source": "studies/011_cross_sectional_ml/results/tables/evaluation.csv",
+      "where": {
+        "model": "gbrt"
+      },
+      "column": "r2_oos_pct",
+      "digits": 2,
+      "scale": 1
+    },
+    "value": 0.3485001918,
+    "rendered": "0,35",
+    "sha256": "ba5dcfb4854aa08b4cd59d83d42aa9955d6271807c2cbee5ccd981b7c97a6c67"
+  },
+  "s011_tree_rank": {
+    "source": "studies/011_cross_sectional_ml/results/tables/evaluation.csv",
+    "selector": {
+      "source": "studies/011_cross_sectional_ml/results/tables/evaluation.csv",
+      "where": {
+        "model": "gbrt"
+      },
+      "column": "ic_mean",
+      "digits": 3,
+      "scale": 1
+    },
+    "value": -0.01588160884,
+    "rendered": "-0,016",
+    "sha256": "ba5dcfb4854aa08b4cd59d83d42aa9955d6271807c2cbee5ccd981b7c97a6c67"
+  },
+  "s011_tree_sharpe": {
+    "source": "studies/011_cross_sectional_ml/results/tables/portfolios.csv",
+    "selector": {
+      "source": "studies/011_cross_sectional_ml/results/tables/portfolios.csv",
+      "where": {
+        "series": "gbrt"
+      },
+      "column": "sharpe",
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.6628956226,
+    "rendered": "0,663",
+    "sha256": "701590ba6d69013ec1cd2e2ff7bc272d6db04418211b5a4199ae58d49895bdec"
+  },
+  "s011_forest_r2": {
+    "source": "studies/011_cross_sectional_ml/results/tables/evaluation.csv",
+    "selector": {
+      "source": "studies/011_cross_sectional_ml/results/tables/evaluation.csv",
+      "where": {
+        "model": "random_forest"
+      },
+      "column": "r2_oos_pct",
+      "digits": 2,
+      "scale": 1
+    },
+    "value": 0.4828167766,
+    "rendered": "0,48",
+    "sha256": "ba5dcfb4854aa08b4cd59d83d42aa9955d6271807c2cbee5ccd981b7c97a6c67"
+  },
+  "s011_forest_rank": {
+    "source": "studies/011_cross_sectional_ml/results/tables/evaluation.csv",
+    "selector": {
+      "source": "studies/011_cross_sectional_ml/results/tables/evaluation.csv",
+      "where": {
+        "model": "random_forest"
+      },
+      "column": "ic_mean",
+      "digits": 3,
+      "scale": 1
+    },
+    "value": -0.01901102867,
+    "rendered": "-0,019",
+    "sha256": "ba5dcfb4854aa08b4cd59d83d42aa9955d6271807c2cbee5ccd981b7c97a6c67"
+  },
+  "s011_forest_sharpe": {
+    "source": "studies/011_cross_sectional_ml/results/tables/portfolios.csv",
+    "selector": {
+      "source": "studies/011_cross_sectional_ml/results/tables/portfolios.csv",
+      "where": {
+        "series": "random_forest"
+      },
+      "column": "sharpe",
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.5716366971,
+    "rendered": "0,572",
+    "sha256": "701590ba6d69013ec1cd2e2ff7bc272d6db04418211b5a4199ae58d49895bdec"
+  },
+  "s013_linear_r2": {
+    "source": "studies/013_cross_sectional_ml_long/results/tables/evaluation.csv",
+    "selector": {
+      "source": "studies/013_cross_sectional_ml_long/results/tables/evaluation.csv",
+      "where": {
+        "model": "ridge"
+      },
+      "column": "r2_oos_pct",
+      "digits": 2,
+      "scale": 1
+    },
+    "value": 1.644649382,
+    "rendered": "1,64",
+    "sha256": "a59b9c1b30a43ba94b68f110e7146b661ad8257b42a7e5f1d523088c8c1b433a"
+  },
+  "s013_linear_rank": {
+    "source": "studies/013_cross_sectional_ml_long/results/tables/evaluation.csv",
+    "selector": {
+      "source": "studies/013_cross_sectional_ml_long/results/tables/evaluation.csv",
+      "where": {
+        "model": "ridge"
+      },
+      "column": "ic_mean",
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.02702696428,
+    "rendered": "0,027",
+    "sha256": "a59b9c1b30a43ba94b68f110e7146b661ad8257b42a7e5f1d523088c8c1b433a"
+  },
+  "s013_linear_sharpe": {
+    "source": "studies/013_cross_sectional_ml_long/results/tables/portfolios.csv",
+    "selector": {
+      "source": "studies/013_cross_sectional_ml_long/results/tables/portfolios.csv",
+      "where": {
+        "series": "ridge"
+      },
+      "column": "sharpe",
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.601436783,
+    "rendered": "0,601",
+    "sha256": "3bc40a9e72d771a5f0317353aa3a1269ca7b2cc9173a3bc79295cf5012e2d428"
+  },
+  "s013_tree_r2": {
+    "source": "studies/013_cross_sectional_ml_long/results/tables/evaluation.csv",
+    "selector": {
+      "source": "studies/013_cross_sectional_ml_long/results/tables/evaluation.csv",
+      "where": {
+        "model": "gbrt"
+      },
+      "column": "r2_oos_pct",
+      "digits": 2,
+      "scale": 1
+    },
+    "value": 1.564144932,
+    "rendered": "1,56",
+    "sha256": "a59b9c1b30a43ba94b68f110e7146b661ad8257b42a7e5f1d523088c8c1b433a"
+  },
+  "s013_tree_rank": {
+    "source": "studies/013_cross_sectional_ml_long/results/tables/evaluation.csv",
+    "selector": {
+      "source": "studies/013_cross_sectional_ml_long/results/tables/evaluation.csv",
+      "where": {
+        "model": "gbrt"
+      },
+      "column": "ic_mean",
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.02367673774,
+    "rendered": "0,024",
+    "sha256": "a59b9c1b30a43ba94b68f110e7146b661ad8257b42a7e5f1d523088c8c1b433a"
+  },
+  "s013_tree_sharpe": {
+    "source": "studies/013_cross_sectional_ml_long/results/tables/portfolios.csv",
+    "selector": {
+      "source": "studies/013_cross_sectional_ml_long/results/tables/portfolios.csv",
+      "where": {
+        "series": "gbrt"
+      },
+      "column": "sharpe",
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.8490882471,
+    "rendered": "0,849",
+    "sha256": "3bc40a9e72d771a5f0317353aa3a1269ca7b2cc9173a3bc79295cf5012e2d428"
+  },
+  "s013_forest_r2": {
+    "source": "studies/013_cross_sectional_ml_long/results/tables/evaluation.csv",
+    "selector": {
+      "source": "studies/013_cross_sectional_ml_long/results/tables/evaluation.csv",
+      "where": {
+        "model": "random_forest"
+      },
+      "column": "r2_oos_pct",
+      "digits": 2,
+      "scale": 1
+    },
+    "value": 1.692188639,
+    "rendered": "1,69",
+    "sha256": "a59b9c1b30a43ba94b68f110e7146b661ad8257b42a7e5f1d523088c8c1b433a"
+  },
+  "s013_forest_rank": {
+    "source": "studies/013_cross_sectional_ml_long/results/tables/evaluation.csv",
+    "selector": {
+      "source": "studies/013_cross_sectional_ml_long/results/tables/evaluation.csv",
+      "where": {
+        "model": "random_forest"
+      },
+      "column": "ic_mean",
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.02618115807,
+    "rendered": "0,026",
+    "sha256": "a59b9c1b30a43ba94b68f110e7146b661ad8257b42a7e5f1d523088c8c1b433a"
+  },
+  "s013_forest_sharpe": {
+    "source": "studies/013_cross_sectional_ml_long/results/tables/portfolios.csv",
+    "selector": {
+      "source": "studies/013_cross_sectional_ml_long/results/tables/portfolios.csv",
+      "where": {
+        "series": "random_forest"
+      },
+      "column": "sharpe",
+      "digits": 3,
+      "scale": 1
+    },
+    "value": 0.8065896366,
+    "rendered": "0,807",
+    "sha256": "3bc40a9e72d771a5f0317353aa3a1269ca7b2cc9173a3bc79295cf5012e2d428"
+  },
+  "example_r2": {
+    "source": "src/quantlab/reporting/education.py",
+    "selector": {
+      "source": "teaching_examples",
+      "key": "forecast_r2",
+      "digits": 1,
+      "scale": 100
+    },
+    "value": 0.7241379310344828,
+    "rendered": "72,4",
+    "sha256": "6160d1a807fa43f5ae91c81788aafab34d1d9f3318b9479bb83e41cf14b5ab1b"
+  },
+  "example_false_positive": {
+    "source": "src/quantlab/reporting/education.py",
+    "selector": {
+      "source": "teaching_examples",
+      "key": "false_positive_100",
+      "digits": 1,
+      "scale": 100
+    },
+    "value": 0.994079470779666,
+    "rendered": "99,4",
+    "sha256": "6160d1a807fa43f5ae91c81788aafab34d1d9f3318b9479bb83e41cf14b5ab1b"
+  },
+  "example_search": {
+    "source": "src/quantlab/reporting/education.py",
+    "selector": {
+      "source": "teaching_examples",
+      "key": "winner_search_mean",
+      "digits": 3,
+      "scale": 100
+    },
+    "value": 0.006873914475087415,
+    "rendered": "0,687",
+    "sha256": "6160d1a807fa43f5ae91c81788aafab34d1d9f3318b9479bb83e41cf14b5ab1b"
+  },
+  "example_test": {
+    "source": "src/quantlab/reporting/education.py",
+    "selector": {
+      "source": "teaching_examples",
+      "key": "winner_test_mean",
+      "digits": 3,
+      "scale": 100
+    },
+    "value": -0.0009705701686467879,
+    "rendered": "-0,097",
+    "sha256": "6160d1a807fa43f5ae91c81788aafab34d1d9f3318b9479bb83e41cf14b5ab1b"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "001": "Le Sharpe du facteur publié passe de {{s001_before}} sur 1985-2009 à {{s001_after}} après juin 2012, avant frais. La comparaison n'isole pas la publication comme cause.",
+  "002": "L'écart gagnant moins perdant reste positif, à {{s002_after}} % par mois sur 1994-2026 avant frais, mais son incertitude limite la conclusion.",
+  "003": "Sur janvier 1972 à juin 2026, la corrélation vaut {{s003_corr}} et le mélange présente un Sharpe brut de {{s003_mix}}. La date du prix employé dans le signal compte.",
+  "004": "La construction sur rapports SEC présente une corrélation de {{s004_corr}} avec AQR sur juin 2015 à mai 2026. Les écarts de données ne permettent pas d'isoler une cause unique.",
+  "005": "Sur janvier 2001 à juin 2026, la réduction du bêta vers sa référence fait passer le Sharpe reconstruit de {{s005_raw}} à {{s005_shrink}}, avant la grille de coûts.",
+  "006": "L'alpha descriptif sur la fenêtre du papier se retrouve à {{s006_alpha}} % par an, avant frais. La position calculable avec les informations passées ne satisfait pas les critères nets.",
+  "007": "Le seuil de coût de la reconstruction vaut {{s007_cost}} points de base par unité négociée. Il reste inférieur aux cinq points de base retenus dans l'article.",
+  "008": "Le coefficient de portage vaut {{s008_coefficient}} sur novembre 1983 à septembre 2012. La comparaison est sensible à l'inclusion du dollar dans le classement.",
+  "009": "La référence ne dépasse pas sa meilleure composante. Son Sharpe dans la fenêtre finale de janvier 2020 à juin 2026 vaut {{s009_after}}, sur des composantes brutes.",
+  "010": "Le capital compatible avec le plafond de participation du suivi de tendance vaut environ {{s010_cap}} dollars dans le modèle. Ce n'est pas une capacité commerciale observée.",
+  "011": "Les méthodes réduisent l'erreur face à zéro, mais les classements moyens restent négatifs. L'avantage prédictif des arbres sur la régression n'est pas suffisamment établi.",
+  "012": "Après les frais des composantes, la référence présente un Sharpe de {{s012_after}} sur janvier 2020 à juin 2026. La diversification ne suffit pas à satisfaire les critères.",
+  "013": "Les prévisions semblent meilleures sur l'historique long, mais le panel ne restitue pas les entreprises disparues. L'effet pur de cette sélection n'est pas isolé.",
+  "014": "Les huit stratégies montrent une baisse du rendement moyen après publication. La moyenne des baisses relatives vaut {{s014_decline}} %, avant frais et avec des fenêtres différentes.",
+  "015": "L'accès testé début septembre 2026 fournit {{s015_delisted}} radiations datées, sans les prix anciens suffisants pour l'univers demandé. Le constat porte sur cet accès daté.",
+  "016": "Sur {{s016_n}} comparaisons brutes, {{s016_declining}} % montrent une baisse après publication. La médiane conserve {{s016_median}} % du rendement antérieur. L'interprétation reste descriptive.",
+  "017": "Le rééquilibrage partiel réduit la rotation, mais son Sharpe net vaut {{s017_partial}} contre {{s017_full}} après publication, jusqu'en juin 2026.",
+  "018": "La décomposition sur janvier 2007 à juin 2026 situe les gains du momentum temporel la nuit. Elle ne calcule pas une règle nocturne après exécution et coûts.",
+  "019": "Le momentum présente un Sharpe net de {{s019_sharpe}} sur 213 semaines après publication. Le coût de base vaut 50 points de base par unité négociée et l'univers reste incomplet.",
+  "020": "La série composée des écarts mensuels au marché rapporte {{s020_net}} % par an après les coûts modélisés, sur 157 mois. {{s020_missing}} % des idées formées n'ont pas de prix.",
+  "021": "Le portefeuille présente un Sharpe net de {{s021_sharpe}}, contre {{s021_single}} pour sa meilleure composante sur les mêmes 187 mois. Il manque le critère de supériorité retenu."
+}
